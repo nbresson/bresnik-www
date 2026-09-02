@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import CarteArticle from '../../../components/CarteArticle.astro';
+import { filtrerPublies, listerTags, trierParDate } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV));
+  return listerTags(articles).map((tag) => ({
+    params: { tag },
+    props: { tag, articles: articles.filter((a) => a.data.tags.includes(tag)) },
+  }));
+}
+
+const { tag, articles } = Astro.props;
+---
+<Base titre={`Articles « ${tag} »`} description={`Articles du blog Bresnik portant le tag ${tag}.`}>
+  <h1 class="text-3xl font-bold">Tag : {tag}</h1>
+  <div class="mt-8">
+    {articles.map((article) => <CarteArticle article={article} />)}
+  </div>
+  <p class="mt-8"><a href="/blog/" class="underline">← Tous les articles</a></p>
+</Base>

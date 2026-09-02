@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CarteArticle from '../../components/CarteArticle.astro';
+import { filtrerPublies, listerTags, trierParDate } from '../../lib/blog';
+
+const tous = await getCollection('blog');
+const articles = trierParDate(filtrerPublies(tous, import.meta.env.DEV));
+const tags = listerTags(articles);
+---
+<Base titre="Blog" description="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage.">
+  <h1 class="text-3xl font-bold">Blog</h1>
+  <p class="mt-4">Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage.</p>
+
+  {tags.length > 0 && (
+    <ul class="mt-6 flex flex-wrap gap-2 text-sm" aria-label="Tags">
+      {tags.map((tag) => (
+        <li><a href={`/blog/tags/${tag}/`} class="rounded border px-2 py-1" style="border-color: var(--couleur-bordure)">#{tag}</a></li>
+      ))}
+    </ul>
+  )}
+
+  {articles.length === 0 ? (
+    <p class="mt-8">Aucun article pour le moment. Abonnez-vous au <a href="/rss.xml" class="underline">flux RSS</a>.</p>
+  ) : (
+    <div class="mt-8">
+      {articles.map((article) => <CarteArticle article={article} />)}
+    </div>
+  )}
+</Base>

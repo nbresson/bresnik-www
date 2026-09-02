@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { dateIso, formaterDate } from '../lib/dates';
+
+interface Props {
+  article: CollectionEntry<'blog'>;
+}
+
+const { article } = Astro.props;
+---
+<article class="border-b py-4" style="border-color: var(--couleur-bordure)">
+  <p class="text-sm" style="color: var(--couleur-texte-secondaire)">
+    <time datetime={dateIso(article.data.date)}>{formaterDate(article.data.date)}</time>
+    {article.data.brouillon && <span class="ml-2 rounded border px-1 text-xs">Brouillon</span>}
+  </p>
+  <h3 class="mt-1 text-xl font-semibold">
+    <a href={`/blog/${article.id}/`} class="hover:underline">{article.data.titre}</a>
+  </h3>
+  <p class="mt-2">{article.data.description}</p>
+  {article.data.tags.length > 0 && (
+    <ul class="mt-2 flex flex-wrap gap-2 text-sm">
+      {article.data.tags.map((tag) => (
+        <li><a href={`/blog/tags/${tag}/`} class="underline">#{tag}</a></li>
+      ))}
+    </ul>
+  )}
+</article>

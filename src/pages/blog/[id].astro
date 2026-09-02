@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { filtrerPublies } from '../../lib/blog';
+import { dateIso, formaterDate } from '../../lib/dates';
+
+export async function getStaticPaths() {
+  const articles = filtrerPublies(await getCollection('blog'), import.meta.env.DEV);
+  return articles.map((article) => ({ params: { id: article.id }, props: { article } }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+<Base titre={article.data.titre} description={article.data.description} typeOg="article">
+  <article>
+    <p class="text-sm" style="color: var(--couleur-texte-secondaire)">
+      Publié le <time datetime={dateIso(article.data.date)}>{formaterDate(article.data.date)}</time>
+      {article.data.miseAJour && (
+        <span>, mis à jour le <time datetime={dateIso(article.data.miseAJour)}>{formaterDate(article.data.miseAJour)}</time></span>
+      )}
+    </p>
+    <h1 class="mt-1 text-3xl font-bold">{article.data.titre}</h1>
+    <p class="mt-2 text-lg">{article.data.description}</p>
+    <div class="prose mt-8 max-w-none">
+      <Content />
+    </div>
+    {article.data.tags.length > 0 && (
+      <ul class="mt-8 flex flex-wrap gap-2 text-sm" aria-label="Tags">
+        {article.data.tags.map((tag) => (
+          <li><a href={`/blog/tags/${tag}/`} class="underline">#{tag}</a></li>
+        ))}
+      </ul>
+    )}
+  </article>
+  <p class="mt-8"><a href="/blog/" class="underline">← Tous les articles</a></p>
+</Base>
