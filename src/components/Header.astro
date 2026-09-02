@@ -1,0 +1,27 @@
+---
+const liens = [
+  { href: '/', libelle: 'Accueil' },
+  { href: '/produits/', libelle: 'Produits' },
+  { href: '/conseil/', libelle: 'Conseil' },
+  { href: '/blog/', libelle: 'Blog' },
+  { href: '/contact/', libelle: 'Contact' },
+];
+const cheminCourant = Astro.url.pathname;
+const estActif = (href: string) => (href === '/' ? cheminCourant === '/' : cheminCourant.startsWith(href));
+---
+<header class="border-b" style="border-color: var(--couleur-bordure)">
+  <div class="mx-auto flex max-w-(--largeur-contenu) items-center justify-between px-4 py-4">
+    <a href="/" class="text-xl font-bold" aria-label="Bresnik, accueil">Bresnik</a>
+    <nav aria-label="Navigation principale">
+      <ul class="flex gap-4">
+        {liens.map((lien) => (
+          <li>
+            <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class="hover:underline">
+              {lien.libelle}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
