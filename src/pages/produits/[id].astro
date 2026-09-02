@@ -1,11 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { actionProduit } from '../../lib/produits';
+import { produitsPublies } from '../../lib/catalogue';
 
 export async function getStaticPaths() {
-  const produits = await getCollection('produits', ({ data }) => data.publie);
+  const produits = await produitsPublies();
   return produits.map((produit) => ({ params: { id: produit.id }, props: { produit } }));
 }
 

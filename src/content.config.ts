@@ -28,7 +28,7 @@ const blog = defineCollection({
       description: z.string().min(1),
       date: z.coerce.date(),
       miseAJour: z.coerce.date().optional(),
-      tags: z.array(z.string()),
+      tags: z.array(z.string().regex(/^[a-z0-9][a-z0-9-]*$/, 'Tag en minuscules, chiffres et tirets')),
       brouillon: z.boolean(),
       image: image().optional(),
     }),

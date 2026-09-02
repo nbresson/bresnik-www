@@ -31,8 +31,8 @@ describe('listerTags', () => {
   it('renvoie les tags uniques triés en français', () => {
     const articles = [
       article('a', '2026-01-01', false, ['sql-server', 'sage-100']),
-      article('b', '2026-01-02', false, ['sage-100', 'écritures']),
+      article('b', '2026-01-02', false, ['sage-100', 'batigest']),
     ];
-    expect(listerTags(articles)).toEqual(['écritures', 'sage-100', 'sql-server']);
+    expect(listerTags(articles)).toEqual(['batigest', 'sage-100', 'sql-server']);
   });
 });

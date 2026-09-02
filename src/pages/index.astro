@@ -1,9 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CarteProduit from '../components/CarteProduit.astro';
+import CarteArticle from '../components/CarteArticle.astro';
 import { produitsPublies } from '../lib/catalogue';
+import { filtrerPublies, trierParDate } from '../lib/blog';
 
 const produits = await produitsPublies();
+const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV)).slice(0, 3);
 ---
 <Base titre="Bresnik" description="Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par Nicolas Bresson." sansSuffixe>
   <section>
@@ -33,4 +37,14 @@ const produits = await produitsPublies();
     </p>
     <p class="mt-3"><a href="/conseil/" class="underline">En savoir plus sur l'activité de conseil</a></p>
   </section>
+
+  {articles.length > 0 && (
+    <section class="mt-12" aria-labelledby="articles">
+      <h2 id="articles" class="text-2xl font-semibold">Derniers articles</h2>
+      <div class="mt-4">
+        {articles.map((article) => <CarteArticle article={article} />)}
+      </div>
+      <p class="mt-3"><a href="/blog/" class="underline">Tous les articles</a></p>
+    </section>
+  )}
 </Base>
