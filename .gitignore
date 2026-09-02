@@ -16,3 +16,6 @@ node_modules/
 .idea/
 .DS_Store
 Thumbs.db
+
+# espace de travail SDD (superpowers)
+.superpowers/
