@@ -1,11 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CarteProduit from '../components/CarteProduit.astro';
+import { produitsPublies } from '../lib/catalogue';
 
-const produits = (await getCollection('produits', ({ data }) => data.publie)).sort(
-  (a, b) => a.data.ordre - b.data.ordre,
-);
+const produits = await produitsPublies();
 ---
 <Base titre="Bresnik" description="Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par Nicolas Bresson." sansSuffixe>
   <section>
