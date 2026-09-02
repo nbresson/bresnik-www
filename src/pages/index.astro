@@ -1,7 +1,38 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import CarteProduit from '../components/CarteProduit.astro';
+
+const produits = (await getCollection('produits', ({ data }) => data.publie)).sort(
+  (a, b) => a.data.ordre - b.data.ordre,
+);
 ---
-<Base titre="Bresnik" description="Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage." sansSuffixe>
-  <h1 class="text-3xl font-bold">Bresnik</h1>
-  <p class="mt-4">Logiciels complémentaires pour l'écosystème Sage 100.</p>
+<Base titre="Bresnik" description="Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par Nicolas Bresson." sansSuffixe>
+  <section>
+    <h1 class="text-4xl font-bold">Des logiciels qui complètent Sage 100</h1>
+    <p class="mt-4 max-w-2xl text-lg">
+      Bresnik conçoit des applications Windows pour Sage 100 Comptabilité et Gestion commerciale,
+      et des outils pour les consultants Sage. Elles s'appuient sur SQL Server et sur les Objets métiers Sage.
+    </p>
+    <p class="mt-6 flex gap-4">
+      <a href="/produits/" class="rounded px-4 py-2 font-semibold" style="background: var(--couleur-accent); color: var(--couleur-accent-contraste)">Voir les produits</a>
+      <a href="/contact/" class="rounded border px-4 py-2 font-semibold" style="border-color: var(--couleur-bordure)">Nous contacter</a>
+    </p>
+  </section>
+
+  <section class="mt-12" aria-labelledby="produits">
+    <h2 id="produits" class="text-2xl font-semibold">Produits</h2>
+    <div class="mt-4 grid gap-4 md:grid-cols-2">
+      {produits.map((produit) => <CarteProduit produit={produit} />)}
+    </div>
+  </section>
+
+  <section class="mt-12" aria-labelledby="conseil">
+    <h2 id="conseil" class="text-2xl font-semibold">Conseil Sage</h2>
+    <p class="mt-3 max-w-2xl">
+      Nicolas Bresson est consultant sur Sage 100 Comptabilité, Gestion commerciale, Moyens de paiement,
+      Immobilisations, Reporting et Batigest.
+    </p>
+    <p class="mt-3"><a href="/conseil/" class="underline">En savoir plus sur l'activité de conseil</a></p>
+  </section>
 </Base>

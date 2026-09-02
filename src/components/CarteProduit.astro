@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  produit: CollectionEntry<'produits'>;
+}
+
+const { produit } = Astro.props;
+const cibleLibelle = produit.data.cible === 'consultant' ? 'Pour les consultants Sage' : 'Pour les entreprises';
+---
+<article class="rounded border p-4" style="border-color: var(--couleur-bordure)">
+  <p class="text-xs uppercase" style="color: var(--couleur-texte-secondaire)">{cibleLibelle}</p>
+  <h3 class="mt-1 text-xl font-semibold">
+    <a href={`/produits/${produit.id}/`} class="hover:underline">{produit.data.nom}</a>
+  </h3>
+  <p class="mt-2">{produit.data.accroche}</p>
+  {produit.data.modulesSage.length > 0 && (
+    <p class="mt-2 text-sm" style="color: var(--couleur-texte-secondaire)">
+      {produit.data.modulesSage.join(', ')}
+    </p>
+  )}
+</article>
