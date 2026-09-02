@@ -1,0 +1,56 @@
+---
+import { produitsPublies } from '../lib/catalogue';
+import Base from '../layouts/Base.astro';
+
+const produits = await produitsPublies();
+---
+<Base titre="Contact" description="Demandez une démonstration d'un produit Bresnik ou un échange sur votre projet Sage 100.">
+  <h1 class="text-3xl font-bold">Contact</h1>
+  <p class="mt-4">Demandez une démonstration ou décrivez votre besoin. Réponse sous deux jours ouvrés.</p>
+
+  <form id="formulaire-contact" method="post" action="/api/contact" class="mt-8 grid max-w-xl gap-4">
+    <label class="grid gap-1">
+      <span>Nom <span aria-hidden="true">*</span></span>
+      <input name="nom" type="text" required minlength="2" maxlength="100" autocomplete="name" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)" />
+    </label>
+    <label class="grid gap-1">
+      <span>Email <span aria-hidden="true">*</span></span>
+      <input name="email" type="email" required autocomplete="email" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)" />
+    </label>
+    <label class="grid gap-1">
+      <span>Société</span>
+      <input name="societe" type="text" maxlength="100" autocomplete="organization" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)" />
+    </label>
+    <label class="grid gap-1">
+      <span>Produit concerné</span>
+      <select name="produit" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)">
+        <option value="">Aucun produit en particulier</option>
+        {produits.map((p) => <option value={p.id}>{p.data.nom}</option>)}
+      </select>
+    </label>
+    <label class="grid gap-1">
+      <span>Message <span aria-hidden="true">*</span></span>
+      <textarea name="message" required minlength="10" maxlength="5000" rows="6" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)"></textarea>
+    </label>
+    <div class="hidden" aria-hidden="true">
+      <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
+    </div>
+    <p>
+      <button type="submit" disabled class="rounded px-4 py-2 font-semibold opacity-60" style="background: var(--couleur-accent); color: var(--couleur-accent-contraste)">
+        Envoyer
+      </button>
+    </p>
+    <p id="etat-formulaire" class="text-sm" style="color: var(--couleur-texte-secondaire)" role="status">
+      L'envoi en ligne sera activé prochainement.
+    </p>
+  </form>
+
+  <script>
+    const produitDemande = new URLSearchParams(window.location.search).get('produit');
+    const selecteur = document.querySelector<HTMLSelectElement>('select[name="produit"]');
+    if (produitDemande && selecteur) {
+      const existe = Array.from(selecteur.options).some((o) => o.value === produitDemande);
+      if (existe) selecteur.value = produitDemande;
+    }
+  </script>
+</Base>
