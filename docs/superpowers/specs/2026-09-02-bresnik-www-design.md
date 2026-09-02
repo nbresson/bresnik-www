@@ -1,7 +1,9 @@
 # Bresnik — Site vitrine statique (bresnik-www)
 
 Date : 2026-09-02
-Statut : validé par Nicolas Bresson le 2026-09-02
+Statut : validé par Nicolas Bresson le 2026-09-02. Amendé le 2026-09-02 :
+Cloudflare Pages remplacé par Cloudflare Workers (assets statiques), sur
+recommandation Cloudflare pour les nouveaux projets.
 
 ## 1. Contexte et objectif
 
@@ -32,7 +34,7 @@ Langue : français uniquement.
 - Page de contact avec formulaire, pré-remplie avec le produit d'origine.
 - Mentions légales et politique de confidentialité.
 - Page 404, sitemap, robots.txt, balises Open Graph.
-- Déploiement automatique sur Cloudflare Pages.
+- Déploiement automatique sur Cloudflare Workers (assets statiques, Workers Builds).
 - Analytics sans cookie (Cloudflare Web Analytics).
 
 ### Exclus (volontairement, pour plus tard)
@@ -135,13 +137,13 @@ pour pouvoir l'éditer sans toucher au code.
 | Styles | Tailwind CSS, tokens de marque en variables CSS dans `src/styles/tokens.css` | Rapidité de mise en page ; les tokens seront réutilisables dans les applications futures. |
 | Contenu | Content Collections + MDX | Typage, validation au build. |
 | Intégrations | `@astrojs/sitemap`, `@astrojs/rss`, `@astrojs/mdx` | Sitemap, RSS, articles riches. |
-| Formulaire | Cloudflare Pages Function `functions/api/contact.ts` | Voir §7. |
+| Formulaire | Script Worker `worker/index.ts`, routé sur `/api/*` via `assets.run_worker_first` | Voir §7. |
 | Anti-spam | Cloudflare Turnstile | Gratuit, sans cookie, invisible. |
 | Envoi d'email | Brevo (API transactionnelle) | Service français, gratuit jusqu'à 300/jour, expéditeur Gmail vérifié possible avant l'achat du domaine. |
 | Analytics | Cloudflare Web Analytics | Sans cookie, aucun bandeau de consentement. |
-| Hébergement | Cloudflare Pages | Gratuit, CDN, prévisualisations par branche. |
+| Hébergement | Cloudflare Workers avec assets statiques, déployé par Workers Builds (intégration Git) | Gratuit, CDN, prévisualisations par branche. Cloudflare recommande Workers plutôt que Pages pour les nouveaux projets. |
 | Gestionnaire de paquets | npm | Déjà installé. |
-| Node | 24 (fichier `.nvmrc` et `engines`) | Version installée localement ; Cloudflare respecte `.nvmrc`. |
+| Node | 24 (fichier `.nvmrc` et `engines`) | Version installée localement ; l'image de build Cloudflare respecte `.nvmrc`. |
 
 Décision écartée : Astro en mode serveur avec l'adaptateur Cloudflare. Un
 seul formulaire ne justifie pas de renoncer au statique.
@@ -158,7 +160,7 @@ alimentée par la collection, pré-sélectionnée via `?produit=`), message,
 widget Turnstile. Envoi en `POST` vers `/api/contact` via `fetch`, avec repli
 sur un envoi de formulaire classique si JavaScript est désactivé.
 
-### Côté serveur (`functions/api/contact.ts`)
+### Côté serveur (`worker/index.ts`)
 
 1. N'accepte que `POST`, JSON ou `form-data`.
 2. Valide : nom (2 à 100 caractères), email (format), message (10 à 5000
@@ -169,13 +171,14 @@ sur un envoi de formulaire classique si JavaScript est désactivé.
 5. Répond `200` avec `{ ok: true }` ou `4xx/5xx` avec un message d'erreur
    générique. Aucune donnée n'est stockée.
 
-Secrets, définis dans Cloudflare Pages (jamais dans le dépôt) :
+Secrets, définis sur le Worker dans Cloudflare (jamais dans le dépôt) :
 `BREVO_API_KEY`, `TURNSTILE_SECRET_KEY`, `CONTACT_TO_EMAIL`,
 `CONTACT_FROM_EMAIL`. La clé publique Turnstile est une variable publique
 `PUBLIC_TURNSTILE_SITE_KEY`.
 
-En développement local, `wrangler pages dev` sert le site et la fonction avec
-un fichier `.dev.vars` ignoré par Git.
+Le Worker ne traite que `/api/*` ; toute autre requête est servie depuis les
+assets statiques (`dist/`). En développement local, `wrangler dev` sert le
+site et le Worker avec un fichier `.dev.vars` ignoré par Git.
 
 ## 8. Dépôt et déploiement
 
@@ -183,14 +186,17 @@ un fichier `.dev.vars` ignoré par Git.
   Ce dossier (`C:\Users\nbres\source\repos\Bresnik`) en est la racine.
 - Branche principale : `main`. Travail sur des branches courtes, fusion
   par pull request.
-- Cloudflare Pages connecté au dépôt via l'intégration Git :
-  - build : `npm run build`, sortie : `dist/` ;
-  - `main` → production sur `bresnik.pages.dev` ;
-  - toute autre branche → URL de prévisualisation.
+- Worker `bresnik-www` (le nom dans `wrangler.jsonc` doit être identique à
+  celui du tableau de bord) connecté au dépôt via Workers Builds :
+  - build : `npm run build`, assets : `dist/` ;
+  - déploiement : `npx wrangler deploy` sur `main` → production sur
+    `bresnik-www.<sous-domaine>.workers.dev` ;
+  - toute autre branche : `npx wrangler versions upload` → URL de
+    prévisualisation.
 - Quand `bresnik.fr` sera acheté : DNS chez Cloudflare, domaine personnalisé
-  ajouté au projet Pages, `www` redirigé vers l'apex, `site` dans la
-  configuration Astro passé de `https://bresnik.pages.dev` à
-  `https://bresnik.fr`. Aucun autre changement de code.
+  ajouté au Worker, `www` redirigé vers l'apex, `site` dans la
+  configuration Astro passé de l'URL `workers.dev` à `https://bresnik.fr`.
+  Aucun autre changement de code.
 
 ## 9. Qualité et tests
 
@@ -208,7 +214,8 @@ un fichier `.dev.vars` ignoré par Git.
 bresnik-www/
 ├── .github/workflows/ci.yml
 ├── docs/superpowers/specs/          # ce document
-├── functions/api/contact.ts         # Cloudflare Pages Function
+├── worker/index.ts                  # Worker : /api/contact
+├── wrangler.jsonc                   # config Cloudflare (assets + worker)
 ├── public/                          # robots.txt, favicon, images statiques
 ├── src/
 │   ├── components/                  # composants Astro réutilisables
@@ -232,7 +239,7 @@ bresnik-www/
 
 1. Dépôt Git, projet Astro, collections et schémas, les 5 produits en texte
    brut, layouts minimaux, toutes les routes existantes.
-2. Dépôt GitHub, action CI, connexion Cloudflare Pages : site en ligne.
+2. Dépôt GitHub, action CI, connexion Workers Builds : site en ligne.
 3. Formulaire de contact : Turnstile, fonction, Brevo, tests.
 4. Contenu des pages conseil, légales, premier article de blog, RSS.
 5. Design graphique (spécification séparée).
@@ -241,5 +248,5 @@ bresnik-www/
 
 - Mentions légales : SIRET, forme juridique et adresse à fournir par Nicolas
   avant la mise en ligne publique. Des textes provisoires marqués
-  « À compléter » sont acceptés sur `pages.dev`, pas sur `bresnik.fr`.
+  « À compléter » sont acceptés sur `workers.dev`, pas sur `bresnik.fr`.
 - Adresse email destinataire du formulaire, à définir lors de l'étape 3.
