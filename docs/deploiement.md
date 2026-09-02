@@ -25,9 +25,9 @@ Le site est un Worker Cloudflare nommé `bresnik-www` qui sert le dossier
    `https://bresnik-www.<sous-domaine>.workers.dev`, et la reporter dans
    `site` de `astro.config.mjs`.
 
-L'image de build utilise Node 24 par défaut ; le fichier `.nvmrc` du dépôt
-fixe cette version. Si nécessaire, ajouter une variable de build
-`NODE_VERSION=24` dans **Settings → Builds → Build variables**.
+L'image de build Cloudflare lit la version de Node dans `.nvmrc` (24). Si ce
+n'est pas le cas, ajouter une variable de build `NODE_VERSION=24` dans
+**Settings → Builds → Build variables**.
 
 ### Fonctionnement au quotidien
 

@@ -219,8 +219,8 @@ bresnik-www/
 ├── public/                          # robots.txt, favicon, images statiques
 ├── src/
 │   ├── components/                  # composants Astro réutilisables
+│   ├── content.config.ts            # schémas Zod des collections
 │   ├── content/
-│   │   ├── config.ts                # schémas Zod des collections
 │   │   ├── produits/*.md
 │   │   ├── blog/*.mdx
 │   │   └── pages/conseil.md
