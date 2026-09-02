@@ -1,0 +1,2 @@
+# Copier en .dev.vars (ignoré par Git) pour le développement local avec wrangler dev.
+# Aucun secret n'est nécessaire tant que le formulaire de contact n'est pas actif.
