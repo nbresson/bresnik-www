@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+html {
+  font-family: var(--police-texte);
+  background: var(--couleur-fond);
+  color: var(--couleur-texte);
+}

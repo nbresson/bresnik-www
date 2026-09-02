@@ -1,0 +1,12 @@
+/* Tokens de la marque Bresnik. Valeurs provisoires : le design viendra plus tard.
+   Ces variables sont prévues pour être réutilisées dans les applications. */
+:root {
+  --couleur-fond: #ffffff;
+  --couleur-texte: #1f2933;
+  --couleur-texte-secondaire: #52606d;
+  --couleur-accent: #0f4c81;
+  --couleur-accent-contraste: #ffffff;
+  --couleur-bordure: #d9e2ec;
+  --police-texte: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --largeur-contenu: 72rem;
+}
