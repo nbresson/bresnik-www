@@ -1,0 +1,18 @@
+---
+interface Props {
+  etapes: { date: string; titre: string; texte?: string }[];
+  class?: string;
+}
+
+const { etapes, class: classe = '' } = Astro.props;
+---
+<ol class={`relative flex flex-col gap-6 border-l-2 border-ligne pl-6 ${classe}`}>
+  {etapes.map((etape) => (
+    <li class="relative flex flex-col gap-1">
+      <span class="absolute -left-[31px] top-1.5 size-3 rounded-full border-2 border-cobalt bg-papier" aria-hidden="true"></span>
+      <span class="technique">{etape.date}</span>
+      <span class="font-titres text-[20px] font-semibold leading-[1.25]">{etape.titre}</span>
+      {etape.texte && <p class="text-[16px] leading-[1.5] text-encre-2">{etape.texte}</p>}
+    </li>
+  ))}
+</ol>

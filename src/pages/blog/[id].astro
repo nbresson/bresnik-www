@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import LienFleche from '../../components/LienFleche.astro';
+import TableMatieres from '../../components/TableMatieres.astro';
 import { filtrerPublies } from '../../lib/blog';
 import { dateIso, formaterDate } from '../../lib/dates';
 
@@ -11,7 +12,8 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { Content } = await render(article);
+const { Content, headings } = await render(article);
+const avecSommaire = headings.filter((h) => h.depth === 2).length >= 3;
 ---
 <Base titre={article.data.titre} description={article.data.description} typeOg="article" image={article.data.image?.src}>
   <article>
@@ -26,6 +28,7 @@ const { Content } = await render(article);
       <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]">{article.data.description}</p>
     </header>
     <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
+      {avecSommaire && <TableMatieres titres={headings} class="max-w-[720px]" />}
       <div class="prose prose-lg max-w-[720px]">
         <Content />
       </div>

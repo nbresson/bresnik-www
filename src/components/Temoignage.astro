@@ -1,0 +1,19 @@
+---
+interface Props {
+  citation: string;
+  auteur: string;
+  fonction?: string;
+  societe?: string;
+  class?: string;
+}
+
+const { citation, auteur, fonction, societe, class: classe = '' } = Astro.props;
+const precision = [fonction, societe].filter(Boolean).join(', ');
+---
+<figure class={`flex flex-col gap-4 rounded-carte border border-ligne border-l-4 border-l-cobalt bg-blanc p-6 md:p-8 ${classe}`}>
+  <blockquote class="font-titres text-[22px] font-medium leading-[1.35] text-encre md:text-[26px]">« {citation} »</blockquote>
+  <figcaption class="flex flex-col gap-0.5">
+    <span class="text-[16px] font-semibold">{auteur}</span>
+    {precision && <span class="technique">{precision}</span>}
+  </figcaption>
+</figure>

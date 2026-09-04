@@ -329,6 +329,29 @@ désactivé et message d'état, inchangés dans leur comportement.
 
 Mouvement : `prefers-reduced-motion: reduce` neutralise toutes les transitions et animations (feuille globale).
 
+## 3 ter. Composants ajoutés le 2026-09-04 (lot 2)
+
+| Composant | Fichier | Rôle et règles |
+|---|---|---|
+| Témoignage | `Temoignage.astro` | `figure` avec citation en Bricolage 500, auteur, fonction et société ; filet gauche cobalt. |
+| Logos | `Logos.astro` | Grille de logos (image optimisée, 40 px de haut) ou nom en monospace tant que le logo manque. |
+| Chiffres clés | `ChiffresCles.astro` | `dl` en grille, valeur en Bricolage 700 cobalt, libellé en `encre-2`. |
+| Tableau comparatif | `TableauComparatif.astro` | Tableau accessible (légende, en-têtes de ligne et de colonne) ; `true` → coche cobalt et « Oui » lu, `false` → tiret et « Non » lu, chaîne affichée telle quelle. |
+| Chronologie | `Chronologie.astro` | Liste ordonnée avec filet vertical et points cobalt ; date en `technique`. |
+| Étapes | `Etapes.astro` | Trois colonnes, pastille numérotée cobalt, numéro annoncé aux lecteurs d'écran. |
+| Galerie | `Galerie.astro` | Grille de cadres de capture, chaque image ouvrant l'original dans un nouvel onglet. |
+| Vidéo | `Video.astro` | Lecteur natif avec affiche, `preload="none"` ; sans source, emplacement « Vidéo à venir ». |
+| Séparateur | `Separateur.astro` | Filet `ligne`, espace petit ou grand. |
+| Table des matières | `TableMatieres.astro` | Depuis les titres Markdown de niveaux 2 et 3 ; l'article l'affiche dès trois sections de niveau 2. |
+| Info-bulle | `InfoBulle.astro` | Bouton 44 px avec `aria-describedby`, bulle `role="tooltip"` visible au survol et au focus, sans script. |
+| Bandeau d'annonce | `BandeauAnnonce.astro` | Fond encre, texte et lien facultatif ; piloté par `annonce` dans `src/config/site.ts`, rendu par `Base.astro` au-dessus de l'en-tête. |
+| Recherche | `Recherche.astro` | Formulaire `role="search"`, champ `type="search"` nommé `q`, bouton cobalt ; pas de moteur pour l'instant. |
+| Abonnement | `Abonnement.astro` | Email, consentement, bouton désactivé tant que `actif` est faux, message d'état. |
+| Liste de définitions | `ListeDefinitions.astro` | `dl` à deux colonnes, libellés en `etiquette` ; la fiche technique l'utilise. |
+| Section | `Section.astro` | Section pleine largeur, fond `papier`, `papier-2` ou `encre`, conteneur intérieur et rythme vertical standard. |
+| Pages | `erreur.astro`, `maintenance.astro` | Pages `noindex`, hors sitemap, prêtes à être servies. |
+| Pied de page | `Footer.astro` | Lien « Retour en haut » vers `#contenu`. |
+
 ## 8 bis. Charte vivante
 
 Ajouté le 2026-09-04. La page `/charte/` présente les couleurs, la

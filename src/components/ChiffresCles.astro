@@ -1,0 +1,16 @@
+---
+interface Props {
+  chiffres: { valeur: string; libelle: string }[];
+  class?: string;
+}
+
+const { chiffres, class: classe = '' } = Astro.props;
+---
+<dl class={`grid grid-cols-2 gap-4 md:grid-cols-4 ${classe}`}>
+  {chiffres.map((chiffre) => (
+    <div class="flex flex-col gap-1 rounded-carte border border-ligne bg-blanc p-5">
+      <dd class="order-1 font-titres text-[36px] font-bold leading-none text-cobalt md:text-[44px]">{chiffre.valeur}</dd>
+      <dt class="order-2 text-[15px] text-encre-2">{chiffre.libelle}</dt>
+    </div>
+  ))}
+</dl>

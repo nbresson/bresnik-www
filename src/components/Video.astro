@@ -1,0 +1,27 @@
+---
+interface Props {
+  titre: string;
+  /** URL du fichier vidéo (mp4 ou webm). Sans source, un emplacement est affiché. */
+  src?: string;
+  affiche?: string;
+  class?: string;
+}
+
+const { titre, src, affiche, class: classe = '' } = Astro.props;
+---
+<figure class={`flex flex-col gap-3 ${classe}`}>
+  <div class="relative overflow-hidden rounded-cadre border border-ligne bg-encre shadow-capture">
+    {src ? (
+      <video controls preload="none" poster={affiche} class="block aspect-video w-full" title={titre}>
+        <source src={src} />
+        Votre navigateur ne lit pas cette vidéo. <a href={src} class="text-encre-claire underline">Télécharger la vidéo</a>.
+      </video>
+    ) : (
+      <div class="relative flex aspect-video w-full items-center justify-center">
+        {affiche && <img src={affiche} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-60" />}
+        <span class="relative rounded-bouton bg-encre px-4 py-2 text-[15px] font-semibold text-blanc">Vidéo à venir</span>
+      </div>
+    )}
+  </div>
+  <figcaption class="technique text-center">{titre}</figcaption>
+</figure>

@@ -1,0 +1,17 @@
+---
+import LienFleche from './LienFleche.astro';
+
+interface Props {
+  texte: string;
+  href?: string;
+  libelle?: string;
+}
+
+const { texte, href, libelle } = Astro.props;
+---
+<div class="bg-encre text-blanc">
+  <div class="conteneur flex flex-col gap-1 py-2.5 text-[15px] md:flex-row md:items-center md:gap-4">
+    <p class="font-semibold">{texte}</p>
+    {href && libelle && <LienFleche href={href} ton="blanc" class="text-[15px]">{libelle}</LienFleche>}
+  </div>
+</div>

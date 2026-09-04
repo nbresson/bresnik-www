@@ -1,0 +1,8 @@
+---
+interface Props {
+  espace?: 'petit' | 'grand';
+}
+
+const { espace = 'petit' } = Astro.props;
+---
+<hr class={`border-0 border-t border-ligne ${espace === 'grand' ? 'my-12 md:my-16' : 'my-6 md:my-8'}`} />

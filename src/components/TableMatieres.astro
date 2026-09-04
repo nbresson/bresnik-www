@@ -1,0 +1,23 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  titres: MarkdownHeading[];
+  class?: string;
+}
+
+const { titres, class: classe = '' } = Astro.props;
+const retenus = titres.filter((t) => t.depth === 2 || t.depth === 3);
+---
+{retenus.length > 0 && (
+  <nav aria-labelledby="table-matieres" class={`rounded-carte border border-ligne bg-blanc p-5 ${classe}`}>
+    <p id="table-matieres" class="eyebrow mb-3">Sommaire</p>
+    <ol class="flex flex-col gap-1.5 text-[15px]">
+      {retenus.map((titre) => (
+        <li class={titre.depth === 3 ? 'pl-4' : ''}>
+          <a href={`#${titre.slug}`} class="inline-block py-1 text-encre hover:text-cobalt">{titre.text}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

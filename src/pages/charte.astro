@@ -26,6 +26,23 @@ import LienFleche from '../components/LienFleche.astro';
 import Accordeon from '../components/Accordeon.astro';
 import EtatVide from '../components/EtatVide.astro';
 import Pagination from '../components/Pagination.astro';
+import Temoignage from '../components/Temoignage.astro';
+import Logos from '../components/Logos.astro';
+import ChiffresCles from '../components/ChiffresCles.astro';
+import TableauComparatif from '../components/TableauComparatif.astro';
+import Chronologie from '../components/Chronologie.astro';
+import Etapes from '../components/Etapes.astro';
+import Galerie from '../components/Galerie.astro';
+import Video from '../components/Video.astro';
+import Separateur from '../components/Separateur.astro';
+import TableMatieres from '../components/TableMatieres.astro';
+import InfoBulle from '../components/InfoBulle.astro';
+import BandeauAnnonce from '../components/BandeauAnnonce.astro';
+import Recherche from '../components/Recherche.astro';
+import Abonnement from '../components/Abonnement.astro';
+import ListeDefinitions from '../components/ListeDefinitions.astro';
+import Section from '../components/Section.astro';
+import exempleCapture from '../assets/exemple-capture.png';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
 import { ratioContraste } from '../lib/contraste';
@@ -104,6 +121,47 @@ const erreursExemple = [
   { champ: 'charte-nom-erreur', message: 'Le nom doit compter au moins deux caractères.' },
   { champ: 'charte-email-erreur', message: 'L\'adresse email n\'est pas valide.' },
 ];
+const logosExemple = ['[Client 1]', '[Client 2]', '[Client 3]', '[Client 4]', '[Client 5]', '[Client 6]'].map((nom) => ({ nom }));
+const chiffresExemple = [
+  { valeur: '[5]', libelle: 'produits en catalogue' },
+  { valeur: '[N]', libelle: 'clients accompagnés' },
+  { valeur: '[N]', libelle: 'années sur Sage 100' },
+  { valeur: '30 min', libelle: 'pour une démonstration' },
+];
+const comparatif = {
+  colonnes: ['BankBridge', 'FEC Analyzer', 'MajTarifPQ'],
+  lignes: [
+    { libelle: 'Sage 100 Comptabilité', valeurs: [true, true, false] },
+    { libelle: 'Sage 100 Gestion commerciale', valeurs: [false, false, true] },
+    { libelle: 'Objets métiers Sage', valeurs: [true, false, true] },
+    { libelle: 'Accès', valeurs: ['Sur démonstration', 'Sur démonstration', 'Sur démonstration'] },
+  ],
+};
+const chronologieExemple = [
+  { date: '[Mois année]', titre: '[Version 1.0]', texte: 'Première version mise à disposition des clients.' },
+  { date: '[Mois année]', titre: '[Version 1.1]', texte: 'Améliorations issues des premiers retours.' },
+  { date: 'À venir', titre: '[Prochaine étape]' },
+];
+const etapesExemple = [
+  { titre: 'Demandez une démonstration', texte: 'Décrivez votre besoin via le formulaire de contact.' },
+  { titre: 'Échangeons trente minutes', texte: 'Une visioconférence sur votre cas, sans engagement.' },
+  { titre: 'Mise en place', texte: 'Installation sur votre poste et prise en main guidée.' },
+];
+const capturesExemple = [
+  { src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Écran principal' },
+  { src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Paramètres' },
+];
+const titresExemple = [
+  { depth: 2, slug: 'charte-couleurs', text: 'Couleurs' },
+  { depth: 3, slug: 'charte-typo', text: 'Typographie' },
+  { depth: 2, slug: 'charte-composants', text: 'Composants' },
+  { depth: 2, slug: 'charte-formulaires', text: 'Formulaires' },
+];
+const definitionsExemple = [
+  { libelle: 'Éditeur', valeur: 'Bresnik' },
+  { libelle: 'Plateforme', valeur: 'Windows (WPF)' },
+  { libelle: 'Base de données', valeur: 'SQL Server' },
+];
 const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2 rounded-bouton px-6 text-[17px] font-semibold';
 ---
 <Base titre="Charte" description="Catalogue des composants et des fondations visuelles du site Bresnik." noindex>
@@ -119,6 +177,9 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <a href="#charte-fondations" class="underline underline-offset-[3px]">Espacements, rayons, mouvement</a>
       <a href="#charte-etats" class="underline underline-offset-[3px]">États</a>
       <a href="#charte-composants" class="underline underline-offset-[3px]">Composants</a>
+      <a href="#charte-contenu" class="underline underline-offset-[3px]">Contenu</a>
+      <a href="#charte-navigation" class="underline underline-offset-[3px]">Navigation et retours</a>
+      <a href="#charte-gabarits" class="underline underline-offset-[3px]">Gabarits</a>
       <a href="#charte-formulaires" class="underline underline-offset-[3px]">Formulaires</a>
       <a href="#charte-texte" class="underline underline-offset-[3px]">Texte enrichi</a>
     </nav>
@@ -372,6 +433,142 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       </div>
     </section>
 
+    <section aria-labelledby="charte-contenu" class="flex flex-col gap-10">
+      <h2 id="charte-contenu" class="text-[24px] font-bold md:text-[30px]">Contenu</h2>
+      <p class="text-[15px] text-encre-2">Les valeurs entre crochets sont des emplacements : aucun chiffre, client ou date n'est inventé.</p>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Témoignage</h3>
+        <Temoignage citation="[Citation du client, une ou deux phrases sur le bénéfice obtenu.]" auteur="[Prénom Nom]" fonction="[Fonction]" societe="[Société]" class="max-w-[760px]" />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Logos clients</h3>
+        <Logos titre="Ils utilisent Bresnik" logos={logosExemple} />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Chiffres clés</h3>
+        <ChiffresCles chiffres={chiffresExemple} />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Tableau comparatif</h3>
+        <TableauComparatif legende="Comparaison de trois produits" colonnes={comparatif.colonnes} lignes={comparatif.lignes} class="max-w-[760px]" />
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Chronologie</h3>
+          <Chronologie etapes={chronologieExemple} />
+        </div>
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Liste de définitions</h3>
+          <ListeDefinitions elements={definitionsExemple} class="rounded-carte border border-ligne bg-blanc p-6" />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Étapes numérotées</h3>
+        <Etapes etapes={etapesExemple} />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Galerie et vidéo</h3>
+        <Galerie captures={capturesExemple} class="max-w-[900px]" />
+        <Video titre="Présentation de BankBridge en trois minutes" affiche="/og-default.png" class="max-w-[640px]" />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class="text-[20px] font-semibold">Séparateur</h3>
+        <p class="text-[15px] text-encre-2">Petit espace au-dessus, grand espace au-dessous.</p>
+        <Separateur />
+        <Separateur espace="grand" />
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-navigation" class="flex flex-col gap-10">
+      <h2 id="charte-navigation" class="text-[24px] font-bold md:text-[30px]">Navigation et retours</h2>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Table des matières</h3>
+          <p class="text-[15px] text-encre-2">Générée depuis les titres d'un article, affichée dès trois sections.</p>
+          <TableMatieres titres={titresExemple} class="max-w-[420px]" />
+        </div>
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Info-bulle</h3>
+          <p class="flex items-center gap-1 text-[16px]">
+            Objets métiers Sage
+            <InfoBulle id="charte-infobulle" texte="Bibliothèque fournie par Sage pour lire et écrire les données de Sage 100 en respectant ses règles de gestion." />
+          </p>
+          <p class="text-[15px] text-encre-2">Visible au survol et au focus clavier, sans script.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Bandeau d'annonce</h3>
+        <p class="text-[15px] text-encre-2">Piloté par <span class="technique">src/config/site.ts</span>, affiché au-dessus de l'en-tête sur toutes les pages quand il est renseigné.</p>
+        <div class="overflow-hidden rounded-carte border border-ligne">
+          <BandeauAnnonce texte="[Annonce : nouvelle version, événement, fermeture]" href="/blog/" libelle="En savoir plus" />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Pages d'erreur et de maintenance</h3>
+        <p class="text-[15px] text-encre-2">Deux pages non indexées, prêtes à être servies : <a href="/erreur/" class="underline underline-offset-[3px]">/erreur/</a> et <a href="/maintenance/" class="underline underline-offset-[3px]">/maintenance/</a>.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-gabarits" class="flex flex-col gap-10">
+      <h2 id="charte-gabarits" class="text-[24px] font-bold md:text-[30px]">Gabarits</h2>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Conteneur et grilles</h3>
+        <p class="text-[15px] text-encre-2">Le conteneur fait 1440 px au plus, avec 20 px de gouttière en mobile et 80 px à partir de 1024 px. Les grilles à trois colonnes passent à deux sous 1024 px et à une sous 768 px.</p>
+        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <div class="flex h-16 items-center justify-center rounded-carte border border-dashed border-cobalt bg-cobalt-teinte technique">colonne 1</div>
+          <div class="flex h-16 items-center justify-center rounded-carte border border-dashed border-cobalt bg-cobalt-teinte technique">colonne 2</div>
+          <div class="flex h-16 items-center justify-center rounded-carte border border-dashed border-cobalt bg-cobalt-teinte technique">colonne 3</div>
+        </div>
+        <div class="grid gap-3 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)]">
+          <div class="flex h-16 items-center justify-center rounded-carte border border-dashed border-cobalt bg-cobalt-teinte technique">contenu 1,5 fr</div>
+          <div class="flex h-16 items-center justify-center rounded-carte border border-dashed border-cobalt bg-cobalt-teinte technique">latérale 0,8 fr, collante</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Colonne latérale collante</h3>
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)]">
+          <div class="flex flex-col gap-4">
+            <div class="h-40 rounded-carte border border-dashed border-ligne bg-blanc"></div>
+            <div class="h-40 rounded-carte border border-dashed border-ligne bg-blanc"></div>
+            <div class="h-40 rounded-carte border border-dashed border-ligne bg-blanc"></div>
+          </div>
+          <aside class="rounded-cadre border border-ligne bg-blanc p-6 lg:sticky lg:top-6 lg:self-start">
+            <p class="font-titres text-[18px] font-semibold">Colonne collante</p>
+            <p class="mt-2 text-[15px] text-encre-2">Elle suit le défilement à partir de 1024 px, comme la fiche technique.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class="text-[20px] font-semibold">Sections pleine largeur</h3>
+        <p class="text-[15px] text-encre-2">Le composant Section déborde du conteneur, comme ci-dessous.</p>
+      </div>
+    </section>
+  </div>
+
+  <Section fond="papier-2" aria-labelledby="charte-section-papier2">
+    <h2 id="charte-section-papier2" class="text-[24px] font-bold md:text-[30px]">Section sur fond papier 2</h2>
+    <p class="mt-3 max-w-[640px] text-[17px] leading-[1.5]">Utilisée pour les bandes de rythme, comme la section conseil de l'accueil.</p>
+  </Section>
+  <Section fond="encre" aria-labelledby="charte-section-encre">
+    <h2 id="charte-section-encre" class="text-[24px] font-bold text-blanc md:text-[30px]">Section sur fond encre</h2>
+    <p class="mt-3 max-w-[640px] text-[17px] leading-[1.5] text-encre-claire">Texte secondaire en encre claire, liens et boutons en variante inverse.</p>
+  </Section>
+
+  <div class="conteneur flex flex-col gap-16 pb-16 pt-16 md:gap-20 md:pb-20 md:pt-20">
     <section aria-labelledby="charte-formulaires" class="flex flex-col gap-6">
       <h2 id="charte-formulaires" class="text-[24px] font-bold md:text-[30px]">Formulaires</h2>
       <form class="flex max-w-[640px] flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6" onsubmit="return false">
@@ -398,6 +595,15 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
           <Bouton type="button" chargement>Envoi en cours</Bouton>
         </div>
       </form>
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Recherche</h3>
+        <p class="text-[15px] text-encre-2">Sans moteur de recherche pour l'instant : le formulaire renvoie vers le blog.</p>
+        <Recherche action="/blog/" class="max-w-[640px]" />
+      </div>
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Abonnement à une lettre</h3>
+        <Abonnement class="max-w-[640px]" />
+      </div>
     </section>
 
     <section aria-labelledby="charte-texte" class="flex flex-col gap-6">
