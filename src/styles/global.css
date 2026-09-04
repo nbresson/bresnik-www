@@ -61,11 +61,11 @@
 }
 
 @utility eyebrow {
-  @apply font-technique text-[13px] uppercase tracking-[0.08em] text-cobalt max-md:text-[12px];
+  @apply font-technique font-medium text-[13px] uppercase tracking-[0.08em] text-cobalt max-md:text-[12px];
 }
 
 @utility technique {
-  @apply font-technique text-[13px] text-encre-2 max-md:text-[12px];
+  @apply font-technique font-medium text-[13px] text-encre-2 max-md:text-[12px];
 }
 
 /* Markdown : pages éditoriales et articles. */

@@ -25,7 +25,7 @@ const action = actionProduit(produit.data.disponibilite, produit.id);
   <header class="border-b border-ligne">
     <div class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
       <nav aria-label="Fil d'Ariane" class="technique">
-        <a href="/produits/" class="text-encre-2 hover:text-cobalt">Produits</a> / {produit.data.nom}
+        <a href="/produits/" class="text-encre-2 hover:text-cobalt underline underline-offset-[3px]">Produits</a> / {produit.data.nom}
       </nav>
       <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
       <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[60px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>

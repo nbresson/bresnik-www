@@ -24,7 +24,7 @@ const premierTag = article.data.tags[0];
   {article.data.tags.length > 0 && (
     <ul class="flex flex-wrap gap-2 text-[14px]" aria-label="Tags">
       {article.data.tags.map((tag) => (
-        <li><a href={`/blog/tags/${tag}/`} class="underline underline-offset-[3px]">#{tag}</a></li>
+        <li><a href={`/blog/tags/${tag}/`} class="inline-block py-1 underline underline-offset-[3px]">#{tag}</a></li>
       ))}
     </ul>
   )}
