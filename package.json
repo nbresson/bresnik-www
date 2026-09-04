@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:worker": "tsc -p worker --noEmit",
     "generer-images": "node scripts/generer-og.mjs",
     "verifier-liens": "node scripts/verifier-liens.mjs",
     "test": "vitest run",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20260904.1",
     "@fontsource/bricolage-grotesque": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",

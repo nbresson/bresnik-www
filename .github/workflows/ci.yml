@@ -20,6 +20,7 @@ jobs:
           key: polices-${{ hashFiles('astro.config.mjs') }}
       - run: npm ci
       - run: npm run check
+      - run: npm run check:worker
       - run: npm test
       - run: npm run build
       - run: npm run verifier-liens
