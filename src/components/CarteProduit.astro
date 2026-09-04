@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Etiquette from './Etiquette.astro';
+import LogoProduit from './LogoProduit.astro';
 import { libelleCible, tonCible } from '../lib/produits';
 
 interface Props {
@@ -13,7 +14,10 @@ const Titre = niveauTitre;
 const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.join(', ') : 'Sage · Windows · SQL Server';
 ---
 <article class="relative flex flex-col gap-2.5 rounded-carte border border-ligne bg-blanc p-5 transition-colors duration-150 hover:border-cobalt md:p-7">
-  <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
+  <div class="flex items-start justify-between gap-3">
+    <LogoProduit nom={produit.data.nom} logo={produit.data.logo} />
+    <Etiquette ton={tonCible(produit.data.cible)}>{libelleCible(produit.data.cible)}</Etiquette>
+  </div>
   <Titre class="mt-1.5 text-[22px] font-semibold leading-[1.25] md:text-[24px]">
     <a href={`/produits/${produit.id}/`} class="text-encre after:absolute after:inset-0 after:content-[''] hover:text-encre">{produit.data.nom}</a>
   </Titre>

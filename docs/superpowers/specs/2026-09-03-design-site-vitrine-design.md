@@ -310,6 +310,12 @@ désactivé et message d'état, inchangés dans leur comportement.
   reste masquée tant qu'aucun n'est publié.
 - Informations légales (déjà listées dans la spécification amont).
 
+## 3 quater bis. Logo de produit (2026-09-04)
+
+| Composant | Fichier | Rôle et règles |
+|---|---|---|
+| Logo produit | `LogoProduit.astro` | Tuile à coins arrondis façon icône d'application (40, 56 ou 96 px), bordure `ligne`, fond blanc, image optimisée en `object-cover` ; sans logo, l'initiale du produit sur `cobalt-teinte`. Utilisé par la carte produit, l'en-tête de la fiche et les cartes « même famille ». Les logos sont décoratifs (`alt` vide), le nom étant toujours écrit à côté. |
+
 ## 3 bis. Composants ajoutés le 2026-09-04
 
 | Composant | Fichier | Rôle et règles |

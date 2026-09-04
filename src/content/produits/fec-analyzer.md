@@ -6,6 +6,7 @@ modulesSage:
   - "Sage 100 Comptabilité"
 objetsMetiersSage: false
 plateforme: Windows (WPF)
+logo: ./logos/fec-analyzer.png
 fonctionnalites:
   - "Synthèse comptable du fichier"
   - "Détection des anomalies"
