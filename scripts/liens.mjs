@@ -19,7 +19,7 @@ export function estInterne(lien) {
 }
 
 export function cheminsCandidats(lien) {
-  const sansSuffixe = lien.split('#')[0].split('?')[0];
+  const sansSuffixe = decodeURIComponent(lien.split('#')[0].split('?')[0]);
   const relatif = sansSuffixe.replace(/^\/+/, '');
   if (relatif === '') return ['index.html'];
   if (relatif.endsWith('/')) return [`${relatif}index.html`];
@@ -40,8 +40,7 @@ async function listerHtml(dossier) {
 
 async function existe(chemin) {
   try {
-    await stat(chemin);
-    return true;
+    return (await stat(chemin)).isFile();
   } catch {
     return false;
   }
