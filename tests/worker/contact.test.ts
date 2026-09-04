@@ -25,7 +25,7 @@ const lireProduits = async () => ({ ids: ['bocs'], noms: { bocs: 'BOCS' } });
 
 /** fetch simulé : Turnstile répond selon `turnstile`, Brevo selon `brevo`. */
 const fetchSimule = (turnstile: boolean, brevo = 201) =>
-  vi.fn(async (url: string | URL | Request) => {
+  vi.fn<typeof fetch>(async (url: Parameters<typeof fetch>[0]) => {
     const adresse = String(url);
     if (adresse.includes('turnstile')) return new Response(JSON.stringify({ success: turnstile }));
     if (adresse.includes('brevo')) return new Response('{}', { status: brevo });
@@ -54,7 +54,7 @@ describe('traiterContact', () => {
     expect(reponse.status).toBe(200);
     expect(await reponse.json()).toEqual({ ok: true });
     const appelBrevo = fetchFn.mock.calls.find(([url]) => String(url).includes('brevo'));
-    const corps = JSON.parse((appelBrevo?.[1] as RequestInit).body as string);
+    const corps = JSON.parse(appelBrevo?.[1]?.body as string);
     expect(corps.to).toEqual([{ email: 'nicolas@exemple.fr' }]);
     expect(corps.replyTo).toEqual({ email: 'visiteur@exemple.fr', name: 'Nicolas Bresson' });
     expect(corps.subject).toBe('[Contact] BOCS — Nicolas Bresson');
@@ -91,9 +91,9 @@ describe('traiterContact', () => {
   });
 
   it('lit la liste des produits depuis les assets par défaut', async () => {
-    const assets = { fetch: vi.fn(async () => new Response(JSON.stringify({ produits: [{ id: 'bocs', nom: 'BOCS' }] }))) };
+    const assets = { fetch: vi.fn<(request: Request) => Promise<Response>>(async () => new Response(JSON.stringify({ produits: [{ id: 'bocs', nom: 'BOCS' }] }))) };
     const reponse = await traiterContact(requeteJson(champs), { ...env, ASSETS: assets as unknown as Env['ASSETS'] }, { fetchFn: fetchSimule(true) });
     expect(reponse.status).toBe(200);
-    expect(String((assets.fetch.mock.calls[0] as [Request])[0].url)).toBe('https://site.test/api/produits.json');
+    expect(assets.fetch.mock.calls[0]![0].url).toBe('https://site.test/api/produits.json');
   });
 });

@@ -13,12 +13,12 @@ const options = {
 
 describe('envoyerBrevo', () => {
   it('poste sur l\'API Brevo avec la clé et les champs attendus', async () => {
-    const fetchFn = vi.fn(async () => new Response('{"messageId":"1"}', { status: 201 }));
+    const fetchFn = vi.fn<typeof fetch>(async () => new Response('{"messageId":"1"}', { status: 201 }));
     expect(await envoyerBrevo(options, fetchFn)).toEqual({ ok: true });
-    const [url, init] = fetchFn.mock.calls[0] as [string, RequestInit];
+    const [url, init] = fetchFn.mock.calls[0]!;
     expect(url).toBe('https://api.brevo.com/v3/smtp/email');
-    expect((init.headers as Record<string, string>)['api-key']).toBe('cle-test');
-    const corps = JSON.parse(init.body as string);
+    expect((init?.headers as Record<string, string>)['api-key']).toBe('cle-test');
+    const corps = JSON.parse(init?.body as string);
     expect(corps).toEqual({
       sender: { email: 'site@exemple.fr', name: 'Site Bresnik' },
       to: [{ email: 'nicolas@exemple.fr' }],

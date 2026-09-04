@@ -5,13 +5,13 @@ const reponse = (corps: unknown, statut = 200) => new Response(JSON.stringify(co
 
 describe('verifierTurnstile', () => {
   it('appelle siteverify avec le secret, le jeton et l\'adresse IP', async () => {
-    const fetchFn = vi.fn(async () => reponse({ success: true }));
+    const fetchFn = vi.fn<typeof fetch>(async () => reponse({ success: true }));
     const ok = await verifierTurnstile('jeton', 'secret', '203.0.113.1', fetchFn);
     expect(ok).toBe(true);
-    const [url, init] = fetchFn.mock.calls[0] as [string, RequestInit];
+    const [url, init] = fetchFn.mock.calls[0]!;
     expect(url).toBe('https://challenges.cloudflare.com/turnstile/v0/siteverify');
-    expect(init.method).toBe('POST');
-    const corps = init.body as URLSearchParams;
+    expect(init?.method).toBe('POST');
+    const corps = init?.body as URLSearchParams;
     expect(corps.get('secret')).toBe('secret');
     expect(corps.get('response')).toBe('jeton');
     expect(corps.get('remoteip')).toBe('203.0.113.1');
