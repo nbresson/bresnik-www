@@ -1,12 +1,16 @@
 ---
 import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import EnTetePage from './EnTetePage.astro';
+import BandeAppel from './BandeAppel.astro';
 
 interface Props {
   id: string;
+  eyebrow: string;
+  avecBandeAppel?: boolean;
 }
 
-const { id } = Astro.props;
+const { id, eyebrow, avecBandeAppel = false } = Astro.props;
 const page = await getEntry('pages', id);
 if (!page) {
   throw new Error(`Page éditoriale introuvable : ${id}`);
@@ -14,8 +18,11 @@ if (!page) {
 const { Content } = await render(page);
 ---
 <Base titre={page.data.titre} description={page.data.description}>
-  <h1 class="text-3xl font-bold">{page.data.titre}</h1>
-  <div class="prose mt-6 max-w-none">
-    <Content />
+  <EnTetePage eyebrow={eyebrow} titre={page.data.titre} sousTitre={page.data.description} />
+  <div class="conteneur pb-16 md:pb-20">
+    <div class="prose prose-lg max-w-[720px]">
+      <Content />
+    </div>
   </div>
+  {avecBandeAppel && <BandeAppel />}
 </Base>

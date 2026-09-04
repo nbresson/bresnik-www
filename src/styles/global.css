@@ -1,8 +1,97 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "./tokens.css";
 
-html {
-  font-family: var(--police-texte);
-  background: var(--couleur-fond);
-  color: var(--couleur-texte);
+@theme inline {
+  --color-papier: var(--couleur-papier);
+  --color-papier-2: var(--couleur-papier-2);
+  --color-encre: var(--couleur-encre);
+  --color-encre-2: var(--couleur-encre-2);
+  --color-encre-claire: var(--couleur-encre-claire);
+  --color-ligne: var(--couleur-ligne);
+  --color-blanc: var(--couleur-blanc);
+  --color-cobalt: var(--couleur-cobalt);
+  --color-cobalt-fonce: var(--couleur-cobalt-fonce);
+  --color-cobalt-teinte: var(--couleur-cobalt-teinte);
+  --color-ambre: var(--couleur-ambre);
+  --color-ambre-teinte: var(--couleur-ambre-teinte);
+
+  --font-titres: var(--police-titres);
+  --font-texte: var(--police-texte);
+  --font-technique: var(--police-technique);
+
+  --shadow-capture: var(--ombre-capture);
+
+  --radius-bouton: var(--rayon-bouton);
+  --radius-carte: var(--rayon-carte);
+  --radius-cadre: var(--rayon-cadre);
+  --radius-bande: var(--rayon-bande);
+}
+
+@layer base {
+  html {
+    font-family: var(--police-texte);
+    background: var(--couleur-papier);
+    color: var(--couleur-encre);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--police-titres);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    color: var(--couleur-cobalt);
+    transition: color 150ms;
+  }
+  a:hover {
+    color: var(--couleur-cobalt-fonce);
+  }
+  :focus-visible {
+    outline: 2px solid var(--couleur-cobalt);
+    outline-offset: 2px;
+  }
+}
+
+@utility conteneur {
+  @apply mx-auto w-full max-w-[1440px] px-5 lg:px-20;
+}
+
+@utility eyebrow {
+  @apply font-technique font-medium text-[13px] uppercase tracking-[0.08em] text-cobalt max-md:text-[12px];
+}
+
+@utility technique {
+  @apply font-technique font-medium text-[13px] text-encre-2 max-md:text-[12px];
+}
+
+/* Markdown : pages éditoriales et articles. */
+.prose {
+  --tw-prose-body: var(--couleur-encre);
+  --tw-prose-headings: var(--couleur-encre);
+  --tw-prose-lead: var(--couleur-encre-2);
+  --tw-prose-links: var(--couleur-cobalt);
+  --tw-prose-bold: var(--couleur-encre);
+  --tw-prose-counters: var(--couleur-cobalt);
+  --tw-prose-bullets: var(--couleur-cobalt);
+  --tw-prose-hr: var(--couleur-ligne);
+  --tw-prose-quotes: var(--couleur-encre);
+  --tw-prose-quote-borders: var(--couleur-cobalt);
+  --tw-prose-captions: var(--couleur-encre-2);
+  --tw-prose-code: var(--couleur-encre);
+  --tw-prose-pre-code: var(--couleur-papier);
+  --tw-prose-pre-bg: var(--couleur-encre);
+  --tw-prose-th-borders: var(--couleur-ligne);
+  --tw-prose-td-borders: var(--couleur-ligne);
+}
+.prose a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose code {
+  font-family: var(--police-technique);
+  font-weight: 500;
 }

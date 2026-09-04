@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
 import CarteProduit from '../../components/CarteProduit.astro';
+import BandeAppel from '../../components/BandeAppel.astro';
 import { produitsPublies } from '../../lib/catalogue';
 
 const produits = await produitsPublies();
@@ -8,20 +10,26 @@ const pourEntreprises = produits.filter((p) => p.data.cible === 'entreprise');
 const pourConsultants = produits.filter((p) => p.data.cible === 'consultant');
 ---
 <Base titre="Produits" description="Logiciels Bresnik complémentaires à Sage 100 : comptabilité, gestion commerciale, outils pour consultants.">
-  <h1 class="text-3xl font-bold">Produits</h1>
-  <p class="mt-4">Des logiciels Windows qui complètent Sage 100, conçus par un consultant Sage.</p>
+  <EnTetePage
+    eyebrow="Produits"
+    titre="Cinq outils, cinq besoins rencontrés sur le terrain."
+    sousTitre="Des logiciels Windows qui complètent Sage 100, conçus par un consultant Sage."
+    taille="grand"
+  />
 
-  <section class="mt-10" aria-labelledby="entreprises">
-    <h2 id="entreprises" class="text-2xl font-semibold">Pour les entreprises utilisatrices de Sage 100</h2>
-    <div class="mt-4 grid gap-4 md:grid-cols-2">
+  <section aria-labelledby="entreprises" class="conteneur flex flex-col gap-5 pb-12 md:pb-16">
+    <h2 id="entreprises" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Pour les entreprises utilisatrices de Sage 100</h2>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {pourEntreprises.map((produit) => <CarteProduit produit={produit} />)}
     </div>
   </section>
 
-  <section class="mt-10" aria-labelledby="consultants">
-    <h2 id="consultants" class="text-2xl font-semibold">Pour les consultants Sage</h2>
-    <div class="mt-4 grid gap-4 md:grid-cols-2">
+  <section aria-labelledby="consultants" class="conteneur flex flex-col gap-5 pb-16 md:pb-24">
+    <h2 id="consultants" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Pour les consultants Sage</h2>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {pourConsultants.map((produit) => <CarteProduit produit={produit} />)}
     </div>
   </section>
+
+  <BandeAppel />
 </Base>

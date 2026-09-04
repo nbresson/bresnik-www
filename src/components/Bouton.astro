@@ -1,0 +1,59 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  variante?: 'primaire' | 'secondaire' | 'inverse';
+  taille?: 'normal' | 'compact';
+  href?: string;
+  type?: 'button' | 'submit';
+  fleche?: boolean;
+  desactive?: boolean;
+  plein?: boolean;
+  class?: string;
+  id?: string;
+  'aria-describedby'?: string;
+}
+
+const {
+  variante = 'primaire',
+  taille = 'normal',
+  href,
+  type = 'button',
+  fleche = false,
+  desactive = false,
+  plein = false,
+  class: classe = '',
+  id,
+  'aria-describedby': decritPar,
+} = Astro.props;
+
+const base = 'inline-flex items-center justify-center gap-2 rounded-bouton font-semibold transition-colors duration-150';
+const variantes = {
+  primaire: 'bg-cobalt text-blanc hover:bg-cobalt-fonce hover:text-blanc',
+  secondaire: 'border-[1.5px] border-encre text-encre hover:bg-papier-2 hover:text-encre',
+  inverse: 'bg-blanc text-encre hover:bg-papier-2 hover:text-encre',
+};
+const tailles = {
+  normal: 'h-[52px] px-6 text-[17px]',
+  compact: 'h-11 px-[18px] text-[15px]',
+};
+const classes = [
+  base,
+  variantes[variante],
+  tailles[taille],
+  plein ? 'w-full' : '',
+  desactive ? 'cursor-not-allowed opacity-60' : '',
+  classe,
+].join(' ');
+---
+{href && !desactive ? (
+  <a href={href} class={classes} id={id} aria-describedby={decritPar}>
+    <slot />
+    {fleche && <Icone nom="fleche" />}
+  </a>
+) : (
+  <button type={type} class={classes} id={id} disabled={desactive} aria-describedby={decritPar}>
+    <slot />
+    {fleche && <Icone nom="fleche" />}
+  </button>
+)}

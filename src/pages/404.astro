@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import Bouton from '../components/Bouton.astro';
 ---
-<Base titre="Page introuvable" description="La page demandée n'existe pas.">
-  <h1 class="text-3xl font-bold">Page introuvable</h1>
-  <p class="mt-4">La page demandée n'existe pas ou a été déplacée.</p>
-  <ul class="mt-6 list-disc pl-6">
-    <li><a href="/" class="underline">Retour à l'accueil</a></li>
-    <li><a href="/produits/" class="underline">Voir les produits</a></li>
-  </ul>
+<Base titre="Page introuvable" description="La page demandée n'existe pas." noindex>
+  <EnTetePage eyebrow="Erreur 404" titre="Page introuvable" sousTitre="La page demandée n'existe pas ou a été déplacée." />
+  <div class="conteneur flex flex-col gap-3 pb-16 md:flex-row md:pb-20">
+    <Bouton href="/" variante="secondaire" class="max-md:w-full">Retour à l'accueil</Bouton>
+    <Bouton href="/produits/" variante="secondaire" class="max-md:w-full">Voir les produits</Bouton>
+  </div>
 </Base>

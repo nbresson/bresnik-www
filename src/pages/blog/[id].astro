@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Icone from '../../components/Icone.astro';
 import { filtrerPublies } from '../../lib/blog';
 import { dateIso, formaterDate } from '../../lib/dates';
 
@@ -12,26 +13,33 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 ---
-<Base titre={article.data.titre} description={article.data.description} typeOg="article">
+<Base titre={article.data.titre} description={article.data.description} typeOg="article" image={article.data.image?.src}>
   <article>
-    <p class="text-sm" style="color: var(--couleur-texte-secondaire)">
-      Publié le <time datetime={dateIso(article.data.date)}>{formaterDate(article.data.date)}</time>
-      {article.data.miseAJour && (
-        <span>, mis à jour le <time datetime={dateIso(article.data.miseAJour)}>{formaterDate(article.data.miseAJour)}</time></span>
+    <header class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
+      <p class="technique">
+        Publié le <time datetime={dateIso(article.data.date)}>{formaterDate(article.data.date)}</time>
+        {article.data.miseAJour && (
+          <span>, mis à jour le <time datetime={dateIso(article.data.miseAJour)}>{formaterDate(article.data.miseAJour)}</time></span>
+        )}
+      </p>
+      <h1 class="max-w-[900px] text-[34px] font-bold leading-[1.08] tracking-[-0.02em] md:text-[48px] md:leading-[1.06]">{article.data.titre}</h1>
+      <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]">{article.data.description}</p>
+    </header>
+    <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
+      <div class="prose prose-lg max-w-[720px]">
+        <Content />
+      </div>
+      {article.data.tags.length > 0 && (
+        <ul class="flex flex-wrap gap-2 text-[14px]" aria-label="Tags">
+          {article.data.tags.map((tag) => (
+            <li><a href={`/blog/tags/${tag}/`} class="underline underline-offset-[3px]">#{tag}</a></li>
+          ))}
+        </ul>
       )}
-    </p>
-    <h1 class="mt-1 text-3xl font-bold">{article.data.titre}</h1>
-    <p class="mt-2 text-lg">{article.data.description}</p>
-    <div class="prose mt-8 max-w-none">
-      <Content />
+      <a href="/blog/" class="inline-flex items-center gap-1.5 text-[16px] font-semibold">
+        <Icone nom="fleche" taille={16} class="rotate-180" />
+        Tous les articles
+      </a>
     </div>
-    {article.data.tags.length > 0 && (
-      <ul class="mt-8 flex flex-wrap gap-2 text-sm" aria-label="Tags">
-        {article.data.tags.map((tag) => (
-          <li><a href={`/blog/tags/${tag}/`} class="underline">#{tag}</a></li>
-        ))}
-      </ul>
-    )}
   </article>
-  <p class="mt-8"><a href="/blog/" class="underline">← Tous les articles</a></p>
 </Base>

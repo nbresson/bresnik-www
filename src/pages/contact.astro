@@ -1,49 +1,34 @@
 ---
-import { produitsPublies } from '../lib/catalogue';
 import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import Champ from '../components/Champ.astro';
+import Bouton from '../components/Bouton.astro';
+import { produitsPublies } from '../lib/catalogue';
 
 const produits = await produitsPublies();
+const optionsProduits = [
+  { valeur: '', libelle: 'Aucun produit en particulier' },
+  ...produits.map((p) => ({ valeur: p.id, libelle: p.data.nom })),
+];
 ---
 <Base titre="Contact" description="Demandez une démonstration d'un produit Bresnik ou un échange sur votre projet Sage 100.">
-  <h1 class="text-3xl font-bold">Contact</h1>
-  <p class="mt-4">Demandez une démonstration ou décrivez votre besoin. Réponse sous deux jours ouvrés.</p>
-
-  <form id="formulaire-contact" method="post" action="/api/contact" class="mt-8 grid max-w-xl gap-4">
-    <label class="grid gap-1">
-      <span>Nom <span aria-hidden="true">*</span></span>
-      <input name="nom" type="text" required minlength="2" maxlength="100" autocomplete="name" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)" />
-    </label>
-    <label class="grid gap-1">
-      <span>Email <span aria-hidden="true">*</span></span>
-      <input name="email" type="email" required autocomplete="email" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)" />
-    </label>
-    <label class="grid gap-1">
-      <span>Société</span>
-      <input name="societe" type="text" maxlength="100" autocomplete="organization" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)" />
-    </label>
-    <label class="grid gap-1">
-      <span>Produit concerné</span>
-      <select name="produit" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)">
-        <option value="">Aucun produit en particulier</option>
-        {produits.map((p) => <option value={p.id}>{p.data.nom}</option>)}
-      </select>
-    </label>
-    <label class="grid gap-1">
-      <span>Message <span aria-hidden="true">*</span></span>
-      <textarea name="message" required minlength="10" maxlength="5000" rows="6" class="rounded border px-3 py-2" style="border-color: var(--couleur-bordure)"></textarea>
-    </label>
-    <div class="hidden" aria-hidden="true">
-      <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
-    </div>
-    <p>
-      <button type="submit" disabled class="rounded px-4 py-2 font-semibold opacity-60" style="background: var(--couleur-accent); color: var(--couleur-accent-contraste)">
-        Envoyer
-      </button>
-    </p>
-    <p id="etat-formulaire" class="text-sm" style="color: var(--couleur-texte-secondaire)" role="status">
-      L'envoi en ligne sera activé prochainement.
-    </p>
-  </form>
+  <EnTetePage eyebrow="Contact" titre="Parlons de votre projet Sage 100." sousTitre="Demandez une démonstration ou décrivez votre besoin. Réponse sous deux jours ouvrés." />
+  <div class="conteneur pb-16 md:pb-20">
+    <form id="formulaire-contact" method="post" action="/api/contact" class="flex max-w-[640px] flex-col gap-5">
+      <Champ nom="nom" libelle="Nom" requis minlength="2" maxlength="100" autocomplete="name" />
+      <Champ nom="email" libelle="Email" type="email" requis autocomplete="email" />
+      <Champ nom="societe" libelle="Société" maxlength="100" autocomplete="organization" />
+      <Champ nom="produit" libelle="Produit concerné" type="liste" options={optionsProduits} />
+      <Champ nom="message" libelle="Message" type="zone" requis minlength="10" maxlength="5000" />
+      <div class="hidden" aria-hidden="true">
+        <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
+      </div>
+      <div class="flex flex-col gap-3">
+        <Bouton type="submit" desactive aria-describedby="etat-formulaire" class="self-start max-md:w-full">Envoyer</Bouton>
+        <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status">L'envoi en ligne sera activé prochainement.</p>
+      </div>
+    </form>
+  </div>
 
   <script>
     const produitDemande = new URLSearchParams(window.location.search).get('produit');

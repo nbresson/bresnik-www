@@ -1,0 +1,13 @@
+---
+import Icone from './Icone.astro';
+---
+<div class="flex flex-col justify-between gap-4 rounded-carte bg-encre p-5 text-blanc md:p-7">
+  <p class="font-titres text-[22px] font-semibold leading-[1.25] md:text-[24px]">Un besoin qui n'est pas dans la liste ?</p>
+  <p class="text-[16px] leading-[1.5] text-encre-claire md:text-[17px]">
+    Chaque outil est né d'une mission. Décrivez le vôtre, on regarde ensemble si un logiciel peut y répondre.
+  </p>
+  <a href="/contact/" class="inline-flex items-center gap-1.5 text-[16px] font-semibold text-blanc hover:text-encre-claire">
+    Nous écrire
+    <Icone nom="fleche" taille={16} />
+  </a>
+</div>

@@ -1,0 +1,20 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  elements: string[];
+  colonnes?: 1 | 2;
+  class?: string;
+}
+
+const { elements, colonnes = 1, class: classe = '' } = Astro.props;
+const disposition = colonnes === 2 ? 'grid gap-3.5 md:grid-cols-2' : 'flex flex-col gap-3.5';
+---
+<ul class={`${disposition} ${classe}`}>
+  {elements.map((element) => (
+    <li class="flex items-start gap-3.5 rounded-carte border border-ligne bg-blanc px-5 py-4">
+      <Icone nom="coche" taille={22} class="mt-0.5 shrink-0 text-cobalt" />
+      <span class="text-[17px] leading-[1.45]">{element}</span>
+    </li>
+  ))}
+</ul>

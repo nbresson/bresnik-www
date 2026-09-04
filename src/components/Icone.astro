@@ -1,0 +1,36 @@
+---
+interface Props {
+  nom: 'fleche' | 'coche' | 'menu';
+  taille?: number;
+  class?: string;
+}
+
+const { nom, taille = 18, class: classe = '' } = Astro.props;
+---
+<svg
+  width={taille}
+  height={taille}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class={classe}
+>
+  {nom === 'fleche' && (
+    <>
+      <path d="M5 12h14"></path>
+      <path d="M13 6l6 6-6 6"></path>
+    </>
+  )}
+  {nom === 'coche' && <path d="M20 6L9 17l-5-5"></path>}
+  {nom === 'menu' && (
+    <>
+      <path d="M4 7h16"></path>
+      <path d="M4 12h16"></path>
+      <path d="M4 17h16"></path>
+    </>
+  )}
+</svg>

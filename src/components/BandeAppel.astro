@@ -1,0 +1,27 @@
+---
+import Bouton from './Bouton.astro';
+
+interface Props {
+  titre?: string;
+  texte?: string;
+  id?: string;
+}
+
+const {
+  titre = 'Voyons ce que vos données Sage peuvent faire de plus.',
+  texte = 'Une démonstration de 30 minutes sur votre cas, sans engagement.',
+  id = 'bande-appel',
+} = Astro.props;
+---
+<div class="conteneur">
+  <section
+    aria-labelledby={id}
+    class="flex flex-col gap-5 rounded-bande bg-encre px-6 py-7 text-blanc md:flex-row md:items-center md:justify-between md:gap-12 md:px-16 md:py-14"
+  >
+    <div class="flex max-w-[720px] flex-col gap-2.5">
+      <h2 id={id} class="text-[26px] font-bold leading-[1.15] text-blanc md:text-[34px]">{titre}</h2>
+      <p class="text-[16px] leading-[1.5] text-encre-claire md:text-[18px]">{texte}</p>
+    </div>
+    <Bouton href="/contact/" variante="inverse" fleche class="shrink-0 max-md:w-full">Demander une démo</Bouton>
+  </section>
+</div>

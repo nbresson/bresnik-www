@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { Font } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -8,11 +9,22 @@ interface Props {
   description: string;
   typeOg?: 'website' | 'article';
   sansSuffixe?: boolean;
+  image?: string;
+  noindex?: boolean;
 }
 
-const { titre, description, typeOg = 'website', sansSuffixe = false } = Astro.props;
+const {
+  titre,
+  description,
+  typeOg = 'website',
+  sansSuffixe = false,
+  image = '/og-default.png',
+  noindex = false,
+} = Astro.props;
 const titreComplet = sansSuffixe ? titre : `${titre} · Bresnik`;
 const urlCanonique = new URL(Astro.url.pathname, Astro.site);
+const urlImage = new URL(image, Astro.site);
+const imageParDefaut = image === '/og-default.png';
 const jetonAnalytics = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 <html lang="fr">
@@ -21,6 +33,11 @@ const jetonAnalytics = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titreComplet}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#faf8f4" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={urlCanonique} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Blog Bresnik" href={new URL('/rss.xml', Astro.site)} />
@@ -30,11 +47,24 @@ const jetonAnalytics = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     <meta property="og:url" content={urlCanonique} />
     <meta property="og:site_name" content="Bresnik" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:image" content={urlImage} />
+    {imageParDefaut && <meta property="og:image:width" content="1200" />}
+    {imageParDefaut && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--police-titres" preload />
+    <Font cssVariable="--police-texte" preload />
+    <Font cssVariable="--police-technique" />
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen bg-papier font-texte text-encre">
+    <a
+      href="#contenu"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-bouton focus:bg-cobalt focus:px-4 focus:py-2 focus:font-semibold focus:text-blanc"
+    >
+      Aller au contenu
+    </a>
     <Header />
-    <main class="mx-auto max-w-(--largeur-contenu) px-4 py-8">
+    <main id="contenu">
       <slot />
     </main>
     <Footer />
