@@ -1,0 +1,27 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  action: string;
+  libelle?: string;
+  placeholder?: string;
+  class?: string;
+}
+
+const { action, libelle = 'Rechercher', placeholder = 'Rechercher un article', class: classe = '' } = Astro.props;
+---
+<form role="search" action={action} method="get" class={`flex items-stretch gap-2 ${classe}`}>
+  <label for="champ-recherche" class="sr-only">{libelle}</label>
+  <input
+    id="champ-recherche"
+    type="search"
+    name="q"
+    placeholder={placeholder}
+    autocomplete="off"
+    class="h-12 w-full rounded-bouton border-[1.5px] border-ligne bg-blanc px-3.5 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt"
+  />
+  <button type="submit" class="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-bouton bg-cobalt px-4 text-[15px] font-semibold text-blanc transition-colors duration-150 hover:bg-cobalt-fonce">
+    <Icone nom="fleche" taille={16} />
+    <span class="sr-only md:not-sr-only">{libelle}</span>
+  </button>
+</form>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import Alerte from '../components/Alerte.astro';
+---
+<Base titre="Maintenance en cours" description="Le site est en maintenance et revient très vite." noindex>
+  <EnTetePage eyebrow="Maintenance" titre="Le site revient très vite" sousTitre="Une mise à jour est en cours. Les pages seront de nouveau disponibles dans quelques minutes." />
+  <div class="conteneur pb-16 md:pb-20">
+    <Alerte ton="information" titre="Besoin d'un contact urgent ?" class="max-w-[640px]">
+      Les demandes de démonstration reprendront dès la fin de la maintenance. Merci de votre patience.
+    </Alerte>
+  </div>
+</Base>

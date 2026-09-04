@@ -1,0 +1,32 @@
+---
+import Champ from './Champ.astro';
+import Choix from './Choix.astro';
+import Bouton from './Bouton.astro';
+
+interface Props {
+  titre?: string;
+  texte?: string;
+  /** Tant qu'aucun service d'envoi n'est branché, le bouton reste désactivé. */
+  actif?: boolean;
+  class?: string;
+}
+
+const {
+  titre = 'Recevoir les nouveautés',
+  texte = 'Un message à chaque nouvelle version ou nouvel article, pas plus.',
+  actif = false,
+  class: classe = '',
+} = Astro.props;
+---
+<form id="formulaire-abonnement" method="post" action="/api/abonnement" class={`flex flex-col gap-4 rounded-carte border border-ligne bg-blanc p-6 ${classe}`}>
+  <div class="flex flex-col gap-1">
+    <p class="font-titres text-[22px] font-semibold">{titre}</p>
+    <p class="text-[15px] text-encre-2">{texte}</p>
+  </div>
+  <div class="flex flex-col gap-3 md:flex-row md:items-end">
+    <div class="grow"><Champ nom="abonnement-email" libelle="Email" type="email" requis autocomplete="email" /></div>
+    <Bouton type="submit" desactive={!actif} class="max-md:w-full">S'abonner</Bouton>
+  </div>
+  <Choix nom="abonnement-consentement" valeur="oui" libelle="J'accepte de recevoir les nouveautés Bresnik par email. Désabonnement possible à tout moment." requis />
+  {!actif && <p id="etat-abonnement" class="text-[14px] text-encre-2" role="status">L'abonnement sera activé prochainement.</p>}
+</form>

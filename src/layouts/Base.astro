@@ -3,6 +3,8 @@ import '../styles/global.css';
 import { Font } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BandeauAnnonce from '../components/BandeauAnnonce.astro';
+import { annonce } from '../config/site';
 
 interface Props {
   titre: string;
@@ -63,6 +65,7 @@ const jetonAnalytics = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     >
       Aller au contenu
     </a>
+    {annonce && <BandeauAnnonce texte={annonce.texte} href={annonce.href} libelle={annonce.libelle} />}
     <Header />
     <main id="contenu">
       <slot />

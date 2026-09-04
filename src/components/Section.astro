@@ -1,0 +1,20 @@
+---
+interface Props {
+  fond?: 'papier' | 'papier-2' | 'encre';
+  id?: string;
+  'aria-labelledby'?: string;
+  class?: string;
+}
+
+const { fond = 'papier', id, 'aria-labelledby': etiquetePar, class: classe = '' } = Astro.props;
+const fonds = {
+  papier: 'bg-papier text-encre',
+  'papier-2': 'bg-papier-2 text-encre',
+  encre: 'bg-encre text-blanc',
+};
+---
+<section id={id} aria-labelledby={etiquetePar} class={`${fonds[fond]} ${classe}`}>
+  <div class="conteneur py-10 md:py-22">
+    <slot />
+  </div>
+</section>

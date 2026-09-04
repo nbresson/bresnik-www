@@ -16,8 +16,8 @@ même modification et coché ici.
 | [x] | Fil d'Ariane | V/A | 1 | Existe en dur sur la fiche produit. |
 | [x] | Lien avec flèche (`LienFleche`, sens aller/retour) | V/A | 1 | Six occurrences à absorber. |
 | [x] | Pagination | V/A | 1 | Blog dès la deuxième page. |
-| [ ] | Table des matières d'article | V | 2 | |
-| [ ] | Ancres de section, retour en haut | V | 2 | |
+| [x] | Table des matières d'article | V | 2 | |
+| [x] | Ancres de section, retour en haut | V | 2 | Lien « Retour en haut » dans le pied de page ; les sections ont déjà des identifiants. |
 | [ ] | Onglets | A | 3 | Parfois V (fiche produit à volets). |
 | [ ] | Menu latéral d'application (actif, replié, groupes) | A | 3 | |
 | [ ] | Menu déroulant, menu contextuel | A | 3 | |
@@ -29,17 +29,17 @@ même modification et coché ici.
 |---|---|---|---|---|
 | [x] | Démonstration du texte enrichi (`prose`) : listes, citations, tableaux, code, images légendées | V | 1 | |
 | [x] | Accordéon / FAQ | V/A | 1 | `details`/`summary` natif. |
-| [ ] | Citation, témoignage client | V | 2 | |
-| [ ] | Logos clients ou partenaires | V | 2 | |
-| [ ] | Chiffres clés | V | 2 | |
-| [ ] | Tableau comparatif | V | 2 | |
+| [x] | Citation, témoignage client | V | 2 | |
+| [x] | Logos clients ou partenaires | V | 2 | |
+| [x] | Chiffres clés | V | 2 | |
+| [x] | Tableau comparatif | V | 2 | |
 | [ ] | Grille tarifaire | V | 2 | Quand les prix seront publics. |
-| [ ] | Chronologie (versions, feuille de route) | V | 2 | |
-| [ ] | Étapes numérotées « comment ça marche » | V | 2 | |
+| [x] | Chronologie (versions, feuille de route) | V | 2 | |
+| [x] | Étapes numérotées « comment ça marche » | V | 2 | |
 | [x] | Bloc de code, raccourci clavier `kbd` | V/A | 2 | Blog technique, aide. |
-| [ ] | Image légendée, galerie avec agrandissement | V | 2 | |
-| [ ] | Vidéo intégrée avec vignette | V | 2 | |
-| [ ] | Séparateur, espaceur | V/A | 2 | |
+| [x] | Image légendée, galerie avec agrandissement | V | 2 | Agrandissement par ouverture de l'image, sans visionneuse. |
+| [x] | Vidéo intégrée avec vignette | V | 2 | Lecteur natif, emplacement sans source. |
+| [x] | Séparateur, espaceur | V/A | 2 | |
 
 ## Retour d'information et états
 
@@ -49,11 +49,11 @@ même modification et coché ici.
 | [x] | État vide avec action suggérée | V/A | 1 | Deux versions ad hoc aujourd'hui. |
 | [ ] | Toast / notification éphémère | A | 3 | |
 | [ ] | État de chargement : squelette, spinner, barre | A | 3 | |
-| [ ] | Pages d'erreur 500 et maintenance | V/A | 2 | 404 existe. |
+| [x] | Pages d'erreur 500 et maintenance | V/A | 2 | 404 existe. |
 | [ ] | Badge de compteur | A | 3 | |
 | [ ] | Indicateur de statut (point coloré) | A | 3 | |
-| [ ] | Info-bulle | V/A | 2 | |
-| [ ] | Bandeau d'annonce | V | 2 | |
+| [x] | Info-bulle | V/A | 2 | |
+| [x] | Bandeau d'annonce | V | 2 | |
 
 ## Formulaires
 
@@ -63,8 +63,8 @@ même modification et coché ici.
 | [x] | Case à cocher, bouton radio, groupes avec légende | V/A | 1 | Consentement du formulaire de contact. |
 | [x] | Groupe de champs `fieldset` | V/A | 2 | `GroupeChoix`. |
 | [x] | Bouton de chargement (envoi en cours) | V/A | 1 | Formulaire de contact. |
-| [ ] | Champ recherche | V/A | 2 | Blog, puis applications. |
-| [ ] | Formulaire d'abonnement à une lettre | V | 2 | |
+| [x] | Champ recherche | V/A | 2 | Composant seul, sans moteur de recherche. |
+| [x] | Formulaire d'abonnement à une lettre | V | 2 | Composant seul, envoi désactivé. |
 | [ ] | Interrupteur oui/non | A | 3 | |
 | [ ] | Champ mot de passe, indicateur de robustesse | A | 3 | |
 | [ ] | Champ numérique, date, heure | A | 3 | |
@@ -78,7 +78,7 @@ même modification et coché ici.
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
 | [ ] | Tableau de données (tri, zébrage, nombres alignés, actions, sélection) | A | 3 | Aussi V pour les comparatifs. |
-| [ ] | Liste de définitions générique | V/A | 2 | La fiche technique en est un cas. |
+| [x] | Liste de définitions générique | V/A | 2 | La fiche technique en est un cas. |
 | [ ] | Carte de statistique | A | 3 | |
 | [ ] | Barre d'outils de liste (recherche, filtres, tri, actions) | A | 3 | |
 | [ ] | Filtres actifs en pastilles | A | 3 | |
@@ -92,7 +92,7 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Menu mobile montré sur la charte | V | 2 | Existe dans l'en-tête. |
+| [ ] | Menu mobile montré sur la charte | V | 2 | Existe dans l'en-tête ; l'afficher sur la charte dupliquerait ses identifiants, à traiter avec une prop de préfixe si besoin. |
 | [ ] | Fenêtre modale (focus piégé) | A | 3 | |
 | [ ] | Panneau latéral coulissant | A | 3 | |
 | [ ] | Boîte de confirmation | A | 3 | |
@@ -101,10 +101,10 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Conteneurs et grilles de référence, points de rupture | V/A | 2 | |
-| [ ] | Sections pleine largeur `papier-2` et sombre en gabarits | V | 2 | |
-| [ ] | Colonne latérale collante | V/A | 2 | |
-| [ ] | Gabarit d'email transactionnel | V/A | 2 | Confirmation de contact. |
+| [x] | Conteneurs et grilles de référence, points de rupture | V/A | 2 | |
+| [x] | Sections pleine largeur `papier-2` et sombre en gabarits | V | 2 | |
+| [x] | Colonne latérale collante | V/A | 2 | |
+| [ ] | Gabarit d'email transactionnel | V/A | 2 | Confirmation de contact ; à faire avec le plan du formulaire. |
 | [ ] | Gabarit d'écran d'application | A | 3 | |
 | [ ] | En-tête de page d'application | A | 3 | |
 | [ ] | Gabarit d'authentification | A | 3 | |

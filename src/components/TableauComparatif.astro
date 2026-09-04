@@ -1,0 +1,43 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  legende: string;
+  colonnes: string[];
+  lignes: { libelle: string; valeurs: (boolean | string)[] }[];
+  class?: string;
+}
+
+const { legende, colonnes, lignes, class: classe = '' } = Astro.props;
+---
+<div class={`overflow-x-auto rounded-carte border border-ligne bg-blanc ${classe}`}>
+  <table class="w-full border-collapse text-[15px]">
+    <caption class="sr-only">{legende}</caption>
+    <thead>
+      <tr class="border-b-2 border-encre">
+        <th scope="col" class="px-4 py-3 text-left font-semibold"><span class="sr-only">Critère</span></th>
+        {colonnes.map((colonne) => (
+          <th scope="col" class="px-4 py-3 text-center font-titres text-[17px] font-semibold">{colonne}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {lignes.map((ligne) => (
+        <tr class="border-b border-ligne last:border-b-0">
+          <th scope="row" class="px-4 py-3 text-left font-semibold">{ligne.libelle}</th>
+          {ligne.valeurs.map((valeur) => (
+            <td class="px-4 py-3 text-center">
+              {valeur === true ? (
+                <span class="inline-flex items-center justify-center"><Icone nom="coche" taille={20} class="text-cobalt" /><span class="sr-only">Oui</span></span>
+              ) : valeur === false ? (
+                <span class="text-encre-2" aria-hidden="true">—</span><span class="sr-only">Non</span>
+              ) : (
+                valeur
+              )}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
