@@ -6,10 +6,14 @@ Site vitrine de la marque Bresnik (Astro, statique, Cloudflare Workers).
 
     npm install
     npm run dev        # http://localhost:4321
+    cp .env.example .env               # clé de site Turnstile (test)
+    cp .dev.vars.example .dev.vars     # secrets du Worker en local
+    npm run cf:dev                     # site + Worker sur http://localhost:8788
 
 ## Vérifier
 
     npm run check      # types et schémas de contenu
+    npm run check:worker   # types du Worker
     npm test           # tests unitaires
     npm run build      # génère dist/
     npm run verifier-liens   # liens internes de dist/ (après build)
