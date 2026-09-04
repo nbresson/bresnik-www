@@ -1,0 +1,22 @@
+---
+import Alerte from './Alerte.astro';
+
+interface Props {
+  erreurs: { champ: string; message: string }[];
+  id?: string;
+}
+
+const { erreurs, id = 'resume-erreurs' } = Astro.props;
+const titre = erreurs.length === 1 ? 'Un champ est à corriger' : `${erreurs.length} champs sont à corriger`;
+---
+{erreurs.length > 0 && (
+  <div id={id} tabindex="-1">
+    <Alerte ton="erreur" titre={titre}>
+      <ul class="flex flex-col gap-1">
+        {erreurs.map((erreur) => (
+          <li><a href={`#champ-${erreur.champ}`} class="text-erreur underline underline-offset-[3px]">{erreur.message}</a></li>
+        ))}
+      </ul>
+    </Alerte>
+  </div>
+)}

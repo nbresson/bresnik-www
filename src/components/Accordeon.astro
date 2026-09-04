@@ -1,0 +1,23 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  elements: { titre: string; contenu: string }[];
+  /** Nom commun : un seul volet ouvert à la fois. */
+  nom?: string;
+  class?: string;
+}
+
+const { elements, nom, class: classe = '' } = Astro.props;
+---
+<div class={`flex flex-col divide-y divide-ligne rounded-carte border border-ligne bg-blanc ${classe}`}>
+  {elements.map((element) => (
+    <details name={nom} class="group">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-[17px] font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
+        {element.titre}
+        <Icone nom="chevron" taille={20} class="shrink-0 text-cobalt transition-transform duration-150 group-open:rotate-180" />
+      </summary>
+      <p class="px-5 pb-5 text-[16px] leading-[1.55] text-encre-2">{element.contenu}</p>
+    </details>
+  ))}
+</div>

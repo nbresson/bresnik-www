@@ -1,0 +1,20 @@
+---
+import Bouton from './Bouton.astro';
+
+interface Props {
+  titre: string;
+  texte?: string;
+  actionHref?: string;
+  actionLibelle?: string;
+  class?: string;
+}
+
+const { titre, texte, actionHref, actionLibelle, class: classe = '' } = Astro.props;
+---
+<div class={`flex flex-col items-center gap-3 rounded-carte border border-dashed border-ligne bg-blanc px-6 py-10 text-center ${classe}`}>
+  <p class="font-titres text-[22px] font-semibold">{titre}</p>
+  {texte && <p class="max-w-[480px] text-[16px] leading-[1.5] text-encre-2">{texte}</p>}
+  {actionHref && actionLibelle && (
+    <Bouton href={actionHref} variante="secondaire" taille="compact" class="mt-2">{actionLibelle}</Bouton>
+  )}
+</div>

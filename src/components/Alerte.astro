@@ -1,0 +1,32 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  ton?: 'information' | 'succes' | 'avertissement' | 'erreur';
+  titre?: string;
+  id?: string;
+  class?: string;
+}
+
+const { ton = 'information', titre, id, class: classe = '' } = Astro.props;
+const tons = {
+  information: { classes: 'border-cobalt bg-cobalt-teinte', icone: 'information' as const, role: 'status' as const },
+  succes: { classes: 'border-succes bg-succes-teinte', icone: 'coche' as const, role: 'status' as const },
+  avertissement: { classes: 'border-ambre bg-ambre-teinte', icone: 'avertissement' as const, role: 'status' as const },
+  erreur: { classes: 'border-erreur bg-erreur-teinte', icone: 'erreur' as const, role: 'alert' as const },
+};
+const couleursIcone = {
+  information: 'text-cobalt',
+  succes: 'text-succes',
+  avertissement: 'text-ambre',
+  erreur: 'text-erreur',
+};
+const config = tons[ton];
+---
+<div role={config.role} id={id} class={`flex gap-3 rounded-carte border-l-4 border border-ligne bg-blanc px-4 py-3.5 text-encre ${config.classes} ${classe}`}>
+  <Icone nom={config.icone} taille={22} class={`mt-0.5 shrink-0 ${couleursIcone[ton]}`} />
+  <div class="flex flex-col gap-1 text-[16px] leading-[1.5]">
+    {titre && <p class="font-semibold">{titre}</p>}
+    <div><slot /></div>
+  </div>
+</div>

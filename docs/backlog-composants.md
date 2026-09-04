@@ -13,9 +13,9 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Fil d'Ariane | V/A | 1 | Existe en dur sur la fiche produit. |
-| [ ] | Lien avec flèche (`LienFleche`, sens aller/retour) | V/A | 1 | Six occurrences à absorber. |
-| [ ] | Pagination | V/A | 1 | Blog dès la deuxième page. |
+| [x] | Fil d'Ariane | V/A | 1 | Existe en dur sur la fiche produit. |
+| [x] | Lien avec flèche (`LienFleche`, sens aller/retour) | V/A | 1 | Six occurrences à absorber. |
+| [x] | Pagination | V/A | 1 | Blog dès la deuxième page. |
 | [ ] | Table des matières d'article | V | 2 | |
 | [ ] | Ancres de section, retour en haut | V | 2 | |
 | [ ] | Onglets | A | 3 | Parfois V (fiche produit à volets). |
@@ -27,8 +27,8 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Démonstration du texte enrichi (`prose`) : listes, citations, tableaux, code, images légendées | V | 1 | |
-| [ ] | Accordéon / FAQ | V/A | 1 | `details`/`summary` natif. |
+| [x] | Démonstration du texte enrichi (`prose`) : listes, citations, tableaux, code, images légendées | V | 1 | |
+| [x] | Accordéon / FAQ | V/A | 1 | `details`/`summary` natif. |
 | [ ] | Citation, témoignage client | V | 2 | |
 | [ ] | Logos clients ou partenaires | V | 2 | |
 | [ ] | Chiffres clés | V | 2 | |
@@ -36,7 +36,7 @@ même modification et coché ici.
 | [ ] | Grille tarifaire | V | 2 | Quand les prix seront publics. |
 | [ ] | Chronologie (versions, feuille de route) | V | 2 | |
 | [ ] | Étapes numérotées « comment ça marche » | V | 2 | |
-| [ ] | Bloc de code, raccourci clavier `kbd` | V/A | 2 | Blog technique, aide. |
+| [x] | Bloc de code, raccourci clavier `kbd` | V/A | 2 | Blog technique, aide. |
 | [ ] | Image légendée, galerie avec agrandissement | V | 2 | |
 | [ ] | Vidéo intégrée avec vignette | V | 2 | |
 | [ ] | Séparateur, espaceur | V/A | 2 | |
@@ -45,8 +45,8 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Alerte : information, succès, avertissement, erreur | V/A | 1 | Nécessaire au formulaire de contact. |
-| [ ] | État vide avec action suggérée | V/A | 1 | Deux versions ad hoc aujourd'hui. |
+| [x] | Alerte : information, succès, avertissement, erreur | V/A | 1 | Nécessaire au formulaire de contact. |
+| [x] | État vide avec action suggérée | V/A | 1 | Deux versions ad hoc aujourd'hui. |
 | [ ] | Toast / notification éphémère | A | 3 | |
 | [ ] | État de chargement : squelette, spinner, barre | A | 3 | |
 | [ ] | Pages d'erreur 500 et maintenance | V/A | 2 | 404 existe. |
@@ -59,10 +59,10 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Message d'erreur de champ, `aria-invalid`, résumé d'erreurs | V/A | 1 | Nécessaire au formulaire de contact. |
-| [ ] | Case à cocher, bouton radio, groupes avec légende | V/A | 1 | Consentement du formulaire de contact. |
-| [ ] | Groupe de champs `fieldset` | V/A | 2 | |
-| [ ] | Bouton de chargement (envoi en cours) | V/A | 1 | Formulaire de contact. |
+| [x] | Message d'erreur de champ, `aria-invalid`, résumé d'erreurs | V/A | 1 | Nécessaire au formulaire de contact. |
+| [x] | Case à cocher, bouton radio, groupes avec légende | V/A | 1 | Consentement du formulaire de contact. |
+| [x] | Groupe de champs `fieldset` | V/A | 2 | `GroupeChoix`. |
+| [x] | Bouton de chargement (envoi en cours) | V/A | 1 | Formulaire de contact. |
 | [ ] | Champ recherche | V/A | 2 | Blog, puis applications. |
 | [ ] | Formulaire d'abonnement à une lettre | V | 2 | |
 | [ ] | Interrupteur oui/non | A | 3 | |
@@ -114,10 +114,10 @@ même modification et coché ici.
 
 | Fait | Élément | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | États focus, survol, actif montrés côte à côte | V/A | 1 | |
-| [ ] | Échelle d'espacements | V/A | 1 | |
-| [ ] | Rayons et ombre en pastilles | V/A | 1 | |
-| [ ] | Grille de contrastes avec ratios | V/A | 1 | |
-| [ ] | Mouvement : durée, courbe, `prefers-reduced-motion` | V/A | 1 | |
-| [ ] | Mention explicite de l'absence de mode sombre | V/A | 1 | |
+| [x] | États focus, survol, actif montrés côte à côte | V/A | 1 | |
+| [x] | Échelle d'espacements | V/A | 1 | |
+| [x] | Rayons et ombre en pastilles | V/A | 1 | |
+| [x] | Grille de contrastes avec ratios | V/A | 1 | |
+| [x] | Mouvement : durée, courbe, `prefers-reduced-motion` | V/A | 1 | |
+| [x] | Mention explicite de l'absence de mode sombre | V/A | 1 | |
 | [ ] | Bibliothèque d'icônes cohérente | A | 3 | Trois icônes aujourd'hui. |

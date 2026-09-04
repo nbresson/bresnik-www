@@ -15,6 +15,10 @@
   --color-cobalt-teinte: var(--couleur-cobalt-teinte);
   --color-ambre: var(--couleur-ambre);
   --color-ambre-teinte: var(--couleur-ambre-teinte);
+  --color-succes: var(--couleur-succes);
+  --color-succes-teinte: var(--couleur-succes-teinte);
+  --color-erreur: var(--couleur-erreur);
+  --color-erreur-teinte: var(--couleur-erreur-teinte);
 
   --font-titres: var(--police-titres);
   --font-texte: var(--police-texte);
@@ -53,6 +57,15 @@
   :focus-visible {
     outline: 2px solid var(--couleur-cobalt);
     outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 }
 

@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Etiquette from '../../components/Etiquette.astro';
+import FilAriane from '../../components/FilAriane.astro';
 import Bouton from '../../components/Bouton.astro';
 import ListeCoches from '../../components/ListeCoches.astro';
 import CadreCapture from '../../components/CadreCapture.astro';
@@ -24,9 +25,7 @@ const action = actionProduit(produit.data.disponibilite, produit.id);
 <Base titre={produit.data.nom} description={produit.data.accroche}>
   <header class="border-b border-ligne">
     <div class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
-      <nav aria-label="Fil d'Ariane" class="technique">
-        <a href="/produits/" class="text-encre-2 hover:text-cobalt underline underline-offset-[3px]">Produits</a> / {produit.data.nom}
-      </nav>
+      <FilAriane elements={[{ libelle: 'Produits', href: '/produits/' }, { libelle: produit.data.nom }]} />
       <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
       <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[60px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
       <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.4]">{produit.data.accroche}</p>

@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import EnTetePage from '../../../components/EnTetePage.astro';
-import Icone from '../../../components/Icone.astro';
+import LienFleche from '../../../components/LienFleche.astro';
 import CarteArticle from '../../../components/CarteArticle.astro';
 import { filtrerPublies, listerTags, trierParDate } from '../../../lib/blog';
 
@@ -22,9 +22,6 @@ const { tag, articles } = Astro.props;
     <div class="flex max-w-[760px] flex-col">
       {articles.map((article) => <CarteArticle article={article} niveauTitre="h2" />)}
     </div>
-    <a href="/blog/" class="inline-flex items-center gap-1.5 text-[16px] font-semibold">
-      <Icone nom="fleche" taille={16} class="rotate-180" />
-      Tous les articles
-    </a>
+    <LienFleche href="/blog/" sens="retour">Tous les articles</LienFleche>
   </div>
 </Base>
