@@ -1,0 +1,45 @@
+---
+import Icone from './Icone.astro';
+import { pagesAffichees } from '../lib/pagination';
+
+interface Props {
+  courante: number;
+  total: number;
+  lienPage: (page: number) => string;
+}
+
+const { courante, total, lienPage } = Astro.props;
+const elements = pagesAffichees(courante, total);
+const classeCase = 'inline-flex h-11 min-w-11 items-center justify-center rounded-bouton px-3 text-[15px] font-semibold transition-colors duration-150';
+const classeLien = `${classeCase} text-encre hover:bg-papier-2 hover:text-encre`;
+const classeInactif = `${classeCase} text-encre-2 opacity-60`;
+---
+{total > 1 && (
+  <nav aria-label="Pagination">
+    <ul class="flex flex-wrap items-center gap-1.5">
+      <li>
+        {courante > 1 ? (
+          <a href={lienPage(courante - 1)} class={classeLien} aria-label="Page précédente"><Icone nom="fleche" taille={16} class="rotate-180" /></a>
+        ) : (
+          <span class={classeInactif} aria-hidden="true"><Icone nom="fleche" taille={16} class="rotate-180" /></span>
+        )}
+      </li>
+      {elements.map((element) =>
+        element === 'ellipse' ? (
+          <li><span class={classeInactif} aria-hidden="true">…</span></li>
+        ) : element === courante ? (
+          <li><span class={`${classeCase} bg-cobalt text-blanc`} aria-current="page">{element}</span></li>
+        ) : (
+          <li><a href={lienPage(element)} class={classeLien} aria-label={`Page ${element}`}>{element}</a></li>
+        ),
+      )}
+      <li>
+        {courante < total ? (
+          <a href={lienPage(courante + 1)} class={classeLien} aria-label="Page suivante"><Icone nom="fleche" taille={16} /></a>
+        ) : (
+          <span class={classeInactif} aria-hidden="true"><Icone nom="fleche" taille={16} /></span>
+        )}
+      </li>
+    </ul>
+  </nav>
+)}

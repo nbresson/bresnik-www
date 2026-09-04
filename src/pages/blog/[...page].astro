@@ -1,0 +1,46 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
+import Etiquette from '../../components/Etiquette.astro';
+import CarteArticle from '../../components/CarteArticle.astro';
+import EtatVide from '../../components/EtatVide.astro';
+import Pagination from '../../components/Pagination.astro';
+import { filtrerPublies, listerTags, trierParDate } from '../../lib/blog';
+import { lienPageListe } from '../../lib/pagination';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV));
+  return paginate(articles, { pageSize: 10, props: { tags: listerTags(articles) } });
+}) satisfies GetStaticPaths;
+
+const { page, tags } = Astro.props;
+const titre = page.currentPage > 1 ? `Blog, page ${page.currentPage}` : 'Blog';
+---
+<Base titre={titre} description="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage.">
+  <EnTetePage eyebrow="Blog" titre="Retours de terrain sur Sage 100 et SQL Server." sousTitre="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage." />
+  <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
+    {tags.length > 0 && (
+      <ul class="flex flex-wrap gap-2" aria-label="Tags">
+        {tags.map((tag) => (
+          <li><a href={`/blog/tags/${tag}/`}><Etiquette ton="neutre" class="hover:text-cobalt">#{tag}</Etiquette></a></li>
+        ))}
+      </ul>
+    )}
+    {page.data.length === 0 ? (
+      <EtatVide
+        titre="Aucun article pour le moment"
+        texte="Les premiers retours de terrain arrivent bientôt. Abonnez-vous au flux RSS pour être prévenu."
+        actionHref="/rss.xml"
+        actionLibelle="Flux RSS"
+        class="max-w-[760px]"
+      />
+    ) : (
+      <div class="flex max-w-[760px] flex-col">
+        {page.data.map((article) => <CarteArticle article={article} niveauTitre="h2" />)}
+      </div>
+    )}
+    <Pagination courante={page.currentPage} total={page.lastPage} lienPage={(numero) => lienPageListe('/blog/', numero)} />
+  </div>
+</Base>

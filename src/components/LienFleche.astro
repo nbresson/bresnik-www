@@ -1,0 +1,18 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  href: string;
+  sens?: 'aller' | 'retour';
+  ton?: 'cobalt' | 'blanc';
+  class?: string;
+}
+
+const { href, sens = 'aller', ton = 'cobalt', class: classe = '' } = Astro.props;
+const couleur = ton === 'blanc' ? 'text-blanc hover:text-encre-claire' : '';
+---
+<a href={href} class={`inline-flex items-center gap-1.5 text-[16px] font-semibold ${couleur} ${classe}`}>
+  {sens === 'retour' && <Icone nom="fleche" taille={16} class="rotate-180" />}
+  <slot />
+  {sens === 'aller' && <Icone nom="fleche" taille={16} />}
+</a>

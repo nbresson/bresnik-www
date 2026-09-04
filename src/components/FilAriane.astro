@@ -1,0 +1,21 @@
+---
+interface Props {
+  elements: { libelle: string; href?: string }[];
+}
+
+const { elements } = Astro.props;
+---
+<nav aria-label="Fil d'Ariane" class="technique">
+  <ol class="flex flex-wrap items-center gap-2">
+    {elements.map((element, index) => (
+      <li class="flex items-center gap-2">
+        {index > 0 && <span aria-hidden="true">/</span>}
+        {element.href && index < elements.length - 1 ? (
+          <a href={element.href} class="text-encre-2 underline underline-offset-[3px] hover:text-cobalt">{element.libelle}</a>
+        ) : (
+          <span aria-current={index === elements.length - 1 ? 'page' : undefined}>{element.libelle}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

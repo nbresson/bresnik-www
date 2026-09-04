@@ -1,5 +1,5 @@
 ---
-import Icone from './Icone.astro';
+import LienFleche from './LienFleche.astro';
 
 interface Props {
   id: string;
@@ -17,9 +17,6 @@ const { id, eyebrow, titre, lienHref, lienLibelle } = Astro.props;
     <h2 id={id} class="text-[28px] font-bold leading-[1.12] md:text-[40px] md:leading-[1.1]">{titre}</h2>
   </div>
   {lienHref && lienLibelle && (
-    <a href={lienHref} class="inline-flex items-center gap-1.5 text-[16px] font-semibold">
-      {lienLibelle}
-      <Icone nom="fleche" taille={16} />
-    </a>
+    <LienFleche href={lienHref}>{lienLibelle}</LienFleche>
   )}
 </div>

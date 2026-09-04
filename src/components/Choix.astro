@@ -1,0 +1,35 @@
+---
+interface Props {
+  type?: 'case' | 'radio';
+  nom: string;
+  valeur: string;
+  libelle: string;
+  coche?: boolean;
+  requis?: boolean;
+  desactive?: boolean;
+  aide?: string;
+}
+
+const { type = 'case', nom, valeur, libelle, coche = false, requis = false, desactive = false, aide } = Astro.props;
+const identifiant = `choix-${nom}-${valeur}`;
+const identifiantAide = aide ? `${identifiant}-aide` : undefined;
+---
+<div class="flex items-start gap-3">
+  <input
+    id={identifiant}
+    type={type === 'case' ? 'checkbox' : 'radio'}
+    name={nom}
+    value={valeur}
+    checked={coche}
+    required={requis}
+    disabled={desactive}
+    aria-describedby={identifiantAide}
+    class="mt-0.5 size-5 shrink-0 accent-cobalt disabled:opacity-60"
+  />
+  <div class="flex flex-col gap-0.5">
+    <label for={identifiant} class={`text-[16px] leading-[1.45] ${desactive ? 'text-encre-2' : ''}`}>
+      {libelle}{requis && <span aria-hidden="true"> *</span>}
+    </label>
+    {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+  </div>
+</div>

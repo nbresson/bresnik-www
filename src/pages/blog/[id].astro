@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Icone from '../../components/Icone.astro';
+import LienFleche from '../../components/LienFleche.astro';
 import { filtrerPublies } from '../../lib/blog';
 import { dateIso, formaterDate } from '../../lib/dates';
 
@@ -36,10 +36,7 @@ const { Content } = await render(article);
           ))}
         </ul>
       )}
-      <a href="/blog/" class="inline-flex items-center gap-1.5 text-[16px] font-semibold">
-        <Icone nom="fleche" taille={16} class="rotate-180" />
-        Tous les articles
-      </a>
+      <LienFleche href="/blog/" sens="retour">Tous les articles</LienFleche>
     </div>
   </article>
 </Base>

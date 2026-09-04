@@ -7,27 +7,33 @@ interface Props extends Omit<HTMLAttributes<'input'>, 'type'> {
   libelle: string;
   requis?: boolean;
   aide?: string;
+  erreur?: string;
   options?: { valeur: string; libelle: string }[];
   lignes?: number;
 }
 
-const { type = 'text', nom, libelle, requis = false, aide, options = [], lignes = 6, ...attributs } = Astro.props;
+const { type = 'text', nom, libelle, requis = false, aide, erreur, options = [], lignes = 6, ...attributs } = Astro.props;
 const identifiant = `champ-${nom}`;
 const identifiantAide = aide ? `${identifiant}-aide` : undefined;
-const classeControle = 'w-full rounded-bouton border-[1.5px] border-ligne bg-blanc px-3.5 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt';
+const identifiantErreur = erreur ? `${identifiant}-erreur` : undefined;
+const decritPar = [identifiantErreur, identifiantAide].filter(Boolean).join(' ') || undefined;
+const invalide = erreur ? 'true' : undefined;
+const bordure = erreur ? 'border-erreur' : 'border-ligne';
+const classeControle = `w-full rounded-bouton border-[1.5px] ${bordure} bg-blanc px-3.5 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt`;
 ---
 <div class="flex flex-col gap-1.5">
   <label for={identifiant} class="text-[14px] font-semibold">
     {libelle}{requis && <span aria-hidden="true"> *</span>}
   </label>
   {type === 'zone' ? (
-    <textarea id={identifiant} name={nom} required={requis} rows={lignes} aria-describedby={identifiantAide} class={`${classeControle} py-3`} {...attributs}></textarea>
+    <textarea id={identifiant} name={nom} required={requis} rows={lignes} aria-describedby={decritPar} aria-invalid={invalide} class={`${classeControle} py-3`} {...attributs}></textarea>
   ) : type === 'liste' ? (
-    <select id={identifiant} name={nom} required={requis} aria-describedby={identifiantAide} class={`${classeControle} h-12`} {...attributs}>
+    <select id={identifiant} name={nom} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={`${classeControle} h-12`} {...attributs}>
       {options.map((option) => <option value={option.valeur}>{option.libelle}</option>)}
     </select>
   ) : (
-    <input id={identifiant} name={nom} type={type} required={requis} aria-describedby={identifiantAide} class={`${classeControle} h-12`} {...attributs} />
+    <input id={identifiant} name={nom} type={type} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={`${classeControle} h-12`} {...attributs} />
   )}
+  {erreur && <p id={identifiantErreur} class="text-[14px] font-semibold text-erreur">{erreur}</p>}
   {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
 </div>

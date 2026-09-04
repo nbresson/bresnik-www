@@ -15,6 +15,12 @@
   --couleur-ambre: #8f620f;
   --couleur-ambre-teinte: #fbf1dd;
 
+  /* Couleurs sémantiques, réservées aux alertes et aux erreurs de formulaire. */
+  --couleur-succes: #1e6b45;
+  --couleur-succes-teinte: #e4f3ea;
+  --couleur-erreur: #b42318;
+  --couleur-erreur-teinte: #fbe9e7;
+
   --ombre-capture: 0 24px 48px -32px rgb(28 35 49 / 0.35);
 
   --rayon-bouton: 6px;

@@ -2,7 +2,7 @@
 // Page de charte vivante : chaque exemple est le vrai composant avec des
 // données d'exemple. Non indexée, hors sitemap, jamais liée depuis la
 // navigation. Ajouter ici tout nouveau composant (règle de la spec design).
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icone from '../components/Icone.astro';
 import Marque from '../components/Marque.astro';
@@ -17,8 +17,18 @@ import CarteArticle from '../components/CarteArticle.astro';
 import CadreCapture from '../components/CadreCapture.astro';
 import FicheTechnique from '../components/FicheTechnique.astro';
 import Champ from '../components/Champ.astro';
+import Alerte from '../components/Alerte.astro';
+import ResumeErreurs from '../components/ResumeErreurs.astro';
+import Choix from '../components/Choix.astro';
+import GroupeChoix from '../components/GroupeChoix.astro';
+import FilAriane from '../components/FilAriane.astro';
+import LienFleche from '../components/LienFleche.astro';
+import Accordeon from '../components/Accordeon.astro';
+import EtatVide from '../components/EtatVide.astro';
+import Pagination from '../components/Pagination.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
+import { ratioContraste } from '../lib/contraste';
 
 const produits = await produitsPublies();
 const produitEntreprise = produits.find((p) => p.data.cible === 'entreprise') ?? produits[0];
@@ -26,6 +36,11 @@ const produitConsultant = produits.find((p) => p.data.cible === 'consultant') ??
 const produitEssai = { ...produitEntreprise, data: { ...produitEntreprise.data, disponibilite: 'essai' as const } };
 // Un brouillon lierait vers une page de tag absente du build : seuls les articles publiés servent d'exemple.
 const article = filtrerPublies(await getCollection('blog'), import.meta.env.DEV)[0];
+const exempleTexte = await getEntry('pages', 'exemple-texte-enrichi');
+if (!exempleTexte) {
+  throw new Error('Contenu d\'exemple introuvable : pages/exemple-texte-enrichi');
+}
+const { Content: TexteEnrichi } = await render(exempleTexte);
 
 const couleurs = [
   { nom: 'papier', classe: 'bg-papier', valeur: '#faf8f4', usage: 'Fond de page' },
@@ -40,7 +55,17 @@ const couleurs = [
   { nom: 'cobalt-teinte', classe: 'bg-cobalt-teinte', valeur: '#e6ecfa', usage: 'Fond étiquette entreprises' },
   { nom: 'ambre', classe: 'bg-ambre', valeur: '#8f620f', usage: 'Texte étiquette consultants' },
   { nom: 'ambre-teinte', classe: 'bg-ambre-teinte', valeur: '#fbf1dd', usage: 'Fond étiquette consultants' },
+  { nom: 'succes', classe: 'bg-succes', valeur: '#1e6b45', usage: 'Alertes de succès' },
+  { nom: 'succes-teinte', classe: 'bg-succes-teinte', valeur: '#e4f3ea', usage: 'Fond des alertes de succès' },
+  { nom: 'erreur', classe: 'bg-erreur', valeur: '#b42318', usage: 'Erreurs de formulaire, alertes' },
+  { nom: 'erreur-teinte', classe: 'bg-erreur-teinte', valeur: '#fbe9e7', usage: 'Fond des alertes d\'erreur' },
 ];
+const valeurCouleur = (nom: string) => couleurs.find((c) => c.nom === nom)?.valeur ?? '#000000';
+const couplesContraste = [
+  ['encre', 'papier'], ['encre-2', 'papier'], ['cobalt', 'papier'], ['blanc', 'cobalt'],
+  ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'], ['encre-claire', 'encre'],
+  ['succes', 'succes-teinte'], ['erreur', 'erreur-teinte'], ['erreur', 'blanc'],
+].map(([texte, fond]) => ({ texte, fond, ratio: ratioContraste(valeurCouleur(texte), valeurCouleur(fond)) }));
 
 const typographie = [
   { nom: 'titre-1', classe: 'font-titres text-[38px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]', exemple: 'Des logiciels qui complètent Sage 100.' },
@@ -54,11 +79,32 @@ const typographie = [
   { nom: 'technique', classe: 'technique', exemple: 'Sage 100 Comptabilité · Windows (WPF)' },
 ];
 
+const espacements = [
+  { valeur: 4, classe: 'w-1' }, { valeur: 8, classe: 'w-2' }, { valeur: 12, classe: 'w-3' }, { valeur: 16, classe: 'w-4' },
+  { valeur: 20, classe: 'w-5' }, { valeur: 24, classe: 'w-6' }, { valeur: 28, classe: 'w-7' }, { valeur: 32, classe: 'w-8' },
+  { valeur: 40, classe: 'w-10' }, { valeur: 88, classe: 'w-22' },
+];
+const rayons = [
+  { nom: 'bouton', classe: 'rounded-bouton', valeur: '6 px' }, { nom: 'carte', classe: 'rounded-carte', valeur: '8 px' },
+  { nom: 'cadre', classe: 'rounded-cadre', valeur: '10 px' }, { nom: 'bande', classe: 'rounded-bande', valeur: '12 px' },
+  { nom: 'étiquette', classe: 'rounded-full', valeur: '999 px' },
+];
+
 const domaines = ['Paramétrage et migration Sage 100', 'Administration SQL Server', 'Objets métiers Sage', 'Reporting'];
 const optionsListe = [
   { valeur: '', libelle: 'Aucun produit en particulier' },
   ...produits.map((p) => ({ valeur: p.id, libelle: p.data.nom })),
 ];
+const faq = [
+  { titre: 'Faut-il une licence Sage particulière ?', contenu: 'Non. Les produits s\'appuient sur votre installation Sage 100 existante et, pour certains, sur les Objets métiers Sage déjà présents.' },
+  { titre: 'Les logiciels fonctionnent-ils sur un serveur distant ?', contenu: 'Oui, ce sont des applications Windows classiques, utilisables sur un poste ou en session distante.' },
+  { titre: 'Comment se passe une démonstration ?', contenu: 'Trente minutes en visioconférence sur votre cas, sans engagement, après une demande via le formulaire de contact.' },
+];
+const erreursExemple = [
+  { champ: 'charte-nom-erreur', message: 'Le nom doit compter au moins deux caractères.' },
+  { champ: 'charte-email-erreur', message: 'L\'adresse email n\'est pas valide.' },
+];
+const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2 rounded-bouton px-6 text-[17px] font-semibold';
 ---
 <Base titre="Charte" description="Catalogue des composants et des fondations visuelles du site Bresnik." noindex>
   <header class="conteneur flex flex-col gap-4 pb-10 pt-10 md:pb-14 md:pt-14">
@@ -67,13 +113,22 @@ const optionsListe = [
     <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]">
       Chaque exemple est le composant réel du site avec des données d'exemple. Page non indexée. Testez les états de focus au clavier avec la touche Tab.
     </p>
+    <nav aria-label="Sommaire" class="flex flex-wrap gap-x-4 gap-y-2 text-[15px]">
+      <a href="#charte-couleurs" class="underline underline-offset-[3px]">Couleurs</a>
+      <a href="#charte-typo" class="underline underline-offset-[3px]">Typographie</a>
+      <a href="#charte-fondations" class="underline underline-offset-[3px]">Espacements, rayons, mouvement</a>
+      <a href="#charte-etats" class="underline underline-offset-[3px]">États</a>
+      <a href="#charte-composants" class="underline underline-offset-[3px]">Composants</a>
+      <a href="#charte-formulaires" class="underline underline-offset-[3px]">Formulaires</a>
+      <a href="#charte-texte" class="underline underline-offset-[3px]">Texte enrichi</a>
+    </nav>
   </header>
 
   <div class="conteneur flex flex-col gap-16 pb-16 md:gap-20 md:pb-20">
 
     <section aria-labelledby="charte-couleurs" class="flex flex-col gap-6">
       <h2 id="charte-couleurs" class="text-[24px] font-bold md:text-[30px]">Couleurs</h2>
-      <ul class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+      <ul class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
         {couleurs.map((c) => (
           <li class="flex flex-col gap-2">
             <span class={`block h-16 rounded-carte border border-ligne ${c.classe}`}></span>
@@ -83,6 +138,30 @@ const optionsListe = [
           </li>
         ))}
       </ul>
+      <h3 class="text-[20px] font-semibold">Contrastes</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full max-w-[720px] border-collapse text-[15px]">
+          <thead>
+            <tr class="border-b-2 border-encre text-left">
+              <th scope="col" class="py-2 pr-4 font-semibold">Texte</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Fond</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Ratio</th>
+              <th scope="col" class="py-2 font-semibold">AA texte normal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {couplesContraste.map((couple) => (
+              <tr class="border-b border-ligne">
+                <td class="py-2 pr-4 technique">{couple.texte}</td>
+                <td class="py-2 pr-4 technique">{couple.fond}</td>
+                <td class="py-2 pr-4 font-semibold">{couple.ratio.toFixed(1).replace('.', ',')}</td>
+                <td class="py-2">{couple.ratio >= 4.5 ? 'Conforme' : 'Non conforme'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-[15px] text-encre-2">Le site a un seul rendu, clair : aucun mode sombre n'est prévu, les composants ne le gèrent pas.</p>
     </section>
 
     <section aria-labelledby="charte-typo" class="flex flex-col gap-6">
@@ -97,95 +176,236 @@ const optionsListe = [
       </dl>
     </section>
 
-    <section aria-labelledby="charte-icones" class="flex flex-col gap-6">
-      <h2 id="charte-icones" class="text-[24px] font-bold md:text-[30px]">Icônes et marque</h2>
-      <div class="flex flex-wrap items-center gap-8 rounded-carte border border-ligne bg-blanc p-6">
-        <span class="flex items-center gap-2"><Icone nom="fleche" taille={24} /><span class="technique">fleche</span></span>
-        <span class="flex items-center gap-2"><Icone nom="coche" taille={24} class="text-cobalt" /><span class="technique">coche</span></span>
-        <span class="flex items-center gap-2"><Icone nom="menu" taille={24} /><span class="technique">menu</span></span>
-        <span class="flex items-center gap-3"><Marque /><span class="technique">marque en-tete</span></span>
-        <span class="flex items-center gap-3"><Marque taille="pied" /><span class="technique">marque pied</span></span>
+    <section aria-labelledby="charte-fondations" class="flex flex-col gap-6">
+      <h2 id="charte-fondations" class="text-[24px] font-bold md:text-[30px]">Espacements, rayons, ombre, mouvement</h2>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
+          <h3 class="text-[18px] font-semibold">Espacements</h3>
+          <ul class="flex flex-col gap-2">
+            {espacements.map((e) => (
+              <li class="flex items-center gap-3">
+                <span class={`block h-3 rounded-[2px] bg-cobalt ${e.classe}`}></span>
+                <span class="technique">{e.valeur} px</span>
+              </li>
+            ))}
+          </ul>
+          <p class="text-[14px] text-encre-2">Sections : 88 à 96 px en desktop, 40 px en mobile. Cartes : 28 px, 20 px en mobile.</p>
+        </div>
+        <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
+          <h3 class="text-[18px] font-semibold">Rayons et ombre</h3>
+          <ul class="flex flex-wrap gap-4">
+            {rayons.map((r) => (
+              <li class="flex flex-col items-center gap-1.5">
+                <span class={`block size-14 border-[1.5px] border-encre bg-papier ${r.classe}`}></span>
+                <span class="technique">{r.nom} · {r.valeur}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="mt-2 flex items-center gap-4">
+            <span class="block h-14 w-24 rounded-cadre border border-ligne bg-blanc shadow-capture"></span>
+            <span class="text-[14px] text-encre-2">Ombre unique, réservée aux cadres de capture.</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
+          <h3 class="text-[18px] font-semibold">Mouvement</h3>
+          <p class="text-[15px] leading-[1.5]">Transitions de couleur et de rotation en 150 ms, courbe par défaut. Aucune animation d'entrée. Quand le système demande moins de mouvement (<span class="technique">prefers-reduced-motion</span>), toutes les transitions sont neutralisées par la feuille globale.</p>
+          <a href="#charte-fondations" class="self-start rounded-bouton bg-papier-2 px-3 py-2 text-[15px] font-semibold text-encre transition-colors duration-150 hover:bg-ligne">Survolez pour voir la transition</a>
+        </div>
       </div>
     </section>
 
-    <section aria-labelledby="charte-boutons" class="flex flex-col gap-6">
-      <h2 id="charte-boutons" class="text-[24px] font-bold md:text-[30px]">Boutons</h2>
+    <section aria-labelledby="charte-etats" class="flex flex-col gap-6">
+      <h2 id="charte-etats" class="text-[24px] font-bold md:text-[30px]">États</h2>
+      <p class="text-[15px] text-encre-2">Reproduction statique des états, pour comparer sans manipuler. Les vrais états s'observent sur les composants plus bas.</p>
       <div class="flex flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6">
-        <div class="flex flex-wrap items-center gap-3">
-          <Bouton href="/contact/" fleche>Primaire avec flèche</Bouton>
-          <Bouton href="/produits/" variante="secondaire">Secondaire</Bouton>
-          <Bouton href="/contact/" taille="compact">Compact</Bouton>
-          <Bouton type="button" desactive aria-describedby="charte-mention">Désactivé</Bouton>
-          <span id="charte-mention" class="technique">Bientôt disponible</span>
+        <div class="flex flex-col gap-3">
+          <h3 class="text-[18px] font-semibold">Bouton primaire</h3>
+          <div class="flex flex-wrap items-end gap-6">
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} bg-cobalt text-blanc`}>Normal</span><span class="technique">normal</span></div>
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} bg-cobalt-fonce text-blanc`}>Survol</span><span class="technique">survol</span></div>
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} bg-cobalt text-blanc outline-2 outline-offset-2 outline-cobalt`}>Focus</span><span class="technique">focus clavier</span></div>
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} bg-cobalt text-blanc opacity-60`}>Désactivé</span><span class="technique">désactivé</span></div>
+          </div>
         </div>
-        <div class="rounded-carte bg-encre p-6">
-          <Bouton href="/contact/" variante="inverse" fleche>Inverse sur fond encre</Bouton>
+        <div class="flex flex-col gap-3">
+          <h3 class="text-[18px] font-semibold">Bouton secondaire</h3>
+          <div class="flex flex-wrap items-end gap-6">
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} border-[1.5px] border-encre text-encre`}>Normal</span><span class="technique">normal</span></div>
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} border-[1.5px] border-encre bg-papier-2 text-encre`}>Survol</span><span class="technique">survol</span></div>
+            <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} border-[1.5px] border-encre text-encre outline-2 outline-offset-2 outline-cobalt`}>Focus</span><span class="technique">focus clavier</span></div>
+          </div>
         </div>
-        <div class="max-w-[360px]">
-          <Bouton href="/contact/" plein>Pleine largeur</Bouton>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="charte-etiquettes" class="flex flex-col gap-6">
-      <h2 id="charte-etiquettes" class="text-[24px] font-bold md:text-[30px]">Étiquettes</h2>
-      <div class="flex flex-wrap items-center gap-3 rounded-carte border border-ligne bg-blanc p-6">
-        <Etiquette ton="cobalt">Entreprises</Etiquette>
-        <Etiquette ton="ambre">Consultants Sage</Etiquette>
-        <Etiquette ton="neutre">#sql-server</Etiquette>
-      </div>
-    </section>
-
-    <section aria-labelledby="charte-entetes" class="flex flex-col gap-6">
-      <h2 id="charte-entetes" class="text-[24px] font-bold md:text-[30px]">En-tête de section</h2>
-      <div class="rounded-carte border border-ligne bg-blanc p-6">
-        <EnTeteSection id="charte-exemple-section" eyebrow="Eyebrow" titre="Titre de section avec lien" lienHref="/produits/" lienLibelle="Lien de section" />
-      </div>
-    </section>
-
-    <section aria-labelledby="charte-listes" class="flex flex-col gap-6">
-      <h2 id="charte-listes" class="text-[24px] font-bold md:text-[30px]">Liste à coches</h2>
-      <div class="grid gap-6 lg:grid-cols-2">
-        <ListeCoches elements={domaines.slice(0, 2)} />
-        <ListeCoches elements={domaines} colonnes={2} />
-      </div>
-    </section>
-
-    <section aria-labelledby="charte-cartes" class="flex flex-col gap-6">
-      <h2 id="charte-cartes" class="text-[24px] font-bold md:text-[30px]">Cartes</h2>
-      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        <CarteProduit produit={produitEntreprise} />
-        <CarteProduit produit={produitConsultant} />
-        <CarteAppel />
-      </div>
-      {article ? (
-        <div class="max-w-[760px]">
-          <CarteArticle article={article} />
-        </div>
-      ) : (
-        <p class="technique">Carte d'article : visible dès qu'un article est publié.</p>
-      )}
-    </section>
-
-    <section aria-labelledby="charte-produit" class="flex flex-col gap-6">
-      <h2 id="charte-produit" class="text-[24px] font-bold md:text-[30px]">Cadre de capture et fiche technique</h2>
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)]">
-        <CadreCapture titre="Fenêtre d'application" />
-        <div class="flex flex-col gap-6">
-          <FicheTechnique produit={produitEntreprise} />
-          <FicheTechnique produit={produitEssai} />
+        <div class="flex flex-col gap-3">
+          <h3 class="text-[18px] font-semibold">Lien dans un texte</h3>
+          <div class="flex flex-wrap items-end gap-6 text-[17px]">
+            <div class="flex flex-col items-center gap-2"><span class="text-cobalt underline underline-offset-[3px]">Normal</span><span class="technique">normal</span></div>
+            <div class="flex flex-col items-center gap-2"><span class="text-cobalt-fonce underline underline-offset-[3px]">Survol</span><span class="technique">survol</span></div>
+            <div class="flex flex-col items-center gap-2"><span class="text-cobalt underline underline-offset-[3px] outline-2 outline-offset-2 outline-cobalt">Focus</span><span class="technique">focus clavier</span></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="charte-champs" class="flex flex-col gap-6">
-      <h2 id="charte-champs" class="text-[24px] font-bold md:text-[30px]">Champs de formulaire</h2>
-      <form class="flex max-w-[640px] flex-col gap-5 rounded-carte border border-ligne bg-blanc p-6" onsubmit="return false">
+    <section aria-labelledby="charte-composants" class="flex flex-col gap-10">
+      <h2 id="charte-composants" class="text-[24px] font-bold md:text-[30px]">Composants</h2>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Icônes et marque</h3>
+        <div class="flex flex-wrap items-center gap-6 rounded-carte border border-ligne bg-blanc p-6">
+          {(['fleche', 'coche', 'menu', 'information', 'avertissement', 'erreur', 'chevron', 'chargement'] as const).map((nom) => (
+            <span class="flex items-center gap-2"><Icone nom={nom} taille={24} class={nom === 'coche' ? 'text-cobalt' : ''} /><span class="technique">{nom}</span></span>
+          ))}
+          <span class="flex items-center gap-3"><Marque /><span class="technique">marque en-tete</span></span>
+          <span class="flex items-center gap-3"><Marque taille="pied" /><span class="technique">marque pied</span></span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Boutons</h3>
+        <div class="flex flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6">
+          <div class="flex flex-wrap items-center gap-3">
+            <Bouton href="/contact/" fleche>Primaire avec flèche</Bouton>
+            <Bouton href="/produits/" variante="secondaire">Secondaire</Bouton>
+            <Bouton href="/contact/" taille="compact">Compact</Bouton>
+            <Bouton type="button" desactive aria-describedby="charte-mention">Désactivé</Bouton>
+            <span id="charte-mention" class="technique">Bientôt disponible</span>
+            <Bouton type="button" chargement>Envoi en cours</Bouton>
+          </div>
+          <div class="rounded-carte bg-encre p-6">
+            <Bouton href="/contact/" variante="inverse" fleche>Inverse sur fond encre</Bouton>
+          </div>
+          <div class="max-w-[360px]">
+            <Bouton href="/contact/" plein>Pleine largeur</Bouton>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Liens avec flèche et fil d'Ariane</h3>
+        <div class="flex flex-col gap-5 rounded-carte border border-ligne bg-blanc p-6">
+          <div class="flex flex-wrap items-center gap-6">
+            <LienFleche href="/produits/">Lien aller</LienFleche>
+            <LienFleche href="/blog/" sens="retour">Lien retour</LienFleche>
+            <span class="rounded-carte bg-encre px-4 py-3"><LienFleche href="/contact/" ton="blanc">Sur fond encre</LienFleche></span>
+          </div>
+          <FilAriane elements={[{ libelle: 'Produits', href: '/produits/' }, { libelle: 'BankBridge' }]} />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Étiquettes</h3>
+        <div class="flex flex-wrap items-center gap-3 rounded-carte border border-ligne bg-blanc p-6">
+          <Etiquette ton="cobalt">Entreprises</Etiquette>
+          <Etiquette ton="ambre">Consultants Sage</Etiquette>
+          <Etiquette ton="neutre">#sql-server</Etiquette>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Alertes</h3>
+        <div class="flex flex-col gap-3">
+          <Alerte ton="information" titre="Information">Le formulaire de contact sera activé prochainement.</Alerte>
+          <Alerte ton="succes" titre="Message envoyé">Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.</Alerte>
+          <Alerte ton="avertissement" titre="Vérifiez vos informations">Le produit sélectionné ne correspond pas à votre module Sage.</Alerte>
+          <Alerte ton="erreur" titre="Envoi impossible">Une erreur est survenue. Réessayez dans quelques minutes.</Alerte>
+          <Alerte>Alerte sans titre, ton information par défaut.</Alerte>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">En-tête de section</h3>
+        <div class="rounded-carte border border-ligne bg-blanc p-6">
+          <EnTeteSection id="charte-exemple-section" eyebrow="Eyebrow" titre="Titre de section avec lien" lienHref="/produits/" lienLibelle="Lien de section" />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Liste à coches</h3>
+        <div class="grid gap-6 lg:grid-cols-2">
+          <ListeCoches elements={domaines.slice(0, 2)} />
+          <ListeCoches elements={domaines} colonnes={2} />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Accordéon (FAQ)</h3>
+        <Accordeon elements={faq} nom="charte-faq" class="max-w-[760px]" />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Cartes</h3>
+        <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <CarteProduit produit={produitEntreprise} />
+          <CarteProduit produit={produitConsultant} />
+          <CarteAppel />
+        </div>
+        {article ? (
+          <div class="max-w-[760px]">
+            <CarteArticle article={article} />
+          </div>
+        ) : (
+          <p class="technique">Carte d'article : visible dès qu'un article est publié.</p>
+        )}
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">État vide et pagination</h3>
+        <EtatVide
+          titre="Aucun résultat"
+          texte="Essayez un autre mot-clé ou parcourez le catalogue."
+          actionHref="/produits/"
+          actionLibelle="Voir les produits"
+          class="max-w-[760px]"
+        />
+        <Pagination courante={5} total={10} lienPage={(numero) => `#page-${numero}`} />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Cadre de capture et fiche technique</h3>
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)]">
+          <CadreCapture titre="Fenêtre d'application" />
+          <div class="flex flex-col gap-6">
+            <FicheTechnique produit={produitEntreprise} />
+            <FicheTechnique produit={produitEssai} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-formulaires" class="flex flex-col gap-6">
+      <h2 id="charte-formulaires" class="text-[24px] font-bold md:text-[30px]">Formulaires</h2>
+      <form class="flex max-w-[640px] flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6" onsubmit="return false">
+        <ResumeErreurs erreurs={erreursExemple} id="charte-resume-erreurs" />
         <Champ nom="charte-nom" libelle="Texte" requis aide="Texte d'aide sous le champ." />
-        <Champ nom="charte-email" libelle="Email" type="email" />
+        <Champ nom="charte-nom-erreur" libelle="Texte en erreur" requis erreur="Le nom doit compter au moins deux caractères." value="A" />
+        <Champ nom="charte-email-erreur" libelle="Email en erreur" type="email" erreur="L'adresse email n'est pas valide." value="nicolas@" />
         <Champ nom="charte-liste" libelle="Liste" type="liste" options={optionsListe} />
         <Champ nom="charte-zone" libelle="Zone de texte" type="zone" lignes={3} />
+        <GroupeChoix id="charte-cases" legende="Cases à cocher" aide="Plusieurs choix possibles.">
+          <Choix nom="charte-cases" valeur="compta" libelle="Sage 100 Comptabilité" coche />
+          <Choix nom="charte-cases" valeur="gescom" libelle="Sage 100 Gestion commerciale" />
+          <Choix nom="charte-cases" valeur="paie" libelle="Sage 100 Paie" desactive aide="Non concerné par les produits actuels." />
+        </GroupeChoix>
+        <GroupeChoix id="charte-radios" legende="Boutons radio" requis erreur="Choisissez une option.">
+          <Choix type="radio" nom="charte-radios" valeur="demo" libelle="Demander une démonstration" />
+          <Choix type="radio" nom="charte-radios" valeur="question" libelle="Poser une question" />
+        </GroupeChoix>
+        <GroupeChoix id="charte-consentement" legende="Consentement" requis>
+          <Choix nom="charte-consentement" valeur="oui" libelle="J'accepte que mes informations servent à répondre à ma demande." requis />
+        </GroupeChoix>
+        <div class="flex flex-wrap gap-3">
+          <Bouton type="submit" desactive>Envoyer</Bouton>
+          <Bouton type="button" chargement>Envoi en cours</Bouton>
+        </div>
       </form>
+    </section>
+
+    <section aria-labelledby="charte-texte" class="flex flex-col gap-6">
+      <h2 id="charte-texte" class="text-[24px] font-bold md:text-[30px]">Texte enrichi</h2>
+      <p class="text-[15px] text-encre-2">Rendu du Markdown des pages éditoriales et des articles, avec la classe <span class="technique">prose</span>.</p>
+      <div class="prose prose-lg max-w-[720px] rounded-carte border border-ligne bg-blanc p-6 md:p-8">
+        <TexteEnrichi />
+      </div>
     </section>
 
     <section aria-labelledby="charte-bande" class="flex flex-col gap-6">

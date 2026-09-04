@@ -1,0 +1,22 @@
+---
+interface Props {
+  legende: string;
+  aide?: string;
+  erreur?: string;
+  requis?: boolean;
+  id: string;
+}
+
+const { legende, aide, erreur, requis = false, id } = Astro.props;
+const identifiantAide = aide ? `${id}-aide` : undefined;
+const identifiantErreur = erreur ? `${id}-erreur` : undefined;
+const decritPar = [identifiantErreur, identifiantAide].filter(Boolean).join(' ') || undefined;
+---
+<fieldset id={id} aria-describedby={decritPar} aria-invalid={erreur ? 'true' : undefined} class="flex flex-col gap-3 border-0 p-0">
+  <legend class="mb-1 text-[14px] font-semibold">
+    {legende}{requis && <span aria-hidden="true"> *</span>}
+  </legend>
+  <slot />
+  {erreur && <p id={identifiantErreur} class="text-[14px] font-semibold text-erreur">{erreur}</p>}
+  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+</fieldset>

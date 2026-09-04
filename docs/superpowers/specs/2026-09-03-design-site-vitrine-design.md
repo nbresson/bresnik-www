@@ -62,6 +62,10 @@ Tailwind 4 par `@theme` dans `src/styles/global.css`, afin d'écrire
 | `cobalt-teinte` | `#e6ecfa` | Fond de l'étiquette entreprises, lignes surlignées. |
 | `ambre` | `#8f620f` | Texte de l'étiquette consultants. |
 | `ambre-teinte` | `#fbf1dd` | Fond de l'étiquette consultants. |
+| `succes` | `#1e6b45` | Alertes de succès (ajouté le 2026-09-04). |
+| `succes-teinte` | `#e4f3ea` | Fond des alertes de succès. |
+| `erreur` | `#b42318` | Erreurs de formulaire et alertes d'erreur (ajouté le 2026-09-04). |
+| `erreur-teinte` | `#fbe9e7` | Fond des alertes d'erreur. |
 
 Contrastes vérifiés (WCAG AA texte normal, ratio minimal 4,5) : `encre` sur
 `papier` 14,8 ; `encre-2` sur `papier` 6,8 ; `cobalt` sur `papier` 6,6 ;
@@ -305,6 +309,25 @@ désactivé et message d'état, inchangés dans leur comportement.
 - Premiers articles de blog. La section « Derniers articles » de l'accueil
   reste masquée tant qu'aucun n'est publié.
 - Informations légales (déjà listées dans la spécification amont).
+
+## 3 bis. Composants ajoutés le 2026-09-04
+
+| Composant | Fichier | Rôle et règles |
+|---|---|---|
+| Alerte | `Alerte.astro` | Props `ton` (`information`, `succes`, `avertissement`, `erreur`), `titre?`, `id?`. Bordure gauche et fond teintés, icône du ton, `role="status"` sauf `erreur` en `role="alert"`. Sans fermeture : elle viendra avec le script du formulaire. |
+| Résumé d'erreurs | `ResumeErreurs.astro` | Prop `erreurs: { champ, message }[]` ; alerte d'erreur focalisable (`tabindex="-1"`) listant des liens vers `#champ-<nom>`. Rien n'est rendu sans erreur. |
+| Champ en erreur | `Champ.astro` | Prop `erreur?` : bordure `erreur`, `aria-invalid`, message sous le champ relié par `aria-describedby` avant le texte d'aide. |
+| Choix | `Choix.astro` | Case (`type="case"`, défaut) ou radio ; contrôle natif 20 px coloré par `accent-color` cobalt ; props `nom`, `valeur`, `libelle`, `coche?`, `requis?`, `desactive?`, `aide?`. |
+| Groupe de choix | `GroupeChoix.astro` | `fieldset` et `legend`, props `id`, `legende`, `aide?`, `erreur?`, `requis?`. |
+| Bouton en chargement | `Bouton.astro` | Prop `chargement` : désactivé, `aria-busy`, icône `chargement` en rotation, flèche masquée. |
+| Fil d'Ariane | `FilAriane.astro` | Prop `elements: { libelle, href? }[]` ; `nav` « Fil d'Ariane », dernier élément `aria-current="page"`, liens soulignés. |
+| Lien avec flèche | `LienFleche.astro` | Props `href`, `sens` (`aller`, `retour`), `ton` (`cobalt`, `blanc`). Remplace toutes les répétitions. |
+| Accordéon | `Accordeon.astro` | `details`/`summary` natifs, sans script ; props `elements: { titre, contenu }[]`, `nom?` (un seul volet ouvert). Chevron cobalt tourné à l'ouverture. |
+| État vide | `EtatVide.astro` | Bordure pointillée, titre, texte, bouton secondaire compact facultatif. Utilisé par le blog vide. |
+| Pagination | `Pagination.astro` | Props `courante`, `total`, `lienPage(n)`. Première, dernière, courante et voisines, ellipses ; précédent et suivant ; cases 44 px ; masquée quand une seule page. Le blog pagine par 10 (`/blog/`, `/blog/2/`…). |
+| Icônes | `Icone.astro` | Ajout de `information`, `avertissement`, `erreur`, `chevron`, `chargement`. |
+
+Mouvement : `prefers-reduced-motion: reduce` neutralise toutes les transitions et animations (feuille globale).
 
 ## 8 bis. Charte vivante
 
