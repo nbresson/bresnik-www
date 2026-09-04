@@ -1,0 +1,43 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  id: string;
+  titre: string;
+  /** Sans déclencheur intégré quand omis : ouvrir avec `data-ouvre-dialogue="<id>"`. */
+  libelleOuverture?: string;
+  /** Panneau latéral droit au lieu d'une modale centrée. */
+  lateral?: boolean;
+  class?: string;
+}
+
+const { id, titre, libelleOuverture, lateral = false, class: classe = '' } = Astro.props;
+const classeDialogue = lateral
+  ? 'm-0 ml-auto h-full max-h-none w-full max-w-[440px] rounded-none border-l border-ligne'
+  : 'm-auto w-[min(560px,calc(100vw-2rem))] rounded-cadre border border-ligne';
+---
+{libelleOuverture && (
+  <button type="button" data-ouvre-dialogue={id} class="inline-flex h-11 items-center gap-2 rounded-bouton border-[1.5px] border-encre px-[18px] text-[15px] font-semibold text-encre transition-colors duration-150 hover:bg-papier-2">
+    {libelleOuverture}
+  </button>
+)}
+<dialog id={id} aria-labelledby={`${id}-titre`} data-ferme-arriere-plan class={`bg-blanc p-0 text-encre shadow-capture backdrop:bg-encre/50 ${classeDialogue} ${classe}`}>
+  <div class="flex max-h-[85vh] flex-col">
+    <div class="flex items-center justify-between gap-4 border-b border-ligne px-6 py-4">
+      <h2 id={`${id}-titre`} class="text-[20px] font-bold">{titre}</h2>
+      <button type="button" data-ferme-dialogue aria-label="Fermer" class="inline-flex size-10 items-center justify-center rounded-bouton text-encre-2 hover:bg-papier-2 hover:text-encre"><Icone nom="fermer" taille={20} /></button>
+    </div>
+    <div class="grow overflow-y-auto px-6 py-5 text-[16px] leading-[1.5]">
+      <slot />
+    </div>
+    <div class="flex flex-wrap justify-end gap-3 border-t border-ligne px-6 py-4">
+      <slot name="actions">
+        <button type="button" data-ferme-dialogue class="inline-flex h-11 items-center rounded-bouton bg-cobalt px-[18px] text-[15px] font-semibold text-blanc transition-colors duration-150 hover:bg-cobalt-fonce">Fermer</button>
+      </slot>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import '../../scripts/dialogues';
+</script>

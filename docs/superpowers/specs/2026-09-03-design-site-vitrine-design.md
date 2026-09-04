@@ -379,6 +379,25 @@ Elles seront transposées dans la pile des applications le moment venu.
 | Impression | `global.css` | `@media print` : habillage masqué, noir sur blanc, ombres retirées, adresses des liens externes. |
 | Icônes | `Icone.astro` | Vingt-six icônes d'application ajoutées, tracés en ligne, grille 24. |
 
+## 3 quinquies. Composants d'application interactifs (lot 4, 2026-09-04)
+
+Éléments personnalisés (`bk-*`) avec un script natif minimal, sans bibliothèque,
+définis une fois par page ; tout est utilisable au clavier.
+
+| Composant | Fichier | Rôle et règles |
+|---|---|---|
+| Onglets | `Onglets.astro` | Motif ARIA tabs : `tablist`, `tab` avec `aria-selected`, `tabpanel` ; flèches, Début, Fin. Panneaux par emplacements nommés. |
+| Menu déroulant | `MenuDeroulant.astro` | Bouton `aria-haspopup="menu"` et `aria-expanded`, liste `role="menu"` ; flèches, Début, Fin, Échap, fermeture au clic extérieur ; variante icône seule pour le menu contextuel ; élément `danger` en erreur. |
+| Indicateur d'étapes | `IndicateurEtapes.astro` | Étapes faites, courante (`aria-current="step"`) et à venir, état lu par les lecteurs d'écran. |
+| Interrupteur | `Interrupteur.astro` | `role="switch"` avec `aria-checked`, champ caché `oui`/`non`, événement `bk-bascule`. |
+| Mot de passe | `ChampMotDePasse.astro` | Bouton d'affichage `aria-pressed`, robustesse en quatre segments et libellé (`evaluerRobustesse`, testé), zone `aria-live`. |
+| Téléversement | `Televersement.astro` | Zone de dépôt liée au champ fichier natif, liste des fichiers avec taille et retrait, glisser-déposer. |
+| Sélecteur à recherche | `SelecteurRecherche.astro` | Motif combobox : filtre au clavier, `aria-activedescendant`, sélection simple ou multiple en puces, champs cachés pour le formulaire, événement `bk-selection`. |
+| Modale et panneau latéral | `Modale.astro` | `dialog` natif (`showModal`) : focus piégé, Échap, arrière-plan cliquable ; prop `lateral` pour le panneau coulissant. Ouverture par `data-ouvre-dialogue`. |
+| Confirmation | `BoiteConfirmation.astro` | `dialog` en `alertdialog`, formulaire `method="dialog"`, événement `bk-confirmation` avec `confirme` ; variante `danger`. |
+| Notifications | `Notifications.astro`, `scripts/notifications.ts` | Zone `role="status"` en bas à droite, `window.bkNotifier({ texte, ton, duree })` ou attribut `data-notifier`, fermeture manuelle, retrait automatique. |
+| Tableau de données | `TableauDonnees.astro` | Tri côté client par colonne (`comparerValeurs`, testé, nombres à la française), `aria-sort` mis à jour, case d'en-tête pour tout sélectionner avec état indéterminé. |
+
 ## 8 bis. Charte vivante
 
 Ajouté le 2026-09-04. La page `/charte/` présente les couleurs, la

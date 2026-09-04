@@ -18,10 +18,10 @@ même modification et coché ici.
 | [x] | Pagination | V/A | 1 | Blog dès la deuxième page. |
 | [x] | Table des matières d'article | V | 2 | |
 | [x] | Ancres de section, retour en haut | V | 2 | Lien « Retour en haut » dans le pied de page ; les sections ont déjà des identifiants. |
-| [ ] | Onglets | A | 3 | Parfois V (fiche produit à volets). |
+| [x] | Onglets | A | 3 | Parfois V (fiche produit à volets). |
 | [x] | Menu latéral d'application (actif, replié, groupes) | A | 3 | |
-| [ ] | Menu déroulant, menu contextuel | A | 3 | |
-| [ ] | Étapes d'un parcours, progression | A | 3 | |
+| [x] | Menu déroulant, menu contextuel | A | 3 | |
+| [x] | Étapes d'un parcours, progression | A | 3 | |
 
 ## Contenu et typographie
 
@@ -47,7 +47,7 @@ même modification et coché ici.
 |---|---|---|---|---|
 | [x] | Alerte : information, succès, avertissement, erreur | V/A | 1 | Nécessaire au formulaire de contact. |
 | [x] | État vide avec action suggérée | V/A | 1 | Deux versions ad hoc aujourd'hui. |
-| [ ] | Toast / notification éphémère | A | 3 | |
+| [x] | Toast / notification éphémère | A | 3 | |
 | [x] | État de chargement : squelette, spinner, barre | A | 3 | |
 | [x] | Pages d'erreur 500 et maintenance | V/A | 2 | 404 existe. |
 | [x] | Badge de compteur | A | 3 | |
@@ -65,11 +65,11 @@ même modification et coché ici.
 | [x] | Bouton de chargement (envoi en cours) | V/A | 1 | Formulaire de contact. |
 | [x] | Champ recherche | V/A | 2 | Composant seul, sans moteur de recherche. |
 | [x] | Formulaire d'abonnement à une lettre | V | 2 | Composant seul, envoi désactivé. |
-| [ ] | Interrupteur oui/non | A | 3 | |
-| [ ] | Champ mot de passe, indicateur de robustesse | A | 3 | |
+| [x] | Interrupteur oui/non | A | 3 | |
+| [x] | Champ mot de passe, indicateur de robustesse | A | 3 | |
 | [x] | Champ numérique, date, heure | A | 3 | |
-| [ ] | Téléversement de fichier, zone de dépôt | A | 3 | Fichiers FEC, extraits. |
-| [ ] | Sélecteur à recherche, sélection multiple | A | 3 | |
+| [x] | Téléversement de fichier, zone de dépôt | A | 3 | Fichiers FEC, extraits. |
+| [x] | Sélecteur à recherche, sélection multiple | A | 3 | |
 | [x] | Champ avec préfixe ou suffixe | A | 3 | Montants, pourcentages. |
 | [x] | Bouton icône seule, groupe de boutons | A | 3 | |
 
@@ -77,7 +77,7 @@ même modification et coché ici.
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [x] | Tableau de données (tri, zébrage, nombres alignés, actions, sélection) | A | 3 | Statique ; le tri côté client est au lot interactif. |
+| [x] | Tableau de données (tri, zébrage, nombres alignés, actions, sélection) | A | 3 | Tri côté client et sélection globale inclus. |
 | [x] | Liste de définitions générique | V/A | 2 | La fiche technique en est un cas. |
 | [x] | Carte de statistique | A | 3 | |
 | [x] | Barre d'outils de liste (recherche, filtres, tri, actions) | A | 3 | |
@@ -93,9 +93,9 @@ même modification et coché ici.
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
 | [ ] | Menu mobile montré sur la charte | V | 2 | Existe dans l'en-tête ; l'afficher sur la charte dupliquerait ses identifiants, à traiter avec une prop de préfixe si besoin. |
-| [ ] | Fenêtre modale (focus piégé) | A | 3 | |
-| [ ] | Panneau latéral coulissant | A | 3 | |
-| [ ] | Boîte de confirmation | A | 3 | |
+| [x] | Fenêtre modale (focus piégé) | A | 3 | |
+| [x] | Panneau latéral coulissant | A | 3 | |
+| [x] | Boîte de confirmation | A | 3 | |
 
 ## Gabarits et mise en page
 

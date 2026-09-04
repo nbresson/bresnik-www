@@ -1,0 +1,81 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  nom: string;
+  libelle: string;
+  requis?: boolean;
+  aide?: string;
+  autocomplete?: 'current-password' | 'new-password';
+  avecRobustesse?: boolean;
+}
+
+const { nom, libelle, requis = false, aide, autocomplete = 'current-password', avecRobustesse = false } = Astro.props;
+const identifiant = `champ-${nom}`;
+const identifiantAide = aide ? `${identifiant}-aide` : undefined;
+const identifiantRobustesse = avecRobustesse ? `${identifiant}-robustesse` : undefined;
+const decritPar = [identifiantRobustesse, identifiantAide].filter(Boolean).join(' ') || undefined;
+---
+<bk-mot-de-passe class="flex flex-col gap-1.5">
+  <label for={identifiant} class="text-[14px] font-semibold">{libelle}{requis && <span aria-hidden="true"> *</span>}</label>
+  <div class="relative">
+    <input
+      id={identifiant}
+      name={nom}
+      type="password"
+      required={requis}
+      autocomplete={autocomplete}
+      aria-describedby={decritPar}
+      class="h-12 w-full rounded-bouton border-[1.5px] border-ligne bg-blanc pl-3.5 pr-12 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt"
+    />
+    <button type="button" aria-pressed="false" aria-label="Afficher le mot de passe" class="absolute right-1 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-bouton text-encre-2 hover:bg-papier-2 hover:text-cobalt">
+      <Icone nom="oeil" taille={20} class="icone-afficher" />
+      <Icone nom="oeil-barre" taille={20} class="icone-masquer hidden" />
+    </button>
+  </div>
+  {avecRobustesse && (
+    <div id={identifiantRobustesse} class="flex flex-col gap-1.5" aria-live="polite">
+      <div class="grid grid-cols-4 gap-1" aria-hidden="true">
+        <span data-segment class="h-1.5 rounded-full bg-ligne"></span>
+        <span data-segment class="h-1.5 rounded-full bg-ligne"></span>
+        <span data-segment class="h-1.5 rounded-full bg-ligne"></span>
+        <span data-segment class="h-1.5 rounded-full bg-ligne"></span>
+      </div>
+      <p class="text-[14px] text-encre-2">Robustesse : <span data-libelle>Vide</span>. Huit caractères, une majuscule, un chiffre, un symbole.</p>
+    </div>
+  )}
+  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+</bk-mot-de-passe>
+
+<script>
+  import { evaluerRobustesse } from '../../lib/robustesse';
+
+  class MotDePasse extends HTMLElement {
+    connectedCallback() {
+      const champ = this.querySelector<HTMLInputElement>('input');
+      const bouton = this.querySelector<HTMLButtonElement>('button');
+      if (!champ || !bouton) return;
+      bouton.addEventListener('click', () => {
+        const afficher = champ.type === 'password';
+        champ.type = afficher ? 'text' : 'password';
+        bouton.setAttribute('aria-pressed', String(afficher));
+        bouton.setAttribute('aria-label', afficher ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+        this.querySelector('.icone-afficher')?.classList.toggle('hidden', afficher);
+        this.querySelector('.icone-masquer')?.classList.toggle('hidden', !afficher);
+      });
+      const segments = Array.from(this.querySelectorAll<HTMLElement>('[data-segment]'));
+      const libelle = this.querySelector<HTMLElement>('[data-libelle]');
+      if (segments.length === 0 || !libelle) return;
+      const couleurs = ['bg-erreur', 'bg-erreur', 'bg-ambre', 'bg-cobalt', 'bg-succes'];
+      champ.addEventListener('input', () => {
+        const { score, libelle: texte } = evaluerRobustesse(champ.value);
+        libelle.textContent = texte;
+        segments.forEach((segment, index) => {
+          segment.classList.remove('bg-ligne', 'bg-erreur', 'bg-ambre', 'bg-cobalt', 'bg-succes');
+          segment.classList.add(index < score ? couleurs[score] : 'bg-ligne');
+        });
+      });
+    }
+  }
+  if (!customElements.get('bk-mot-de-passe')) customElements.define('bk-mot-de-passe', MotDePasse);
+</script>

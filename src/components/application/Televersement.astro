@@ -1,0 +1,85 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  nom: string;
+  libelle: string;
+  accept?: string;
+  multiple?: boolean;
+  aide?: string;
+  requis?: boolean;
+}
+
+const { nom, libelle, accept, multiple = false, aide, requis = false } = Astro.props;
+const identifiant = `champ-${nom}`;
+const identifiantAide = aide ? `${identifiant}-aide` : undefined;
+---
+<bk-televersement class="flex flex-col gap-2">
+  <span id={`${identifiant}-libelle`} class="text-[14px] font-semibold">{libelle}{requis && <span aria-hidden="true"> *</span>}</span>
+  <label
+    for={identifiant}
+    data-zone
+    class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-carte border-2 border-dashed border-ligne bg-blanc px-6 py-8 text-center transition-colors duration-150 hover:border-cobalt data-[survol]:border-cobalt data-[survol]:bg-cobalt-teinte"
+  >
+    <Icone nom="televerser" taille={28} class="text-cobalt" />
+    <span class="text-[16px] font-semibold">Glissez {multiple ? 'vos fichiers' : 'votre fichier'} ici ou cliquez pour parcourir</span>
+    {accept && <span class="technique">Formats acceptés : {accept}</span>}
+  </label>
+  <input id={identifiant} name={nom} type="file" accept={accept} multiple={multiple} required={requis} aria-labelledby={`${identifiant}-libelle`} aria-describedby={identifiantAide} class="sr-only" />
+  <ul data-liste class="flex flex-col gap-1.5 empty:hidden" aria-label="Fichiers sélectionnés"></ul>
+  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+</bk-televersement>
+
+<script>
+  class Televersement extends HTMLElement {
+    connectedCallback() {
+      const zone = this.querySelector<HTMLLabelElement>('[data-zone]');
+      const champ = this.querySelector<HTMLInputElement>('input[type="file"]');
+      const liste = this.querySelector<HTMLUListElement>('[data-liste]');
+      if (!zone || !champ || !liste) return;
+      const formaterTaille = (octets: number) =>
+        octets >= 1_000_000 ? `${(octets / 1_000_000).toFixed(1).replace('.', ',')} Mo` : `${Math.max(1, Math.round(octets / 1000))} Ko`;
+      const rendre = () => {
+        liste.replaceChildren();
+        Array.from(champ.files ?? []).forEach((fichier, index) => {
+          const element = document.createElement('li');
+          element.className = 'flex items-center gap-3 rounded-bouton border border-ligne bg-papier px-3 py-2 text-[14px]';
+          const nom = document.createElement('span');
+          nom.className = 'grow truncate';
+          nom.textContent = fichier.name;
+          const taille = document.createElement('span');
+          taille.className = 'technique shrink-0';
+          taille.textContent = formaterTaille(fichier.size);
+          const retirer = document.createElement('button');
+          retirer.type = 'button';
+          retirer.className = 'inline-flex size-8 shrink-0 items-center justify-center rounded-bouton text-encre-2 hover:bg-papier-2 hover:text-erreur';
+          retirer.setAttribute('aria-label', `Retirer ${fichier.name}`);
+          retirer.textContent = '×';
+          retirer.addEventListener('click', () => {
+            const transfert = new DataTransfer();
+            Array.from(champ.files ?? []).forEach((f, i) => { if (i !== index) transfert.items.add(f); });
+            champ.files = transfert.files;
+            rendre();
+          });
+          element.append(nom, taille, retirer);
+          liste.append(element);
+        });
+      };
+      champ.addEventListener('change', rendre);
+      zone.addEventListener('dragover', (evenement) => { evenement.preventDefault(); zone.setAttribute('data-survol', ''); });
+      zone.addEventListener('dragleave', () => zone.removeAttribute('data-survol'));
+      zone.addEventListener('drop', (evenement) => {
+        evenement.preventDefault();
+        zone.removeAttribute('data-survol');
+        const fichiers = evenement.dataTransfer?.files;
+        if (!fichiers || fichiers.length === 0) return;
+        const transfert = new DataTransfer();
+        const conserves = champ.multiple ? Array.from(champ.files ?? []) : [];
+        [...conserves, ...Array.from(fichiers).slice(0, champ.multiple ? undefined : 1)].forEach((f) => transfert.items.add(f));
+        champ.files = transfert.files;
+        rendre();
+      });
+    }
+  }
+  if (!customElements.get('bk-televersement')) customElements.define('bk-televersement', Televersement);
+</script>

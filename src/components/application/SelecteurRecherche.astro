@@ -1,0 +1,137 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  id: string;
+  nom: string;
+  libelle: string;
+  options: { valeur: string; libelle: string }[];
+  multiple?: boolean;
+  placeholder?: string;
+  aide?: string;
+}
+
+const { id, nom, libelle, options, multiple = false, placeholder = 'Rechercher…', aide } = Astro.props;
+const identifiantAide = aide ? `${id}-aide` : undefined;
+---
+<bk-selecteur class="flex flex-col gap-1.5" data-nom={nom} data-multiple={multiple ? '' : undefined}>
+  <label for={`${id}-entree`} class="text-[14px] font-semibold">{libelle}</label>
+  <div class="relative">
+    <div data-conteneur class="flex min-h-12 flex-wrap items-center gap-1.5 rounded-bouton border-[1.5px] border-ligne bg-blanc px-2 py-1 transition-colors duration-150 focus-within:border-cobalt">
+      <ul data-selection class="contents" aria-label="Sélection"></ul>
+      <input
+        id={`${id}-entree`}
+        type="text"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls={`${id}-liste`}
+        aria-autocomplete="list"
+        aria-describedby={identifiantAide}
+        autocomplete="off"
+        placeholder={placeholder}
+        class="h-9 min-w-[120px] grow bg-transparent px-1.5 text-[16px] text-encre outline-none"
+      />
+      <Icone nom="chevron" taille={18} class="mr-1 shrink-0 text-encre-2" />
+    </div>
+    <ul id={`${id}-liste`} role="listbox" aria-label={libelle} aria-multiselectable={multiple ? 'true' : undefined} hidden class="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-carte border border-ligne bg-blanc py-1 shadow-capture">
+      {options.map((option) => (
+        <li role="option" id={`${id}-option-${option.valeur}`} data-valeur={option.valeur} aria-selected="false" class="flex cursor-pointer items-center justify-between px-3.5 py-2 text-[15px] hover:bg-papier-2 aria-selected:bg-cobalt-teinte aria-selected:text-cobalt data-[actif]:bg-papier-2">
+          <span data-libelle>{option.libelle}</span>
+          <Icone nom="coche" taille={16} class="hidden aria-selected:inline" />
+        </li>
+      ))}
+      <li data-vide hidden class="px-3.5 py-2 text-[15px] text-encre-2">Aucun résultat</li>
+    </ul>
+  </div>
+  <div data-valeurs hidden></div>
+  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+</bk-selecteur>
+
+<script>
+  class Selecteur extends HTMLElement {
+    connectedCallback() {
+      const entree = this.querySelector<HTMLInputElement>('[role="combobox"]');
+      const liste = this.querySelector<HTMLUListElement>('[role="listbox"]');
+      const selection = this.querySelector<HTMLUListElement>('[data-selection]');
+      const valeurs = this.querySelector<HTMLElement>('[data-valeurs]');
+      const vide = this.querySelector<HTMLElement>('[data-vide]');
+      if (!entree || !liste || !selection || !valeurs || !vide) return;
+      const nom = this.dataset.nom ?? '';
+      const multiple = this.hasAttribute('data-multiple');
+      const options = () => Array.from(liste.querySelectorAll<HTMLElement>('[role="option"]'));
+      const choisis = new Map<string, string>();
+
+      const rendreSelection = () => {
+        selection.replaceChildren();
+        valeurs.replaceChildren();
+        for (const [valeur, libelle] of choisis) {
+          const champ = document.createElement('input');
+          champ.type = 'hidden';
+          champ.name = multiple ? `${nom}[]` : nom;
+          champ.value = valeur;
+          valeurs.append(champ);
+          if (!multiple) continue;
+          const puce = document.createElement('li');
+          puce.className = 'inline-flex items-center gap-1 rounded-full bg-cobalt-teinte pl-2.5 pr-1 text-[14px] text-cobalt';
+          const texte = document.createElement('span');
+          texte.textContent = libelle;
+          const retirer = document.createElement('button');
+          retirer.type = 'button';
+          retirer.className = 'inline-flex size-6 items-center justify-center rounded-full hover:bg-blanc';
+          retirer.setAttribute('aria-label', `Retirer ${libelle}`);
+          retirer.textContent = '×';
+          retirer.addEventListener('click', () => { basculer(valeur, libelle, false); entree.focus(); });
+          puce.append(texte, retirer);
+          selection.append(puce);
+        }
+        for (const option of options()) option.setAttribute('aria-selected', String(choisis.has(option.dataset.valeur ?? '')));
+      };
+      const basculer = (valeur: string, libelle: string, forcer?: boolean) => {
+        const ajouter = forcer ?? !choisis.has(valeur);
+        if (!multiple) choisis.clear();
+        if (ajouter) choisis.set(valeur, libelle); else choisis.delete(valeur);
+        if (!multiple) { entree.value = ajouter ? libelle : ''; fermer(); } else { entree.value = ''; filtrer(); }
+        rendreSelection();
+        this.dispatchEvent(new CustomEvent('bk-selection', { detail: { nom, valeurs: [...choisis.keys()] }, bubbles: true }));
+      };
+      const ouvrir = () => { liste.hidden = false; entree.setAttribute('aria-expanded', 'true'); filtrer(); };
+      const fermer = () => { liste.hidden = true; entree.setAttribute('aria-expanded', 'false'); activer(null); };
+      const activer = (option: HTMLElement | null) => {
+        for (const autre of options()) autre.removeAttribute('data-actif');
+        if (option) { option.setAttribute('data-actif', ''); entree.setAttribute('aria-activedescendant', option.id); option.scrollIntoView({ block: 'nearest' }); }
+        else entree.removeAttribute('aria-activedescendant');
+      };
+      const visibles = () => options().filter((o) => !o.hidden);
+      const filtrer = () => {
+        const recherche = entree.value.trim().toLocaleLowerCase('fr');
+        let compte = 0;
+        for (const option of options()) {
+          const correspond = (option.querySelector('[data-libelle]')?.textContent ?? '').toLocaleLowerCase('fr').includes(recherche);
+          option.hidden = !correspond;
+          if (correspond) compte += 1;
+        }
+        vide.hidden = compte > 0;
+      };
+
+      entree.addEventListener('focus', ouvrir);
+      entree.addEventListener('input', () => { ouvrir(); if (!multiple && choisis.size > 0 && entree.value === '') { choisis.clear(); rendreSelection(); } });
+      entree.addEventListener('keydown', (evenement) => {
+        const liste = visibles();
+        const actif = liste.findIndex((o) => o.hasAttribute('data-actif'));
+        if (evenement.key === 'ArrowDown') { evenement.preventDefault(); if (this.querySelector('[role="listbox"]')?.hasAttribute('hidden')) ouvrir(); activer(liste[(actif + 1) % liste.length] ?? null); }
+        else if (evenement.key === 'ArrowUp') { evenement.preventDefault(); activer(liste[(actif - 1 + liste.length) % liste.length] ?? null); }
+        else if (evenement.key === 'Enter') { const option = liste[actif]; if (option) { evenement.preventDefault(); basculer(option.dataset.valeur ?? '', option.querySelector('[data-libelle]')?.textContent ?? ''); } }
+        else if (evenement.key === 'Escape') { evenement.preventDefault(); fermer(); }
+        else if (evenement.key === 'Backspace' && multiple && entree.value === '' && choisis.size > 0) { const derniere = [...choisis.keys()].pop(); if (derniere) basculer(derniere, choisis.get(derniere) ?? '', false); }
+      });
+      liste.addEventListener('mousedown', (evenement) => evenement.preventDefault());
+      liste.addEventListener('click', (evenement) => {
+        const option = (evenement.target as Element).closest<HTMLElement>('[role="option"]');
+        if (option) basculer(option.dataset.valeur ?? '', option.querySelector('[data-libelle]')?.textContent ?? '');
+      });
+      document.addEventListener('click', (evenement) => { if (!this.contains(evenement.target as Node)) fermer(); });
+      rendreSelection();
+    }
+  }
+  if (!customElements.get('bk-selecteur')) customElements.define('bk-selecteur', Selecteur);
+</script>
