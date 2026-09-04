@@ -44,6 +44,10 @@ Secrets**, type Secret) : `BREVO_API_KEY`, `TURNSTILE_SECRET_KEY`,
 `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` ; et en variable de build
 (**Settings → Builds → Build variables**) : `PUBLIC_TURNSTILE_SITE_KEY`.
 `PUBLIC_CF_BEACON_TOKEN` reste facultatif pour la mesure d'audience.
+Les builds de prévisualisation (branches autres que `main`) n'ont pas accès aux
+variables de build de production : la page de contact y utilise
+automatiquement la clé de site Turnstile de test, et le widget n'y fonctionne
+pas. Le formulaire se teste sur le site principal après fusion.
 
 En local : `.dev.vars` (copie de `.dev.vars.example`) pour `npm run cf:dev`,
 `.env` (copie de `.env.example`) pour le build. Les clés de test Turnstile

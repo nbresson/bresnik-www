@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1240" width="1240" height="1240">
+  <title>LinkCsvSage — logo vectorisé</title>
+  <defs>
+    <linearGradient id="violet" x1="0.1" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#9B7BFF"></stop>
+      <stop offset="1" stop-color="#7B47F0"></stop>
+    </linearGradient>
+  </defs>
+
+  <g id="layer-fond" data-name="01 Fond (squircle)">
+    <title>01 Fond (squircle)</title>
+    <rect x="8" y="8" width="1224" height="1224" rx="290" ry="290" fill="#1E0A46"></rect>
+  </g>
+
+  <g id="layer-document" data-name="02 Contour document">
+    <title>02 Contour document</title>
+    <path d="M 640,1052 H 312 A 72 72 0 0 1 240,980 V 292 A 72 72 0 0 1 312,220 H 606 L 792,406 V 650" fill="none" stroke="url(#violet)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"></path>
+  </g>
+
+  <g id="layer-coin-plie" data-name="03 Coin plié">
+    <title>03 Coin plié</title>
+    <path d="M 620,232 L 620,416 L 798,416 Z" fill="url(#violet)" stroke="url(#violet)" stroke-width="22" stroke-linejoin="round"></path>
+  </g>
+
+  <g id="layer-texte-csv" data-name="04 Texte CSV">
+    <title>04 Texte CSV</title>
+    <text x="328" y="597" fill="#FFFFFF" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="186" font-weight="700" letter-spacing="-3">CSV</text>
+  </g>
+
+  <g id="layer-lignes" data-name="05 Lignes de texte">
+    <title>05 Lignes de texte</title>
+    <rect x="313" y="699" width="333" height="48" rx="24" fill="url(#violet)"></rect>
+    <rect x="313" y="819" width="240" height="48" rx="24" fill="url(#violet)"></rect>
+  </g>
+
+  <g id="layer-grille-points" data-name="06 Grille de points">
+    <title>06 Grille de points</title>
+    <circle cx="876" cy="403" r="31" fill="url(#violet)"></circle>
+    <circle cx="963" cy="403" r="31" fill="url(#violet)"></circle>
+    <circle cx="1050" cy="403" r="31" fill="url(#violet)"></circle>
+    <circle cx="876" cy="512" r="31" fill="url(#violet)"></circle>
+    <circle cx="963" cy="512" r="31" fill="url(#violet)"></circle>
+    <circle cx="1050" cy="512" r="31" fill="url(#violet)"></circle>
+    <circle cx="876" cy="620" r="31" fill="url(#violet)"></circle>
+    <circle cx="963" cy="620" r="31" fill="url(#violet)"></circle>
+    <circle cx="1050" cy="620" r="31" fill="url(#violet)"></circle>
+  </g>
+
+  <g id="layer-chaine" data-name="07 Maillon de chaîne">
+    <title>07 Maillon de chaîne</title>
+    <g transform="translate(872,888) rotate(-45) scale(1.2)" fill="none" stroke="url(#violet)" stroke-width="42" stroke-linecap="round">
+      <path d="M -25,-49 A 36 36 0 0 0 -61,-85 H -139 A 36 36 0 0 0 -175,-49 V 49 A 36 36 0 0 0 -139,85 H -61 A 36 36 0 0 0 -25,49"></path>
+      <path d="M 25,-49 A 36 36 0 0 1 61,-85 H 139 A 36 36 0 0 1 175,-49 V 49 A 36 36 0 0 1 139,85 H 61 A 36 36 0 0 1 25,49"></path>
+      <path d="M -62,0 H 62"></path>
+    </g>
+  </g>
+</svg>

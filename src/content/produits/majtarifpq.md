@@ -6,6 +6,7 @@ modulesSage:
   - "Sage 100 Gestion commerciale"
 objetsMetiersSage: true
 plateforme: Windows (WPF)
+logo: ./logos/majtarifpq.png
 fonctionnalites:
   - "Relation Fournisseur / Article / Catégorie tarifaire absente de Sage"
   - "Gestion facilitée des catégories tarifaires de Sage 100 Gestion commerciale"

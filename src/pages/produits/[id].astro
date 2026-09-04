@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Etiquette from '../../components/Etiquette.astro';
 import FilAriane from '../../components/FilAriane.astro';
+import LogoProduit from '../../components/LogoProduit.astro';
 import Bouton from '../../components/Bouton.astro';
 import ListeCoches from '../../components/ListeCoches.astro';
 import CadreCapture from '../../components/CadreCapture.astro';
@@ -26,8 +27,13 @@ const action = actionProduit(produit.data.disponibilite, produit.id);
   <header class="border-b border-ligne">
     <div class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
       <FilAriane elements={[{ libelle: 'Produits', href: '/produits/' }, { libelle: produit.data.nom }]} />
-      <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
-      <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[60px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
+      <div class="flex items-center gap-4 md:gap-5">
+        <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="grand" />
+        <div class="flex flex-col gap-2">
+          <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
+          <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[60px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
+        </div>
+      </div>
       <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.4]">{produit.data.accroche}</p>
       <div class="mt-2 flex flex-col gap-3 md:flex-row md:items-center">
         {action.actif && action.href ? (
@@ -74,9 +80,12 @@ const action = actionProduit(produit.data.disponibilite, produit.id);
       <h2 id="famille" class="text-[24px] font-bold">Dans la même famille</h2>
       <div class="grid gap-4 md:grid-cols-3">
         {famille.map((autre) => (
-          <a href={`/produits/${autre.id}/`} class="flex flex-col gap-1.5 rounded-carte border border-ligne bg-blanc px-5 py-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">
-            <span class="font-titres text-[20px] font-semibold">{autre.data.nom}</span>
-            <span class="text-[15px] text-encre-2">{autre.data.accroche}</span>
+          <a href={`/produits/${autre.id}/`} class="flex items-start gap-4 rounded-carte border border-ligne bg-blanc px-5 py-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">
+            <LogoProduit nom={autre.data.nom} logo={autre.data.logo} taille="petit" />
+            <span class="flex flex-col gap-1.5">
+              <span class="font-titres text-[20px] font-semibold">{autre.data.nom}</span>
+              <span class="text-[15px] text-encre-2">{autre.data.accroche}</span>
+            </span>
           </a>
         ))}
       </div>

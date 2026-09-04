@@ -6,6 +6,7 @@ modulesSage:
   - "Sage 100 Comptabilité"
 objetsMetiersSage: true
 plateforme: Windows (WPF)
+logo: ./logos/bankbridge.png
 fonctionnalites:
   - "Intégration semi-automatique des extraits bancaires"
   - "Amélioration de la gestion budgétaire"

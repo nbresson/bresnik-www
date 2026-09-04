@@ -6,6 +6,7 @@ modulesSage:
   - "Sage 100 Gestion commerciale"
 objetsMetiersSage: true
 plateforme: Windows (WPF)
+logo: ./logos/linkcsvsage.svg
 fonctionnalites:
   - "Export CSV automatisé des documents de Gestion commerciale"
   - "Rattachement du fichier CSV au document Sage"

@@ -13,6 +13,7 @@ const produits = defineCollection({
       objetsMetiersSage: z.boolean(),
       plateforme: z.string().min(1),
       fonctionnalites: z.array(z.string()).min(1),
+      logo: image().optional(),
       captures: z.array(z.object({ src: image(), alt: z.string() })).default([]),
       disponibilite: z.enum(['contact', 'telechargement', 'essai']),
       ordre: z.number().int(),

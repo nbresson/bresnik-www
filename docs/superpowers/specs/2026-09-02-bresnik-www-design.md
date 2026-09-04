@@ -95,6 +95,7 @@ Les collections sont typées avec Zod. Un champ manquant ou invalide fait
 | `objetsMetiersSage` | boolean | oui | Mention « s'appuie sur les Objets métiers Sage ». |
 | `plateforme` | string | oui | `"Windows (WPF)"` au lancement. |
 | `fonctionnalites` | string[] | oui | Puces de la fiche. |
+| `logo` | image | non | Logo du produit (`./logos/<slug>.png` ou `.svg`), ajouté le 2026-09-04. |
 | `captures` | `{ src: image, alt: string }[]` | non | Images optimisées par Astro. Vide au lancement. |
 | `disponibilite` | `'contact'`, `'telechargement'` ou `'essai'` | oui | Pilote le bouton d'action. |
 | `ordre` | number | oui | Ordre d'affichage. |

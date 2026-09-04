@@ -5,6 +5,7 @@ cible: consultant
 modulesSage: []
 objetsMetiersSage: false
 plateforme: Windows (WPF)
+logo: ./logos/bocs.png
 fonctionnalites:
   - "Fonctions d'aide au diagnostic et à la maintenance des logiciels Sage"
   - "Outils pour l'environnement Windows des postes et serveurs Sage"

@@ -1,0 +1,35 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+/**
+ * Logo d'un produit dans une tuile à coins arrondis, façon icône
+ * d'application : les logos pleins gardent leur fond, ceux sur fond blanc
+ * reçoivent une bordure discrète. Sans logo, une tuile avec l'initiale.
+ */
+interface Props {
+  nom: string;
+  logo?: ImageMetadata;
+  taille?: 'petit' | 'normal' | 'grand';
+  class?: string;
+}
+
+const { nom, logo, taille = 'normal', class: classe = '' } = Astro.props;
+const tailles = {
+  petit: { classe: 'size-10 rounded-[9px]', px: 40, texte: 'text-[16px]' },
+  normal: { classe: 'size-14 rounded-[12px]', px: 56, texte: 'text-[22px]' },
+  grand: { classe: 'size-20 rounded-[18px] md:size-24 md:rounded-[22px]', px: 96, texte: 'text-[32px]' },
+};
+const config = tailles[taille];
+---
+{logo ? (
+  <Image
+    src={logo}
+    alt=""
+    width={config.px * 2}
+    height={config.px * 2}
+    class={`shrink-0 border border-ligne bg-blanc object-cover ${config.classe} ${classe}`}
+  />
+) : (
+  <span aria-hidden="true" class={`inline-flex shrink-0 items-center justify-center border border-ligne bg-cobalt-teinte font-titres font-bold text-cobalt ${config.classe} ${config.texte} ${classe}`}>{nom.charAt(0)}</span>
+)}
