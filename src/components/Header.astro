@@ -1,27 +1,73 @@
 ---
+import Marque from './Marque.astro';
+import Bouton from './Bouton.astro';
+import Icone from './Icone.astro';
+
 const liens = [
-  { href: '/', libelle: 'Accueil' },
   { href: '/produits/', libelle: 'Produits' },
   { href: '/conseil/', libelle: 'Conseil' },
   { href: '/blog/', libelle: 'Blog' },
   { href: '/contact/', libelle: 'Contact' },
 ];
 const cheminCourant = Astro.url.pathname;
-const estActif = (href: string) => (href === '/' ? cheminCourant === '/' : cheminCourant.startsWith(href));
+const estActif = (href: string) => cheminCourant.startsWith(href);
+const classeLien = (href: string) =>
+  estActif(href)
+    ? 'border-b-2 border-cobalt pb-0.5 font-semibold text-cobalt'
+    : 'font-semibold text-encre hover:text-cobalt';
 ---
-<header class="border-b" style="border-color: var(--couleur-bordure)">
-  <div class="mx-auto flex max-w-(--largeur-contenu) items-center justify-between px-4 py-4">
-    <a href="/" class="text-xl font-bold" aria-label="Bresnik, accueil">Bresnik</a>
-    <nav aria-label="Navigation principale">
-      <ul class="flex gap-4">
-        {liens.map((lien) => (
-          <li>
-            <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class="hover:underline">
-              {lien.libelle}
-            </a>
-          </li>
-        ))}
-      </ul>
+<header class="border-b border-ligne bg-papier">
+  <div class="conteneur flex h-16 items-center justify-between lg:h-20">
+    <Marque />
+    <nav aria-label="Navigation principale" class="hidden items-center gap-8 lg:flex">
+      {liens.map((lien) => (
+        <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`text-[16px] ${classeLien(lien.href)}`}>
+          {lien.libelle}
+        </a>
+      ))}
+      <Bouton href="/contact/" taille="compact">Demander une démo</Bouton>
     </nav>
+    <button
+      id="bouton-menu"
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-bouton border border-ligne bg-blanc text-encre lg:hidden"
+      aria-expanded="false"
+      aria-controls="menu-mobile"
+      aria-label="Menu"
+    >
+      <Icone nom="menu" taille={22} />
+    </button>
   </div>
+  <nav id="menu-mobile" aria-label="Navigation mobile" hidden class="border-t border-ligne lg:hidden">
+    <ul class="conteneur flex flex-col gap-1 py-3">
+      {liens.map((lien) => (
+        <li>
+          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`block py-3 text-[17px] ${classeLien(lien.href)}`}>
+            {lien.libelle}
+          </a>
+        </li>
+      ))}
+      <li class="pt-2">
+        <Bouton href="/contact/" plein>Demander une démo</Bouton>
+      </li>
+    </ul>
+  </nav>
 </header>
+
+<script>
+  const bouton = document.getElementById('bouton-menu');
+  const menu = document.getElementById('menu-mobile');
+  if (bouton && menu) {
+    const basculer = (ouvert: boolean) => {
+      bouton.setAttribute('aria-expanded', String(ouvert));
+      menu.hidden = !ouvert;
+    };
+    bouton.addEventListener('click', () => basculer(bouton.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (evenement) => {
+      if (evenement.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') {
+        basculer(false);
+        bouton.focus();
+      }
+    });
+  }
+</script>

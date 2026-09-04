@@ -1,13 +1,20 @@
 ---
-const annee = new Date().getFullYear();
+import Marque from './Marque.astro';
 ---
-<footer class="mt-16 border-t" style="border-color: var(--couleur-bordure)">
-  <div class="mx-auto flex max-w-(--largeur-contenu) flex-wrap items-center justify-between gap-4 px-4 py-6 text-sm">
-    <p>© {annee} Bresnik. Logiciels complémentaires pour l'écosystème Sage 100.</p>
-    <ul class="flex gap-4">
-      <li><a href="/mentions-legales/" class="hover:underline">Mentions légales</a></li>
-      <li><a href="/confidentialite/" class="hover:underline">Confidentialité</a></li>
-      <li><a href="/rss.xml" class="hover:underline">Flux RSS</a></li>
-    </ul>
+<footer class="mt-16 border-t border-ligne md:mt-24">
+  <div class="conteneur flex flex-col gap-4 py-7 md:flex-row md:items-center md:justify-between md:gap-6 md:py-8">
+    <div class="flex flex-col gap-1.5">
+      <Marque taille="pied" />
+      <p class="text-[13px] leading-[1.5] text-encre-2 md:text-[14px]">
+        © 2026 Bresnik. Logiciels complémentaires pour l'écosystème Sage 100. Éditeur indépendant, sans lien avec Sage Group plc.
+      </p>
+    </div>
+    <nav aria-label="Liens secondaires">
+      <ul class="flex flex-wrap gap-4 md:gap-6">
+        <li><a href="/mentions-legales/" class="text-[14px] text-encre-2 hover:text-cobalt">Mentions légales</a></li>
+        <li><a href="/confidentialite/" class="text-[14px] text-encre-2 hover:text-cobalt">Confidentialité</a></li>
+        <li><a href="/rss.xml" class="text-[14px] text-encre-2 hover:text-cobalt">Flux RSS</a></li>
+      </ul>
+    </nav>
   </div>
 </footer>
