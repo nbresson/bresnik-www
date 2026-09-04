@@ -73,6 +73,7 @@ const libellesChamps: Record<string, string> = {
       succes: 'border-succes bg-succes-teinte',
       erreur: 'border-erreur bg-erreur-teinte',
     };
+    const ancresChamps = { consentement: '#choix-consentement-oui' };
 
     function afficherAlerte(ton, titre, lignes) {
       zoneEtat.replaceChildren();
@@ -91,7 +92,7 @@ const libellesChamps: Record<string, string> = {
           const element = document.createElement('li');
           if (champ && champ !== 'cf-turnstile-response') {
             const lien = document.createElement('a');
-            lien.href = `#champ-${champ}`;
+            lien.href = ancresChamps[champ] ?? `#champ-${champ}`;
             lien.className = 'underline underline-offset-[3px]';
             lien.textContent = `${libellesChamps[champ] ?? champ} : ${message}`;
             element.append(lien);
@@ -108,16 +109,28 @@ const libellesChamps: Record<string, string> = {
 
     function marquerErreurs(erreurs) {
       for (const controle of formulaire.querySelectorAll('[aria-invalid]')) controle.removeAttribute('aria-invalid');
+      for (const controle of formulaire.querySelectorAll('[data-describedby-initial]')) {
+        const initial = controle.getAttribute('data-describedby-initial');
+        if (initial) controle.setAttribute('aria-describedby', initial);
+        else controle.removeAttribute('aria-describedby');
+        controle.removeAttribute('data-describedby-initial');
+      }
       for (const message of formulaire.querySelectorAll('[data-erreur-champ]')) message.remove();
       for (const { champ, message } of erreurs) {
         const controle = formulaire.querySelector(`[name="${champ}"]`);
         if (!controle) continue;
         controle.setAttribute('aria-invalid', 'true');
+        const idErreur = `erreur-${champ}`;
         const texte = document.createElement('p');
+        texte.id = idErreur;
         texte.setAttribute('data-erreur-champ', '');
         texte.className = 'text-[14px] font-semibold text-erreur';
         texte.textContent = message;
         (controle.closest('fieldset') ?? controle.closest('div'))?.append(texte);
+        controle.setAttribute('data-describedby-initial', controle.getAttribute('aria-describedby') ?? '');
+        const decrits = (controle.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean);
+        if (!decrits.includes(idErreur)) decrits.push(idErreur);
+        controle.setAttribute('aria-describedby', decrits.join(' '));
       }
     }
 
@@ -137,6 +150,7 @@ const libellesChamps: Record<string, string> = {
       const donnees = Object.fromEntries(new FormData(formulaire).entries());
       bouton.disabled = true;
       bouton.setAttribute('aria-busy', 'true');
+      bouton.classList.add('opacity-60', 'cursor-not-allowed');
       etat.textContent = 'Envoi en cours…';
       try {
         const reponse = await fetch('/api/contact', {
@@ -159,6 +173,7 @@ const libellesChamps: Record<string, string> = {
       } finally {
         bouton.disabled = false;
         bouton.removeAttribute('aria-busy');
+        bouton.classList.remove('opacity-60', 'cursor-not-allowed');
         etat.textContent = '';
       }
     });
