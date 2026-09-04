@@ -2,7 +2,10 @@
 import Base from '../layouts/Base.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import Champ from '../components/Champ.astro';
+import Choix from '../components/Choix.astro';
+import GroupeChoix from '../components/GroupeChoix.astro';
 import Bouton from '../components/Bouton.astro';
+import Alerte from '../components/Alerte.astro';
 import { produitsPublies } from '../lib/catalogue';
 
 const produits = await produitsPublies();
@@ -10,32 +13,154 @@ const optionsProduits = [
   { valeur: '', libelle: 'Aucun produit en particulier' },
   ...produits.map((p) => ({ valeur: p.id, libelle: p.data.nom })),
 ];
+const cleTurnstile = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const libellesChamps: Record<string, string> = {
+  nom: 'Nom',
+  email: 'Email',
+  societe: 'Société',
+  produit: 'Produit concerné',
+  message: 'Message',
+  consentement: 'Consentement',
+  'cf-turnstile-response': 'Vérification anti-robot',
+};
 ---
 <Base titre="Contact" description="Demandez une démonstration d'un produit Bresnik ou un échange sur votre projet Sage 100.">
   <EnTetePage eyebrow="Contact" titre="Parlons de votre projet Sage 100." sousTitre="Demandez une démonstration ou décrivez votre besoin. Réponse sous deux jours ouvrés." />
   <div class="conteneur pb-16 md:pb-20">
-    <form id="formulaire-contact" method="post" action="/api/contact" class="flex max-w-[640px] flex-col gap-5">
-      <Champ nom="nom" libelle="Nom" requis minlength="2" maxlength="100" autocomplete="name" />
-      <Champ nom="email" libelle="Email" type="email" requis autocomplete="email" />
-      <Champ nom="societe" libelle="Société" maxlength="100" autocomplete="organization" />
-      <Champ nom="produit" libelle="Produit concerné" type="liste" options={optionsProduits} />
-      <Champ nom="message" libelle="Message" type="zone" requis minlength="10" maxlength="5000" />
-      <div class="hidden" aria-hidden="true">
-        <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
-      </div>
-      <div class="flex flex-col gap-3">
-        <Bouton type="submit" desactive aria-describedby="etat-formulaire" class="self-start max-md:w-full">Envoyer</Bouton>
-        <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status">L'envoi en ligne sera activé prochainement.</p>
-      </div>
-    </form>
+    <div class="flex max-w-[640px] flex-col gap-6">
+      <div id="zone-etat" aria-live="polite" class="empty:hidden"></div>
+      <noscript>
+        <Alerte ton="information">Sans JavaScript, le formulaire fonctionne aussi : la page se recharge après l'envoi.</Alerte>
+      </noscript>
+      <form id="formulaire-contact" method="post" action="/api/contact" class="flex flex-col gap-5" novalidate>
+        <Champ nom="nom" libelle="Nom" requis minlength="2" maxlength="100" autocomplete="name" />
+        <Champ nom="email" libelle="Email" type="email" requis autocomplete="email" />
+        <Champ nom="societe" libelle="Société" maxlength="100" autocomplete="organization" />
+        <Champ nom="produit" libelle="Produit concerné" type="liste" options={optionsProduits} />
+        <Champ nom="message" libelle="Message" type="zone" requis minlength="10" maxlength="5000" />
+        <GroupeChoix id="groupe-consentement" legende="Consentement" requis>
+          <Choix nom="consentement" valeur="oui" libelle="J'accepte que ces informations servent à répondre à ma demande. Elles ne sont ni stockées sur le site ni transmises à des tiers." requis />
+        </GroupeChoix>
+        <div class="hidden" aria-hidden="true">
+          <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <div class="cf-turnstile" data-sitekey={cleTurnstile} data-language="fr" data-theme="light"></div>
+        <div class="flex flex-col gap-3">
+          <Bouton type="submit" id="bouton-envoyer" class="self-start max-md:w-full" fleche>Envoyer</Bouton>
+          <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status"></p>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <script>
-    const produitDemande = new URLSearchParams(window.location.search).get('produit');
-    const selecteur = document.querySelector<HTMLSelectElement>('select[name="produit"]');
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <script define:vars={{ libellesChamps }}>
+    const formulaire = document.getElementById('formulaire-contact');
+    const zoneEtat = document.getElementById('zone-etat');
+    const bouton = document.getElementById('bouton-envoyer');
+    const etat = document.getElementById('etat-formulaire');
+    const parametres = new URLSearchParams(window.location.search);
+
+    const produitDemande = parametres.get('produit');
+    const selecteur = document.querySelector('select[name="produit"]');
     if (produitDemande && selecteur) {
       const existe = Array.from(selecteur.options).some((o) => o.value === produitDemande);
       if (existe) selecteur.value = produitDemande;
     }
+
+    const classesAlerte = {
+      succes: 'border-succes bg-succes-teinte',
+      erreur: 'border-erreur bg-erreur-teinte',
+    };
+
+    function afficherAlerte(ton, titre, lignes) {
+      zoneEtat.replaceChildren();
+      const carte = document.createElement('div');
+      carte.setAttribute('role', ton === 'erreur' ? 'alert' : 'status');
+      carte.tabIndex = -1;
+      carte.className = `flex flex-col gap-1 rounded-carte border border-ligne border-l-4 bg-blanc px-4 py-3.5 text-[16px] leading-[1.5] text-encre ${classesAlerte[ton]}`;
+      const entete = document.createElement('p');
+      entete.className = 'font-semibold';
+      entete.textContent = titre;
+      carte.append(entete);
+      if (lignes.length > 0) {
+        const liste = document.createElement('ul');
+        liste.className = 'flex flex-col gap-1';
+        for (const { champ, message } of lignes) {
+          const element = document.createElement('li');
+          if (champ && champ !== 'cf-turnstile-response') {
+            const lien = document.createElement('a');
+            lien.href = `#champ-${champ}`;
+            lien.className = 'underline underline-offset-[3px]';
+            lien.textContent = `${libellesChamps[champ] ?? champ} : ${message}`;
+            element.append(lien);
+          } else {
+            element.textContent = message;
+          }
+          liste.append(element);
+        }
+        carte.append(liste);
+      }
+      zoneEtat.append(carte);
+      carte.focus();
+    }
+
+    function marquerErreurs(erreurs) {
+      for (const controle of formulaire.querySelectorAll('[aria-invalid]')) controle.removeAttribute('aria-invalid');
+      for (const message of formulaire.querySelectorAll('[data-erreur-champ]')) message.remove();
+      for (const { champ, message } of erreurs) {
+        const controle = formulaire.querySelector(`[name="${champ}"]`);
+        if (!controle) continue;
+        controle.setAttribute('aria-invalid', 'true');
+        const texte = document.createElement('p');
+        texte.setAttribute('data-erreur-champ', '');
+        texte.className = 'text-[14px] font-semibold text-erreur';
+        texte.textContent = message;
+        (controle.closest('fieldset') ?? controle.closest('div'))?.append(texte);
+      }
+    }
+
+    // Repli sans JavaScript : la page revient avec un état dans l'adresse.
+    if (parametres.get('etat') === 'envoye') {
+      afficherAlerte('succes', 'Message envoyé', [{ champ: '', message: 'Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.' }]);
+      formulaire.hidden = true;
+    } else if (parametres.get('etat') === 'erreur') {
+      const champs = (parametres.get('champs') ?? '').split(',').filter(Boolean);
+      afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', champs.length > 0
+        ? champs.map((champ) => ({ champ, message: 'à corriger' }))
+        : [{ champ: '', message: 'Réessayez dans quelques minutes.' }]);
+    }
+
+    formulaire.addEventListener('submit', async (evenement) => {
+      evenement.preventDefault();
+      const donnees = Object.fromEntries(new FormData(formulaire).entries());
+      bouton.disabled = true;
+      bouton.setAttribute('aria-busy', 'true');
+      etat.textContent = 'Envoi en cours…';
+      try {
+        const reponse = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(donnees),
+        });
+        const resultat = await reponse.json();
+        if (resultat.ok) {
+          afficherAlerte('succes', 'Message envoyé', [{ champ: '', message: 'Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.' }]);
+          formulaire.hidden = true;
+          return;
+        }
+        marquerErreurs(resultat.erreurs ?? []);
+        afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', resultat.erreurs ?? []);
+        window.turnstile?.reset();
+      } catch {
+        afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', [{ champ: '', message: 'Vérifiez votre connexion et réessayez.' }]);
+        window.turnstile?.reset();
+      } finally {
+        bouton.disabled = false;
+        bouton.removeAttribute('aria-busy');
+        etat.textContent = '';
+      }
+    });
   </script>
 </Base>
