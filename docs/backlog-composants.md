@@ -104,7 +104,7 @@ même modification et coché ici.
 | [x] | Conteneurs et grilles de référence, points de rupture | V/A | 2 | |
 | [x] | Sections pleine largeur `papier-2` et sombre en gabarits | V | 2 | |
 | [x] | Colonne latérale collante | V/A | 2 | |
-| [ ] | Gabarit d'email transactionnel | V/A | 2 | Confirmation de contact ; à faire avec le plan du formulaire. |
+| [x] | Gabarit d'email transactionnel | V/A | 2 | `worker/email.ts`, texte et HTML de la notification. |
 | [x] | Gabarit d'écran d'application | A | 3 | |
 | [x] | En-tête de page d'application | A | 3 | |
 | [x] | Gabarit d'authentification | A | 3 | |

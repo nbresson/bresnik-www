@@ -157,8 +157,9 @@ externe, quota, données hors UE.
 
 Champs : nom, email, société (facultatif), produit (liste déroulante
 alimentée par la collection, pré-sélectionnée via `?produit=`), message,
-widget Turnstile. Envoi en `POST` vers `/api/contact` via `fetch`, avec repli
-sur un envoi de formulaire classique si JavaScript est désactivé.
+case de consentement obligatoire (ajoutée le 2026-09-04), widget Turnstile.
+Envoi en `POST` vers `/api/contact` via `fetch`, avec repli sur un envoi de
+formulaire classique si JavaScript est désactivé.
 
 ### Côté serveur (`worker/index.ts`)
 
@@ -166,8 +167,10 @@ sur un envoi de formulaire classique si JavaScript est désactivé.
 2. Valide : nom (2 à 100 caractères), email (format), message (10 à 5000
    caractères), produit (slug connu ou vide), champ pot-de-miel vide.
 3. Vérifie le jeton Turnstile auprès de Cloudflare.
-4. Envoie un email à l'adresse de Nicolas via l'API Brevo, avec `reply-to`
-   égal à l'email du visiteur.
+4. Envoie un email à l'adresse de Nicolas via l'API Brevo avec `reply-to`
+   égal à l'email du visiteur, sans accusé de réception au visiteur pour
+   l'instant (à ajouter quand `bresnik.fr` permettra un expéditeur au nom
+   du domaine).
 5. Répond `200` avec `{ ok: true }` ou `4xx/5xx` avec un message d'erreur
    générique. Aucune donnée n'est stockée.
 

@@ -39,11 +39,16 @@ n'est pas le cas, ajouter une variable de build `NODE_VERSION=24` dans
 
 ### Variables et secrets d'exécution
 
-Aucun secret n'est requis pour le site statique. Le formulaire de contact
-(plan séparé) ajoutera `BREVO_API_KEY`, `TURNSTILE_SECRET_KEY`,
-`CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` dans **Settings → Variables and
-Secrets**, et `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_CF_BEACON_TOKEN` en
-variables de build.
+Le formulaire de contact utilise, sur le Worker (**Settings → Variables and
+Secrets**, type Secret) : `BREVO_API_KEY`, `TURNSTILE_SECRET_KEY`,
+`CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` ; et en variable de build
+(**Settings → Builds → Build variables**) : `PUBLIC_TURNSTILE_SITE_KEY`.
+`PUBLIC_CF_BEACON_TOKEN` reste facultatif pour la mesure d'audience.
+
+En local : `.dev.vars` (copie de `.dev.vars.example`) pour `npm run cf:dev`,
+`.env` (copie de `.env.example`) pour le build. Les clés de test Turnstile
+valident toujours le widget. Quand `bresnik.fr` sera en ligne, ajouter ce
+nom d'hôte au widget Turnstile dans le tableau de bord Cloudflare.
 
 ## Mesure d'audience
 
