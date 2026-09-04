@@ -24,3 +24,35 @@ export function actionProduit(disponibilite: Disponibilite, slug: string): Actio
       return { libelle: 'Essayer gratuitement', href: null, actif: false, mention: MENTION_A_VENIR };
   }
 }
+
+export type Cible = 'consultant' | 'entreprise';
+
+export function libelleCible(cible: Cible): string {
+  return cible === 'consultant' ? 'Consultants Sage' : 'Entreprises';
+}
+
+export function tonCible(cible: Cible): 'cobalt' | 'ambre' {
+  return cible === 'consultant' ? 'ambre' : 'cobalt';
+}
+
+export function libelleAcces(disponibilite: Disponibilite): string {
+  switch (disponibilite) {
+    case 'contact':
+      return 'Sur démonstration';
+    case 'telechargement':
+      return 'Téléchargement';
+    case 'essai':
+      return 'Essai gratuit';
+  }
+}
+
+export function produitsMemeFamille<T extends { id: string; data: { cible: string; ordre: number } }>(
+  produits: T[],
+  courant: T,
+  max = 3,
+): T[] {
+  return produits
+    .filter((p) => p.id !== courant.id && p.data.cible === courant.data.cible)
+    .sort((a, b) => a.data.ordre - b.data.ordre)
+    .slice(0, max);
+}

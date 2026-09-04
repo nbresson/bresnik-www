@@ -1,0 +1,16 @@
+---
+interface Props {
+  ton: 'cobalt' | 'ambre' | 'neutre';
+  class?: string;
+}
+
+const { ton, class: classe = '' } = Astro.props;
+const tons = {
+  cobalt: 'bg-cobalt-teinte text-cobalt',
+  ambre: 'bg-ambre-teinte text-ambre',
+  neutre: 'bg-papier-2 text-encre-2',
+};
+---
+<span class={`inline-flex h-[26px] items-center rounded-full px-2.5 font-technique text-[12px] uppercase tracking-[0.04em] max-md:h-6 max-md:text-[11px] ${tons[ton]} ${classe}`}>
+  <slot />
+</span>
