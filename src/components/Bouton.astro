@@ -47,7 +47,7 @@ const classes = [
 ].join(' ');
 ---
 {href && !desactive ? (
-  <a href={href} class={classes} id={id}>
+  <a href={href} class={classes} id={id} aria-describedby={decritPar}>
     <slot />
     {fleche && <Icone nom="fleche" />}
   </a>
