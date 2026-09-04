@@ -1,0 +1,32 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  etapes: string[];
+  /** Numéro de l'étape en cours, à partir de 1. */
+  courante: number;
+  class?: string;
+}
+
+const { etapes, courante, class: classe = '' } = Astro.props;
+---
+<ol class={`flex flex-col gap-3 md:flex-row md:items-start md:gap-0 ${classe}`} aria-label="Progression">
+  {etapes.map((etape, index) => {
+    const numero = index + 1;
+    const etat = numero < courante ? 'faite' : numero === courante ? 'courante' : 'a-venir';
+    const pastille = etat === 'faite' ? 'bg-cobalt text-blanc' : etat === 'courante' ? 'border-2 border-cobalt bg-blanc text-cobalt' : 'border-2 border-ligne bg-blanc text-encre-2';
+    return (
+      <li class="flex items-center gap-3 md:flex-1 md:flex-col md:items-start" aria-current={etat === 'courante' ? 'step' : undefined}>
+        <div class="flex items-center md:w-full">
+          <span class={`inline-flex size-9 shrink-0 items-center justify-center rounded-full font-titres text-[15px] font-bold ${pastille}`} aria-hidden="true">
+            {etat === 'faite' ? <Icone nom="coche" taille={18} /> : numero}
+          </span>
+          {index < etapes.length - 1 && <span class={`hidden h-0.5 grow md:block ${etat === 'faite' ? 'bg-cobalt' : 'bg-ligne'}`} aria-hidden="true"></span>}
+        </div>
+        <span class={`text-[15px] ${etat === 'courante' ? 'font-semibold text-encre' : 'text-encre-2'}`}>
+          <span class="sr-only">Étape {numero}{etat === 'faite' ? ', terminée' : etat === 'courante' ? ', en cours' : ''} : </span>{etape}
+        </span>
+      </li>
+    );
+  })}
+</ol>

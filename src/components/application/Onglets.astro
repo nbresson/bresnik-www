@@ -1,0 +1,61 @@
+---
+interface Props {
+  id: string;
+  libelle: string;
+  onglets: { id: string; libelle: string }[];
+  class?: string;
+}
+
+const { id, libelle, onglets, class: classe = '' } = Astro.props;
+---
+<bk-onglets class={`block ${classe}`}>
+  <div role="tablist" aria-label={libelle} class="flex flex-wrap gap-1 border-b border-ligne">
+    {onglets.map((onglet, index) => (
+      <button
+        type="button"
+        role="tab"
+        id={`${id}-onglet-${onglet.id}`}
+        aria-controls={`${id}-panneau-${onglet.id}`}
+        aria-selected={index === 0 ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
+        class="-mb-px inline-flex h-11 items-center border-b-2 border-transparent px-4 text-[15px] font-semibold text-encre-2 transition-colors duration-150 hover:text-encre aria-selected:border-cobalt aria-selected:text-cobalt"
+      >
+        {onglet.libelle}
+      </button>
+    ))}
+  </div>
+  {onglets.map((onglet, index) => (
+    <div role="tabpanel" id={`${id}-panneau-${onglet.id}`} aria-labelledby={`${id}-onglet-${onglet.id}`} tabindex="0" hidden={index !== 0} class="py-5">
+      <slot name={onglet.id} />
+    </div>
+  ))}
+</bk-onglets>
+
+<script>
+  class Onglets extends HTMLElement {
+    connectedCallback() {
+      const boutons = Array.from(this.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+      const activer = (bouton: HTMLButtonElement, focaliser = false) => {
+        for (const autre of boutons) {
+          const actif = autre === bouton;
+          autre.setAttribute('aria-selected', String(actif));
+          autre.tabIndex = actif ? 0 : -1;
+          const panneau = document.getElementById(autre.getAttribute('aria-controls') ?? '');
+          if (panneau) panneau.hidden = !actif;
+        }
+        if (focaliser) bouton.focus();
+      };
+      boutons.forEach((bouton, index) => {
+        bouton.addEventListener('click', () => activer(bouton));
+        bouton.addEventListener('keydown', (evenement) => {
+          const touches: Record<string, number> = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: boutons.length - 1 };
+          if (!(evenement.key in touches)) return;
+          evenement.preventDefault();
+          const suivant = (touches[evenement.key] + boutons.length) % boutons.length;
+          activer(boutons[suivant], true);
+        });
+      });
+    }
+  }
+  if (!customElements.get('bk-onglets')) customElements.define('bk-onglets', Onglets);
+</script>

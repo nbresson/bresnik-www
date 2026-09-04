@@ -1,0 +1,94 @@
+---
+import Icone from '../Icone.astro';
+import type { NomIcone } from '../Icone.astro';
+
+interface Props {
+  id: string;
+  libelle: string;
+  elements: { libelle: string; href?: string; icone?: NomIcone; danger?: boolean }[];
+  /** Déclencheur réduit à une icône (menu contextuel). */
+  iconeSeule?: NomIcone;
+  alignement?: 'gauche' | 'droite';
+  class?: string;
+}
+
+const { id, libelle, elements, iconeSeule, alignement = 'gauche', class: classe = '' } = Astro.props;
+const classeDeclencheur = iconeSeule
+  ? 'inline-flex size-11 items-center justify-center rounded-bouton text-encre-2 transition-colors duration-150 hover:bg-papier-2 hover:text-cobalt'
+  : 'inline-flex h-11 items-center gap-2 rounded-bouton border-[1.5px] border-encre px-[18px] text-[15px] font-semibold text-encre transition-colors duration-150 hover:bg-papier-2';
+---
+<bk-menu class={`relative inline-block ${classe}`}>
+  <button type="button" id={`${id}-declencheur`} aria-haspopup="menu" aria-expanded="false" aria-controls={`${id}-menu`} aria-label={iconeSeule ? libelle : undefined} class={classeDeclencheur}>
+    {iconeSeule ? <Icone nom={iconeSeule} taille={20} /> : (
+      <>
+        {libelle}
+        <Icone nom="chevron" taille={16} />
+      </>
+    )}
+  </button>
+  <ul role="menu" id={`${id}-menu`} aria-labelledby={`${id}-declencheur`} hidden class={`absolute z-20 mt-1 min-w-[220px] rounded-carte border border-ligne bg-blanc py-1.5 shadow-capture ${alignement === 'droite' ? 'right-0' : 'left-0'}`}>
+    {elements.map((element) => {
+      const classes = `flex w-full items-center gap-3 px-4 py-2.5 text-left text-[15px] ${element.danger ? 'text-erreur hover:bg-erreur-teinte' : 'text-encre hover:bg-papier-2'}`;
+      return (
+        <li role="none">
+          {element.href ? (
+            <a role="menuitem" href={element.href} tabindex="-1" class={classes}>
+              {element.icone && <Icone nom={element.icone} taille={18} class="shrink-0" />}
+              {element.libelle}
+            </a>
+          ) : (
+            <button type="button" role="menuitem" tabindex="-1" class={classes}>
+              {element.icone && <Icone nom={element.icone} taille={18} class="shrink-0" />}
+              {element.libelle}
+            </button>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+</bk-menu>
+
+<script>
+  class Menu extends HTMLElement {
+    connectedCallback() {
+      const declencheur = this.querySelector<HTMLButtonElement>('[aria-haspopup="menu"]');
+      const menu = this.querySelector<HTMLUListElement>('[role="menu"]');
+      if (!declencheur || !menu) return;
+      const elements = () => Array.from(menu.querySelectorAll<HTMLElement>('[role="menuitem"]'));
+      const ouvrir = (indexFocus = 0) => {
+        menu.hidden = false;
+        declencheur.setAttribute('aria-expanded', 'true');
+        const liste = elements();
+        liste[(indexFocus + liste.length) % liste.length]?.focus();
+      };
+      const fermer = (refocaliser = true) => {
+        if (menu.hidden) return;
+        menu.hidden = true;
+        declencheur.setAttribute('aria-expanded', 'false');
+        if (refocaliser) declencheur.focus();
+      };
+      declencheur.addEventListener('click', () => (menu.hidden ? ouvrir() : fermer()));
+      declencheur.addEventListener('keydown', (evenement) => {
+        if (evenement.key === 'ArrowDown') { evenement.preventDefault(); ouvrir(0); }
+        if (evenement.key === 'ArrowUp') { evenement.preventDefault(); ouvrir(-1); }
+      });
+      menu.addEventListener('keydown', (evenement) => {
+        const liste = elements();
+        const index = liste.indexOf(document.activeElement as HTMLElement);
+        if (evenement.key === 'ArrowDown') { evenement.preventDefault(); liste[(index + 1) % liste.length]?.focus(); }
+        if (evenement.key === 'ArrowUp') { evenement.preventDefault(); liste[(index - 1 + liste.length) % liste.length]?.focus(); }
+        if (evenement.key === 'Home') { evenement.preventDefault(); liste[0]?.focus(); }
+        if (evenement.key === 'End') { evenement.preventDefault(); liste[liste.length - 1]?.focus(); }
+        if (evenement.key === 'Escape') { evenement.preventDefault(); fermer(); }
+        if (evenement.key === 'Tab') fermer(false);
+      });
+      menu.addEventListener('click', (evenement) => {
+        if ((evenement.target as Element).closest('[role="menuitem"]')) fermer(false);
+      });
+      document.addEventListener('click', (evenement) => {
+        if (!this.contains(evenement.target as Node)) fermer(false);
+      });
+    }
+  }
+  if (!customElements.get('bk-menu')) customElements.define('bk-menu', Menu);
+</script>

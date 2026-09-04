@@ -16,25 +16,27 @@ interface Props {
 
 const { legende, colonnes, lignes, cleId, selection = false, actions = [], class: classe = '' } = Astro.props;
 const ariaSort = (tri?: string) => (tri === 'croissant' ? 'ascending' : tri === 'decroissant' ? 'descending' : undefined);
-const iconeTri = (tri?: string): NomIcone => (tri === 'croissant' ? 'tri-croissant' : tri === 'decroissant' ? 'tri-decroissant' : 'tri');
 const classeCellule = (numerique?: boolean) => (numerique ? 'text-right font-technique tabular-nums' : 'text-left');
 ---
-<div class={`overflow-x-auto rounded-carte border border-ligne bg-blanc ${classe}`}>
+<bk-tableau class={`block overflow-x-auto rounded-carte border border-ligne bg-blanc ${classe}`}>
   <table class="w-full border-collapse text-[15px]">
     <caption class="sr-only">{legende}</caption>
     <thead>
       <tr class="border-b-2 border-encre bg-blanc">
         {selection && (
           <th scope="col" class="w-11 px-3 py-3">
-            <input type="checkbox" aria-label="Sélectionner toutes les lignes" class="size-5 accent-cobalt" />
+            <input type="checkbox" data-tout aria-label="Sélectionner toutes les lignes" class="size-5 accent-cobalt" />
           </th>
         )}
-        {colonnes.map((colonne) => (
-          <th scope="col" aria-sort={ariaSort(colonne.tri)} class={`px-4 py-3 font-semibold ${classeCellule(colonne.numerique)}`}>
+        {colonnes.map((colonne, index) => (
+          <th scope="col" aria-sort={ariaSort(colonne.tri)} data-sens={colonne.tri} data-index={index} data-numerique={colonne.numerique ? '' : undefined} class={`group px-4 py-3 font-semibold ${classeCellule(colonne.numerique)}`}>
             {colonne.tri ? (
-              <button type="button" class={`inline-flex items-center gap-1 rounded-[4px] hover:text-cobalt ${colonne.numerique ? 'flex-row-reverse' : ''}`}>
+              <button type="button" data-trier class={`inline-flex items-center gap-1 rounded-[4px] hover:text-cobalt ${colonne.numerique ? 'flex-row-reverse' : ''}`}>
                 {colonne.libelle}
-                <Icone nom={iconeTri(colonne.tri)} taille={16} class={colonne.tri === 'aucun' ? 'text-encre-2' : 'text-cobalt'} />
+                <Icone nom="tri" taille={16} class="hidden text-encre-2 group-data-[sens=aucun]:inline" />
+                <Icone nom="tri-croissant" taille={16} class="hidden text-cobalt group-data-[sens=croissant]:inline" />
+                <Icone nom="tri-decroissant" taille={16} class="hidden text-cobalt group-data-[sens=decroissant]:inline" />
+                <span class="sr-only">, trier</span>
               </button>
             ) : (
               colonne.libelle
@@ -49,7 +51,7 @@ const classeCellule = (numerique?: boolean) => (numerique ? 'text-right font-tec
         <tr class="border-b border-ligne last:border-b-0 odd:bg-blanc even:bg-papier hover:bg-cobalt-teinte/40">
           {selection && (
             <td class="px-3 py-2.5">
-              <input type="checkbox" aria-label={`Sélectionner la ligne ${ligne[cleId]}`} class="size-5 accent-cobalt" />
+              <input type="checkbox" data-ligne aria-label={`Sélectionner la ligne ${ligne[cleId]}`} class="size-5 accent-cobalt" />
             </td>
           )}
           {colonnes.map((colonne, index) =>
@@ -74,4 +76,50 @@ const classeCellule = (numerique?: boolean) => (numerique ? 'text-right font-tec
       ))}
     </tbody>
   </table>
-</div>
+</bk-tableau>
+
+<script>
+  import { comparerValeurs, sensSuivant, type SensTri } from '../../lib/tri';
+
+  class Tableau extends HTMLElement {
+    connectedCallback() {
+      const corps = this.querySelector('tbody');
+      const entetes = Array.from(this.querySelectorAll<HTMLTableCellElement>('thead th[data-sens]'));
+      if (!corps) return;
+      const decalage = this.querySelector('thead th input[data-tout]') ? 1 : 0;
+
+      for (const entete of entetes) {
+        entete.querySelector('[data-trier]')?.addEventListener('click', () => {
+          const sens = sensSuivant((entete.dataset.sens as SensTri) ?? 'aucun');
+          const index = Number(entete.dataset.index) + decalage;
+          const numerique = entete.hasAttribute('data-numerique');
+          for (const autre of entetes) {
+            const actif = autre === entete;
+            autre.dataset.sens = actif ? sens : 'aucun';
+            if (actif) autre.setAttribute('aria-sort', sens === 'croissant' ? 'ascending' : 'descending');
+            else autre.removeAttribute('aria-sort');
+          }
+          const lignes = Array.from(corps.querySelectorAll<HTMLTableRowElement>('tr'));
+          lignes.sort((a, b) => {
+            const va = a.cells[index]?.textContent?.trim() ?? '';
+            const vb = b.cells[index]?.textContent?.trim() ?? '';
+            return sens === 'croissant' ? comparerValeurs(va, vb, numerique) : comparerValeurs(vb, va, numerique);
+          });
+          corps.replaceChildren(...lignes);
+        });
+      }
+
+      const tout = this.querySelector<HTMLInputElement>('input[data-tout]');
+      const cases = () => Array.from(this.querySelectorAll<HTMLInputElement>('input[data-ligne]'));
+      tout?.addEventListener('change', () => { for (const c of cases()) c.checked = tout.checked; });
+      this.addEventListener('change', (evenement) => {
+        if (!(evenement.target as Element).matches('input[data-ligne]') || !tout) return;
+        const liste = cases();
+        const cochees = liste.filter((c) => c.checked).length;
+        tout.checked = cochees === liste.length && liste.length > 0;
+        tout.indeterminate = cochees > 0 && cochees < liste.length;
+      });
+    }
+  }
+  if (!customElements.get('bk-tableau')) customElements.define('bk-tableau', Tableau);
+</script>

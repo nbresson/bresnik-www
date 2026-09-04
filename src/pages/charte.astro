@@ -60,6 +60,16 @@ import BoutonIcone from '../components/application/BoutonIcone.astro';
 import GroupeBoutons from '../components/application/GroupeBoutons.astro';
 import GraphiqueBarres from '../components/application/GraphiqueBarres.astro';
 import LegendeGraphique from '../components/application/LegendeGraphique.astro';
+import Onglets from '../components/application/Onglets.astro';
+import MenuDeroulant from '../components/application/MenuDeroulant.astro';
+import IndicateurEtapes from '../components/application/IndicateurEtapes.astro';
+import Interrupteur from '../components/application/Interrupteur.astro';
+import ChampMotDePasse from '../components/application/ChampMotDePasse.astro';
+import Televersement from '../components/application/Televersement.astro';
+import SelecteurRecherche from '../components/application/SelecteurRecherche.astro';
+import Modale from '../components/application/Modale.astro';
+import BoiteConfirmation from '../components/application/BoiteConfirmation.astro';
+import Notifications from '../components/application/Notifications.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
 import { ratioContraste } from '../lib/contraste';
@@ -731,7 +741,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
             <Champ nom="charte-taux" libelle="Taux" type="nombre" suffixe="%" min="0" max="100" />
             <Champ nom="charte-date" libelle="Date" type="date" />
             <Champ nom="charte-heure" libelle="Heure" type="heure" />
-            <Champ nom="charte-motdepasse" libelle="Mot de passe" type="motdepasse" aide="Affichage du mot de passe : lot interactif." />
+            <ChampMotDePasse nom="charte-motdepasse" libelle="Mot de passe" avecRobustesse autocomplete="new-password" />
           </div>
         </div>
       </div>
@@ -762,7 +772,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
             { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#supprimer-${l.id}` },
           ]}
         />
-        <p class="text-[15px] text-encre-2">Tri et sélection côté client : lot interactif. Les en-têtes portent déjà <span class="technique">aria-sort</span>.</p>
+        <p class="text-[15px] text-encre-2">Cliquez un en-tête pour trier côté client ; la case d'en-tête sélectionne toutes les lignes.</p>
       </div>
 
       <div class="flex flex-col gap-4">
@@ -770,6 +780,70 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         <p class="max-w-[760px] text-[15px] text-encre-2">Palette catégorielle à ordre fixe, validée pour les daltonismes en mode clair : cinq séries au plus, un axe unique, barres fines, légende dès deux séries, valeur maximale étiquetée, tableau des données toujours disponible. Les couleurs de statut restent réservées aux statuts.</p>
         <LegendeGraphique series={[{ nom: 'graphique-1', couleur: 1 }, { nom: 'graphique-2', couleur: 2 }, { nom: 'graphique-3', couleur: 3 }, { nom: 'graphique-4', couleur: 4 }, { nom: 'graphique-5', couleur: 5 }]} />
         <GraphiqueBarres titre="[Exemple] Encaissements et décaissements, en k€" unite=" k€" categories={graphiqueExemple.categories} series={graphiqueExemple.series} class="max-w-[760px]" />
+      </div>
+
+
+      <div class="flex flex-col gap-10" id="charte-interactions">
+        <h3 class="text-[22px] font-bold">Interactions</h3>
+        <p class="max-w-[760px] text-[15px] text-encre-2">Composants avec un script natif minimal, définis comme éléments personnalisés (<span class="technique">bk-*</span>). Tout est utilisable au clavier : Tab, flèches, Entrée, Échap.</p>
+
+        <div class="flex flex-col gap-4">
+          <h4 class="text-[18px] font-semibold">Onglets</h4>
+          <Onglets id="charte-onglets" libelle="Exemple d'onglets" onglets={[{ id: 'general', libelle: 'Général' }, { id: 'licence', libelle: 'Licence' }, { id: 'historique', libelle: 'Historique' }]} class="rounded-carte border border-ligne bg-blanc px-5">
+            <p slot="general" class="text-[16px]">Contenu de l'onglet Général. Flèches gauche et droite pour changer d'onglet.</p>
+            <p slot="licence" class="text-[16px]">Contenu de l'onglet Licence.</p>
+            <p slot="historique" class="text-[16px]">Contenu de l'onglet Historique.</p>
+          </Onglets>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-2">
+          <div class="flex flex-col gap-4">
+            <h4 class="text-[18px] font-semibold">Menu déroulant et menu contextuel</h4>
+            <div class="flex flex-wrap items-center gap-4 rounded-carte border border-ligne bg-blanc p-6">
+              <MenuDeroulant id="charte-menu" libelle="Actions" elements={[{ libelle: 'Modifier', icone: 'crayon', href: '#charte-interactions' }, { libelle: 'Dupliquer', icone: 'document' }, { libelle: 'Exporter', icone: 'telecharger' }, { libelle: 'Supprimer', icone: 'corbeille', danger: true }]} />
+              <MenuDeroulant id="charte-menu-contextuel" libelle="Plus d'actions" iconeSeule="points" alignement="droite" elements={[{ libelle: 'Renommer', icone: 'crayon' }, { libelle: 'Archiver', icone: 'dossier' }]} />
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <h4 class="text-[18px] font-semibold">Indicateur d'étapes</h4>
+            <div class="rounded-carte border border-ligne bg-blanc p-6">
+              <IndicateurEtapes etapes={['Coordonnées', 'Produit', 'Paiement', 'Confirmation']} courante={2} />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h4 class="text-[18px] font-semibold">Interrupteur, mot de passe, téléversement, sélecteur</h4>
+          <form class="grid max-w-[900px] gap-6 rounded-carte border border-ligne bg-blanc p-6 md:grid-cols-2" onsubmit="return false">
+            <div class="flex flex-col gap-4">
+              <Interrupteur nom="charte-notifications" libelle="Recevoir les notifications par email" actif aide="Résumé quotidien à 8 h." />
+              <Interrupteur nom="charte-double-auth" libelle="Authentification à deux facteurs" />
+              <Interrupteur nom="charte-desactive" libelle="Option indisponible" desactive />
+            </div>
+            <ChampMotDePasse nom="charte-nouveau-motdepasse" libelle="Nouveau mot de passe" avecRobustesse autocomplete="new-password" aide="Tapez pour voir la robustesse évoluer." />
+            <Televersement nom="charte-fichiers" libelle="Fichiers FEC" accept=".txt,.csv" multiple aide="Glisser-déposer ou parcourir ; chaque fichier peut être retiré." />
+            <div class="flex flex-col gap-4">
+              <SelecteurRecherche id="charte-selecteur" nom="charte-produit" libelle="Produit (sélection simple)" options={optionsListe.filter((o) => o.valeur !== '')} placeholder="Tapez pour filtrer" />
+              <SelecteurRecherche id="charte-selecteur-multiple" nom="charte-modules" libelle="Modules Sage (sélection multiple)" multiple options={[{ valeur: 'compta', libelle: 'Comptabilité' }, { valeur: 'gescom', libelle: 'Gestion commerciale' }, { valeur: 'paie', libelle: 'Paie' }, { valeur: 'immo', libelle: 'Immobilisations' }, { valeur: 'moyens', libelle: 'Moyens de paiement' }]} placeholder="Ajouter un module" aide="Retour arrière retire la dernière puce." />
+            </div>
+          </form>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h4 class="text-[18px] font-semibold">Modale, panneau latéral, confirmation, notifications</h4>
+          <div class="flex flex-wrap items-center gap-3 rounded-carte border border-ligne bg-blanc p-6">
+            <Modale id="charte-modale" titre="Détail de la licence" libelleOuverture="Ouvrir une modale">
+              <p>Boîte de dialogue native : focus piégé, Échap et clic sur l'arrière-plan ferment.</p>
+            </Modale>
+            <Modale id="charte-panneau" titre="Filtres avancés" libelleOuverture="Ouvrir un panneau latéral" lateral>
+              <p>Panneau coulissant à droite, même mécanique que la modale.</p>
+            </Modale>
+            <BoiteConfirmation id="charte-confirmation" titre="Supprimer la licence L-1003 ?" texte="Cette action est définitive. Les postes associés seront libérés." libelleConfirmer="Supprimer" danger libelleOuverture="Ouvrir une confirmation" />
+            <button type="button" data-notifier='{"texte":"Licence enregistrée.","ton":"succes"}' class="inline-flex h-11 items-center rounded-bouton border-[1.5px] border-encre px-[18px] text-[15px] font-semibold text-encre hover:bg-papier-2">Notifier un succès</button>
+            <button type="button" data-notifier='{"texte":"La synchronisation a échoué.","ton":"erreur","duree":0}' class="inline-flex h-11 items-center rounded-bouton border-[1.5px] border-encre px-[18px] text-[15px] font-semibold text-encre hover:bg-papier-2">Notifier une erreur</button>
+          </div>
+          <p id="charte-resultat-confirmation" class="text-[15px] text-encre-2" aria-live="polite">Résultat de la confirmation : en attente.</p>
+        </div>
       </div>
 
       <div class="flex flex-col gap-4">
@@ -792,4 +866,15 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
   </div>
 
   <BandeAppel id="charte-bande-appel" titre="Titre de la bande d'appel." texte="Texte secondaire de la bande, sur fond encre." />
+  <Notifications />
 </Base>
+
+<script>
+  document.addEventListener('bk-confirmation', (evenement) => {
+    const { id, confirme } = (evenement as CustomEvent<{ id: string; confirme: boolean }>).detail;
+    if (id !== 'charte-confirmation') return;
+    const resultat = document.getElementById('charte-resultat-confirmation');
+    if (resultat) resultat.textContent = `Résultat de la confirmation : ${confirme ? 'confirmée' : 'annulée'}.`;
+    window.bkNotifier?.({ texte: confirme ? 'Licence supprimée.' : 'Suppression annulée.', ton: confirme ? 'succes' : 'information' });
+  });
+</script>
