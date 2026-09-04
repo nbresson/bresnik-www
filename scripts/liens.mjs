@@ -19,7 +19,13 @@ export function estInterne(lien) {
 }
 
 export function cheminsCandidats(lien) {
-  const sansSuffixe = decodeURIComponent(lien.split('#')[0].split('?')[0]);
+  const brut = lien.split('#')[0].split('?')[0];
+  let sansSuffixe;
+  try {
+    sansSuffixe = decodeURIComponent(brut);
+  } catch {
+    sansSuffixe = brut;
+  }
   const relatif = sansSuffixe.replace(/^\/+/, '');
   if (relatif === '') return ['index.html'];
   if (relatif.endsWith('/')) return [`${relatif}index.html`];

@@ -39,6 +39,10 @@ describe('cheminsCandidats', () => {
   it('décode les URL avant de résoudre le chemin', () => {
     expect(cheminsCandidats('/blog/tags/%C3%A9critures/')).toEqual(['blog/tags/écritures/index.html']);
   });
+
+  it('se rabat sur la chaîne non décodée si le décodage échoue', () => {
+    expect(cheminsCandidats('/x/%E0%A4%A')).toEqual(['x/%E0%A4%A', 'x/%E0%A4%A/index.html', 'x/%E0%A4%A.html']);
+  });
 });
 
 describe('verifierDist', () => {
