@@ -1,0 +1,197 @@
+---
+// Page de charte vivante : chaque exemple est le vrai composant avec des
+// données d'exemple. Non indexée, hors sitemap, jamais liée depuis la
+// navigation. Ajouter ici tout nouveau composant (règle de la spec design).
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icone from '../components/Icone.astro';
+import Marque from '../components/Marque.astro';
+import Bouton from '../components/Bouton.astro';
+import Etiquette from '../components/Etiquette.astro';
+import EnTeteSection from '../components/EnTeteSection.astro';
+import ListeCoches from '../components/ListeCoches.astro';
+import BandeAppel from '../components/BandeAppel.astro';
+import CarteProduit from '../components/CarteProduit.astro';
+import CarteAppel from '../components/CarteAppel.astro';
+import CarteArticle from '../components/CarteArticle.astro';
+import CadreCapture from '../components/CadreCapture.astro';
+import FicheTechnique from '../components/FicheTechnique.astro';
+import Champ from '../components/Champ.astro';
+import { produitsPublies } from '../lib/catalogue';
+import { filtrerPublies } from '../lib/blog';
+
+const produits = await produitsPublies();
+const produitEntreprise = produits.find((p) => p.data.cible === 'entreprise') ?? produits[0];
+const produitConsultant = produits.find((p) => p.data.cible === 'consultant') ?? produits[0];
+const produitEssai = { ...produitEntreprise, data: { ...produitEntreprise.data, disponibilite: 'essai' as const } };
+// Un brouillon lierait vers une page de tag absente du build : seuls les articles publiés servent d'exemple.
+const article = filtrerPublies(await getCollection('blog'), import.meta.env.DEV)[0];
+
+const couleurs = [
+  { nom: 'papier', classe: 'bg-papier', valeur: '#faf8f4', usage: 'Fond de page' },
+  { nom: 'papier-2', classe: 'bg-papier-2', valeur: '#f1ede4', usage: 'Bandes de section' },
+  { nom: 'encre', classe: 'bg-encre', valeur: '#1c2331', usage: 'Texte, bandes sombres' },
+  { nom: 'encre-2', classe: 'bg-encre-2', valeur: '#4f5868', usage: 'Texte secondaire' },
+  { nom: 'encre-claire', classe: 'bg-encre-claire', valeur: '#c9cfdb', usage: 'Texte sur fond encre' },
+  { nom: 'ligne', classe: 'bg-ligne', valeur: '#e2ddd2', usage: 'Bordures' },
+  { nom: 'blanc', classe: 'bg-blanc', valeur: '#ffffff', usage: 'Fond des cartes' },
+  { nom: 'cobalt', classe: 'bg-cobalt', valeur: '#1f4fc7', usage: 'Accent, liens, boutons' },
+  { nom: 'cobalt-fonce', classe: 'bg-cobalt-fonce', valeur: '#183f9f', usage: 'Survol' },
+  { nom: 'cobalt-teinte', classe: 'bg-cobalt-teinte', valeur: '#e6ecfa', usage: 'Fond étiquette entreprises' },
+  { nom: 'ambre', classe: 'bg-ambre', valeur: '#8f620f', usage: 'Texte étiquette consultants' },
+  { nom: 'ambre-teinte', classe: 'bg-ambre-teinte', valeur: '#fbf1dd', usage: 'Fond étiquette consultants' },
+];
+
+const typographie = [
+  { nom: 'titre-1', classe: 'font-titres text-[38px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]', exemple: 'Des logiciels qui complètent Sage 100.' },
+  { nom: 'titre-2', classe: 'font-titres text-[28px] font-bold leading-[1.12] md:text-[40px] md:leading-[1.1]', exemple: 'Titre de section' },
+  { nom: 'titre-2-petit', classe: 'font-titres text-[24px] font-bold leading-[1.15] md:text-[30px]', exemple: 'Titre de sous-section' },
+  { nom: 'titre-3', classe: 'font-titres text-[22px] font-semibold leading-[1.25] md:text-[24px]', exemple: 'Titre de carte' },
+  { nom: 'sous-titre', classe: 'text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]', exemple: 'Sous-titre de page, en couleur secondaire.' },
+  { nom: 'texte', classe: 'text-[17px] leading-[1.5] md:text-[19px] md:leading-[1.6]', exemple: 'Corps de texte, Source Sans 3, confortable sur 65 caractères environ.' },
+  { nom: 'texte-petit', classe: 'text-[14px] leading-[1.5] text-encre-2', exemple: 'Texte petit, légendes et mentions.' },
+  { nom: 'eyebrow', classe: 'eyebrow', exemple: 'Eyebrow en monospace' },
+  { nom: 'technique', classe: 'technique', exemple: 'Sage 100 Comptabilité · Windows (WPF)' },
+];
+
+const domaines = ['Paramétrage et migration Sage 100', 'Administration SQL Server', 'Objets métiers Sage', 'Reporting'];
+const optionsListe = [
+  { valeur: '', libelle: 'Aucun produit en particulier' },
+  ...produits.map((p) => ({ valeur: p.id, libelle: p.data.nom })),
+];
+---
+<Base titre="Charte" description="Catalogue des composants et des fondations visuelles du site Bresnik." noindex>
+  <header class="conteneur flex flex-col gap-4 pb-10 pt-10 md:pb-14 md:pt-14">
+    <p class="eyebrow">Charte vivante</p>
+    <h1 class="text-[34px] font-bold leading-[1.08] tracking-[-0.02em] md:text-[48px] md:leading-[1.06]">Composants et fondations</h1>
+    <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]">
+      Chaque exemple est le composant réel du site avec des données d'exemple. Page non indexée. Testez les états de focus au clavier avec la touche Tab.
+    </p>
+  </header>
+
+  <div class="conteneur flex flex-col gap-16 pb-16 md:gap-20 md:pb-20">
+
+    <section aria-labelledby="charte-couleurs" class="flex flex-col gap-6">
+      <h2 id="charte-couleurs" class="text-[24px] font-bold md:text-[30px]">Couleurs</h2>
+      <ul class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+        {couleurs.map((c) => (
+          <li class="flex flex-col gap-2">
+            <span class={`block h-16 rounded-carte border border-ligne ${c.classe}`}></span>
+            <span class="text-[14px] font-semibold">{c.nom}</span>
+            <span class="technique">{c.valeur}</span>
+            <span class="text-[13px] text-encre-2">{c.usage}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="charte-typo" class="flex flex-col gap-6">
+      <h2 id="charte-typo" class="text-[24px] font-bold md:text-[30px]">Typographie</h2>
+      <dl class="flex flex-col gap-5 rounded-carte border border-ligne bg-blanc p-6 md:p-8">
+        {typographie.map((t) => (
+          <div class="flex flex-col gap-1">
+            <dt class="technique">{t.nom}</dt>
+            <dd class={t.classe}>{t.exemple}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section aria-labelledby="charte-icones" class="flex flex-col gap-6">
+      <h2 id="charte-icones" class="text-[24px] font-bold md:text-[30px]">Icônes et marque</h2>
+      <div class="flex flex-wrap items-center gap-8 rounded-carte border border-ligne bg-blanc p-6">
+        <span class="flex items-center gap-2"><Icone nom="fleche" taille={24} /><span class="technique">fleche</span></span>
+        <span class="flex items-center gap-2"><Icone nom="coche" taille={24} class="text-cobalt" /><span class="technique">coche</span></span>
+        <span class="flex items-center gap-2"><Icone nom="menu" taille={24} /><span class="technique">menu</span></span>
+        <span class="flex items-center gap-3"><Marque /><span class="technique">marque en-tete</span></span>
+        <span class="flex items-center gap-3"><Marque taille="pied" /><span class="technique">marque pied</span></span>
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-boutons" class="flex flex-col gap-6">
+      <h2 id="charte-boutons" class="text-[24px] font-bold md:text-[30px]">Boutons</h2>
+      <div class="flex flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6">
+        <div class="flex flex-wrap items-center gap-3">
+          <Bouton href="/contact/" fleche>Primaire avec flèche</Bouton>
+          <Bouton href="/produits/" variante="secondaire">Secondaire</Bouton>
+          <Bouton href="/contact/" taille="compact">Compact</Bouton>
+          <Bouton type="button" desactive aria-describedby="charte-mention">Désactivé</Bouton>
+          <span id="charte-mention" class="technique">Bientôt disponible</span>
+        </div>
+        <div class="rounded-carte bg-encre p-6">
+          <Bouton href="/contact/" variante="inverse" fleche>Inverse sur fond encre</Bouton>
+        </div>
+        <div class="max-w-[360px]">
+          <Bouton href="/contact/" plein>Pleine largeur</Bouton>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-etiquettes" class="flex flex-col gap-6">
+      <h2 id="charte-etiquettes" class="text-[24px] font-bold md:text-[30px]">Étiquettes</h2>
+      <div class="flex flex-wrap items-center gap-3 rounded-carte border border-ligne bg-blanc p-6">
+        <Etiquette ton="cobalt">Entreprises</Etiquette>
+        <Etiquette ton="ambre">Consultants Sage</Etiquette>
+        <Etiquette ton="neutre">#sql-server</Etiquette>
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-entetes" class="flex flex-col gap-6">
+      <h2 id="charte-entetes" class="text-[24px] font-bold md:text-[30px]">En-tête de section</h2>
+      <div class="rounded-carte border border-ligne bg-blanc p-6">
+        <EnTeteSection id="charte-exemple-section" eyebrow="Eyebrow" titre="Titre de section avec lien" lienHref="/produits/" lienLibelle="Lien de section" />
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-listes" class="flex flex-col gap-6">
+      <h2 id="charte-listes" class="text-[24px] font-bold md:text-[30px]">Liste à coches</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <ListeCoches elements={domaines.slice(0, 2)} />
+        <ListeCoches elements={domaines} colonnes={2} />
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-cartes" class="flex flex-col gap-6">
+      <h2 id="charte-cartes" class="text-[24px] font-bold md:text-[30px]">Cartes</h2>
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <CarteProduit produit={produitEntreprise} />
+        <CarteProduit produit={produitConsultant} />
+        <CarteAppel />
+      </div>
+      {article ? (
+        <div class="max-w-[760px]">
+          <CarteArticle article={article} />
+        </div>
+      ) : (
+        <p class="technique">Carte d'article : visible dès qu'un article est publié.</p>
+      )}
+    </section>
+
+    <section aria-labelledby="charte-produit" class="flex flex-col gap-6">
+      <h2 id="charte-produit" class="text-[24px] font-bold md:text-[30px]">Cadre de capture et fiche technique</h2>
+      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)]">
+        <CadreCapture titre="Fenêtre d'application" />
+        <div class="flex flex-col gap-6">
+          <FicheTechnique produit={produitEntreprise} />
+          <FicheTechnique produit={produitEssai} />
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="charte-champs" class="flex flex-col gap-6">
+      <h2 id="charte-champs" class="text-[24px] font-bold md:text-[30px]">Champs de formulaire</h2>
+      <form class="flex max-w-[640px] flex-col gap-5 rounded-carte border border-ligne bg-blanc p-6" onsubmit="return false">
+        <Champ nom="charte-nom" libelle="Texte" requis aide="Texte d'aide sous le champ." />
+        <Champ nom="charte-email" libelle="Email" type="email" />
+        <Champ nom="charte-liste" libelle="Liste" type="liste" options={optionsListe} />
+        <Champ nom="charte-zone" libelle="Zone de texte" type="zone" lignes={3} />
+      </form>
+    </section>
+
+    <section aria-labelledby="charte-bande" class="flex flex-col gap-6">
+      <h2 id="charte-bande" class="text-[24px] font-bold md:text-[30px]">Bande d'appel</h2>
+    </section>
+  </div>
+
+  <BandeAppel id="charte-bande-appel" titre="Titre de la bande d'appel." texte="Texte secondaire de la bande, sur fond encre." />
+</Base>
