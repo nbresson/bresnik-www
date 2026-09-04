@@ -13,7 +13,16 @@ const optionsProduits = [
   { valeur: '', libelle: 'Aucun produit en particulier' },
   ...produits.map((p) => ({ valeur: p.id, libelle: p.data.nom })),
 ];
-const cleTurnstile = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+// Les prévisualisations de branche (Workers Builds) n'ont pas la variable de
+// build de production : elles reçoivent la clé de site de test, inutilisable
+// ailleurs que sur les hôtes de test. La production exige la vraie clé.
+const brancheBuild = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.WORKERS_CI_BRANCH;
+const apercuDeBranche = brancheBuild !== undefined && brancheBuild !== 'main';
+let cleTurnstile = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+if (!cleTurnstile && apercuDeBranche) {
+  cleTurnstile = '1x00000000000000000000AA';
+  console.warn(`Prévisualisation de la branche ${brancheBuild} : clé de site Turnstile de test utilisée.`);
+}
 if (import.meta.env.PROD && !cleTurnstile) {
   throw new Error('PUBLIC_TURNSTILE_SITE_KEY manquante : définir la variable de build (voir docs/deploiement.md).');
 }
