@@ -14,7 +14,7 @@ export interface DependancesContact {
   lireProduits?: () => Promise<Produits>;
 }
 
-const MESSAGE_TURNSTILE = 'La vérification anti-robot a échoué. Rechargez la page et réessayez.';
+const MESSAGE_TURNSTILE = 'La vérification anti-robot a échoué. Refaites-la et réessayez.';
 const MESSAGE_ENVOI = 'L\'envoi a échoué. Réessayez dans quelques minutes.';
 
 async function lireCorps(request: Request): Promise<Record<string, string>> {
@@ -33,20 +33,23 @@ function attendJson(request: Request): boolean {
 
 function repondre(request: Request, statut: number, erreurs: ErreurChamp[]): Response {
   if (attendJson(request)) {
-    return Response.json(statut === 200 ? { ok: true } : { ok: false, erreurs }, { status: statut });
+    return Response.json(statut === 200 ? { ok: true } : { ok: false, erreurs }, { status: statut, headers: { 'Cache-Control': 'no-store' } });
   }
-  const destination = new URL('/contact/', request.url);
-  if (statut === 200) destination.searchParams.set('etat', 'envoye');
-  else {
-    destination.searchParams.set('etat', 'erreur');
+  let location: string;
+  if (statut === 200) {
+    location = '/contact/?etat=envoye#envoye';
+  } else {
     const champs = erreurs.map((e) => e.champ).filter(Boolean);
-    if (champs.length > 0) destination.searchParams.set('champs', champs.join(','));
+    const parametres = new URLSearchParams({ etat: 'erreur' });
+    if (champs.length > 0) parametres.set('champs', champs.join(','));
+    location = `/contact/?${parametres.toString()}#erreur`;
   }
-  return Response.redirect(destination.toString(), 303);
+  return new Response(null, { status: 303, headers: { Location: location, 'Cache-Control': 'no-store' } });
 }
 
 async function produitsDepuisAssets(request: Request, env: Env): Promise<Produits> {
   const reponse = await env.ASSETS.fetch(new Request(new URL('/api/produits.json', request.url).toString()));
+  if (!reponse.ok) throw new Error(`Assets produits.json : statut ${reponse.status}.`);
   const json = (await reponse.json()) as { produits: { id: string; nom: string }[] };
   return { ids: json.produits.map((p) => p.id), noms: Object.fromEntries(json.produits.map((p) => [p.id, p.nom])) };
 }
@@ -55,6 +58,9 @@ export async function traiterContact(request: Request, env: Env, deps: Dependanc
   if (request.method !== 'POST') {
     return Response.json({ ok: false, erreurs: [{ champ: '', message: 'Méthode non autorisée.' }] }, { status: 405, headers: { Allow: 'POST' } });
   }
+  const taille = Number(request.headers.get('Content-Length') ?? '0');
+  if (taille > 32 * 1024) return repondre(request, 413, [{ champ: '', message: 'Requête trop volumineuse.' }]);
+
   const fetchFn = deps.fetchFn ?? fetch;
   const lireProduits = deps.lireProduits ?? (() => produitsDepuisAssets(request, env));
 
@@ -65,7 +71,13 @@ export async function traiterContact(request: Request, env: Env, deps: Dependanc
     return repondre(request, 400, [{ champ: '', message: 'Requête illisible.' }]);
   }
 
-  const produits = await lireProduits();
+  let produits: Produits;
+  try {
+    produits = await lireProduits();
+  } catch {
+    console.error('Liste des produits illisible.');
+    return repondre(request, 502, [{ champ: '', message: MESSAGE_ENVOI }]);
+  }
   const validation = validerContact(brut, produits.ids);
   if (!validation.ok) return repondre(request, 400, validation.erreurs);
 

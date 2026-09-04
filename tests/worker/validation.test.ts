@@ -46,6 +46,12 @@ describe('validerContact', () => {
     expect(resultat).toEqual({ ok: false, erreurs: [{ champ: '', message: 'Envoi impossible.' }] });
   });
 
+  it('refuse un nom contenant des caractères de contrôle', () => {
+    const resultat = validerContact({ ...valide, nom: 'Nicolas\r\nBresson' }, produits);
+    expect(resultat.ok).toBe(false);
+    if (!resultat.ok) expect(resultat.erreurs).toContainEqual({ champ: 'nom', message: 'Le nom contient des caractères non autorisés.' });
+  });
+
   it('tolère des champs absents', () => {
     const resultat = validerContact({}, produits);
     expect(resultat.ok).toBe(false);

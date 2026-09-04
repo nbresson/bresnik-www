@@ -52,6 +52,7 @@ describe('traiterContact', () => {
     const fetchFn = fetchSimule(true);
     const reponse = await traiterContact(requeteJson(champs), env, { fetchFn, lireProduits });
     expect(reponse.status).toBe(200);
+    expect(reponse.headers.get('Cache-Control')).toBe('no-store');
     expect(await reponse.json()).toEqual({ ok: true });
     const appelBrevo = fetchFn.mock.calls.find(([url]) => String(url).includes('brevo'));
     const corps = JSON.parse(appelBrevo?.[1]?.body as string);
@@ -84,10 +85,32 @@ describe('traiterContact', () => {
   it('redirige un envoi de formulaire classique vers la page de contact', async () => {
     const succes = await traiterContact(requeteFormulaire(champs), env, { fetchFn: fetchSimule(true), lireProduits });
     expect(succes.status).toBe(303);
-    expect(succes.headers.get('Location')).toBe('https://site.test/contact/?etat=envoye');
+    expect(succes.headers.get('Location')).toBe('/contact/?etat=envoye#envoye');
+    expect(succes.headers.get('Cache-Control')).toBe('no-store');
     const echec = await traiterContact(requeteFormulaire({ ...champs, nom: 'N', consentement: '' }), env, { fetchFn: fetchSimule(true), lireProduits });
     expect(echec.status).toBe(303);
-    expect(echec.headers.get('Location')).toBe('https://site.test/contact/?etat=erreur&champs=nom%2Cconsentement');
+    expect(echec.headers.get('Location')).toBe('/contact/?etat=erreur&champs=nom%2Cconsentement#erreur');
+  });
+
+  it('répond 502 quand la liste des produits est illisible', async () => {
+    const echec = new Error('assets');
+    const reponse = await traiterContact(requeteJson(champs), env, {
+      lireProduits: async () => {
+        throw echec;
+      },
+    });
+    expect(reponse.status).toBe(502);
+    expect(await reponse.json()).toEqual({ ok: false, erreurs: [{ champ: '', message: 'L\'envoi a échoué. Réessayez dans quelques minutes.' }] });
+  });
+
+  it('répond 413 quand la requête dépasse la taille autorisée', async () => {
+    const requete = new Request('https://site.test/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'Content-Length': '40000' },
+      body: JSON.stringify(champs),
+    });
+    const reponse = await traiterContact(requete, env, { lireProduits });
+    expect(reponse.status).toBe(413);
   });
 
   it('lit la liste des produits depuis les assets par défaut', async () => {
