@@ -1,50 +1,83 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Bouton from '../components/Bouton.astro';
+import Icone from '../components/Icone.astro';
+import EnTeteSection from '../components/EnTeteSection.astro';
 import CarteProduit from '../components/CarteProduit.astro';
+import CarteAppel from '../components/CarteAppel.astro';
 import CarteArticle from '../components/CarteArticle.astro';
+import CadreCapture from '../components/CadreCapture.astro';
+import ListeCoches from '../components/ListeCoches.astro';
+import BandeAppel from '../components/BandeAppel.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies, trierParDate } from '../lib/blog';
 
 const produits = await produitsPublies();
 const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV)).slice(0, 3);
+const domaines = [
+  'Paramétrage, migration et reprise de données Sage 100',
+  'Administration et optimisation des bases SQL Server des logiciels Sage',
+  'Automatisation et interfaces autour des Objets métiers Sage',
+  'Reporting et analyse comptable',
+];
 ---
 <Base titre="Bresnik" description="Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par Nicolas Bresson." sansSuffixe>
-  <section>
-    <h1 class="text-4xl font-bold">Des logiciels qui complètent Sage 100</h1>
-    <p class="mt-4 max-w-2xl text-lg">
-      Bresnik conçoit des applications Windows pour Sage 100 Comptabilité et Gestion commerciale,
-      et des outils pour les consultants Sage. Elles s'appuient sur SQL Server et sur les Objets métiers Sage.
-    </p>
-    <p class="mt-6 flex gap-4">
-      <a href="/produits/" class="rounded px-4 py-2 font-semibold" style="background: var(--couleur-accent); color: var(--couleur-accent-contraste)">Voir les produits</a>
-      <a href="/contact/" class="rounded border px-4 py-2 font-semibold" style="border-color: var(--couleur-bordure)">Nous contacter</a>
-    </p>
-  </section>
-
-  <section class="mt-12" aria-labelledby="produits">
-    <h2 id="produits" class="text-2xl font-semibold">Produits</h2>
-    <div class="mt-4 grid gap-4 md:grid-cols-2">
-      {produits.map((produit) => <CarteProduit produit={produit} />)}
+  <section aria-labelledby="promesse" class="conteneur grid items-center gap-10 pb-8 pt-10 lg:grid-cols-2 lg:gap-16 lg:pb-22 lg:pt-24">
+    <div class="flex flex-col gap-5 lg:gap-6">
+      <p class="eyebrow">Logiciels pour l'écosystème Sage 100</p>
+      <h1 id="promesse" class="text-[38px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]">
+        Des logiciels qui complètent Sage 100.
+      </h1>
+      <p class="max-w-[560px] text-[18px] leading-[1.5] text-encre-2 md:text-[21px]">
+        Intégration bancaire, analyse de FEC, politique tarifaire, exports automatisés : des applications Windows nées de missions de conseil, construites sur SQL Server et les Objets métiers Sage.
+      </p>
+      <div class="mt-1.5 flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3">
+        <Bouton href="/produits/" fleche class="max-md:w-full">Voir les produits</Bouton>
+        <Bouton href="/contact/" variante="secondaire" class="max-md:w-full">Demander une démo</Bouton>
+      </div>
+      <p class="technique">Conçus par un consultant Sage 100 · Windows · SQL Server</p>
+    </div>
+    <div class="hidden md:block">
+      <CadreCapture titre="BankBridge — Extraits à intégrer" />
     </div>
   </section>
 
-  <section class="mt-12" aria-labelledby="conseil">
-    <h2 id="conseil" class="text-2xl font-semibold">Conseil Sage</h2>
-    <p class="mt-3 max-w-2xl">
-      Nicolas Bresson est consultant sur Sage 100 Comptabilité, Gestion commerciale, Moyens de paiement,
-      Immobilisations, Reporting et Batigest.
-    </p>
-    <p class="mt-3"><a href="/conseil/" class="underline">En savoir plus sur l'activité de conseil</a></p>
+  <section aria-labelledby="produits" class="conteneur flex flex-col gap-6 pb-16 pt-6 md:gap-8 md:pb-24 md:pt-8">
+    <EnTeteSection id="produits" eyebrow="Produits" titre="Cinq outils, cinq besoins rencontrés sur le terrain." lienHref="/produits/" lienLibelle="Tous les produits" />
+    <div class="grid gap-3 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+      {produits.map((produit) => <CarteProduit produit={produit} />)}
+      <CarteAppel />
+    </div>
+  </section>
+
+  <section aria-labelledby="conseil" class="bg-papier-2">
+    <div class="conteneur grid gap-8 py-10 lg:grid-cols-2 lg:gap-16 lg:py-22">
+      <div class="flex flex-col gap-4 md:gap-[18px]">
+        <p class="eyebrow">Conseil Sage</p>
+        <h2 id="conseil" class="text-[28px] font-bold leading-[1.12] md:text-[40px] md:leading-[1.1]">Né du conseil, pas de la théorie.</h2>
+        <p class="text-[17px] leading-[1.5] md:text-[19px] md:leading-[1.55]">
+          Nicolas Bresson accompagne les entreprises et les cabinets sur Sage 100 Comptabilité, Gestion commerciale, Moyens de paiement, Immobilisations, Reporting et Batigest. Les produits Bresnik répondent à des besoins rencontrés en mission que Sage ne couvre pas.
+        </p>
+        <a href="/conseil/" class="inline-flex items-center gap-1.5 text-[16px] font-semibold">
+          L'activité de conseil
+          <Icone nom="fleche" taille={16} />
+        </a>
+      </div>
+      <ListeCoches elements={domaines} class="self-center" />
+    </div>
   </section>
 
   {articles.length > 0 && (
-    <section class="mt-12" aria-labelledby="articles">
-      <h2 id="articles" class="text-2xl font-semibold">Derniers articles</h2>
-      <div class="mt-4">
+    <section aria-labelledby="articles" class="conteneur flex flex-col gap-6 py-10 md:gap-7 md:py-22">
+      <EnTeteSection id="articles" eyebrow="Blog" titre="Retours de terrain sur Sage 100 et SQL Server." lienHref="/blog/" lienLibelle="Tous les articles" />
+      <div class="grid gap-5 md:grid-cols-3">
         {articles.map((article) => <CarteArticle article={article} />)}
       </div>
-      <p class="mt-3"><a href="/blog/" class="underline">Tous les articles</a></p>
     </section>
   )}
+
+  <div class="pt-10 md:pt-22">
+    <BandeAppel />
+  </div>
 </Base>
