@@ -78,7 +78,11 @@ variables de build.
   (exécuté aussi par le CI) : aucun lien interne cassé.
 - Lighthouse, manuel : `npm run build && npx astro preview`, puis
   `npx lighthouse http://localhost:4321/ --preset=desktop` sur l'accueil, une
-  fiche produit et une page éditoriale. Objectif : 95 ou plus dans les quatre
-  catégories.
+  fiche produit et un article de blog (ou la page conseil tant qu'aucun
+  article n'est publié). Objectif : 95 ou plus dans les quatre catégories.
 - Après un changement de charte (couleurs, polices), relancer
   `npm run generer-images` et commiter les fichiers de `public/`.
+- Les polices sont téléchargées depuis le CDN Fontsource au moment du build
+  (API Fonts d'Astro). Une indisponibilité du CDN fait échouer le build :
+  relancer le déploiement plus tard. Le CI met ce cache en mémoire ; Workers
+  Builds retélécharge à chaque build.
