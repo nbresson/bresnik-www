@@ -50,6 +50,11 @@ En local : `.dev.vars` (copie de `.dev.vars.example`) pour `npm run cf:dev`,
 valident toujours le widget. Quand `bresnik.fr` sera en ligne, ajouter ce
 nom d'hôte au widget Turnstile dans le tableau de bord Cloudflare.
 
+Limitation de débit : aucune dans le code, Turnstile suffit au lancement. Si
+nécessaire, ajouter depuis le tableau de bord une règle WAF de limitation sur
+`POST /api/contact` (par exemple 5 requêtes par minute et par adresse), sans
+changement de code.
+
 ## Mesure d'audience
 
 1. **Web Analytics** → **Add a site** → saisir le nom d'hôte du site.
