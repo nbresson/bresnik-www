@@ -13,6 +13,7 @@ interface Props {
   sansSuffixe?: boolean;
   image?: string;
   noindex?: boolean;
+  habillage?: 'site' | 'application';
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   sansSuffixe = false,
   image = '/og-default.png',
   noindex = false,
+  habillage = 'site',
 } = Astro.props;
 const titreComplet = sansSuffixe ? titre : `${titre} · Bresnik`;
 const urlCanonique = new URL(Astro.url.pathname, Astro.site);
@@ -65,12 +67,12 @@ const jetonAnalytics = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     >
       Aller au contenu
     </a>
-    {annonce && <BandeauAnnonce texte={annonce.texte} href={annonce.href} libelle={annonce.libelle} />}
-    <Header />
+    {habillage === 'site' && annonce && <BandeauAnnonce texte={annonce.texte} href={annonce.href} libelle={annonce.libelle} />}
+    {habillage === 'site' && <Header />}
     <main id="contenu">
       <slot />
     </main>
-    <Footer />
+    {habillage === 'site' && <Footer />}
     {jetonAnalytics && (
       <script
         is:inline

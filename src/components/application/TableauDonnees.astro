@@ -1,0 +1,77 @@
+---
+import Icone from '../Icone.astro';
+import type { NomIcone } from '../Icone.astro';
+
+type Ligne = Record<string, string | number>;
+
+interface Props {
+  legende: string;
+  colonnes: { cle: string; libelle: string; numerique?: boolean; tri?: 'croissant' | 'decroissant' | 'aucun' }[];
+  lignes: Ligne[];
+  cleId: string;
+  selection?: boolean;
+  actions?: { libelle: string; icone: NomIcone; href: (ligne: Ligne) => string }[];
+  class?: string;
+}
+
+const { legende, colonnes, lignes, cleId, selection = false, actions = [], class: classe = '' } = Astro.props;
+const ariaSort = (tri?: string) => (tri === 'croissant' ? 'ascending' : tri === 'decroissant' ? 'descending' : undefined);
+const iconeTri = (tri?: string): NomIcone => (tri === 'croissant' ? 'tri-croissant' : tri === 'decroissant' ? 'tri-decroissant' : 'tri');
+const classeCellule = (numerique?: boolean) => (numerique ? 'text-right font-technique tabular-nums' : 'text-left');
+---
+<div class={`overflow-x-auto rounded-carte border border-ligne bg-blanc ${classe}`}>
+  <table class="w-full border-collapse text-[15px]">
+    <caption class="sr-only">{legende}</caption>
+    <thead>
+      <tr class="border-b-2 border-encre bg-blanc">
+        {selection && (
+          <th scope="col" class="w-11 px-3 py-3">
+            <input type="checkbox" aria-label="Sélectionner toutes les lignes" class="size-5 accent-cobalt" />
+          </th>
+        )}
+        {colonnes.map((colonne) => (
+          <th scope="col" aria-sort={ariaSort(colonne.tri)} class={`px-4 py-3 font-semibold ${classeCellule(colonne.numerique)}`}>
+            {colonne.tri ? (
+              <button type="button" class={`inline-flex items-center gap-1 rounded-[4px] hover:text-cobalt ${colonne.numerique ? 'flex-row-reverse' : ''}`}>
+                {colonne.libelle}
+                <Icone nom={iconeTri(colonne.tri)} taille={16} class={colonne.tri === 'aucun' ? 'text-encre-2' : 'text-cobalt'} />
+              </button>
+            ) : (
+              colonne.libelle
+            )}
+          </th>
+        ))}
+        {actions.length > 0 && <th scope="col" class="px-4 py-3 text-right font-semibold"><span class="sr-only">Actions</span></th>}
+      </tr>
+    </thead>
+    <tbody>
+      {lignes.map((ligne) => (
+        <tr class="border-b border-ligne last:border-b-0 odd:bg-blanc even:bg-papier hover:bg-cobalt-teinte/40">
+          {selection && (
+            <td class="px-3 py-2.5">
+              <input type="checkbox" aria-label={`Sélectionner la ligne ${ligne[cleId]}`} class="size-5 accent-cobalt" />
+            </td>
+          )}
+          {colonnes.map((colonne, index) =>
+            index === 0 ? (
+              <th scope="row" class={`px-4 py-2.5 font-semibold ${classeCellule(colonne.numerique)}`}>{ligne[colonne.cle]}</th>
+            ) : (
+              <td class={`px-4 py-2.5 ${classeCellule(colonne.numerique)}`}>{ligne[colonne.cle]}</td>
+            ),
+          )}
+          {actions.length > 0 && (
+            <td class="px-2 py-1.5">
+              <div class="flex justify-end gap-1">
+                {actions.map((action) => (
+                  <a href={action.href(ligne)} aria-label={`${action.libelle} ${ligne[cleId]}`} class="inline-flex size-9 items-center justify-center rounded-bouton text-encre-2 hover:bg-papier-2 hover:text-cobalt">
+                    <Icone nom={action.icone} taille={18} />
+                  </a>
+                ))}
+              </div>
+            </td>
+          )}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

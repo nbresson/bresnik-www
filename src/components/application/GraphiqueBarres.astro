@@ -1,0 +1,86 @@
+---
+import LegendeGraphique from './LegendeGraphique.astro';
+
+interface Props {
+  titre: string;
+  unite?: string;
+  categories: string[];
+  series: { nom: string; couleur: 1 | 2 | 3 | 4 | 5; valeurs: number[] }[];
+  class?: string;
+}
+
+const { titre, unite = '', categories, series, class: classe = '' } = Astro.props;
+
+// Géométrie en unités SVG : marges recessives, barres fines avec 2 px de jour.
+const largeur = 640;
+const hauteur = 260;
+const marge = { haut: 12, droite: 12, bas: 36, gauche: 44 };
+const zoneLargeur = largeur - marge.gauche - marge.droite;
+const zoneHauteur = hauteur - marge.haut - marge.bas;
+const maximum = Math.max(1, ...series.flatMap((s) => s.valeurs));
+const pas = Math.pow(10, Math.floor(Math.log10(maximum)));
+const plafond = Math.ceil(maximum / pas) * pas;
+const graduations = [0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(plafond * f));
+const largeurGroupe = zoneLargeur / categories.length;
+const largeurBarre = Math.min(40, (largeurGroupe * 0.7) / series.length);
+const echelleY = (v: number) => marge.haut + zoneHauteur - (v / plafond) * zoneHauteur;
+const remplissages = { 1: 'fill-graphique-1', 2: 'fill-graphique-2', 3: 'fill-graphique-3', 4: 'fill-graphique-4', 5: 'fill-graphique-5' };
+const format = (v: number) => `${new Intl.NumberFormat('fr-FR').format(v)}${unite}`;
+const identifiant = `graphique-${titre.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+<figure class={`flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-5 ${classe}`} aria-labelledby={`${identifiant}-titre`}>
+  <figcaption id={`${identifiant}-titre`} class="text-[16px] font-semibold">{titre}</figcaption>
+  {series.length > 1 && <LegendeGraphique series={series} />}
+  <svg viewBox={`0 0 ${largeur} ${hauteur}`} class="h-auto w-full font-texte" role="img" aria-describedby={`${identifiant}-table`}>
+    {graduations.map((g) => (
+      <g>
+        <line x1={marge.gauche} x2={largeur - marge.droite} y1={echelleY(g)} y2={echelleY(g)} class="stroke-ligne" stroke-width="1"></line>
+        <text x={marge.gauche - 8} y={echelleY(g) + 4} text-anchor="end" class="fill-encre-2 text-[11px]">{format(g)}</text>
+      </g>
+    ))}
+    <line x1={marge.gauche} x2={largeur - marge.droite} y1={echelleY(0)} y2={echelleY(0)} class="stroke-encre-2" stroke-width="1"></line>
+    {categories.map((categorie, i) => {
+      const xGroupe = marge.gauche + i * largeurGroupe + (largeurGroupe - largeurBarre * series.length - 2 * (series.length - 1)) / 2;
+      return (
+        <g>
+          {series.map((serie, j) => {
+            const v = serie.valeurs[i] ?? 0;
+            const x = xGroupe + j * (largeurBarre + 2);
+            const y = echelleY(v);
+            const h = Math.max(0, echelleY(0) - y);
+            const estMax = v === maximum;
+            return (
+              <g>
+                <rect x={x} y={y} width={largeurBarre} height={h} rx="4" class={remplissages[serie.couleur]}>
+                  <title>{`${serie.nom}, ${categorie} : ${format(v)}`}</title>
+                </rect>
+                {h > 4 && <rect x={x} y={echelleY(0) - 4} width={largeurBarre} height="4" class={remplissages[serie.couleur]}></rect>}
+                {estMax && <text x={x + largeurBarre / 2} y={y - 6} text-anchor="middle" class="fill-encre text-[11px] font-semibold">{format(v)}</text>}
+              </g>
+            );
+          })}
+          <text x={marge.gauche + i * largeurGroupe + largeurGroupe / 2} y={hauteur - 12} text-anchor="middle" class="fill-encre-2 text-[12px]">{categorie}</text>
+        </g>
+      );
+    })}
+  </svg>
+  <details class="text-[14px]">
+    <summary class="cursor-pointer text-encre-2 hover:text-cobalt">Voir les données en tableau</summary>
+    <table id={`${identifiant}-table`} class="mt-2 w-full border-collapse">
+      <thead>
+        <tr class="border-b border-ligne text-left">
+          <th scope="col" class="py-1.5 pr-3 font-semibold">Catégorie</th>
+          {series.map((serie) => <th scope="col" class="py-1.5 pr-3 text-right font-semibold">{serie.nom}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {categories.map((categorie, i) => (
+          <tr class="border-b border-ligne last:border-b-0">
+            <th scope="row" class="py-1.5 pr-3 text-left font-normal">{categorie}</th>
+            {series.map((serie) => <td class="py-1.5 pr-3 text-right font-technique tabular-nums">{format(serie.valeurs[i] ?? 0)}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </details>
+</figure>

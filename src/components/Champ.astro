@@ -2,24 +2,33 @@
 import type { HTMLAttributes } from 'astro/types';
 
 interface Props extends Omit<HTMLAttributes<'input'>, 'type'> {
-  type?: 'text' | 'email' | 'zone' | 'liste';
+  type?: 'text' | 'email' | 'zone' | 'liste' | 'nombre' | 'date' | 'heure' | 'motdepasse';
   nom: string;
   libelle: string;
   requis?: boolean;
   aide?: string;
   erreur?: string;
+  prefixe?: string;
+  suffixe?: string;
   options?: { valeur: string; libelle: string }[];
   lignes?: number;
 }
 
-const { type = 'text', nom, libelle, requis = false, aide, erreur, options = [], lignes = 6, ...attributs } = Astro.props;
+const { type = 'text', nom, libelle, requis = false, aide, erreur, prefixe, suffixe, options = [], lignes = 6, ...attributs } = Astro.props;
 const identifiant = `champ-${nom}`;
 const identifiantAide = aide ? `${identifiant}-aide` : undefined;
 const identifiantErreur = erreur ? `${identifiant}-erreur` : undefined;
 const decritPar = [identifiantErreur, identifiantAide].filter(Boolean).join(' ') || undefined;
 const invalide = erreur ? 'true' : undefined;
 const bordure = erreur ? 'border-erreur' : 'border-ligne';
+const typesHtml: Record<string, 'text' | 'email' | 'number' | 'date' | 'time' | 'password'> = { text: 'text', email: 'email', nombre: 'number', date: 'date', heure: 'time', motdepasse: 'password' };
+const modeSaisie = type === 'nombre' ? 'decimal' : undefined;
 const classeControle = `w-full rounded-bouton border-[1.5px] ${bordure} bg-blanc px-3.5 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt`;
+const classeAffixe = `inline-flex items-center border-[1.5px] ${bordure} bg-papier-2 px-3 text-[15px] text-encre-2`;
+const avecAffixe = Boolean(prefixe || suffixe);
+const classeEntree = avecAffixe
+  ? `${classeControle} h-12 ${prefixe ? 'rounded-l-none border-l-0' : ''} ${suffixe ? 'rounded-r-none border-r-0' : ''}`
+  : `${classeControle} h-12`;
 ---
 <div class="flex flex-col gap-1.5">
   <label for={identifiant} class="text-[14px] font-semibold">
@@ -31,8 +40,14 @@ const classeControle = `w-full rounded-bouton border-[1.5px] ${bordure} bg-blanc
     <select id={identifiant} name={nom} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={`${classeControle} h-12`} {...attributs}>
       {options.map((option) => <option value={option.valeur}>{option.libelle}</option>)}
     </select>
+  ) : avecAffixe ? (
+    <div class="flex items-stretch">
+      {prefixe && <span class={`${classeAffixe} rounded-l-bouton`} aria-hidden="true">{prefixe}</span>}
+      <input id={identifiant} name={nom} type={typesHtml[type]} inputmode={modeSaisie} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={classeEntree} {...attributs} />
+      {suffixe && <span class={`${classeAffixe} rounded-r-bouton`} aria-hidden="true">{suffixe}</span>}
+    </div>
   ) : (
-    <input id={identifiant} name={nom} type={type} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={`${classeControle} h-12`} {...attributs} />
+    <input id={identifiant} name={nom} type={typesHtml[type]} inputmode={modeSaisie} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={classeEntree} {...attributs} />
   )}
   {erreur && <p id={identifiantErreur} class="text-[14px] font-semibold text-erreur">{erreur}</p>}
   {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}

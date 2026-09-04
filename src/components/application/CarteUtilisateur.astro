@@ -1,0 +1,25 @@
+---
+import type { ImageMetadata } from 'astro';
+import Avatar from './Avatar.astro';
+import Statut from './Statut.astro';
+
+interface Props {
+  nom: string;
+  fonction?: string;
+  email?: string;
+  image?: ImageMetadata;
+  statut?: { ton: 'actif' | 'inactif' | 'attente' | 'erreur'; libelle: string };
+  class?: string;
+}
+
+const { nom, fonction, email, image, statut, class: classe = '' } = Astro.props;
+---
+<div class={`flex items-center gap-4 rounded-carte border border-ligne bg-blanc p-4 ${classe}`}>
+  <Avatar nom={nom} image={image} taille="grand" />
+  <div class="flex min-w-0 flex-col gap-0.5">
+    <p class="truncate font-titres text-[18px] font-semibold">{nom}</p>
+    {fonction && <p class="truncate text-[14px] text-encre-2">{fonction}</p>}
+    {email && <a href={`mailto:${email}`} class="truncate text-[14px] underline underline-offset-[3px]">{email}</a>}
+    {statut && <Statut ton={statut.ton} libelle={statut.libelle} class="mt-1" />}
+  </div>
+</div>

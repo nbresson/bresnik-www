@@ -1,0 +1,30 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  nom: string;
+  image?: ImageMetadata;
+  taille?: 'petit' | 'normal' | 'grand';
+  class?: string;
+}
+
+const { nom, image, taille = 'normal', class: classe = '' } = Astro.props;
+const initiales = nom
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((mot) => mot[0]?.toUpperCase() ?? '')
+  .join('');
+const tailles = {
+  petit: { classe: 'size-8 text-[12px]', px: 32 },
+  normal: { classe: 'size-10 text-[14px]', px: 40 },
+  grand: { classe: 'size-14 text-[18px]', px: 56 },
+};
+const config = tailles[taille];
+---
+{image ? (
+  <Image src={image} alt={nom} width={config.px} height={config.px} class={`shrink-0 rounded-full object-cover ${config.classe} ${classe}`} />
+) : (
+  <span role="img" aria-label={nom} class={`inline-flex shrink-0 items-center justify-center rounded-full bg-cobalt-teinte font-titres font-semibold text-cobalt ${config.classe} ${classe}`}>{initiales}</span>
+)}

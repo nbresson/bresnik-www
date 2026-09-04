@@ -1,0 +1,15 @@
+---
+interface Props {
+  libelle: string;
+  class?: string;
+}
+
+const { libelle, class: classe = '' } = Astro.props;
+---
+<div
+  role="group"
+  aria-label={libelle}
+  class={`inline-flex overflow-hidden rounded-bouton border-[1.5px] border-encre [&>*]:rounded-none [&>*]:border-0 [&>*+*]:border-l-[1.5px] [&>*+*]:border-l-encre ${classe}`}
+>
+  <slot />
+</div>

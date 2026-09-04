@@ -43,6 +43,23 @@ import Abonnement from '../components/Abonnement.astro';
 import ListeDefinitions from '../components/ListeDefinitions.astro';
 import Section from '../components/Section.astro';
 import exempleCapture from '../assets/exemple-capture.png';
+import Badge from '../components/application/Badge.astro';
+import Statut from '../components/application/Statut.astro';
+import Avatar from '../components/application/Avatar.astro';
+import GroupeAvatars from '../components/application/GroupeAvatars.astro';
+import CarteUtilisateur from '../components/application/CarteUtilisateur.astro';
+import CarteStatistique from '../components/application/CarteStatistique.astro';
+import BarreProgression from '../components/application/BarreProgression.astro';
+import Squelette from '../components/application/Squelette.astro';
+import Spinner from '../components/application/Spinner.astro';
+import JournalActivite from '../components/application/JournalActivite.astro';
+import BarreOutils from '../components/application/BarreOutils.astro';
+import FiltresActifs from '../components/application/FiltresActifs.astro';
+import TableauDonnees from '../components/application/TableauDonnees.astro';
+import BoutonIcone from '../components/application/BoutonIcone.astro';
+import GroupeBoutons from '../components/application/GroupeBoutons.astro';
+import GraphiqueBarres from '../components/application/GraphiqueBarres.astro';
+import LegendeGraphique from '../components/application/LegendeGraphique.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
 import { ratioContraste } from '../lib/contraste';
@@ -162,6 +179,24 @@ const definitionsExemple = [
   { libelle: 'Plateforme', valeur: 'Windows (WPF)' },
   { libelle: 'Base de données', valeur: 'SQL Server' },
 ];
+const iconesApplication = ['utilisateur', 'recherche', 'filtre', 'tri', 'tri-croissant', 'tri-decroissant', 'plus', 'corbeille', 'crayon', 'oeil', 'oeil-barre', 'telecharger', 'televerser', 'calendrier', 'horloge', 'fermer', 'parametres', 'deconnexion', 'tableau-de-bord', 'document', 'imprimer', 'dossier', 'cloche', 'tendance-haut', 'tendance-bas', 'points'] as const;
+const lignesTableau = [
+  { id: 'L-1001', produit: 'BankBridge', societe: '[Client A]', postes: 3, statut: 'Active' },
+  { id: 'L-1002', produit: 'FEC Analyzer', societe: '[Client B]', postes: 1, statut: 'Active' },
+  { id: 'L-1003', produit: 'MajTarifPQ', societe: '[Client C]', postes: 12, statut: 'À renouveler' },
+];
+const evenementsExemple = [
+  { date: '[JJ/MM/AAAA HH:MM]', auteur: '[Prénom Nom]', action: 'a renouvelé la licence L-1003', detail: 'MajTarifPQ, 12 postes' },
+  { date: '[JJ/MM/AAAA HH:MM]', auteur: '[Prénom Nom]', action: 'a téléchargé BankBridge 1.2' },
+];
+const personnesExemple = [{ nom: 'Nicolas Bresson' }, { nom: '[Prénom Nom]' }, { nom: '[Prénom Nom]' }, { nom: '[Prénom Nom]' }, { nom: '[Prénom Nom]' }, { nom: '[Prénom Nom]' }];
+const graphiqueExemple = {
+  categories: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+  series: [
+    { nom: 'Encaissements', couleur: 1 as const, valeurs: [42, 55, 48, 61, 58, 70] },
+    { nom: 'Décaissements', couleur: 2 as const, valeurs: [38, 41, 45, 50, 47, 52] },
+  ],
+};
 const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2 rounded-bouton px-6 text-[17px] font-semibold';
 ---
 <Base titre="Charte" description="Catalogue des composants et des fondations visuelles du site Bresnik." noindex>
@@ -181,6 +216,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <a href="#charte-navigation" class="underline underline-offset-[3px]">Navigation et retours</a>
       <a href="#charte-gabarits" class="underline underline-offset-[3px]">Gabarits</a>
       <a href="#charte-formulaires" class="underline underline-offset-[3px]">Formulaires</a>
+      <a href="#charte-applications" class="underline underline-offset-[3px]">Applications</a>
       <a href="#charte-texte" class="underline underline-offset-[3px]">Texte enrichi</a>
     </nav>
   </header>
@@ -603,6 +639,142 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <div class="flex flex-col gap-4">
         <h3 class="text-[20px] font-semibold">Abonnement à une lettre</h3>
         <Abonnement class="max-w-[640px]" />
+      </div>
+    </section>
+
+
+    <section aria-labelledby="charte-applications" class="flex flex-col gap-10">
+      <h2 id="charte-applications" class="text-[24px] font-bold md:text-[30px]">Applications</h2>
+      <p class="max-w-[760px] text-[15px] text-encre-2">Implémentations de référence pour l'espace client et les applications produit : HTML, classes sur les tokens, sans framework. Deux gabarits d'écran complets : <a href="/gabarits/application/" class="underline underline-offset-[3px]">application</a> et <a href="/gabarits/connexion/" class="underline underline-offset-[3px]">connexion</a>. Les valeurs entre crochets sont des emplacements.</p>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Icônes d'application</h3>
+        <div class="flex flex-wrap gap-5 rounded-carte border border-ligne bg-blanc p-6">
+          {iconesApplication.map((nom) => (
+            <span class="flex w-24 flex-col items-center gap-1.5"><Icone nom={nom} taille={24} /><span class="technique text-center">{nom}</span></span>
+          ))}
+        </div>
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Badges et statuts</h3>
+          <div class="flex flex-wrap items-center gap-4 rounded-carte border border-ligne bg-blanc p-6">
+            <span class="inline-flex items-center gap-2">Notifications <Badge valeur={3} libelle="non lues" /></span>
+            <span class="inline-flex items-center gap-2">Erreurs <Badge valeur={12} libelle="à traiter" ton="erreur" /></span>
+            <span class="inline-flex items-center gap-2">Brouillons <Badge valeur="99+" libelle="brouillons" ton="neutre" /></span>
+          </div>
+          <div class="flex flex-wrap items-center gap-5 rounded-carte border border-ligne bg-blanc p-6">
+            <Statut ton="actif" libelle="Actif" />
+            <Statut ton="attente" libelle="En attente" />
+            <Statut ton="inactif" libelle="Inactif" />
+            <Statut ton="erreur" libelle="En erreur" />
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Avatars et utilisateur</h3>
+          <div class="flex flex-wrap items-center gap-4 rounded-carte border border-ligne bg-blanc p-6">
+            <Avatar nom="Nicolas Bresson" taille="petit" />
+            <Avatar nom="Nicolas Bresson" />
+            <Avatar nom="Nicolas Bresson" taille="grand" />
+            <GroupeAvatars personnes={personnesExemple} />
+          </div>
+          <CarteUtilisateur nom="Nicolas Bresson" fonction="Administrateur" email="[email]" statut={{ ton: 'actif', libelle: 'Connecté' }} />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Cartes de statistique et quotas</h3>
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <CarteStatistique libelle="Licences actives" valeur="[12]" variation={{ valeur: '+2', sens: 'haut' }} periode="sur 30 jours" />
+          <CarteStatistique libelle="À renouveler" valeur="[3]" variation={{ valeur: '+1', sens: 'haut', favorable: false }} periode="dans 60 jours" />
+          <CarteStatistique libelle="Téléchargements" valeur="[48]" variation={{ valeur: '0', sens: 'stable' }} periode="ce mois" />
+          <CarteStatistique libelle="Utilisateurs" valeur="[7]" />
+        </div>
+        <div class="flex max-w-[560px] flex-col gap-4 rounded-carte border border-ligne bg-blanc p-6">
+          <BarreProgression libelle="Postes utilisés" valeur={6} max={15} />
+          <BarreProgression libelle="Stockage" valeur={8.4} max={10} unite=" Go" />
+          <BarreProgression libelle="Appels API" valeur={980} max={1000} />
+        </div>
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Chargement</h3>
+          <div class="flex flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6">
+            <Spinner />
+            <Squelette lignes={3} />
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h3 class="text-[20px] font-semibold">Journal d'activité</h3>
+          <JournalActivite evenements={evenementsExemple} />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Boutons icône, groupe de boutons, champs d'application</h3>
+        <div class="flex flex-col gap-5 rounded-carte border border-ligne bg-blanc p-6">
+          <div class="flex flex-wrap items-center gap-3">
+            <BoutonIcone icone="plus" libelle="Ajouter" variante="primaire" />
+            <BoutonIcone icone="crayon" libelle="Modifier" variante="secondaire" />
+            <BoutonIcone icone="corbeille" libelle="Supprimer" />
+            <BoutonIcone icone="imprimer" libelle="Imprimer" desactive />
+            <GroupeBoutons libelle="Affichage">
+              <BoutonIcone icone="tableau-de-bord" libelle="Vue grille" variante="secondaire" />
+              <BoutonIcone icone="menu" libelle="Vue liste" variante="secondaire" />
+              <BoutonIcone icone="document" libelle="Vue fiche" variante="secondaire" />
+            </GroupeBoutons>
+          </div>
+          <div class="grid max-w-[720px] gap-4 md:grid-cols-2">
+            <Champ nom="charte-montant" libelle="Montant" type="nombre" prefixe="€" step="0.01" />
+            <Champ nom="charte-taux" libelle="Taux" type="nombre" suffixe="%" min="0" max="100" />
+            <Champ nom="charte-date" libelle="Date" type="date" />
+            <Champ nom="charte-heure" libelle="Heure" type="heure" />
+            <Champ nom="charte-motdepasse" libelle="Mot de passe" type="motdepasse" aide="Affichage du mot de passe : lot interactif." />
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Barre d'outils, filtres et tableau de données</h3>
+        <BarreOutils>
+          <Recherche slot="recherche" action="/blog/" placeholder="Rechercher une licence" class="md:w-[320px]" />
+          <BoutonIcone slot="filtres" icone="filtre" libelle="Filtrer" variante="secondaire" />
+          <BoutonIcone slot="actions" icone="telecharger" libelle="Exporter en CSV" variante="secondaire" />
+          <Bouton slot="actions" href="#charte-applications" taille="compact">Ajouter</Bouton>
+        </BarreOutils>
+        <FiltresActifs filtres={[{ libelle: 'Statut', valeur: 'Active', hrefSuppression: '#charte-applications' }, { libelle: 'Produit', valeur: 'BankBridge', hrefSuppression: '#charte-applications' }]} hrefTout="#charte-applications" />
+        <TableauDonnees
+          legende="Exemple de tableau de licences"
+          cleId="id"
+          selection
+          colonnes={[
+            { cle: 'id', libelle: 'Référence', tri: 'aucun' },
+            { cle: 'produit', libelle: 'Produit', tri: 'croissant' },
+            { cle: 'societe', libelle: 'Société' },
+            { cle: 'postes', libelle: 'Postes', numerique: true, tri: 'aucun' },
+            { cle: 'statut', libelle: 'Statut' },
+          ]}
+          lignes={lignesTableau}
+          actions={[
+            { libelle: 'Modifier', icone: 'crayon', href: (l) => `#modifier-${l.id}` },
+            { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#supprimer-${l.id}` },
+          ]}
+        />
+        <p class="text-[15px] text-encre-2">Tri et sélection côté client : lot interactif. Les en-têtes portent déjà <span class="technique">aria-sort</span>.</p>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Graphiques</h3>
+        <p class="max-w-[760px] text-[15px] text-encre-2">Palette catégorielle à ordre fixe, validée pour les daltonismes en mode clair : cinq séries au plus, un axe unique, barres fines, légende dès deux séries, valeur maximale étiquetée, tableau des données toujours disponible. Les couleurs de statut restent réservées aux statuts.</p>
+        <LegendeGraphique series={[{ nom: 'graphique-1', couleur: 1 }, { nom: 'graphique-2', couleur: 2 }, { nom: 'graphique-3', couleur: 3 }, { nom: 'graphique-4', couleur: 4 }, { nom: 'graphique-5', couleur: 5 }]} />
+        <GraphiqueBarres titre="[Exemple] Encaissements et décaissements, en k€" unite=" k€" categories={graphiqueExemple.categories} series={graphiqueExemple.series} class="max-w-[760px]" />
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-[20px] font-semibold">Impression</h3>
+        <p class="max-w-[760px] text-[15px] text-encre-2">La feuille globale masque en-tête, pied de page, navigation et boutons à l'impression, passe le texte en noir sur blanc, supprime les ombres et ajoute l'adresse des liens externes. Testez avec Ctrl + P sur cette page.</p>
       </div>
     </section>
 

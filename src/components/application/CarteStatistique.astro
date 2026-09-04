@@ -1,0 +1,37 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  libelle: string;
+  valeur: string;
+  periode?: string;
+  variation?: { valeur: string; sens: 'haut' | 'bas' | 'stable'; favorable?: boolean };
+  class?: string;
+}
+
+const { libelle, valeur, periode, variation, class: classe = '' } = Astro.props;
+const couleurVariation = variation
+  ? variation.sens === 'stable'
+    ? 'text-encre-2'
+    : (variation.favorable ?? variation.sens === 'haut')
+      ? 'text-succes'
+      : 'text-erreur'
+  : '';
+const iconeVariation = variation?.sens === 'haut' ? 'tendance-haut' : variation?.sens === 'bas' ? 'tendance-bas' : undefined;
+const sensLu = variation?.sens === 'haut' ? 'en hausse de' : variation?.sens === 'bas' ? 'en baisse de' : 'stable';
+---
+<div class={`flex flex-col gap-2 rounded-carte border border-ligne bg-blanc p-5 ${classe}`}>
+  <p class="text-[14px] text-encre-2">{libelle}</p>
+  <p class="font-titres text-[32px] font-bold leading-none tabular-nums md:text-[36px]">{valeur}</p>
+  {(variation || periode) && (
+    <p class="flex items-center gap-1.5 text-[14px]">
+      {variation && (
+        <span class={`inline-flex items-center gap-1 font-semibold ${couleurVariation}`}>
+          {iconeVariation && <Icone nom={iconeVariation} taille={16} />}
+          <span class="sr-only">{sensLu} </span>{variation.valeur}
+        </span>
+      )}
+      {periode && <span class="text-encre-2">{periode}</span>}
+    </p>
+  )}
+</div>

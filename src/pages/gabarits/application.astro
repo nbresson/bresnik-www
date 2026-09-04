@@ -1,0 +1,110 @@
+---
+// Gabarit d'écran d'application : menu latéral, en-tête de page, statistiques,
+// barre d'outils, tableau et journal. Données d'exemple entre crochets.
+import Base from '../../layouts/Base.astro';
+import Bouton from '../../components/Bouton.astro';
+import Recherche from '../../components/Recherche.astro';
+import MenuLateral from '../../components/application/MenuLateral.astro';
+import EnTeteApplication from '../../components/application/EnTeteApplication.astro';
+import CarteStatistique from '../../components/application/CarteStatistique.astro';
+import BarreOutils from '../../components/application/BarreOutils.astro';
+import FiltresActifs from '../../components/application/FiltresActifs.astro';
+import TableauDonnees from '../../components/application/TableauDonnees.astro';
+import JournalActivite from '../../components/application/JournalActivite.astro';
+import BoutonIcone from '../../components/application/BoutonIcone.astro';
+import CarteUtilisateur from '../../components/application/CarteUtilisateur.astro';
+import BarreProgression from '../../components/application/BarreProgression.astro';
+
+const groupes = [
+  { elements: [
+    { href: '/gabarits/application/', libelle: 'Tableau de bord', icone: 'tableau-de-bord' as const, actif: true },
+    { href: '#licences', libelle: 'Licences', icone: 'document' as const, badge: 3 },
+    { href: '#telechargements', libelle: 'Téléchargements', icone: 'telecharger' as const },
+  ] },
+  { titre: 'Compte', elements: [
+    { href: '#utilisateurs', libelle: 'Utilisateurs', icone: 'utilisateur' as const },
+    { href: '#parametres', libelle: 'Paramètres', icone: 'parametres' as const },
+  ] },
+];
+const licences = [
+  { id: 'L-1001', produit: 'BankBridge', societe: '[Client A]', postes: 3, echeance: '[JJ/MM/AAAA]', statut: 'Active' },
+  { id: 'L-1002', produit: 'FEC Analyzer', societe: '[Client B]', postes: 1, echeance: '[JJ/MM/AAAA]', statut: 'Active' },
+  { id: 'L-1003', produit: 'MajTarifPQ', societe: '[Client C]', postes: 5, echeance: '[JJ/MM/AAAA]', statut: 'À renouveler' },
+  { id: 'L-1004', produit: 'LinkCsvSage', societe: '[Client D]', postes: 2, echeance: '[JJ/MM/AAAA]', statut: 'Expirée' },
+];
+const evenements = [
+  { date: '[JJ/MM/AAAA HH:MM]', auteur: '[Prénom Nom]', action: 'a renouvelé la licence L-1003', detail: 'MajTarifPQ, 5 postes' },
+  { date: '[JJ/MM/AAAA HH:MM]', auteur: '[Prénom Nom]', action: 'a téléchargé BankBridge 1.2' },
+  { date: '[JJ/MM/AAAA HH:MM]', auteur: '[Prénom Nom]', action: 'a ajouté un utilisateur', detail: '[Prénom Nom], lecture seule' },
+];
+---
+<Base titre="Gabarit d'application" description="Gabarit d'écran d'application Bresnik : menu latéral, en-tête, tableau." noindex habillage="application">
+  <div class="min-h-screen lg:grid lg:grid-cols-[264px_minmax(0,1fr)]">
+    <MenuLateral groupes={groupes} class="lg:sticky lg:top-0 lg:h-screen">
+      <div slot="pied" class="flex items-center gap-2 px-1">
+        <CarteUtilisateur nom="[Prénom Nom]" fonction="Administrateur" class="grow border-0 p-1" />
+        <BoutonIcone icone="deconnexion" libelle="Se déconnecter" href="/gabarits/connexion/" />
+      </div>
+    </MenuLateral>
+
+    <div class="flex min-w-0 flex-col">
+      <EnTeteApplication titre="Tableau de bord" sousTitre="Vue d'ensemble des licences et de l'activité." fil={[{ libelle: 'Espace client', href: '/gabarits/application/' }, { libelle: 'Tableau de bord' }]}>
+        <BoutonIcone slot="actions" icone="cloche" libelle="Notifications" />
+        <BoutonIcone slot="actions" icone="imprimer" libelle="Imprimer" />
+        <Bouton slot="actions" href="#nouvelle-licence" taille="compact">Nouvelle licence</Bouton>
+      </EnTeteApplication>
+
+      <div class="flex flex-col gap-6 p-5 md:p-8">
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <CarteStatistique libelle="Licences actives" valeur="[12]" variation={{ valeur: '+2', sens: 'haut' }} periode="sur 30 jours" />
+          <CarteStatistique libelle="À renouveler" valeur="[3]" variation={{ valeur: '+1', sens: 'haut', favorable: false }} periode="dans les 60 jours" />
+          <CarteStatistique libelle="Téléchargements" valeur="[48]" variation={{ valeur: '0', sens: 'stable' }} periode="ce mois" />
+          <CarteStatistique libelle="Utilisateurs" valeur="[7]" />
+        </div>
+
+        <div class="grid gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <section aria-labelledby="licences" class="flex flex-col gap-4">
+            <h2 id="licences" class="text-[20px] font-bold">Licences</h2>
+            <BarreOutils>
+              <Recherche slot="recherche" action="/gabarits/application/" placeholder="Rechercher une licence" class="md:w-[320px]" />
+              <BoutonIcone slot="filtres" icone="filtre" libelle="Filtrer" variante="secondaire" />
+              <BoutonIcone slot="actions" icone="telecharger" libelle="Exporter en CSV" variante="secondaire" />
+              <Bouton slot="actions" href="#nouvelle-licence" taille="compact">Ajouter</Bouton>
+            </BarreOutils>
+            <FiltresActifs filtres={[{ libelle: 'Statut', valeur: 'Active', hrefSuppression: '/gabarits/application/' }]} hrefTout="/gabarits/application/" />
+            <TableauDonnees
+              legende="Licences du compte"
+              cleId="id"
+              selection
+              colonnes={[
+                { cle: 'id', libelle: 'Référence', tri: 'aucun' },
+                { cle: 'produit', libelle: 'Produit', tri: 'croissant' },
+                { cle: 'societe', libelle: 'Société' },
+                { cle: 'postes', libelle: 'Postes', numerique: true, tri: 'aucun' },
+                { cle: 'echeance', libelle: 'Échéance' },
+                { cle: 'statut', libelle: 'Statut' },
+              ]}
+              lignes={licences}
+              actions={[
+                { libelle: 'Modifier', icone: 'crayon', href: (l) => `#modifier-${l.id}` },
+                { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#supprimer-${l.id}` },
+              ]}
+            />
+          </section>
+
+          <div class="flex flex-col gap-6">
+            <section aria-labelledby="quota" class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-5">
+              <h2 id="quota" class="text-[18px] font-bold">Quotas</h2>
+              <BarreProgression libelle="Postes utilisés" valeur={11} max={15} />
+              <BarreProgression libelle="Stockage" valeur={9.2} max={10} unite=" Go" />
+            </section>
+            <section aria-labelledby="activite" class="flex flex-col gap-3">
+              <h2 id="activite" class="text-[18px] font-bold">Activité récente</h2>
+              <JournalActivite evenements={evenements} />
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
