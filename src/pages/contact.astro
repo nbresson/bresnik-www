@@ -14,6 +14,9 @@ const optionsProduits = [
   ...produits.map((p) => ({ valeur: p.id, libelle: p.data.nom })),
 ];
 const cleTurnstile = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+if (import.meta.env.PROD && !cleTurnstile) {
+  throw new Error('PUBLIC_TURNSTILE_SITE_KEY manquante : définir la variable de build (voir docs/deploiement.md).');
+}
 const libellesChamps: Record<string, string> = {
   nom: 'Nom',
   email: 'Email',
@@ -28,19 +31,26 @@ const libellesChamps: Record<string, string> = {
   <EnTetePage eyebrow="Contact" titre="Parlons de votre projet Sage 100." sousTitre="Demandez une démonstration ou décrivez votre besoin. Réponse sous deux jours ouvrés." />
   <div class="conteneur pb-16 md:pb-20">
     <div class="flex max-w-[640px] flex-col gap-6">
-      <div id="zone-etat" aria-live="polite" class="empty:hidden"></div>
+      <div id="zone-etat" class="empty:hidden"></div>
+      <div id="envoye" class="hidden target:block">
+        <Alerte ton="succes" titre="Message envoyé">Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.</Alerte>
+      </div>
+      <div id="erreur" class="hidden target:block">
+        <Alerte ton="erreur" titre="Le message n'a pas pu être envoyé">Vérifiez les champs signalés dans l'adresse de la page et réessayez, ou écrivez-nous directement.</Alerte>
+      </div>
       <noscript>
         <Alerte ton="information">Sans JavaScript, le formulaire fonctionne aussi : la page se recharge après l'envoi.</Alerte>
       </noscript>
-      <form id="formulaire-contact" method="post" action="/api/contact" class="flex flex-col gap-5" novalidate>
+      <form id="formulaire-contact" method="post" action="/api/contact" class="flex flex-col gap-5">
         <Champ nom="nom" libelle="Nom" requis minlength="2" maxlength="100" autocomplete="name" />
         <Champ nom="email" libelle="Email" type="email" requis autocomplete="email" />
         <Champ nom="societe" libelle="Société" maxlength="100" autocomplete="organization" />
         <Champ nom="produit" libelle="Produit concerné" type="liste" options={optionsProduits} />
         <Champ nom="message" libelle="Message" type="zone" requis minlength="10" maxlength="5000" />
         <GroupeChoix id="groupe-consentement" legende="Consentement" requis>
-          <Choix nom="consentement" valeur="oui" libelle="J'accepte que ces informations servent à répondre à ma demande. Elles ne sont ni stockées sur le site ni transmises à des tiers." requis />
+          <Choix nom="consentement" valeur="oui" libelle="J'accepte que ces informations servent à répondre à ma demande. Elles ne sont ni stockées sur le site ni transmises à des tiers à d'autres fins." requis />
         </GroupeChoix>
+        <p class="text-[14px] text-encre-2">Détails dans la <a href="/confidentialite/" class="underline underline-offset-[3px]">politique de confidentialité</a>.</p>
         <div class="hidden" aria-hidden="true">
           <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
@@ -55,8 +65,9 @@ const libellesChamps: Record<string, string> = {
 
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-  <script define:vars={{ libellesChamps }}>
+  <script is:inline define:vars={{ libellesChamps }}>
     const formulaire = document.getElementById('formulaire-contact');
+    formulaire.noValidate = true;
     const zoneEtat = document.getElementById('zone-etat');
     const bouton = document.getElementById('bouton-envoyer');
     const etat = document.getElementById('etat-formulaire');
@@ -95,6 +106,14 @@ const libellesChamps: Record<string, string> = {
             lien.href = ancresChamps[champ] ?? `#champ-${champ}`;
             lien.className = 'underline underline-offset-[3px]';
             lien.textContent = `${libellesChamps[champ] ?? champ} : ${message}`;
+            lien.addEventListener('click', (e) => {
+              const cible = document.getElementById(lien.hash.slice(1));
+              if (cible) {
+                e.preventDefault();
+                cible.focus();
+                cible.scrollIntoView({ block: 'center' });
+              }
+            });
             element.append(lien);
           } else {
             element.textContent = message;
@@ -117,6 +136,7 @@ const libellesChamps: Record<string, string> = {
       }
       for (const message of formulaire.querySelectorAll('[data-erreur-champ]')) message.remove();
       for (const { champ, message } of erreurs) {
+        if (!champ || champ === 'cf-turnstile-response') continue;
         const controle = formulaire.querySelector(`[name="${champ}"]`);
         if (!controle) continue;
         controle.setAttribute('aria-invalid', 'true');
@@ -135,6 +155,10 @@ const libellesChamps: Record<string, string> = {
     }
 
     // Repli sans JavaScript : la page revient avec un état dans l'adresse.
+    if (parametres.get('etat')) {
+      document.getElementById('envoye')?.remove();
+      document.getElementById('erreur')?.remove();
+    }
     if (parametres.get('etat') === 'envoye') {
       afficherAlerte('succes', 'Message envoyé', [{ champ: '', message: 'Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.' }]);
       formulaire.hidden = true;
