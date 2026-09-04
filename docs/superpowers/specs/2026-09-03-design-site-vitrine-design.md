@@ -1,7 +1,7 @@
 # Bresnik — Design du site vitrine
 
 Date : 2026-09-03
-Statut : en relecture
+Statut : validé par Nicolas Bresson le 2026-09-04 (amendements du même jour : API Fonts d'Astro, favicons PNG)
 Référence visuelle : maquette « Site vitrine Bresnik », direction « Atelier
 technique », validée par Nicolas Bresson le 2026-09-03
 (https://claude.ai/code/artifact/a9b86a44-16af-4072-ac18-ea8082fce24f).
@@ -70,15 +70,17 @@ sur `encre` 10,1. Aucune couleur n'est utilisée hors de ce tableau.
 
 ### 2.2 Typographie
 
-Trois familles, auto-hébergées via les paquets Fontsource (pas d'appel à
-Google Fonts : conformité RGPD et performance), sous-ensemble latin,
-`font-display: swap`.
+Trois familles, auto-hébergées par l'API Fonts d'Astro avec le fournisseur
+Fontsource : les fichiers sont téléchargés au build et servis depuis le site
+(pas d'appel à Google Fonts au chargement : conformité RGPD et performance),
+sous-ensemble latin, `font-display: swap`. Amendé le 2026-09-04 : cette API
+remplace l'installation des paquets Fontsource prévue initialement.
 
-| Rôle | Famille | Paquet | Graisses |
+| Rôle | Famille | Variable CSS | Graisses |
 |---|---|---|---|
-| Titres | Bricolage Grotesque | `@fontsource-variable/bricolage-grotesque` | variable, 500 à 700 |
-| Texte | Source Sans 3 | `@fontsource-variable/source-sans-3` | variable, 400 et 600 |
-| Technique | JetBrains Mono | `@fontsource/jetbrains-mono` | 500 |
+| Titres | Bricolage Grotesque | `--police-titres` | variable, 500 à 700 |
+| Texte | Source Sans 3 | `--police-texte` | variable, 400 et 600 |
+| Technique | JetBrains Mono | `--police-technique` | 500 |
 
 Piles de repli : titres et texte `'Segoe UI', system-ui, sans-serif` ;
 technique `Consolas, ui-monospace, monospace`.
@@ -246,15 +248,16 @@ désactivé et message d'état, inchangés dans leur comportement.
 
 ## 5. Favicon et image de partage
 
-- `public/favicon.svg` : carré `cobalt` à coins 6 px avec un « B » blanc en
-  Bricolage 700, converti en tracé pour ne dépendre d'aucune police.
-  Déclaré dans `Base.astro`, avec un `favicon.ico` 32 px généré à partir du
-  SVG.
+- `public/favicon.svg` : carré `cobalt` à coins arrondis avec un « B » blanc
+  en Bricolage 700, converti en tracé pour ne dépendre d'aucune police.
+  Déclaré dans `Base.astro`, avec `favicon-32.png` et `apple-touch-icon.png`
+  (180 px) générés à partir du même dessin. Amendé le 2026-09-04 : ces PNG
+  remplacent le `favicon.ico` prévu initialement.
 - `public/og-default.png` (1200 × 630) : fond `papier`, mot-symbole
   « Bresnik » et sous-titre « Logiciels complémentaires pour l'écosystème
   Sage 100 » ; généré une fois par un script Node (`scripts/generer-og.mjs`,
-  avec `sharp`, déjà présent comme dépendance d'Astro) à partir d'un SVG du
-  dépôt, et commité. `Base.astro` émet `og:image`, `og:image:width`,
+  avec `satori` et `@resvg/resvg-js`, à partir des fichiers de polices
+  Fontsource) et commité. `Base.astro` émet `og:image`, `og:image:width`,
   `og:image:height` et `twitter:card: summary_large_image`. Les pages
   peuvent passer une image spécifique via la prop `image` (articles avec
   `image` définie).
