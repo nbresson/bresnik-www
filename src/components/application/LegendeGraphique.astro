@@ -1,0 +1,17 @@
+---
+interface Props {
+  series: { nom: string; couleur: 1 | 2 | 3 | 4 | 5 }[];
+  class?: string;
+}
+
+const { series, class: classe = '' } = Astro.props;
+const couleurs = { 1: 'bg-graphique-1', 2: 'bg-graphique-2', 3: 'bg-graphique-3', 4: 'bg-graphique-4', 5: 'bg-graphique-5' };
+---
+<ul class={`flex flex-wrap gap-x-5 gap-y-2 text-[14px] text-encre-2 ${classe}`} aria-label="Légende">
+  {series.map((serie) => (
+    <li class="inline-flex items-center gap-2">
+      <span class={`size-3 rounded-[2px] ${couleurs[serie.couleur]}`} aria-hidden="true"></span>
+      {serie.nom}
+    </li>
+  ))}
+</ul>

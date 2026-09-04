@@ -352,6 +352,33 @@ Mouvement : `prefers-reduced-motion: reduce` neutralise toutes les transitions e
 | Pages | `erreur.astro`, `maintenance.astro` | Pages `noindex`, hors sitemap, prêtes à être servies. |
 | Pied de page | `Footer.astro` | Lien « Retour en haut » vers `#contenu`. |
 
+## 3 quater. Composants d'application (lot 3, statique, 2026-09-04)
+
+Implémentations de référence, sans framework, dans `src/components/application/`.
+Elles seront transposées dans la pile des applications le moment venu.
+
+| Composant | Fichier | Rôle et règles |
+|---|---|---|
+| Badge | `Badge.astro` | Compteur en pastille, tons `cobalt`, `erreur`, `neutre`, contexte lu par `sr-only`. |
+| Statut | `Statut.astro` | Point coloré et libellé : `actif` succès, `attente` ambre, `inactif` encre-2, `erreur`. Jamais la couleur seule. |
+| Avatar, groupe | `Avatar.astro`, `GroupeAvatars.astro` | Initiales sur `cobalt-teinte` ou image ; trois tailles ; groupe chevauché avec « +N ». |
+| Carte utilisateur | `CarteUtilisateur.astro` | Avatar grand, nom, fonction, email, statut. |
+| Carte de statistique | `CarteStatistique.astro` | Valeur en Bricolage, variation avec icône de tendance et sens lu, `favorable` pour inverser la couleur. |
+| Barre de progression | `BarreProgression.astro` | `progress` natif coloré par `accent-color` ; seuils 80 et 95 % vers ambre puis erreur. |
+| Chargement | `Squelette.astro`, `Spinner.astro` | `aria-busy` et texte lu ; animation neutralisée par `prefers-reduced-motion`. |
+| Journal d'activité | `JournalActivite.astro` | Liste d'événements avec avatar, action, détail, date. |
+| Barre d'outils | `BarreOutils.astro` | Emplacements nommés `recherche`, `filtres`, `actions`. |
+| Filtres actifs | `FiltresActifs.astro` | Pastilles avec retrait individuel et « Tout effacer ». |
+| Tableau de données | `TableauDonnees.astro` | Légende, en-têtes de ligne, `aria-sort`, nombres alignés à droite en monospace tabulaire, zébrage, sélection, actions en icônes. Tri côté client au lot interactif. |
+| Boutons | `BoutonIcone.astro`, `GroupeBoutons.astro` | Icône seule 44 px avec `aria-label`, trois variantes ; groupe segmenté `role="group"`. |
+| Champs | `Champ.astro` | Types `nombre`, `date`, `heure`, `motdepasse` ; props `prefixe` et `suffixe`. |
+| Graphiques | `GraphiqueBarres.astro`, `LegendeGraphique.astro` | Palette `--graphique-1..5` (#1f4fc7, #a8650a, #2a8a4a, #8a3fa8, #c2452e), validée pour les daltonismes sur fond papier ; un axe, barres fines à coins de 4 px, jour de 2 px, légende dès deux séries, maximum étiqueté, tableau des données. |
+| Menu latéral | `MenuLateral.astro` | Groupes titrés, élément actif en `cobalt-teinte`, badges, emplacement de pied. |
+| En-tête d'application | `EnTeteApplication.astro` | Fil d'Ariane, titre, sous-titre, emplacement d'actions. |
+| Gabarits | `gabarits/application.astro`, `gabarits/connexion.astro` | Pages `noindex` hors sitemap, habillage `application` de `Base` (sans en-tête ni pied du site). |
+| Impression | `global.css` | `@media print` : habillage masqué, noir sur blanc, ombres retirées, adresses des liens externes. |
+| Icônes | `Icone.astro` | Vingt-six icônes d'application ajoutées, tracés en ligne, grille 24. |
+
 ## 8 bis. Charte vivante
 
 Ajouté le 2026-09-04. La page `/charte/` présente les couleurs, la

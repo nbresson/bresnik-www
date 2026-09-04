@@ -1,0 +1,22 @@
+---
+import type { ImageMetadata } from 'astro';
+import Avatar from './Avatar.astro';
+
+interface Props {
+  personnes: { nom: string; image?: ImageMetadata }[];
+  max?: number;
+  class?: string;
+}
+
+const { personnes, max = 4, class: classe = '' } = Astro.props;
+const visibles = personnes.slice(0, max);
+const reste = personnes.length - visibles.length;
+---
+<ul class={`flex -space-x-2 ${classe}`} aria-label={`${personnes.length} personnes`}>
+  {visibles.map((personne) => (
+    <li class="rounded-full ring-2 ring-blanc"><Avatar nom={personne.nom} image={personne.image} taille="petit" /></li>
+  ))}
+  {reste > 0 && (
+    <li class="inline-flex size-8 items-center justify-center rounded-full bg-papier-2 font-technique text-[12px] font-medium text-encre-2 ring-2 ring-blanc">+{reste}<span class="sr-only"> autres personnes</span></li>
+  )}
+</ul>

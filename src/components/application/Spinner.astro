@@ -1,0 +1,15 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  libelle?: string;
+  taille?: number;
+  class?: string;
+}
+
+const { libelle = 'Chargement en cours', taille = 24, class: classe = '' } = Astro.props;
+---
+<span role="status" class={`inline-flex items-center gap-2 text-encre-2 ${classe}`}>
+  <Icone nom="chargement" taille={taille} class="animate-spin text-cobalt" />
+  <span class="sr-only">{libelle}</span>
+</span>

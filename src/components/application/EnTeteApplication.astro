@@ -1,0 +1,24 @@
+---
+import FilAriane from '../FilAriane.astro';
+
+interface Props {
+  titre: string;
+  sousTitre?: string;
+  fil?: { libelle: string; href?: string }[];
+  class?: string;
+}
+
+const { titre, sousTitre, fil, class: classe = '' } = Astro.props;
+---
+<header class={`flex flex-col gap-3 border-b border-ligne bg-papier px-5 py-5 md:px-8 ${classe}`}>
+  {fil && fil.length > 0 && <FilAriane elements={fil} />}
+  <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div class="flex flex-col gap-1">
+      <h1 class="text-[26px] font-bold leading-[1.15] md:text-[30px]">{titre}</h1>
+      {sousTitre && <p class="text-[15px] text-encre-2">{sousTitre}</p>}
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <slot name="actions" />
+    </div>
+  </div>
+</header>

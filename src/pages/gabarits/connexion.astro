@@ -1,0 +1,31 @@
+---
+// Gabarit d'authentification : carte centrée, sans traitement.
+import Base from '../../layouts/Base.astro';
+import Marque from '../../components/Marque.astro';
+import Champ from '../../components/Champ.astro';
+import Choix from '../../components/Choix.astro';
+import Bouton from '../../components/Bouton.astro';
+import Alerte from '../../components/Alerte.astro';
+---
+<Base titre="Connexion" description="Gabarit de la page de connexion à l'espace client Bresnik." noindex habillage="application">
+  <div class="flex min-h-screen items-center justify-center px-5 py-10">
+    <div class="flex w-full max-w-[440px] flex-col gap-6">
+      <div class="flex flex-col items-center gap-2 text-center">
+        <Marque />
+        <p class="text-[15px] text-encre-2">Espace client</p>
+      </div>
+      <form method="post" action="#" class="flex flex-col gap-5 rounded-cadre border border-ligne bg-blanc p-6 md:p-8" onsubmit="return false">
+        <h1 class="text-[24px] font-bold">Connexion</h1>
+        <Alerte ton="information">Gabarit sans traitement : les identifiants ne sont pas vérifiés.</Alerte>
+        <Champ nom="connexion-email" libelle="Email" type="email" requis autocomplete="username" />
+        <Champ nom="connexion-motdepasse" libelle="Mot de passe" type="motdepasse" requis autocomplete="current-password" aide="Huit caractères au moins." />
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <Choix nom="connexion-memoriser" valeur="oui" libelle="Rester connecté" />
+          <a href="#mot-de-passe-oublie" class="text-[14px] underline underline-offset-[3px]">Mot de passe oublié ?</a>
+        </div>
+        <Bouton type="submit" plein>Se connecter</Bouton>
+      </form>
+      <p class="text-center text-[14px] text-encre-2">Pas encore de compte ? <a href="/contact/" class="underline underline-offset-[3px]">Demandez un accès</a>.</p>
+    </div>
+  </div>
+</Base>

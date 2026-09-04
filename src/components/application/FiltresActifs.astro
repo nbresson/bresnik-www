@@ -1,0 +1,25 @@
+---
+import Icone from '../Icone.astro';
+
+interface Props {
+  filtres: { libelle: string; valeur: string; hrefSuppression: string }[];
+  hrefTout?: string;
+  class?: string;
+}
+
+const { filtres, hrefTout, class: classe = '' } = Astro.props;
+---
+{filtres.length > 0 && (
+  <div class={`flex flex-wrap items-center gap-2 ${classe}`}>
+    <span class="text-[14px] text-encre-2">Filtres :</span>
+    <ul class="flex flex-wrap gap-2" aria-label="Filtres actifs">
+      {filtres.map((filtre) => (
+        <li class="inline-flex items-center gap-1 rounded-full bg-cobalt-teinte pl-3 pr-1 text-[14px] text-cobalt">
+          <span><span class="text-encre-2">{filtre.libelle} :</span> <span class="font-semibold">{filtre.valeur}</span></span>
+          <a href={filtre.hrefSuppression} aria-label={`Retirer le filtre ${filtre.libelle} ${filtre.valeur}`} class="inline-flex size-7 items-center justify-center rounded-full hover:bg-blanc"><Icone nom="fermer" taille={14} /></a>
+        </li>
+      ))}
+    </ul>
+    {hrefTout && <a href={hrefTout} class="text-[14px] underline underline-offset-[3px]">Tout effacer</a>}
+  </div>
+)}

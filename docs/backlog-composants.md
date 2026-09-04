@@ -19,7 +19,7 @@ même modification et coché ici.
 | [x] | Table des matières d'article | V | 2 | |
 | [x] | Ancres de section, retour en haut | V | 2 | Lien « Retour en haut » dans le pied de page ; les sections ont déjà des identifiants. |
 | [ ] | Onglets | A | 3 | Parfois V (fiche produit à volets). |
-| [ ] | Menu latéral d'application (actif, replié, groupes) | A | 3 | |
+| [x] | Menu latéral d'application (actif, replié, groupes) | A | 3 | |
 | [ ] | Menu déroulant, menu contextuel | A | 3 | |
 | [ ] | Étapes d'un parcours, progression | A | 3 | |
 
@@ -48,10 +48,10 @@ même modification et coché ici.
 | [x] | Alerte : information, succès, avertissement, erreur | V/A | 1 | Nécessaire au formulaire de contact. |
 | [x] | État vide avec action suggérée | V/A | 1 | Deux versions ad hoc aujourd'hui. |
 | [ ] | Toast / notification éphémère | A | 3 | |
-| [ ] | État de chargement : squelette, spinner, barre | A | 3 | |
+| [x] | État de chargement : squelette, spinner, barre | A | 3 | |
 | [x] | Pages d'erreur 500 et maintenance | V/A | 2 | 404 existe. |
-| [ ] | Badge de compteur | A | 3 | |
-| [ ] | Indicateur de statut (point coloré) | A | 3 | |
+| [x] | Badge de compteur | A | 3 | |
+| [x] | Indicateur de statut (point coloré) | A | 3 | |
 | [x] | Info-bulle | V/A | 2 | |
 | [x] | Bandeau d'annonce | V | 2 | |
 
@@ -67,26 +67,26 @@ même modification et coché ici.
 | [x] | Formulaire d'abonnement à une lettre | V | 2 | Composant seul, envoi désactivé. |
 | [ ] | Interrupteur oui/non | A | 3 | |
 | [ ] | Champ mot de passe, indicateur de robustesse | A | 3 | |
-| [ ] | Champ numérique, date, heure | A | 3 | |
+| [x] | Champ numérique, date, heure | A | 3 | |
 | [ ] | Téléversement de fichier, zone de dépôt | A | 3 | Fichiers FEC, extraits. |
 | [ ] | Sélecteur à recherche, sélection multiple | A | 3 | |
-| [ ] | Champ avec préfixe ou suffixe | A | 3 | Montants, pourcentages. |
-| [ ] | Bouton icône seule, groupe de boutons | A | 3 | |
+| [x] | Champ avec préfixe ou suffixe | A | 3 | Montants, pourcentages. |
+| [x] | Bouton icône seule, groupe de boutons | A | 3 | |
 
 ## Données et applications
 
 | Fait | Composant | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Tableau de données (tri, zébrage, nombres alignés, actions, sélection) | A | 3 | Aussi V pour les comparatifs. |
+| [x] | Tableau de données (tri, zébrage, nombres alignés, actions, sélection) | A | 3 | Statique ; le tri côté client est au lot interactif. |
 | [x] | Liste de définitions générique | V/A | 2 | La fiche technique en est un cas. |
-| [ ] | Carte de statistique | A | 3 | |
-| [ ] | Barre d'outils de liste (recherche, filtres, tri, actions) | A | 3 | |
-| [ ] | Filtres actifs en pastilles | A | 3 | |
-| [ ] | Avatar, groupe d'avatars | A | 3 | |
-| [ ] | Carte utilisateur | A | 3 | |
-| [ ] | Journal d'activité | A | 3 | |
-| [ ] | Graphiques : couleurs et légende | A | 3 | Trésorerie, reporting. |
-| [ ] | Barre de progression de quota | A | 3 | |
+| [x] | Carte de statistique | A | 3 | |
+| [x] | Barre d'outils de liste (recherche, filtres, tri, actions) | A | 3 | |
+| [x] | Filtres actifs en pastilles | A | 3 | |
+| [x] | Avatar, groupe d'avatars | A | 3 | |
+| [x] | Carte utilisateur | A | 3 | |
+| [x] | Journal d'activité | A | 3 | |
+| [x] | Graphiques : couleurs et légende | A | 3 | Trésorerie, reporting. |
+| [x] | Barre de progression de quota | A | 3 | |
 
 ## Superpositions
 
@@ -105,10 +105,10 @@ même modification et coché ici.
 | [x] | Sections pleine largeur `papier-2` et sombre en gabarits | V | 2 | |
 | [x] | Colonne latérale collante | V/A | 2 | |
 | [ ] | Gabarit d'email transactionnel | V/A | 2 | Confirmation de contact ; à faire avec le plan du formulaire. |
-| [ ] | Gabarit d'écran d'application | A | 3 | |
-| [ ] | En-tête de page d'application | A | 3 | |
-| [ ] | Gabarit d'authentification | A | 3 | |
-| [ ] | Styles d'impression | A | 3 | |
+| [x] | Gabarit d'écran d'application | A | 3 | |
+| [x] | En-tête de page d'application | A | 3 | |
+| [x] | Gabarit d'authentification | A | 3 | |
+| [x] | Styles d'impression | A | 3 | |
 
 ## Fondations manquantes sur la page de charte
 
@@ -120,4 +120,4 @@ même modification et coché ici.
 | [x] | Grille de contrastes avec ratios | V/A | 1 | |
 | [x] | Mouvement : durée, courbe, `prefers-reduced-motion` | V/A | 1 | |
 | [x] | Mention explicite de l'absence de mode sombre | V/A | 1 | |
-| [ ] | Bibliothèque d'icônes cohérente | A | 3 | Trois icônes aujourd'hui. |
+| [x] | Bibliothèque d'icônes cohérente | A | 3 | Trois icônes aujourd'hui. |

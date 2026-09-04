@@ -21,6 +21,14 @@
   --couleur-erreur: #b42318;
   --couleur-erreur-teinte: #fbe9e7;
 
+  /* Palette catégorielle des graphiques, ordre fixe, validée pour les daltonismes
+     (à compléter par étiquettes ou jours entre barres). Jamais réutilisée ailleurs. */
+  --graphique-1: #1f4fc7;
+  --graphique-2: #a8650a;
+  --graphique-3: #2a8a4a;
+  --graphique-4: #8a3fa8;
+  --graphique-5: #c2452e;
+
   --ombre-capture: 0 24px 48px -32px rgb(28 35 49 / 0.35);
 
   --rayon-bouton: 6px;

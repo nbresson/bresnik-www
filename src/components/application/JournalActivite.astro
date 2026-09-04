@@ -1,0 +1,22 @@
+---
+import Avatar from './Avatar.astro';
+
+interface Props {
+  evenements: { date: string; auteur: string; action: string; detail?: string }[];
+  class?: string;
+}
+
+const { evenements, class: classe = '' } = Astro.props;
+---
+<ol class={`flex flex-col divide-y divide-ligne rounded-carte border border-ligne bg-blanc ${classe}`}>
+  {evenements.map((evenement) => (
+    <li class="flex gap-3 px-4 py-3">
+      <Avatar nom={evenement.auteur} taille="petit" />
+      <div class="flex min-w-0 flex-col gap-0.5">
+        <p class="text-[15px]"><span class="font-semibold">{evenement.auteur}</span> {evenement.action}</p>
+        {evenement.detail && <p class="text-[14px] text-encre-2">{evenement.detail}</p>}
+        <p class="technique">{evenement.date}</p>
+      </div>
+    </li>
+  ))}
+</ol>
