@@ -172,6 +172,10 @@ const libellesChamps: Record<string, string> = {
     formulaire.addEventListener('submit', async (evenement) => {
       evenement.preventDefault();
       const donnees = Object.fromEntries(new FormData(formulaire).entries());
+      if (!donnees['cf-turnstile-response']) {
+        afficherAlerte('erreur', 'Vérification anti-robot en attente', [{ champ: '', message: 'Attendez que la vérification anti-robot se termine (coche verte), puis réessayez. Si elle n\'apparaît pas, rechargez la page.' }]);
+        return;
+      }
       bouton.disabled = true;
       bouton.setAttribute('aria-busy', 'true');
       bouton.classList.add('opacity-60', 'cursor-not-allowed');
