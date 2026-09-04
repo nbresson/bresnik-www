@@ -1,22 +1,22 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import Etiquette from './Etiquette.astro';
+import { libelleCible, tonCible } from '../lib/produits';
 
 interface Props {
   produit: CollectionEntry<'produits'>;
+  niveauTitre?: 'h2' | 'h3';
 }
 
-const { produit } = Astro.props;
-const cibleLibelle = produit.data.cible === 'consultant' ? 'Pour les consultants Sage' : 'Pour les entreprises';
+const { produit, niveauTitre = 'h3' } = Astro.props;
+const Titre = niveauTitre;
+const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.join(', ') : 'Sage · Windows · SQL Server';
 ---
-<article class="rounded border p-4" style="border-color: var(--couleur-bordure)">
-  <p class="text-xs uppercase" style="color: var(--couleur-texte-secondaire)">{cibleLibelle}</p>
-  <h3 class="mt-1 text-xl font-semibold">
-    <a href={`/produits/${produit.id}/`} class="hover:underline">{produit.data.nom}</a>
-  </h3>
-  <p class="mt-2">{produit.data.accroche}</p>
-  {produit.data.modulesSage.length > 0 && (
-    <p class="mt-2 text-sm" style="color: var(--couleur-texte-secondaire)">
-      {produit.data.modulesSage.join(', ')}
-    </p>
-  )}
+<article class="relative flex flex-col gap-2.5 rounded-carte border border-ligne bg-blanc p-5 transition-colors duration-150 hover:border-cobalt md:p-7">
+  <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
+  <Titre class="mt-1.5 text-[22px] font-semibold leading-[1.25] md:text-[24px]">
+    <a href={`/produits/${produit.id}/`} class="text-encre after:absolute after:inset-0 after:content-[''] hover:text-encre">{produit.data.nom}</a>
+  </Titre>
+  <p class="text-[16px] leading-[1.45] md:text-[17px] md:leading-[1.5]">{produit.data.accroche}</p>
+  <p class="technique">{modules}</p>
 </article>

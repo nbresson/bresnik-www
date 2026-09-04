@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Bouton from './Bouton.astro';
+import { actionProduit, libelleAcces } from '../lib/produits';
+
+interface Props {
+  produit: CollectionEntry<'produits'>;
+}
+
+const { produit } = Astro.props;
+const action = actionProduit(produit.data.disponibilite, produit.id);
+const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.join(', ') : 'Indépendant des modules';
+const lignes = [
+  ['Plateforme', produit.data.plateforme],
+  ['Modules Sage', modules],
+  ['Objets métiers', produit.data.objetsMetiersSage ? 'Oui' : 'Non'],
+  ['Accès', libelleAcces(produit.data.disponibilite)],
+];
+---
+<aside aria-labelledby="fiche-technique" class="flex flex-col gap-5 rounded-cadre border border-ligne bg-blanc p-6 md:p-7 lg:sticky lg:top-6">
+  <h2 id="fiche-technique" class="text-[20px] font-bold">Fiche technique</h2>
+  <dl class="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-[18px] gap-y-3 text-[15px]">
+    {lignes.map(([libelle, valeur]) => (
+      <>
+        <dt class="pt-[3px] font-technique text-[12px] uppercase tracking-[0.04em] text-encre-2">{libelle}</dt>
+        <dd class="font-semibold">{valeur}</dd>
+      </>
+    ))}
+  </dl>
+  <div class="h-px bg-ligne"></div>
+  {action.actif && action.href ? (
+    <Bouton href={action.href} taille="compact" plein>{action.libelle}</Bouton>
+  ) : (
+    <div class="flex flex-col gap-2">
+      <Bouton desactive taille="compact" plein aria-describedby="mention-acces">{action.libelle}</Bouton>
+      <p id="mention-acces" class="technique text-center">{action.mention}</p>
+    </div>
+  )}
+  <p class="text-[14px] leading-[1.5] text-encre-2">
+    Une question technique avant ? <a href={`/contact/?produit=${produit.id}`}>Écrivez-nous</a>, le formulaire arrive pré-rempli.
+  </p>
+</aside>
