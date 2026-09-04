@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "generer-images": "node scripts/generer-og.mjs",
+    "verifier-liens": "node scripts/verifier-liens.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "cf:dev": "wrangler dev",

@@ -71,3 +71,14 @@ variables de build.
     npm run build
     npx wrangler login
     npm run deploy
+
+## Qualité avant fusion
+
+- `npm run check`, `npm test`, `npm run build` puis `npm run verifier-liens`
+  (exécuté aussi par le CI) : aucun lien interne cassé.
+- Lighthouse, manuel : `npm run build && npx astro preview`, puis
+  `npx lighthouse http://localhost:4321/ --preset=desktop` sur l'accueil, une
+  fiche produit et une page éditoriale. Objectif : 95 ou plus dans les quatre
+  catégories.
+- Après un changement de charte (couleurs, polices), relancer
+  `npm run generer-images` et commiter les fichiers de `public/`.
