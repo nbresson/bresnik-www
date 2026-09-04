@@ -306,6 +306,15 @@ désactivé et message d'état, inchangés dans leur comportement.
   reste masquée tant qu'aucun n'est publié.
 - Informations légales (déjà listées dans la spécification amont).
 
+## 8 bis. Charte vivante
+
+Ajouté le 2026-09-04. La page `/charte/` présente les couleurs, la
+typographie, les icônes et chaque composant dans toutes ses variantes, en
+rendant les composants réels avec des données d'exemple. Elle est publiée
+avec `noindex`, exclue du sitemap (filtre de l'intégration) et jamais liée
+depuis la navigation. Règle : tout nouveau composant ou toute nouvelle
+variante y est ajouté dans la même modification.
+
 ## 9. Décisions
 
 - Polices via Fontsource plutôt que Google Fonts : aucune requête tierce,

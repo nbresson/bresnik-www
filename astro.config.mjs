@@ -10,7 +10,7 @@ export default defineConfig({
   site: 'https://bresnik-www.nkobrs21.workers.dev',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({ filter: (page) => !page.includes('/charte/') })],
   fonts: [
     {
       provider: fontProviders.fontsource(),
