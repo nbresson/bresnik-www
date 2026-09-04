@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
+import Etiquette from '../../components/Etiquette.astro';
 import CarteArticle from '../../components/CarteArticle.astro';
 import { filtrerPublies, listerTags, trierParDate } from '../../lib/blog';
 
@@ -9,22 +11,21 @@ const articles = trierParDate(filtrerPublies(tous, import.meta.env.DEV));
 const tags = listerTags(articles);
 ---
 <Base titre="Blog" description="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage.">
-  <h1 class="text-3xl font-bold">Blog</h1>
-  <p class="mt-4">Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage.</p>
-
-  {tags.length > 0 && (
-    <ul class="mt-6 flex flex-wrap gap-2 text-sm" aria-label="Tags">
-      {tags.map((tag) => (
-        <li><a href={`/blog/tags/${tag}/`} class="rounded border px-2 py-1" style="border-color: var(--couleur-bordure)">#{tag}</a></li>
-      ))}
-    </ul>
-  )}
-
-  {articles.length === 0 ? (
-    <p class="mt-8">Aucun article pour le moment. Abonnez-vous au <a href="/rss.xml" class="underline">flux RSS</a>.</p>
-  ) : (
-    <div class="mt-8">
-      {articles.map((article) => <CarteArticle article={article} />)}
-    </div>
-  )}
+  <EnTetePage eyebrow="Blog" titre="Retours de terrain sur Sage 100 et SQL Server." sousTitre="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage." />
+  <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
+    {tags.length > 0 && (
+      <ul class="flex flex-wrap gap-2" aria-label="Tags">
+        {tags.map((tag) => (
+          <li><a href={`/blog/tags/${tag}/`} class="hover:text-cobalt"><Etiquette ton="neutre">#{tag}</Etiquette></a></li>
+        ))}
+      </ul>
+    )}
+    {articles.length === 0 ? (
+      <p class="text-[17px]">Aucun article pour le moment. Abonnez-vous au <a href="/rss.xml" class="underline underline-offset-[3px]">flux RSS</a>.</p>
+    ) : (
+      <div class="flex max-w-[760px] flex-col">
+        {articles.map((article) => <CarteArticle article={article} niveauTitre="h2" />)}
+      </div>
+    )}
+  </div>
 </Base>

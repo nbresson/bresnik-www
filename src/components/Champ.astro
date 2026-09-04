@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'input'>, 'type'> {
+  type?: 'text' | 'email' | 'zone' | 'liste';
+  nom: string;
+  libelle: string;
+  requis?: boolean;
+  aide?: string;
+  options?: { valeur: string; libelle: string }[];
+  lignes?: number;
+}
+
+const { type = 'text', nom, libelle, requis = false, aide, options = [], lignes = 6, ...attributs } = Astro.props;
+const identifiant = `champ-${nom}`;
+const identifiantAide = aide ? `${identifiant}-aide` : undefined;
+const classeControle = 'w-full rounded-bouton border-[1.5px] border-ligne bg-blanc px-3.5 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt';
+---
+<div class="flex flex-col gap-1.5">
+  <label for={identifiant} class="text-[14px] font-semibold">
+    {libelle}{requis && <span aria-hidden="true"> *</span>}
+  </label>
+  {type === 'zone' ? (
+    <textarea id={identifiant} name={nom} required={requis} rows={lignes} aria-describedby={identifiantAide} class={`${classeControle} py-3`} {...attributs}></textarea>
+  ) : type === 'liste' ? (
+    <select id={identifiant} name={nom} required={requis} aria-describedby={identifiantAide} class={`${classeControle} h-12`} {...attributs}>
+      {options.map((option) => <option value={option.valeur}>{option.libelle}</option>)}
+    </select>
+  ) : (
+    <input id={identifiant} name={nom} type={type} required={requis} aria-describedby={identifiantAide} class={`${classeControle} h-12`} {...attributs} />
+  )}
+  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+</div>
