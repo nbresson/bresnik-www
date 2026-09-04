@@ -1,12 +1,24 @@
-/* Tokens de la marque Bresnik. Valeurs provisoires : le design viendra plus tard.
-   Ces variables sont prévues pour être réutilisées dans les applications. */
+/* Tokens de la marque Bresnik, direction « Atelier technique ».
+   Réutilisables par les applications : ne rien ajouter ici sans l'inscrire
+   dans la spécification design. */
 :root {
-  --couleur-fond: #ffffff;
-  --couleur-texte: #1f2933;
-  --couleur-texte-secondaire: #52606d;
-  --couleur-accent: #0f4c81;
-  --couleur-accent-contraste: #ffffff;
-  --couleur-bordure: #d9e2ec;
-  --police-texte: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --largeur-contenu: 72rem;
+  --couleur-papier: #faf8f4;
+  --couleur-papier-2: #f1ede4;
+  --couleur-encre: #1c2331;
+  --couleur-encre-2: #4f5868;
+  --couleur-encre-claire: #c9cfdb;
+  --couleur-ligne: #e2ddd2;
+  --couleur-blanc: #ffffff;
+  --couleur-cobalt: #1f4fc7;
+  --couleur-cobalt-fonce: #183f9f;
+  --couleur-cobalt-teinte: #e6ecfa;
+  --couleur-ambre: #8f620f;
+  --couleur-ambre-teinte: #fbf1dd;
+
+  --ombre-capture: 0 24px 48px -32px rgb(28 35 49 / 0.35);
+
+  --rayon-bouton: 6px;
+  --rayon-carte: 8px;
+  --rayon-cadre: 10px;
+  --rayon-bande: 12px;
 }
