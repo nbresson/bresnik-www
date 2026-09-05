@@ -13,9 +13,11 @@ interface Props {
 
 const { taille = 'en-tete' } = Astro.props;
 const classeTaille = taille === 'en-tete' ? 'text-[24px] lg:text-[26px]' : 'text-[22px]';
-const tailleLogo = taille === 'en-tete' ? 36 : 30;
+// En en-tête, le logo a la hauteur du bouton compact (44 px) ; les proportions du fichier sont conservées.
+const hauteurLogo = taille === 'en-tete' ? 44 : 30;
+const largeurLogo = Math.round((hauteurLogo * logo.width) / logo.height);
 ---
 <a href="/" class={`inline-flex items-center gap-2.5 font-titres font-bold tracking-[-0.02em] text-encre hover:text-encre ${classeTaille}`} aria-label="Bresnik, accueil">
-  <Image src={logo} alt="" width={tailleLogo} height={tailleLogo} densities={[1, 2, 3]} loading="eager" class="block shrink-0 rounded-[8px]" />
+  <Image src={logo} alt="" width={largeurLogo} height={hauteurLogo} densities={[1, 2, 3]} loading="eager" class="block shrink-0 rounded-[8px]" />
   <span>Bresni<span class="text-cobalt">k</span></span>
 </a>
