@@ -1,4 +1,6 @@
 const URL_BREVO = 'https://api.brevo.com/v3/smtp/email';
+/** Délai maximal d'attente de Brevo, en millisecondes. */
+export const DELAI_BREVO = 10000;
 
 export interface OptionsBrevo {
   cle: string;
@@ -24,6 +26,7 @@ export async function envoyerBrevo(options: OptionsBrevo, fetchFn: typeof fetch 
       method: 'POST',
       headers: { 'api-key': options.cle, 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(corps),
+      signal: AbortSignal.timeout(DELAI_BREVO),
     });
     return reponse.ok ? { ok: true } : { ok: false, statut: reponse.status };
   } catch {
