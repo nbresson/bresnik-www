@@ -201,7 +201,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [x] | Données structurées | V | 1 | `src/lib/seo.ts` : Organization, Person et WebSite (accueil), SoftwareApplication et BreadcrumbList (fiches), Article (blog) ; FAQPage viendra avec la FAQ (2026-09-05). |
 | [x] | Titres et descriptions | V | 1 | Champs `sousTitre` et `description` (100 à 160 caractères) sur les fiches ; titres et descriptions des pages fixes et éditoriales allongés (2026-09-05). |
 | [ ] | Image de partage par page | V | 2 | Étendre le script de génération aux produits et aux articles ; toujours émettre dimensions et alt. |
-| [ ] | Sitemap, pagination, robots | V | 2 | Dates de modification, description propre aux pages 2+, `Disallow: /api/`, blog vide en `noindex`. |
+| [x] | Sitemap, pagination, robots | V | 2 | Dates des articles dans le sitemap, blog vide hors sitemap et en `noindex`, descriptions par page, tags en `noindex` sous trois articles, `Disallow: /api/` (2026-09-05). |
 
 ### Performance
 
@@ -236,8 +236,8 @@ conception courte puis une PR, et coché ici une fois en production.
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
 | [x] | Activer la mesure d'audience | V | 1 | Succès du formulaire → page `/contact/merci/` comptée comme une vue ; jeton `PUBLIC_CF_BEACON_TOKEN` à créer dans Workers Builds (guide de déploiement). Par produit impossible sans événement personnalisé (2026-09-05). |
-| [ ] | Tests du HTML produit | V | 2 | Titres, descriptions, canonical, `noindex` ; ancres dans le vérificateur de liens. |
-| [ ] | CI | V | 2 | Bloc `concurrency`, cache des images. |
+| [x] | Tests du HTML produit | V | 2 | `npm run verifier-seo` en CI (titres, descriptions, canonical, `noindex`) ; ancres vérifiées par `verifier-liens` (2026-09-05). |
+| [x] | CI | V | 2 | `concurrency` par référence, cache `node_modules/.astro` (polices et images) (2026-09-05). |
 | [ ] | Supervision | V | 2 | Contrôle externe de disponibilité, webhooks Brevo, alerte sur le taux d'erreur du Worker. |
 
 ### Bascule vers bresnik.fr

@@ -5,8 +5,15 @@ import { defineConfig, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { articlesPublies } from './scripts/blog-frontmatter.mjs';
 
 const replisSans = ['Segoe UI', 'system-ui', 'sans-serif'];
+
+// Sitemap : pages techniques exclues, blog exclu tant qu'aucun article n'est publié,
+// date de modification sur les articles (seules pages qui portent une date).
+const articles = articlesPublies();
+const horsSitemap = ['/charte/', '/erreur/', '/maintenance/', '/gabarits/', '/contact/merci/', ...(articles.length === 0 ? ['/blog/'] : [])];
+const datesArticles = new Map(articles.map((a) => [`/blog/${a.id}/`, a.miseAJour ?? a.date]));
 
 /**
  * Empreinte CSP d'un script inséré tel quel dans les pages (voir Base.astro).
@@ -19,7 +26,16 @@ export default defineConfig({
   site: 'https://bresnik-www.nkobrs21.workers.dev',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [mdx(), sitemap({ filter: (page) => !['/charte/', '/erreur/', '/maintenance/', '/gabarits/', '/contact/merci/'].some((chemin) => page.includes(chemin)) })],
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => !horsSitemap.some((chemin) => page.includes(chemin)),
+      serialize: (item) => {
+        const date = datesArticles.get(new URL(item.url).pathname);
+        return date ? { ...item, lastmod: date.toISOString() } : item;
+      },
+    }),
+  ],
   fonts: [
     {
       provider: fontProviders.fontsource(),

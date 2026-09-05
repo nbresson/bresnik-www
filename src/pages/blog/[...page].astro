@@ -17,8 +17,11 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 const { page, tags } = Astro.props;
 const titre = page.currentPage > 1 ? `Blog, page ${page.currentPage}` : 'Blog';
+const description = `Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage : intégration bancaire, FEC, tarifs, exports, par un consultant indépendant${page.currentPage > 1 ? ` (page ${page.currentPage})` : ''}.`;
+// Tant qu'aucun article n'est publié, la page vide n'a rien à offrir aux moteurs.
+const vide = page.data.length === 0;
 ---
-<Base titre={titre} description="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage : intégration bancaire, FEC, tarifs, exports, par un consultant indépendant.">
+<Base titre={titre} description={description} noindex={vide}>
   <EnTetePage eyebrow="Blog" titre="Retours de terrain sur Sage 100 et SQL Server." sousTitre="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage." />
   <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
     {tags.length > 0 && (

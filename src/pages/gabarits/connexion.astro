@@ -21,7 +21,7 @@ import Alerte from '../../components/Alerte.astro';
         <Champ nom="connexion-motdepasse" libelle="Mot de passe" type="motdepasse" requis autocomplete="current-password" aide="Huit caractères au moins." />
         <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <Choix nom="connexion-memoriser" valeur="oui" libelle="Rester connecté" />
-          <a href="#mot-de-passe-oublie" class="text-[14px] underline underline-offset-[3px]">Mot de passe oublié ?</a>
+          <a href="/contact/" class="text-[14px] underline underline-offset-[3px]">Mot de passe oublié ?</a>
         </div>
         <Bouton type="submit" plein>Se connecter</Bouton>
       </form>

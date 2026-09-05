@@ -9,12 +9,14 @@ interface Props {
   colonnes: { cle: string; libelle: string; numerique?: boolean; tri?: 'croissant' | 'decroissant' | 'aucun' }[];
   lignes: Ligne[];
   cleId: string;
+  /** Préfixe des identifiants de ligne (`<id>-<valeur de cleId>`), pour cibler une ligne par ancre. */
+  id?: string;
   selection?: boolean;
   actions?: { libelle: string; icone: NomIcone; href: (ligne: Ligne) => string }[];
   class?: string;
 }
 
-const { legende, colonnes, lignes, cleId, selection = false, actions = [], class: classe = '' } = Astro.props;
+const { legende, colonnes, lignes, cleId, id, selection = false, actions = [], class: classe = '' } = Astro.props;
 const ariaSort = (tri?: string) => (tri === 'croissant' ? 'ascending' : tri === 'decroissant' ? 'descending' : undefined);
 const classeCellule = (numerique?: boolean) => (numerique ? 'text-right font-technique tabular-nums' : 'text-left');
 ---
@@ -48,7 +50,7 @@ const classeCellule = (numerique?: boolean) => (numerique ? 'text-right font-tec
     </thead>
     <tbody>
       {lignes.map((ligne) => (
-        <tr class="border-b border-ligne last:border-b-0 odd:bg-blanc even:bg-papier hover:bg-cobalt-teinte/40">
+        <tr id={id ? `${id}-${ligne[cleId]}` : undefined} class="border-b border-ligne last:border-b-0 odd:bg-blanc even:bg-papier hover:bg-cobalt-teinte/40">
           {selection && (
             <td class="px-3 py-2.5">
               <input type="checkbox" data-ligne aria-label={`Sélectionner la ligne ${ligne[cleId]}`} class="size-5 accent-cobalt" />

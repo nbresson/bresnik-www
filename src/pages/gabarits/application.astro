@@ -76,6 +76,7 @@ const evenements = [
             </BarreOutils>
             <FiltresActifs filtres={[{ libelle: 'Statut', valeur: 'Active', hrefSuppression: '/gabarits/application/' }]} hrefTout="/gabarits/application/" />
             <TableauDonnees
+              id="licence"
               legende="Licences du compte"
               cleId="id"
               selection
@@ -89,8 +90,8 @@ const evenements = [
               ]}
               lignes={licences}
               actions={[
-                { libelle: 'Modifier', icone: 'crayon', href: (l) => `#modifier-${l.id}` },
-                { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#supprimer-${l.id}` },
+                { libelle: 'Modifier', icone: 'crayon', href: (l) => `#licence-${l.id}` },
+                { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#licence-${l.id}` },
               ]}
             />
           </section>

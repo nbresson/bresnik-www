@@ -18,6 +18,23 @@ export function estInterne(lien) {
   return !EXCLUS.some((prefixe) => lien.startsWith(prefixe));
 }
 
+/** Ancre d'un lien (« #contenu » → « contenu »), ou null s'il n'en a pas. */
+export function ancreDe(lien) {
+  const position = lien.indexOf('#');
+  if (position < 0) return null;
+  let ancre = lien.slice(position + 1);
+  try {
+    ancre = decodeURIComponent(ancre);
+  } catch {}
+  return ancre === '' ? null : ancre;
+}
+
+/** Vrai si le HTML déclare un élément portant cet identifiant. */
+export function possedeAncre(html, ancre) {
+  const echappee = ancre.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\sid="${echappee}"`).test(html);
+}
+
 export function cheminsCandidats(lien) {
   const brut = lien.split('#')[0].split('?')[0];
   let sansSuffixe;
@@ -56,16 +73,30 @@ export async function verifierDist(dossier) {
   const casses = [];
   for (const fichier of await listerHtml(dossier)) {
     const html = await readFile(fichier, 'utf8');
-    for (const lien of extraireLiens(html).filter(estInterne)) {
-      const candidats = cheminsCandidats(lien);
-      let trouve = false;
-      for (const candidat of candidats) {
-        if (await existe(join(dossier, ...candidat.split('/')))) {
-          trouve = true;
+    const nomFichier = relative(dossier, fichier).split(sep).join('/');
+    for (const lien of extraireLiens(html)) {
+      // Ancre vers la page elle-même.
+      if (lien.startsWith('#')) {
+        const ancre = ancreDe(lien);
+        if (ancre && !possedeAncre(html, ancre)) casses.push({ fichier: nomFichier, lien });
+        continue;
+      }
+      if (!estInterne(lien)) continue;
+      let cible = null;
+      for (const candidat of cheminsCandidats(lien)) {
+        const chemin = join(dossier, ...candidat.split('/'));
+        if (await existe(chemin)) {
+          cible = chemin;
           break;
         }
       }
-      if (!trouve) casses.push({ fichier: relative(dossier, fichier).split(sep).join('/'), lien });
+      if (!cible) {
+        casses.push({ fichier: nomFichier, lien });
+        continue;
+      }
+      // Ancre vers une autre page : l'identifiant doit exister dans la page cible.
+      const ancre = ancreDe(lien);
+      if (ancre && cible.endsWith('.html') && !possedeAncre(await readFile(cible, 'utf8'), ancre)) casses.push({ fichier: nomFichier, lien });
     }
   }
   return casses;

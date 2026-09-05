@@ -764,6 +764,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         </BarreOutils>
         <FiltresActifs filtres={[{ libelle: 'Statut', valeur: 'Active', hrefSuppression: '#charte-applications' }, { libelle: 'Produit', valeur: 'BankBridge', hrefSuppression: '#charte-applications' }]} hrefTout="#charte-applications" />
         <TableauDonnees
+          id="charte-licence"
           legende="Exemple de tableau de licences"
           cleId="id"
           selection
@@ -776,8 +777,8 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
           ]}
           lignes={lignesTableau}
           actions={[
-            { libelle: 'Modifier', icone: 'crayon', href: (l) => `#modifier-${l.id}` },
-            { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#supprimer-${l.id}` },
+            { libelle: 'Modifier', icone: 'crayon', href: (l) => `#charte-licence-${l.id}` },
+            { libelle: 'Supprimer', icone: 'corbeille', href: (l) => `#charte-licence-${l.id}` },
           ]}
         />
         <p class="text-[15px] text-encre-2">Cliquez un en-tête pour trier côté client ; la case d'en-tête sélectionne toutes les lignes.</p>
