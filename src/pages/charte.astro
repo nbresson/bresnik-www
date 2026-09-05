@@ -89,7 +89,7 @@ const { Content: TexteEnrichi } = await render(exempleTexte);
 const couleurs = [
   { nom: 'papier', classe: 'bg-papier', valeur: '#faf8f4', usage: 'Fond de page' },
   { nom: 'papier-2', classe: 'bg-papier-2', valeur: '#f1ede4', usage: 'Bandes de section' },
-  { nom: 'encre', classe: 'bg-encre', valeur: '#1c2331', usage: 'Texte, bandes sombres' },
+  { nom: 'encre', classe: 'bg-encre', valeur: '#1c2331', usage: 'Texte principal' },
   { nom: 'encre-2', classe: 'bg-encre-2', valeur: '#4f5868', usage: 'Texte secondaire' },
   { nom: 'encre-claire', classe: 'bg-encre-claire', valeur: '#c9cfdb', usage: 'Texte sur fond encre' },
   { nom: 'ligne', classe: 'bg-ligne', valeur: '#e2ddd2', usage: 'Bordures' },
@@ -103,6 +103,8 @@ const couleurs = [
   { nom: 'succes-teinte', classe: 'bg-succes-teinte', valeur: '#e4f3ea', usage: 'Fond des alertes de succès' },
   { nom: 'erreur', classe: 'bg-erreur', valeur: '#b42318', usage: 'Erreurs de formulaire, alertes' },
   { nom: 'erreur-teinte', classe: 'bg-erreur-teinte', valeur: '#fbe9e7', usage: 'Fond des alertes d\'erreur' },
+  { nom: 'bande', classe: 'bg-bande', valeur: '#1c2331', usage: 'Fond des bandes' },
+  { nom: 'bande-texte', classe: 'bg-bande-texte', valeur: '#ffffff', usage: 'Texte sur bande' },
 ];
 const valeurCouleur = (nom: string) => couleurs.find((c) => c.nom === nom)?.valeur ?? '#000000';
 const couplesContraste = [
@@ -378,7 +380,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
             <span id="charte-mention" class="technique">Bientôt disponible</span>
             <Bouton type="button" chargement>Envoi en cours</Bouton>
           </div>
-          <div class="rounded-carte bg-encre p-6">
+          <div class="rounded-carte bg-bande p-6">
             <Bouton href="/contact/" variante="inverse" fleche>Inverse sur fond encre</Bouton>
           </div>
           <div class="max-w-[360px]">
@@ -393,7 +395,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
           <div class="flex flex-wrap items-center gap-6">
             <LienFleche href="/produits/">Lien aller</LienFleche>
             <LienFleche href="/blog/" sens="retour">Lien retour</LienFleche>
-            <span class="rounded-carte bg-encre px-4 py-3"><LienFleche href="/contact/" ton="blanc">Sur fond encre</LienFleche></span>
+            <span class="rounded-carte bg-bande px-4 py-3"><LienFleche href="/contact/" ton="bande">Sur fond encre</LienFleche></span>
           </div>
           <FilAriane elements={[{ libelle: 'Produits', href: '/produits/' }, { libelle: 'BankBridge' }]} />
         </div>
@@ -610,7 +612,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
     <p class="mt-3 max-w-[640px] text-[17px] leading-[1.5]">Utilisée pour les bandes de rythme, comme la section conseil de l'accueil.</p>
   </Section>
   <Section fond="encre" aria-labelledby="charte-section-encre">
-    <h2 id="charte-section-encre" class="text-[24px] font-bold text-blanc md:text-[30px]">Section sur fond encre</h2>
+    <h2 id="charte-section-encre" class="text-[24px] font-bold text-bande-texte md:text-[30px]">Section sur fond encre</h2>
     <p class="mt-3 max-w-[640px] text-[17px] leading-[1.5] text-encre-claire">Texte secondaire en encre claire, liens et boutons en variante inverse.</p>
   </Section>
 

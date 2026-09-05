@@ -17,7 +17,7 @@ const { id, texte, libelle = 'Plus d\'informations' } = Astro.props;
   <span
     role="tooltip"
     id={id}
-    class="pointer-events-none invisible absolute bottom-full left-1/2 z-10 mb-1 w-max max-w-[260px] -translate-x-1/2 rounded-bouton bg-encre px-3 py-2 text-[14px] leading-[1.4] text-blanc opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+    class="pointer-events-none invisible absolute bottom-full left-1/2 z-10 mb-1 w-max max-w-[260px] -translate-x-1/2 rounded-bouton bg-bande px-3 py-2 text-[14px] leading-[1.4] text-bande-texte opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
   >
     {texte}
   </span>
