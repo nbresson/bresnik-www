@@ -6,6 +6,7 @@ modulesSage: []
 objetsMetiersSage: false
 plateforme: Windows (WPF)
 logo: ./logos/bocs.png
+vedette: demarrer.png
 captures:
   - fichier: demarrer.png
     titre: Page de démarrage

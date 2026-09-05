@@ -7,6 +7,7 @@ modulesSage:
 objetsMetiersSage: true
 plateforme: Windows (WPF)
 logo: ./logos/bankbridge.png
+vedette: mouvements.png
 captures:
   - fichier: tableau-de-bord.png
     titre: Tableau de bord

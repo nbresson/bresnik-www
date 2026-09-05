@@ -7,6 +7,7 @@ modulesSage:
 objetsMetiersSage: true
 plateforme: Windows (WPF)
 logo: ./logos/majtarifpq.png
+vedette: regles.png
 captures:
   - fichier: tableau-de-bord.png
     titre: Tableau de bord
