@@ -1,0 +1,119 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  id: string;
+  alignement?: 'gauche' | 'droite';
+}
+
+const { id, alignement = 'droite' } = Astro.props;
+const choix = [
+  { valeur: 'light', libelle: 'Clair', icone: 'soleil' as const },
+  { valeur: 'dark', libelle: 'Sombre', icone: 'lune' as const },
+  { valeur: 'system', libelle: 'Système', icone: 'ecran' as const },
+];
+---
+<bk-theme class="relative hidden" data-id={id}>
+  <button
+    type="button"
+    id={`${id}-bouton`}
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls={`${id}-menu`}
+    aria-label="Thème d'affichage"
+    class="inline-flex size-11 items-center justify-center rounded-bouton text-encre-2 transition-colors duration-150 hover:bg-papier-2 hover:text-cobalt"
+  >
+    <Icone nom="soleil" taille={20} class="icone-light hidden" />
+    <Icone nom="lune" taille={20} class="icone-dark hidden" />
+    <Icone nom="ecran" taille={20} class="icone-system" />
+  </button>
+  <ul role="menu" id={`${id}-menu`} aria-labelledby={`${id}-bouton`} hidden class={`absolute z-20 mt-1 min-w-[180px] rounded-carte border border-ligne bg-blanc py-1.5 shadow-capture ${alignement === 'droite' ? 'right-0' : 'left-0'}`}>
+    {choix.map((option) => (
+      <li role="none">
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-choix={option.valeur} tabindex="-1" class="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[15px] text-encre hover:bg-papier-2 aria-checked:text-cobalt">
+          <Icone nom={option.icone} taille={18} class="shrink-0" />
+          {option.libelle}
+          <Icone nom="coche" taille={16} class="ml-auto hidden aria-checked:inline" />
+        </button>
+      </li>
+    ))}
+  </ul>
+</bk-theme>
+
+<script>
+  import { CLE_STOCKAGE, resoudreTheme, type ChoixTheme } from '../lib/theme';
+
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function choixMemorise(): ChoixTheme {
+    try {
+      const valeur = localStorage.getItem(CLE_STOCKAGE);
+      return valeur === 'light' || valeur === 'dark' ? valeur : 'system';
+    } catch {
+      return 'system';
+    }
+  }
+
+  function appliquer(choix: ChoixTheme) {
+    const racine = document.documentElement;
+    if (choix === 'system') delete racine.dataset.theme;
+    else racine.dataset.theme = choix;
+    try {
+      if (choix === 'system') localStorage.removeItem(CLE_STOCKAGE);
+      else localStorage.setItem(CLE_STOCKAGE, choix);
+    } catch {}
+    const effectif = resoudreTheme(choix, media.matches);
+    for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')) {
+      meta.content = effectif === 'dark' ? '#141a26' : '#faf8f4';
+    }
+    document.dispatchEvent(new CustomEvent('bk-theme', { detail: { choix, effectif } }));
+  }
+
+  class SelecteurTheme extends HTMLElement {
+    connectedCallback() {
+      const bouton = this.querySelector<HTMLButtonElement>('[aria-haspopup="menu"]');
+      const menu = this.querySelector<HTMLUListElement>('[role="menu"]');
+      if (!bouton || !menu) return;
+      const elements = () => Array.from(menu.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]'));
+      const refleter = (choix: ChoixTheme) => {
+        for (const element of elements()) element.setAttribute('aria-checked', String(element.dataset.themeChoix === choix));
+        for (const valeur of ['light', 'dark', 'system']) this.querySelector(`.icone-${valeur}`)?.classList.toggle('hidden', valeur !== choix);
+      };
+      const fermer = (refocaliser = true) => {
+        if (menu.hidden) return;
+        menu.hidden = true;
+        bouton.setAttribute('aria-expanded', 'false');
+        if (refocaliser) bouton.focus();
+      };
+      const ouvrir = () => {
+        menu.hidden = false;
+        bouton.setAttribute('aria-expanded', 'true');
+        (elements().find((e) => e.getAttribute('aria-checked') === 'true') ?? elements()[0])?.focus();
+      };
+      bouton.addEventListener('click', () => (menu.hidden ? ouvrir() : fermer()));
+      menu.addEventListener('click', (evenement) => {
+        const element = (evenement.target as Element).closest<HTMLButtonElement>('[role="menuitemradio"]');
+        if (!element) return;
+        const choix = element.dataset.themeChoix as ChoixTheme;
+        appliquer(choix);
+        refleter(choix);
+        fermer();
+      });
+      menu.addEventListener('keydown', (evenement) => {
+        const liste = elements();
+        const index = liste.indexOf(document.activeElement as HTMLButtonElement);
+        if (evenement.key === 'ArrowDown') { evenement.preventDefault(); liste[(index + 1) % liste.length]?.focus(); }
+        if (evenement.key === 'ArrowUp') { evenement.preventDefault(); liste[(index - 1 + liste.length) % liste.length]?.focus(); }
+        if (evenement.key === 'Escape') { evenement.preventDefault(); fermer(); }
+        if (evenement.key === 'Tab') fermer(false);
+      });
+      document.addEventListener('click', (evenement) => { if (!this.contains(evenement.target as Node)) fermer(false); });
+      document.addEventListener('bk-theme', (evenement) => refleter((evenement as CustomEvent<{ choix: ChoixTheme }>).detail.choix));
+      media.addEventListener('change', () => { if (choixMemorise() === 'system') appliquer('system'); });
+      refleter(choixMemorise());
+      this.classList.remove('hidden');
+      this.classList.add('inline-block');
+    }
+  }
+  if (!customElements.get('bk-theme')) customElements.define('bk-theme', SelecteurTheme);
+</script>

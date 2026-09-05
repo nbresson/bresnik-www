@@ -15,6 +15,7 @@ import BoutonIcone from '../../components/application/BoutonIcone.astro';
 import CarteUtilisateur from '../../components/application/CarteUtilisateur.astro';
 import BarreProgression from '../../components/application/BarreProgression.astro';
 import Notifications from '../../components/application/Notifications.astro';
+import SelecteurTheme from '../../components/SelecteurTheme.astro';
 
 const groupes = [
   { elements: [
@@ -50,6 +51,7 @@ const evenements = [
 
     <div class="flex min-w-0 flex-col">
       <EnTeteApplication titre="Tableau de bord" sousTitre="Vue d'ensemble des licences et de l'activité." fil={[{ libelle: 'Espace client', href: '/gabarits/application/' }, { libelle: 'Tableau de bord' }]}>
+        <SelecteurTheme slot="actions" id="theme-application" />
         <BoutonIcone slot="actions" icone="cloche" libelle="Notifications" />
         <BoutonIcone slot="actions" icone="imprimer" libelle="Imprimer" />
         <Bouton slot="actions" href="#nouvelle-licence" taille="compact">Nouvelle licence</Bouton>

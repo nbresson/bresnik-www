@@ -2,6 +2,7 @@
 import Marque from './Marque.astro';
 import Bouton from './Bouton.astro';
 import Icone from './Icone.astro';
+import SelecteurTheme from './SelecteurTheme.astro';
 
 const liens = [
   { href: '/produits/', libelle: 'Produits' },
@@ -25,18 +26,22 @@ const classeLien = (href: string) =>
           {lien.libelle}
         </a>
       ))}
+      <SelecteurTheme id="theme-desktop" />
       <Bouton href="/contact/" taille="compact">Demander une démo</Bouton>
     </nav>
-    <button
-      id="bouton-menu"
-      type="button"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-bouton border border-ligne bg-blanc text-encre lg:hidden"
-      aria-expanded="false"
-      aria-controls="menu-mobile"
-      aria-label="Menu"
-    >
-      <Icone nom="menu" taille={22} />
-    </button>
+    <div class="flex items-center gap-1 lg:hidden">
+      <SelecteurTheme id="theme-mobile" />
+      <button
+        id="bouton-menu"
+        type="button"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-bouton border border-ligne bg-blanc text-encre"
+        aria-expanded="false"
+        aria-controls="menu-mobile"
+        aria-label="Menu"
+      >
+        <Icone nom="menu" taille={22} />
+      </button>
+    </div>
   </div>
   <nav id="menu-mobile" aria-label="Navigation mobile" hidden class="border-t border-ligne lg:hidden">
     <ul class="conteneur flex flex-col gap-1 py-3">
