@@ -7,6 +7,22 @@ modulesSage:
 objetsMetiersSage: true
 plateforme: Windows (WPF)
 logo: ./logos/majtarifpq.png
+captures:
+  - fichier: tableau-de-bord.png
+    titre: Tableau de bord
+    alt: Tableau de bord de MajTarifPQ sur la société ouverte, règles actives, fournisseurs et catégories visés, part du catalogue couverte, nature du paramétrage, cumul des lignes écrites et derniers lots appliqués.
+  - fichier: regles.png
+    titre: Règles de tarification
+    alt: Liste des règles de tarification, une ligne par couple fournisseur et catégorie tarifaire, avec coefficient ou remise, statut actif et actions de modification et de suppression.
+  - fichier: fournisseurs.png
+    titre: Fournisseurs
+    alt: Liste des fournisseurs de Sage 100 Gestion commerciale avec leur code, le nombre de règles et le nombre d'articles concernés, et un bouton pour ajouter une règle.
+  - fichier: apercu.png
+    titre: Aperçu avant application
+    alt: Aperçu du calcul, articles applicables, inchangés, écartés ou en échec, avec pour chaque article le fournisseur, la catégorie, les coefficients et remises avant et après, l'état et le motif, puis l'application de la sélection.
+  - fichier: historique.png
+    titre: Historique des lots
+    alt: Historique des lots d'application et d'annulation, avec pour le lot sélectionné le nombre de lignes écrites, en échec et prévues, le détail ligne par ligne, l'export du journal et l'annulation du lot.
 fonctionnalites:
   - "Relation Fournisseur / Article / Catégorie tarifaire absente de Sage"
   - "Gestion facilitée des catégories tarifaires de Sage 100 Gestion commerciale"
