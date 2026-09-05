@@ -12,6 +12,7 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"]
+    // Toutes les requêtes passent par le Worker : il pose X-Robots-Tag sur les hôtes workers.dev.
+    "run_worker_first": true
   }
 }
