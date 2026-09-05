@@ -15,6 +15,7 @@ import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies, trierParDate } from '../lib/blog';
 import { capturesDuProduit } from '../lib/captures-fichiers';
 import { capturesVedettes, vedettesIntrouvables } from '../lib/vedettes';
+import { organisation, siteWeb } from '../lib/seo';
 
 const produits = await produitsPublies();
 const produitsAvecCaptures = produits.map((p) => ({
@@ -34,7 +35,12 @@ const domaines = [
   'Reporting et analyse comptable',
 ];
 ---
-<Base titre="Bresnik" description="Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par Nicolas Bresson." sansSuffixe>
+<Base
+  titre="Bresnik — Logiciels complémentaires de Sage 100"
+  description="Cinq logiciels Windows qui complètent Sage 100 Comptabilité et Gestion commerciale, et du conseil Sage par Nicolas Bresson, consultant indépendant."
+  sansSuffixe
+  donneesStructurees={[organisation(Astro.site!), siteWeb(Astro.site!)]}
+>
   <section aria-labelledby="promesse" class="conteneur grid items-center gap-10 pb-8 pt-10 lg:grid-cols-2 lg:gap-16 lg:pb-22 lg:pt-24">
     <div class="flex flex-col gap-5 lg:gap-6">
       <p class="eyebrow">Logiciels pour l'écosystème Sage 100</p>

@@ -1,6 +1,8 @@
 ---
 nom: MajTarifPQ
 accroche: Gérez votre politique tarifaire Fournisseur, Article, Catégorie, Client.
+sousTitre: Tarifs fournisseurs et catégories Sage 100
+description: "MajTarifPQ applique en masse coefficients et remises par fournisseur et catégorie tarifaire dans Sage 100 Gestion commerciale, avec aperçu et annulation."
 cible: entreprise
 modulesSage:
   - "Sage 100 Gestion commerciale"

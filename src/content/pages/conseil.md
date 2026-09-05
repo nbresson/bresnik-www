@@ -1,6 +1,6 @@
 ---
-titre: Conseil Sage
-description: "Consultant Sage 100 : Comptabilité, Gestion commerciale, Moyens de paiement, Immobilisations, Reporting, Batigest."
+titre: Conseil Sage 100
+description: "Consultant Sage 100 indépendant : paramétrage, migration, reprise de données, SQL Server, Objets métiers et reporting sur Comptabilité et Gestion commerciale."
 ---
 
 ## Un consultant Sage qui développe ses propres outils

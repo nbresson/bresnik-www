@@ -1,6 +1,6 @@
 ---
 titre: Mentions légales
-description: "Mentions légales du site Bresnik."
+description: "Mentions légales du site Bresnik : éditeur, hébergement chez Cloudflare, propriété intellectuelle et marques citées, dont Sage 100, marque de Sage Group plc."
 ---
 
 ## Éditeur du site

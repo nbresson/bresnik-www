@@ -5,6 +5,7 @@ import LienFleche from '../../components/LienFleche.astro';
 import TableMatieres from '../../components/TableMatieres.astro';
 import { filtrerPublies } from '../../lib/blog';
 import { dateIso, formaterDate } from '../../lib/dates';
+import { article as articleJsonld } from '../../lib/seo';
 
 export async function getStaticPaths() {
   const articles = filtrerPublies(await getCollection('blog'), import.meta.env.DEV);
@@ -14,8 +15,22 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
 const avecSommaire = headings.filter((h) => h.depth === 2).length >= 3;
+const donneesStructurees = [
+  articleJsonld(
+    { titre: article.data.titre, description: article.data.description, chemin: `/blog/${article.id}/`, datePublication: article.data.date, dateModification: article.data.miseAJour, image: article.data.image?.src },
+    Astro.site!,
+  ),
+];
 ---
-<Base titre={article.data.titre} description={article.data.description} typeOg="article" image={article.data.image?.src}>
+<Base
+  titre={article.data.titre}
+  description={article.data.description}
+  typeOg="article"
+  image={article.data.image?.src}
+  datePublication={article.data.date}
+  dateModification={article.data.miseAJour}
+  donneesStructurees={donneesStructurees}
+>
   <article>
     <header class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
       <p class="technique">
