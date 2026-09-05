@@ -271,9 +271,9 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
         <p class="text-[15px] leading-[1.5]"><strong>Palette révisée le 2026-09-05 d'après le logo.</strong> Le marine du logo devient l'encre, les bandes et l'accent des liens et boutons ; le ruban orange-rouge donne deux couleurs vives décoratives (flamme, braise) et un orange lisible (ambre) pour les surtitres et les étiquettes. Le papier chaud est conservé pour le contraste avec le marine.</p>
         <ul class="flex flex-wrap gap-4" aria-label="Couleurs du logo">
-          {Object.entries(LOGO).map(([nom, valeur]) => (
-            <li class="flex items-center gap-2"><span class="block size-8 rounded-[8px] border border-ligne" style={`background:${valeur}`}></span><span class="technique">{nom} {valeur}</span></li>
-          ))}
+          {([['marineHaut', 'bg-[#133868]'], ['marineBas', 'bg-[#062045]'], ['orange', 'bg-[#f87800]'], ['rouge', 'bg-[#f84808]']] as const).map(([nom, classe]) => (
+      <li class="flex items-center gap-2"><span class={`block size-8 rounded-[8px] border border-ligne ${classe}`}></span><span class="technique">{nom} {LOGO[nom]}</span></li>
+    ))}
         </ul>
       </div>
       <ul class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
