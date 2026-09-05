@@ -36,6 +36,11 @@ n'est pas le cas, ajouter une variable de build `NODE_VERSION=24` dans
   URL `<version>-bresnik-www.<sous-domaine>.workers.dev`, visible dans
   **Deployments**.
 - Les logs de build sont dans **Settings → Builds** et **Deployments**.
+- Aucun hôte `*.workers.dev` n'est indexable : le Worker ajoute
+  `X-Robots-Tag: noindex, nofollow` à toutes ses réponses sur ces hôtes
+  (`worker/indexation.ts`). Le robots.txt reste ouvert, sinon les moteurs ne
+  pourraient pas lire la directive. Le domaine public sera indexable sans
+  rien changer.
 
 ### Variables et secrets d'exécution
 
@@ -79,6 +84,8 @@ changement de code.
    commiter, pousser.
 5. Compléter les mentions légales (SIRET, forme juridique, adresse) avant
    cette bascule.
+6. Vérifier avec `curl -I https://bresnik.fr/` que l'en-tête `X-Robots-Tag`
+   est absent, et qu'il est toujours présent sur l'URL workers.dev.
 
 ## Déploiement manuel de secours
 
