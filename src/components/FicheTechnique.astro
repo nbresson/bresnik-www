@@ -16,14 +16,19 @@ const lignes = [
   { libelle: 'Plateforme', valeur: produit.data.plateforme, icone: 'ecran' as const },
   { libelle: 'Modules Sage', valeur: modules, icone: glypheModules(produit.data.modulesSage) },
   {
-    libelle: 'Objets métiers Sage',
+    libelle: 'Objets métiers',
     valeur: produit.data.objetsMetiersSage ? 'requis' : 'non requis',
     icone: 'prise' as const,
     aide: produit.data.objetsMetiersSage
       ? 'Couche officielle d\'écriture dans Sage 100 : le logiciel crée et modifie les données comme une saisie dans Sage, avec ses contrôles. Option payante chez Sage, à activer sur le poste.'
       : 'Lit les données sans passer par Sage : rien à activer.',
   },
-  { libelle: 'Données', valeur: 'Traitées sur votre poste, rien n\'est envoyé à Bresnik ni à un tiers.', icone: 'bouclier' as const },
+  {
+    libelle: 'Données',
+    valeur: 'Sur votre poste, jamais transmises',
+    icone: 'bouclier' as const,
+    aide: 'Le logiciel travaille sur votre poste et votre base Sage : aucune donnée comptable ou bancaire n\'est envoyée à Bresnik ni à un service tiers.',
+  },
   { libelle: 'Accès', valeur: libelleAcces(produit.data.disponibilite), icone: glypheAcces(produit.data.disponibilite) },
 ];
 ---
