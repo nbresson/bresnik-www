@@ -124,7 +124,7 @@ et techniques issues d'une revue complète, hors composants.
 | [x] | Grille de contrastes avec ratios | V/A | 1 | |
 | [x] | Mouvement : durée, courbe, `prefers-reduced-motion` | V/A | 1 | |
 | [x] | Mention explicite de l'absence de mode sombre | V/A | 1 | Remplacée par le thème sombre (2026-09-05). |
-| [x] | Bibliothèque d'icônes cohérente | A | 3 | Trois icônes aujourd'hui. |
+| [x] | Bibliothèque d'icônes cohérente | A | 3 | Jeu maison en trait ; seize glyphes métier ajoutés le 2026-09-05 (`Glyphe`, `TuileDomaine`), utilisés sur l'accueil, la page conseil, les fiches, les cartes et le pied de page. |
 | [ ] | Variantes sombres des logos | V | 2 | Un logo transparent à encre sombre disparaît sur la tuile `blanc` en mode sombre (`Logos`, `LogoProduit`). |
 
 ## Revue du site du 2026-09-05

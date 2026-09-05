@@ -6,7 +6,8 @@ import Etiquette from '../../components/Etiquette.astro';
 import FilAriane from '../../components/FilAriane.astro';
 import LogoProduit from '../../components/LogoProduit.astro';
 import Bouton from '../../components/Bouton.astro';
-import ListeCoches from '../../components/ListeCoches.astro';
+import TuileDomaine from '../../components/TuileDomaine.astro';
+import { normaliserFonctionnalites } from '../../lib/glyphes';
 import CadreCapture from '../../components/CadreCapture.astro';
 import Galerie from '../../components/Galerie.astro';
 import { capturesDuProduit } from '../../lib/captures-fichiers';
@@ -29,6 +30,7 @@ const famille = suggestions.produits;
 const { Content } = await render(produit);
 const action = actionProduit(produit.data.disponibilite, produit.id);
 const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
+const fonctionnalites = normaliserFonctionnalites(produit.data.fonctionnalites);
 const chemin = `/produits/${produit.id}/`;
 // Image de partage générée par `npm run generer-images` ; à défaut, l'image par défaut du site.
 const imagePartage = existsSync(`public/og/produits/${produit.id}.png`) ? `/og/produits/${produit.id}.png` : undefined;
@@ -79,7 +81,7 @@ const donneesStructurees = [
 
       <section aria-labelledby="fonctionnalites" class="flex flex-col gap-4">
         <h2 id="fonctionnalites" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Fonctionnalités</h2>
-        <ListeCoches elements={produit.data.fonctionnalites} colonnes={2} />
+        <TuileDomaine elements={fonctionnalites} colonnes={2} />
       </section>
 
       <section aria-labelledby="captures" class="flex flex-col gap-4">

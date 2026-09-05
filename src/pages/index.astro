@@ -9,7 +9,8 @@ import CarteAppel from '../components/CarteAppel.astro';
 import CarteArticle from '../components/CarteArticle.astro';
 import CadreCapture from '../components/CadreCapture.astro';
 import Carrousel from '../components/Carrousel.astro';
-import ListeCoches from '../components/ListeCoches.astro';
+import TuileDomaine from '../components/TuileDomaine.astro';
+import Icone from '../components/Icone.astro';
 import BandeAppel from '../components/BandeAppel.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies, trierParDate } from '../lib/blog';
@@ -29,11 +30,11 @@ for (const message of vedettesIntrouvables(produitsAvecCaptures)) console.warn(`
 const vedettes = capturesVedettes(produitsAvecCaptures).map((v) => ({ nom: v.nom, href: v.href, titre: v.capture.titre, alt: v.capture.alt, src: v.capture.src }));
 const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV)).slice(0, 3);
 const domaines = [
-  'Paramétrage, migration et reprise de données Sage 100',
-  'Administration et optimisation des bases SQL Server des logiciels Sage',
-  'Automatisation et interfaces autour des Objets métiers Sage',
-  'Reporting et analyse comptable',
-];
+  { icone: 'migration', titre: 'Paramétrage, migration et reprise de données Sage 100' },
+  { icone: 'base-donnees', titre: 'Administration et optimisation des bases SQL Server des logiciels Sage' },
+  { icone: 'prise', titre: 'Automatisation et interfaces autour des Objets métiers Sage' },
+  { icone: 'rapport', titre: 'Reporting et analyse comptable' },
+] as const;
 ---
 <Base
   titre="Bresnik — Logiciels complémentaires de Sage 100"
@@ -54,7 +55,11 @@ const domaines = [
         <Bouton href="/produits/" fleche class="max-md:w-full">Voir les produits</Bouton>
         <Bouton href="/contact/" variante="secondaire" class="max-md:w-full">Demander une démo</Bouton>
       </div>
-      <p class="technique">Conçus par un consultant Sage 100 · Windows · SQL Server</p>
+      <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Repères">
+        <li class="flex items-center gap-1.5 technique"><Icone nom="consultant" taille={16} class="text-cobalt" />Conçus par un consultant Sage 100</li>
+        <li class="flex items-center gap-1.5 technique"><Icone nom="ecran" taille={16} class="text-cobalt" />Windows</li>
+        <li class="flex items-center gap-1.5 technique"><Icone nom="base-donnees" taille={16} class="text-cobalt" />SQL Server</li>
+      </ul>
     </div>
     <div class="hidden md:block">
       {vedettes.length > 0 ? (
@@ -83,7 +88,7 @@ const domaines = [
         </p>
         <LienFleche href="/conseil/">L'activité de conseil</LienFleche>
       </div>
-      <ListeCoches elements={domaines} class="self-center" />
+      <TuileDomaine elements={[...domaines]} colonnes={1} class="self-center" />
     </div>
   </section>
 

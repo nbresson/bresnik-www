@@ -27,9 +27,12 @@ captures:
     titre: Historique des lots
     alt: Historique des lots d'application et d'annulation, avec pour le lot sélectionné le nombre de lignes écrites, en échec et prévues, le détail ligne par ligne, l'export du journal et l'annulation du lot.
 fonctionnalites:
-  - "Relation Fournisseur / Article / Catégorie tarifaire absente de Sage"
-  - "Gestion facilitée des catégories tarifaires de Sage 100 Gestion commerciale"
-  - "Mise à jour des tarifs en masse"
+  - titre: "Relation Fournisseur / Article / Catégorie tarifaire absente de Sage"
+    icone: colis
+  - titre: "Gestion facilitée des catégories tarifaires de Sage 100 Gestion commerciale"
+    icone: etiquette-prix
+  - titre: "Mise à jour des tarifs en masse"
+    icone: migration
 disponibilite: contact
 ordre: 4
 publie: true

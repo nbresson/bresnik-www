@@ -1,10 +1,12 @@
 ---
 import Marque from './Marque.astro';
+import Icone from './Icone.astro';
+import type { NomIcone } from './Icone.astro';
 import { produitsPublies } from '../lib/catalogue';
 
 const produits = await produitsPublies();
 const classeLien = 'inline-block py-1.5 text-[14px] text-encre-2 hover:text-cobalt';
-const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] = [
+const colonnes: { titre: string; liens: { href: string; libelle: string; icone?: NomIcone }[] }[] = [
   { titre: 'Produits', liens: produits.map((p) => ({ href: `/produits/${p.id}/`, libelle: p.data.nom })) },
   {
     titre: 'Bresnik',
@@ -18,8 +20,8 @@ const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] 
   {
     titre: 'Contact',
     liens: [
-      { href: '/contact/', libelle: 'Demander une démo' },
-      { href: '/contact/', libelle: 'Poser une question' },
+      { href: '/contact/', libelle: 'Demander une démo', icone: 'calendrier' },
+      { href: '/contact/', libelle: 'Poser une question', icone: 'courrier' },
     ],
   },
   {
@@ -27,7 +29,7 @@ const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] 
     liens: [
       { href: '/mentions-legales/', libelle: 'Mentions légales' },
       { href: '/confidentialite/', libelle: 'Confidentialité' },
-      { href: '/rss.xml', libelle: 'Flux RSS' },
+      { href: '/rss.xml', libelle: 'Flux RSS', icone: 'rss' },
     ],
   },
 ];
@@ -40,7 +42,12 @@ const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] 
           <p class="eyebrow">{colonne.titre}</p>
           <ul class="flex flex-col">
             {colonne.liens.map((lien) => (
-              <li><a href={lien.href} class={classeLien}>{lien.libelle}</a></li>
+              <li>
+                <a href={lien.href} class={`${classeLien} ${lien.icone ? 'inline-flex items-center gap-1.5' : ''}`}>
+                  {lien.icone && <Icone nom={lien.icone} taille={16} class="shrink-0" />}
+                  {lien.libelle}
+                </a>
+              </li>
             ))}
           </ul>
         </div>

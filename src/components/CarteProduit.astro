@@ -2,7 +2,9 @@
 import type { CollectionEntry } from 'astro:content';
 import Etiquette from './Etiquette.astro';
 import LogoProduit from './LogoProduit.astro';
+import Icone from './Icone.astro';
 import { libelleCible, tonCible } from '../lib/produits';
+import { glypheModules } from '../lib/glyphes';
 
 interface Props {
   produit: CollectionEntry<'produits'>;
@@ -12,6 +14,7 @@ interface Props {
 const { produit, niveauTitre = 'h3' } = Astro.props;
 const Titre = niveauTitre;
 const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.join(', ') : 'Sage · Windows · SQL Server';
+const glyphe = produit.data.modulesSage.length > 0 ? glypheModules(produit.data.modulesSage) : 'boite-outils';
 ---
 <article class="relative flex flex-col gap-2.5 rounded-carte border border-ligne bg-blanc p-5 transition-colors duration-150 hover:border-cobalt md:p-7">
   <div class="flex items-start justify-between gap-3">
@@ -22,5 +25,5 @@ const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.j
     <a href={`/produits/${produit.id}/`} class="text-encre after:absolute after:inset-0 after:content-[''] hover:text-encre">{produit.data.nom}</a>
   </Titre>
   <p class="text-[16px] leading-[1.45] md:text-[17px] md:leading-[1.5]">{produit.data.accroche}</p>
-  <p class="technique">{modules}</p>
+  <p class="flex items-center gap-1.5 technique"><Icone nom={glyphe} taille={16} class="shrink-0 text-cobalt" />{modules}</p>
 </article>

@@ -1,4 +1,55 @@
 ---
-import PageEditoriale from '../components/PageEditoriale.astro';
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import BandeAppel from '../components/BandeAppel.astro';
+import TuileDomaine from '../components/TuileDomaine.astro';
+import LienFleche from '../components/LienFleche.astro';
+import { produitsPublies } from '../lib/catalogue';
+
+const produits = await produitsPublies();
+const domaines = [
+  { icone: 'migration', titre: 'Paramétrage, migration et reprise de données Sage 100', texte: 'Du plan de comptes à la reprise des historiques, sur Comptabilité, Gestion commerciale, Moyens de paiement et Immobilisations.' },
+  { icone: 'base-donnees', titre: 'Administration et optimisation des bases SQL Server', texte: 'Sauvegardes, index, performances et maintenance des bases des logiciels Sage.' },
+  { icone: 'prise', titre: 'Automatisation et interfaces autour des Objets métiers Sage', texte: 'Traitements et échanges qui écrivent dans Sage comme une saisie, sans contourner le logiciel.' },
+  { icone: 'rapport', titre: 'Reporting et analyse comptable', texte: 'États, contrôles et tableaux de bord, y compris sur Batigest.' },
+] as const;
 ---
-<PageEditoriale id="conseil" eyebrow="Conseil Sage" avecBandeAppel />
+<Base
+  titre="Conseil Sage 100"
+  description="Consultant Sage 100 indépendant : paramétrage, migration, reprise de données, SQL Server, Objets métiers et reporting sur Comptabilité et Gestion commerciale."
+>
+  <EnTetePage eyebrow="Conseil Sage" titre="Conseil Sage 100" sousTitre="Consultant Sage 100 indépendant : paramétrage, migration, reprise de données, SQL Server, Objets métiers et reporting sur Comptabilité et Gestion commerciale." />
+  <div class="conteneur flex flex-col gap-12 pb-16 md:gap-16 md:pb-20">
+    <section aria-labelledby="conseil-qui" class="prose prose-lg max-w-[720px]">
+      <h2 id="conseil-qui">Un consultant Sage qui développe ses propres outils</h2>
+      <p>
+        Je suis Nicolas Bresson, consultant Sage 100 indépendant. J'accompagne les entreprises et les cabinets sur les logiciels Sage français : Sage 100
+        Comptabilité, Gestion commerciale, Moyens de paiement, Immobilisations, Reporting et Batigest. Tous ces logiciels fonctionnent avec SQL Server.
+      </p>
+    </section>
+
+    <section aria-labelledby="conseil-domaines" class="flex flex-col gap-5">
+      <h2 id="conseil-domaines" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Domaines d'intervention</h2>
+      <TuileDomaine elements={[...domaines]} />
+    </section>
+
+    <section aria-labelledby="conseil-pourquoi" class="flex flex-col gap-5">
+      <div class="prose prose-lg max-w-[720px]">
+        <h2 id="conseil-pourquoi">Pourquoi Bresnik</h2>
+        <p>Mes logiciels sont nés de missions de conseil : chacun répond à un besoin rencontré sur le terrain que Sage ne couvre pas.</p>
+      </div>
+      <ul class="grid gap-3.5 md:grid-cols-2">
+        {produits.map((produit) => (
+          <li>
+            <a href={`/produits/${produit.id}/`} class="flex h-full flex-col gap-1 rounded-carte border border-ligne bg-blanc p-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">
+              <span class="font-titres text-[19px] font-semibold">{produit.data.nom}</span>
+              <span class="text-[15px] leading-[1.5] text-encre-2">{produit.data.sousTitre}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <LienFleche href="/contact/">Me contacter</LienFleche>
+    </section>
+  </div>
+  <BandeAppel />
+</Base>
