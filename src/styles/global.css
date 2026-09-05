@@ -92,6 +92,23 @@
 }
 
 /* Impression : sans habillage, texte noir, liens externes explicités. */
+/* Contraste élevé (Windows) : les fonds disparaissent, une bordure système prend le relais
+   pour ce qui n'est dessiné que par une couleur de fond. */
+@media (forced-colors: active) {
+  [data-glyphe],
+  [data-point] > span,
+  bk-carrousel [data-piste] {
+    border: 1px solid CanvasText;
+  }
+  [data-point][aria-current="true"] > span {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  [aria-current="page"] {
+    text-decoration: underline;
+  }
+}
+
 @media print {
   header, footer, nav, .impression-masquer, button, [role="search"] {
     display: none !important;

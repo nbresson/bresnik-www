@@ -22,6 +22,7 @@ const tons = { teinte: 'bg-cobalt-teinte text-cobalt', bande: 'bg-bande-texte/10
 const { tuile, icone } = tailles[taille];
 ---
 <span
+  data-glyphe
   class={`inline-flex shrink-0 items-center justify-center ${ton === 'nu' ? '' : tuile} ${tons[ton]} ${classe}`}
   role={libelle ? 'img' : undefined}
   aria-label={libelle}
