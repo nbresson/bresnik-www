@@ -1,18 +1,23 @@
 ---
+import FilAriane from './FilAriane.astro';
+
 interface Props {
+  /** Fil d'Ariane affiché au-dessus du surtitre ; le dernier élément est la page courante. */
+  filAriane?: { libelle: string; href?: string }[];
   eyebrow?: string;
   titre: string;
   sousTitre?: string;
   taille?: 'grand' | 'normal';
 }
 
-const { eyebrow, titre, sousTitre, taille = 'normal' } = Astro.props;
+const { filAriane, eyebrow, titre, sousTitre, taille = 'normal' } = Astro.props;
 const classeTitre =
   taille === 'grand'
     ? 'text-[38px] leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]'
     : 'text-[34px] leading-[1.08] tracking-[-0.02em] md:text-[48px] md:leading-[1.06]';
 ---
 <header class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-14 md:pt-14">
+  {filAriane && <FilAriane elements={filAriane} />}
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
   <h1 class={`font-bold ${classeTitre}`}>{titre}</h1>
   {sousTitre && <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]">{sousTitre}</p>}

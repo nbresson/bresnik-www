@@ -184,7 +184,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [x] | Maillage interne | V | 2 | Encart conseil sur chaque fiche, liste des produits sur la page conseil, repli « Les autres logiciels Bresnik » quand la famille est vide (2026-09-05). Fiches ↔ blog viendra avec les premiers articles. |
 | [ ] | Captures dans le récit | V | 2 | Remonter deux ou trois captures clés avec légende bénéfice ; chiffres clés par produit. |
 | [x] | Visionneuse pour la galerie | V | 3 | Boîte de dialogue native, précédent / suivant, flèches et Échap, focus rendu à la vignette ; sans script, lien vers la variante WebP (2026-09-05). |
-| [ ] | Fil d'Ariane partout | V | 3 | Blog et pages légales ; l'entrée « Accueil » est en tête sur les fiches depuis le 2026-09-05. |
+| [x] | Fil d'Ariane partout | V | 3 | Articles et tags du blog, pages légales, conseil, liste des produits, avec BreadcrumbList ; prop `filAriane` d'EnTetePage (2026-09-05). |
 
 ### Blog
 

@@ -6,8 +6,10 @@ import TuileDomaine from '../components/TuileDomaine.astro';
 import LienFleche from '../components/LienFleche.astro';
 import LogoProduit from '../components/LogoProduit.astro';
 import { produitsPublies } from '../lib/catalogue';
+import { filAriane } from '../lib/seo';
 
 const produits = await produitsPublies();
+const fil = [{ libelle: 'Accueil', href: '/' }, { libelle: 'Conseil Sage 100' }];
 const domaines = [
   { icone: 'migration', titre: 'Paramétrage, migration et reprise de données Sage 100', texte: 'Du plan de comptes à la reprise des historiques, sur Comptabilité, Gestion commerciale, Moyens de paiement et Immobilisations.' },
   { icone: 'base-donnees', titre: 'Administration et optimisation des bases SQL Server', texte: 'Sauvegardes, index, performances et maintenance des bases des logiciels Sage.' },
@@ -17,9 +19,10 @@ const domaines = [
 ---
 <Base
   titre="Conseil Sage 100"
+  donneesStructurees={[filAriane(fil, Astro.site!, '/conseil/')]}
   description="Consultant Sage 100, plus de 12 ans d'expérience : paramétrage, migration, reprise de données, SQL Server, Objets métiers et reporting."
 >
-  <EnTetePage eyebrow="Conseil Sage" titre="Conseil Sage 100" sousTitre="Consultant Sage 100 avec plus de 12 ans d'expérience : paramétrage, migration, reprise de données, SQL Server, Objets métiers et reporting sur Comptabilité et Gestion commerciale." />
+  <EnTetePage filAriane={fil} eyebrow="Conseil Sage" titre="Conseil Sage 100" sousTitre="Consultant Sage 100 avec plus de 12 ans d'expérience : paramétrage, migration, reprise de données, SQL Server, Objets métiers et reporting sur Comptabilité et Gestion commerciale." />
   <div class="conteneur flex flex-col gap-12 pb-16 md:gap-16 md:pb-20">
     <section aria-labelledby="conseil-qui" class="prose prose-lg max-w-[720px]">
       <h2 id="conseil-qui">Un consultant Sage qui développe ses propres outils</h2>
