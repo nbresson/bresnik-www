@@ -4,6 +4,7 @@ import EnTetePage from '../components/EnTetePage.astro';
 import BandeAppel from '../components/BandeAppel.astro';
 import TuileDomaine from '../components/TuileDomaine.astro';
 import LienFleche from '../components/LienFleche.astro';
+import LogoProduit from '../components/LogoProduit.astro';
 import { produitsPublies } from '../lib/catalogue';
 
 const produits = await produitsPublies();
@@ -41,9 +42,12 @@ const domaines = [
       <ul class="grid gap-3.5 md:grid-cols-2">
         {produits.map((produit) => (
           <li>
-            <a href={`/produits/${produit.id}/`} class="flex h-full flex-col gap-1 rounded-carte border border-ligne bg-blanc p-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">
-              <span class="font-titres text-[19px] font-semibold">{produit.data.nom}</span>
-              <span class="text-[15px] leading-[1.5] text-encre-2">{produit.data.sousTitre}</span>
+            <a href={`/produits/${produit.id}/`} class="flex h-full items-start gap-4 rounded-carte border border-ligne bg-blanc p-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">
+              <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="petit" />
+              <span class="flex flex-col gap-1">
+                <span class="font-titres text-[19px] font-semibold">{produit.data.nom}</span>
+                <span class="text-[15px] leading-[1.5] text-encre-2">{produit.data.sousTitre}</span>
+              </span>
             </a>
           </li>
         ))}

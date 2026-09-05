@@ -8,7 +8,8 @@ export type NomIcone =
   | 'soleil' | 'lune' | 'ecran' | 'pause' | 'lecture'
   // Glyphes métier
   | 'banque' | 'rapprochement' | 'fichier-controle' | 'bouclier' | 'etiquette-prix' | 'export-fichier' | 'boite-outils'
-  | 'base-donnees' | 'prise' | 'migration' | 'rapport' | 'livre-comptes' | 'colis' | 'courrier' | 'rss' | 'consultant';
+  | 'base-donnees' | 'prise' | 'migration' | 'rapport' | 'livre-comptes' | 'colis' | 'courrier' | 'rss' | 'consultant'
+  | 'maison' | 'balance';
 
 interface Props {
   nom: NomIcone;
@@ -75,6 +76,8 @@ const traces: Record<NomIcone, string[]> = {
   courrier: ['rect:3,5,18,14,2', 'M3 7l9 6 9-6'],
   rss: ['M4 11a9 9 0 0 1 9 9', 'M4 4a16 16 0 0 1 16 16', 'circle:5,19,1'],
   consultant: ['circle:12,7,4', 'M5 21c0-4 3-7 7-7s7 3 7 7', 'M9 21l3-3 3 3'],
+  maison: ['M3 11l9-8 9 8', 'M5 10v10h14V10', 'M10 20v-6h4v6'],
+  balance: ['M12 3v18', 'M8 21h8', 'M5 7h14', 'M3 14l3-7 3 7a3 3 0 0 1-6 0z', 'M15 14l3-7 3 7a3 3 0 0 1-6 0z'],
 };
 
 const formes = traces[nom].map((trace) => {
