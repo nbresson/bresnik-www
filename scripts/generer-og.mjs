@@ -132,7 +132,10 @@ await mkdir(chemin('public/og/produits'), { recursive: true });
 await mkdir(chemin('public/og/blog'), { recursive: true });
 
 const svgOg = await svgDepuis(arbreOg, 1200, 630);
-await writeFile(chemin('public/og-default.png'), pngDepuis(svgOg, 1200));
+const ogDefaut = pngDepuis(svgOg, 1200);
+await writeFile(chemin('public/og-default.png'), ogDefaut);
+// Copie servant d'exemple de capture sur la charte (galerie, carrousel) : toujours la même image que le partage.
+await writeFile(chemin('src/assets/exemple-capture.png'), ogDefaut);
 
 // Favicons : le logo réduit ; l'icône Apple est aplatie sur le fond papier (iOS n'aime pas la transparence).
 for (const taille of [32, 192, 512]) {
