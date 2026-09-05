@@ -33,6 +33,7 @@ import TableauComparatif from '../components/TableauComparatif.astro';
 import Chronologie from '../components/Chronologie.astro';
 import Etapes from '../components/Etapes.astro';
 import Galerie from '../components/Galerie.astro';
+import Carrousel from '../components/Carrousel.astro';
 import Video from '../components/Video.astro';
 import Separateur from '../components/Separateur.astro';
 import TableMatieres from '../components/TableMatieres.astro';
@@ -171,6 +172,11 @@ const etapesExemple = [
 const capturesExemple = [
   { src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Écran principal' },
   { src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Paramètres' },
+];
+const diapositivesExemple = [
+  { nom: 'BankBridge', href: '/produits/bankbridge/', src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Tableau de bord' },
+  { nom: 'BOCS', href: '/produits/bocs/', src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Page de démarrage' },
+  { nom: 'FEC Analyzer', href: '/produits/fec-analyzer/', src: exempleCapture, alt: 'Exemple de capture, image de partage du site', titre: 'Synthèse' },
 ];
 const titresExemple = [
   { depth: 2, slug: 'charte-couleurs', text: 'Couleurs' },
@@ -519,6 +525,12 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         <h3 class="text-[20px] font-semibold">Galerie et vidéo</h3>
         <Galerie captures={capturesExemple} class="max-w-[900px]" />
         <Video titre="Présentation de BankBridge en trois minutes" affiche="/og-default.png" class="max-w-[640px]" />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class="text-[20px] font-semibold">Carrousel de captures</h3>
+        <p class="text-[15px] text-encre-2">Une diapositive par produit, défilement automatique arrêté au survol, au focus et à la première interaction ; sans script, la piste reste défilable.</p>
+        <Carrousel id="charte-carrousel" libelle="Exemple de carrousel" diapositives={diapositivesExemple} class="max-w-[640px]" />
       </div>
 
       <div class="flex flex-col gap-2">

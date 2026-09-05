@@ -5,7 +5,7 @@ export type NomIcone =
   | 'crayon' | 'oeil' | 'oeil-barre' | 'telecharger' | 'televerser' | 'calendrier' | 'horloge' | 'fermer'
   | 'parametres' | 'deconnexion' | 'tableau-de-bord' | 'document' | 'imprimer' | 'dossier' | 'cloche'
   | 'tendance-haut' | 'tendance-bas' | 'points'
-  | 'soleil' | 'lune' | 'ecran';
+  | 'soleil' | 'lune' | 'ecran' | 'pause' | 'lecture';
 
 interface Props {
   nom: NomIcone;
@@ -53,6 +53,8 @@ const traces: Record<NomIcone, string[]> = {
   soleil: ['circle:12,12,4', 'M12 2v2', 'M12 20v2', 'M2 12h2', 'M20 12h2', 'M4.9 4.9l1.4 1.4', 'M17.7 17.7l1.4 1.4', 'M4.9 19.1l1.4-1.4', 'M17.7 6.3l1.4-1.4'],
   lune: ['M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z'],
   ecran: ['rect:3,4,18,12,2', 'M8 20h8', 'M12 16v4'],
+  pause: ['M8 5v14', 'M16 5v14'],
+  lecture: ['M7 4l12 8-12 8z'],
 };
 
 const formes = traces[nom].map((trace) => {

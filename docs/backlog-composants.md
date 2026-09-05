@@ -38,6 +38,7 @@ même modification et coché ici.
 | [x] | Étapes numérotées « comment ça marche » | V | 2 | |
 | [x] | Bloc de code, raccourci clavier `kbd` | V/A | 2 | Blog technique, aide. |
 | [x] | Image légendée, galerie avec agrandissement | V | 2 | Agrandissement par ouverture de l'image, sans visionneuse. |
+| [x] | Carrousel de captures | V | 2 | Une capture par produit sur l'accueil ; défilement automatique, pause, arrêt à l'interaction ; défilable sans script. |
 | [x] | Vidéo intégrée avec vignette | V | 2 | Lecteur natif, emplacement sans source. |
 | [x] | Séparateur, espaceur | V/A | 2 | |
 
