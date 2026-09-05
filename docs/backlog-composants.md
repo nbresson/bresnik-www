@@ -244,6 +244,6 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | URL du site depuis une variable de build | V | 1 | Figée sur workers.dev aujourd'hui ; redirection 301 du domaine technique et arrêt de sa publication. |
+| [ ] | URL du site depuis une variable de build | V | 1 | Figée sur workers.dev aujourd'hui ; redirection 301 du domaine technique et arrêt de sa publication. Depuis le 2026-09-05, les hôtes workers.dev portent déjà `X-Robots-Tag: noindex, nofollow`. |
 | [ ] | Authentifier le domaine d'envoi Brevo | V | 1 | SPF, DKIM, DMARC ; expéditeur sur le domaine. |
 | [ ] | Liste de bascule complète | V | 2 | Hôtes Turnstile en étape bloquante, mentions légales et confidentialité au même moment. |
