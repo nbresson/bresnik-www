@@ -50,6 +50,11 @@ describe('palettes', () => {
     }
   });
 
+  it("les deux blocs sombres sont limités à l'écran pour que l'impression reste en clair", () => {
+    expect(css).toMatch(/@media screen and \(prefers-color-scheme: dark\)\s*\{\s*:root:not\(\[data-theme="light"\]\)/);
+    expect(css).toMatch(/@media screen\s*\{\s*:root\[data-theme="dark"\]/);
+  });
+
   it('les couples de la spécification atteignent 4,5 dans les deux palettes', () => {
     for (const palette of [PALETTES.clair, PALETTES.sombre]) {
       for (const [texte, fond] of couples) {
