@@ -7,6 +7,8 @@ import LogoProduit from '../../components/LogoProduit.astro';
 import Bouton from '../../components/Bouton.astro';
 import ListeCoches from '../../components/ListeCoches.astro';
 import CadreCapture from '../../components/CadreCapture.astro';
+import Galerie from '../../components/Galerie.astro';
+import { capturesDuProduit } from '../../lib/captures-fichiers';
 import FicheTechnique from '../../components/FicheTechnique.astro';
 import { actionProduit, libelleCible, produitsMemeFamille, tonCible } from '../../lib/produits';
 import { produitsPublies } from '../../lib/catalogue';
@@ -22,6 +24,7 @@ export async function getStaticPaths() {
 const { produit, famille } = Astro.props;
 const { Content } = await render(produit);
 const action = actionProduit(produit.data.disponibilite, produit.id);
+const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
 ---
 <Base titre={produit.data.nom} description={produit.data.accroche}>
   <header class="border-b border-ligne">
@@ -62,13 +65,13 @@ const action = actionProduit(produit.data.disponibilite, produit.id);
 
       <section aria-labelledby="captures" class="flex flex-col gap-4">
         <h2 id="captures" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Captures d'écran</h2>
-        <div class="grid gap-4 md:grid-cols-2">
-          {produit.data.captures.length > 0 ? (
-            produit.data.captures.map((capture) => <CadreCapture titre={produit.data.nom} image={capture.src} alt={capture.alt} />)
-          ) : (
+        {captures.length > 0 ? (
+          <Galerie captures={captures} />
+        ) : (
+          <div class="grid gap-4 md:grid-cols-2">
             <CadreCapture titre={produit.data.nom} />
-          )}
-        </div>
+          </div>
+        )}
       </section>
     </div>
 

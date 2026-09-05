@@ -14,7 +14,7 @@ const produits = defineCollection({
       plateforme: z.string().min(1),
       fonctionnalites: z.array(z.string()).min(1),
       logo: image().optional(),
-      captures: z.array(z.object({ src: image(), alt: z.string() })).default([]),
+      captures: z.array(z.object({ fichier: z.string().min(1), alt: z.string().min(1), titre: z.string().optional() })).default([]),
       disponibilite: z.enum(['contact', 'telechargement', 'essai']),
       ordre: z.number().int(),
       publie: z.boolean(),
