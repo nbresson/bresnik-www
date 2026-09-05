@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Etiquette from '../../components/Etiquette.astro';
@@ -27,13 +28,22 @@ const { Content } = await render(produit);
 const action = actionProduit(produit.data.disponibilite, produit.id);
 const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
 const chemin = `/produits/${produit.id}/`;
+// Image de partage générée par `npm run generer-images` ; à défaut, l'image par défaut du site.
+const imagePartage = existsSync(`public/og/produits/${produit.id}.png`) ? `/og/produits/${produit.id}.png` : undefined;
 const elementsFilAriane = [{ libelle: 'Accueil', href: '/' }, { libelle: 'Produits', href: '/produits/' }, { libelle: produit.data.nom }];
 const donneesStructurees = [
   logicielApplication({ nom: produit.data.nom, description: produit.data.description, chemin, image: produit.data.logo?.src }, Astro.site!),
   filAriane(elementsFilAriane, Astro.site!, chemin),
 ];
 ---
-<Base titre={`${produit.data.nom} — ${produit.data.sousTitre}`} description={produit.data.description} sansSuffixe donneesStructurees={donneesStructurees}>
+<Base
+  titre={`${produit.data.nom} — ${produit.data.sousTitre}`}
+  description={produit.data.description}
+  sansSuffixe
+  donneesStructurees={donneesStructurees}
+  image={imagePartage}
+  imageAlt={`${produit.data.nom} — ${produit.data.sousTitre}, par Bresnik`}
+>
   <header class="border-b border-ligne">
     <div class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
       <FilAriane elements={elementsFilAriane} />

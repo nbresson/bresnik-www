@@ -35,7 +35,16 @@ const teintes: Record<string, string> = {
       <span class="ml-2 technique text-[12px]">{titre}</span>
     </div>
     {image ? (
-      <Image src={image} alt={alt} width={800} loading={prioritaire ? 'eager' : 'lazy'} fetchpriority={prioritaire ? 'high' : undefined} class="block h-auto w-full" />
+      <Image
+        src={image}
+        alt={alt}
+        width={800}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        loading={prioritaire ? 'eager' : 'lazy'}
+        fetchpriority={prioritaire ? 'high' : undefined}
+        class="block h-auto w-full"
+      />
     ) : (
       <div class="flex flex-col gap-2.5 p-4" aria-hidden="true">
         {lignes.map((ligne) => (

@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 function dimensionsPng(chemin: string) {
@@ -14,6 +14,17 @@ describe('images générées dans public/', () => {
   it('favicon-32.png fait 32 × 32 et apple-touch-icon.png 180 × 180', () => {
     expect(dimensionsPng('public/favicon-32.png')).toEqual({ largeur: 32, hauteur: 32 });
     expect(dimensionsPng('public/apple-touch-icon.png')).toEqual({ largeur: 180, hauteur: 180 });
+  });
+
+  it('chaque produit publié a son image de partage de 1200 × 630', () => {
+    const produits = readdirSync('src/content/produits').filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, ''));
+    expect(produits.length).toBeGreaterThan(0);
+    for (const slug of produits) {
+      const texte = readFileSync(`src/content/produits/${slug}.md`, 'utf8');
+      if (/^publie: false/m.test(texte)) continue;
+      expect(existsSync(`public/og/produits/${slug}.png`), slug).toBe(true);
+      expect(dimensionsPng(`public/og/produits/${slug}.png`)).toEqual({ largeur: 1200, hauteur: 630 });
+    }
   });
 
   it('favicon.svg est un SVG carré de 64', () => {

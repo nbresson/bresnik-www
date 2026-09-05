@@ -180,7 +180,11 @@ est le nombre d'envois. Elle est déjà autorisée par la CSP
   qui lance l'audit, qui peut être sombre et fausser un audit « clair » sans
   drapeau explicite.
 - Après un changement de charte (couleurs, polices), relancer
-  `npm run generer-images` et commiter les fichiers de `public/`.
+  `npm run generer-images` et commiter les fichiers de `public/`. Le script
+  produit aussi une image de partage par produit publié (`public/og/produits/`)
+  et par article publié (`public/og/blog/`) : le rejouer après tout changement
+  de nom, de sous-titre, de logo ou de titre d'article, sinon la fiche retombe
+  sur l'image par défaut.
 - Les polices sont téléchargées depuis le CDN Fontsource au moment du build
   (API Fonts d'Astro). Une indisponibilité du CDN fait échouer le build :
   relancer le déploiement plus tard. Le CI met ce cache en mémoire ; Workers
