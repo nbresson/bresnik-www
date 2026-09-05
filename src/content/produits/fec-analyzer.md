@@ -1,6 +1,8 @@
 ---
 nom: FEC Analyzer
 accroche: Analysez votre Fichier des Écritures Comptables.
+sousTitre: Analyse du Fichier des Écritures Comptables
+description: "FEC Analyzer contrôle la conformité d'un Fichier des Écritures Comptables, reconstitue balance et grand-livre, détecte les anomalies et exporte les résultats."
 cible: entreprise
 modulesSage:
   - "Sage 100 Comptabilité"

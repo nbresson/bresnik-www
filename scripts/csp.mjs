@@ -17,7 +17,7 @@ export function verifierPage(html) {
   const meta = html.match(/<meta http-equiv="content-security-policy" content="([^"]*)"/);
   if (!meta) return ['CSP absente'];
   const csp = decoderEntites(meta[1]);
-  for (const [, contenu] of html.matchAll(/<script(?![^>]*\ssrc=)(?![^>]*type="application\/json")[^>]*>([\s\S]*?)<\/script>/g)) {
+  for (const [, contenu] of html.matchAll(/<script(?![^>]*\ssrc=)(?![^>]*type="application\/(?:ld\+)?json")[^>]*>([\s\S]*?)<\/script>/g)) {
     if (!csp.includes(empreinte(contenu))) problemes.push(`script en ligne sans empreinte : ${contenu.trim().slice(0, 40)}`);
   }
   for (const [, contenu] of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {

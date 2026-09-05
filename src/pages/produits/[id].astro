@@ -12,6 +12,7 @@ import { capturesDuProduit } from '../../lib/captures-fichiers';
 import FicheTechnique from '../../components/FicheTechnique.astro';
 import { actionProduit, libelleCible, produitsMemeFamille, tonCible } from '../../lib/produits';
 import { produitsPublies } from '../../lib/catalogue';
+import { filAriane, logicielApplication } from '../../lib/seo';
 
 export async function getStaticPaths() {
   const produits = await produitsPublies();
@@ -25,11 +26,17 @@ const { produit, famille } = Astro.props;
 const { Content } = await render(produit);
 const action = actionProduit(produit.data.disponibilite, produit.id);
 const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
+const chemin = `/produits/${produit.id}/`;
+const elementsFilAriane = [{ libelle: 'Accueil', href: '/' }, { libelle: 'Produits', href: '/produits/' }, { libelle: produit.data.nom }];
+const donneesStructurees = [
+  logicielApplication({ nom: produit.data.nom, description: produit.data.description, chemin, image: produit.data.logo?.src }, Astro.site!),
+  filAriane(elementsFilAriane, Astro.site!, chemin),
+];
 ---
-<Base titre={produit.data.nom} description={produit.data.accroche}>
+<Base titre={`${produit.data.nom} — ${produit.data.sousTitre}`} description={produit.data.description} sansSuffixe donneesStructurees={donneesStructurees}>
   <header class="border-b border-ligne">
     <div class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
-      <FilAriane elements={[{ libelle: 'Produits', href: '/produits/' }, { libelle: produit.data.nom }]} />
+      <FilAriane elements={elementsFilAriane} />
       <div class="flex items-center gap-4 md:gap-5">
         <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="grand" />
         <div class="flex flex-col gap-2">

@@ -184,7 +184,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [ ] | Maillage interne | V | 2 | Fiches ↔ conseil ↔ blog ; repli « Tous les produits » quand la famille est vide (BOCS). |
 | [ ] | Captures dans le récit | V | 2 | Remonter deux ou trois captures clés avec légende bénéfice ; chiffres clés par produit. |
 | [ ] | Visionneuse pour la galerie | V | 3 | Boîte de dialogue avec précédent / suivant au lieu du PNG brut. |
-| [ ] | Fil d'Ariane partout | V | 3 | Blog et pages légales ; entrée « Accueil » en tête. |
+| [ ] | Fil d'Ariane partout | V | 3 | Blog et pages légales ; l'entrée « Accueil » est en tête sur les fiches depuis le 2026-09-05. |
 
 ### Blog
 
@@ -198,8 +198,8 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Données structurées | V | 1 | Organization et Person (accueil), SoftwareApplication (fiches), BreadcrumbList, Article, FAQPage. |
-| [ ] | Titres et descriptions | V | 1 | Trop courts ; champ `description` distinct de l'accroche dans le schéma produits. |
+| [x] | Données structurées | V | 1 | `src/lib/seo.ts` : Organization, Person et WebSite (accueil), SoftwareApplication et BreadcrumbList (fiches), Article (blog) ; FAQPage viendra avec la FAQ (2026-09-05). |
+| [x] | Titres et descriptions | V | 1 | Champs `sousTitre` et `description` (100 à 160 caractères) sur les fiches ; titres et descriptions des pages fixes et éditoriales allongés (2026-09-05). |
 | [ ] | Image de partage par page | V | 2 | Étendre le script de génération aux produits et aux articles ; toujours émettre dimensions et alt. |
 | [ ] | Sitemap, pagination, robots | V | 2 | Dates de modification, description propre aux pages 2+, `Disallow: /api/`, blog vide en `noindex`. |
 

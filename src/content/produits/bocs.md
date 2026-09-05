@@ -1,6 +1,8 @@
 ---
 nom: BOCS
 accroche: La Boîte à Outils du Consultant Sage.
+sousTitre: Boîte à outils du consultant Sage 100
+description: "Boîte à outils du consultant Sage 100 : audit du poste, diagnostic réseau, requêteur SQL, scripts, import Excel et sauvegardes SQL Server planifiées."
 cible: consultant
 modulesSage: []
 objetsMetiersSage: false

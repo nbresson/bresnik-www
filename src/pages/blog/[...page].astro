@@ -18,7 +18,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page, tags } = Astro.props;
 const titre = page.currentPage > 1 ? `Blog, page ${page.currentPage}` : 'Blog';
 ---
-<Base titre={titre} description="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage.">
+<Base titre={titre} description="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage : intégration bancaire, FEC, tarifs, exports, par un consultant indépendant.">
   <EnTetePage eyebrow="Blog" titre="Retours de terrain sur Sage 100 et SQL Server." sousTitre="Retours d'expérience sur Sage 100, SQL Server et les Objets métiers Sage." />
   <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
     {tags.length > 0 && (

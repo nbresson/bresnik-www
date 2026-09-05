@@ -1,6 +1,6 @@
 ---
 titre: Politique de confidentialité
-description: "Données collectées par le site Bresnik et leur utilisation."
+description: "Politique de confidentialité du site Bresnik : données du formulaire de contact, vérification anti-robot, envoi par Brevo, mesure d'audience et vos droits."
 ---
 
 ## Données collectées

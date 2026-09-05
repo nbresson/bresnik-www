@@ -1,6 +1,8 @@
 ---
 nom: LinkCsvSage
 accroche: Automatisez l'export CSV de vos documents Sage 100.
+sousTitre: Export CSV des documents Sage 100
+description: "LinkCsvSage exporte en CSV les documents de vente de Sage 100 Gestion commerciale, un fichier par pièce rattaché au document Sage, avec envoi par e-mail."
 cible: entreprise
 modulesSage:
   - "Sage 100 Gestion commerciale"

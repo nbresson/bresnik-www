@@ -1,6 +1,8 @@
 ---
 nom: BankBridge
 accroche: Intégrez vos extraits bancaires dans Sage 100 Comptabilité.
+sousTitre: Intégration bancaire pour Sage 100 Comptabilité
+description: "BankBridge importe les relevés CFONB, CAMT.053, MT940 ou CSV dans Sage 100 Comptabilité, affecte les mouvements par règles et prépare le rapprochement."
 cible: entreprise
 modulesSage:
   - "Sage 100 Comptabilité"

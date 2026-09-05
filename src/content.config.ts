@@ -8,6 +8,10 @@ const produits = defineCollection({
     z.object({
       nom: z.string().min(1),
       accroche: z.string().min(1),
+      /** Complète le nom dans le titre de la page : « Nom — Sous-titre », 60 caractères au plus. */
+      sousTitre: z.string().min(1).max(48),
+      /** Description pour les moteurs de recherche et le partage, 100 à 160 caractères. */
+      description: z.string().min(100).max(160),
       cible: z.enum(['consultant', 'entreprise']),
       modulesSage: z.array(z.string()),
       objetsMetiersSage: z.boolean(),
