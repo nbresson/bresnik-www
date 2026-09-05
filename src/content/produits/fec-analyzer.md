@@ -7,6 +7,7 @@ modulesSage:
 objetsMetiersSage: false
 plateforme: Windows (WPF)
 logo: ./logos/fec-analyzer.png
+vedette: synthese.png
 captures:
   - fichier: accueil.png
     titre: Ouverture d'un FEC

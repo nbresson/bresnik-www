@@ -6,9 +6,11 @@ interface Props {
   titre: string;
   image?: ImageMetadata;
   alt?: string;
+  /** Image chargée en priorité (au-dessus de la ligne de flottaison). */
+  prioritaire?: boolean;
 }
 
-const { titre, image, alt = '' } = Astro.props;
+const { titre, image, alt = '', prioritaire = false } = Astro.props;
 const lignes = [
   ['fonce', 'fonce', 'fonce', 'fonce'],
   ['clair', 'clair', 'teinte', 'clair'],
@@ -33,7 +35,7 @@ const teintes: Record<string, string> = {
       <span class="ml-2 technique text-[12px]">{titre}</span>
     </div>
     {image ? (
-      <Image src={image} alt={alt} width={800} class="block h-auto w-full" />
+      <Image src={image} alt={alt} width={800} loading={prioritaire ? 'eager' : 'lazy'} fetchpriority={prioritaire ? 'high' : undefined} class="block h-auto w-full" />
     ) : (
       <div class="flex flex-col gap-2.5 p-4" aria-hidden="true">
         {lignes.map((ligne) => (

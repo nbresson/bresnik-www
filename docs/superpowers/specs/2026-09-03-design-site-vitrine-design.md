@@ -350,6 +350,7 @@ Mouvement : `prefers-reduced-motion: reduce` neutralise toutes les transitions e
 | Chronologie | `Chronologie.astro` | Liste ordonnée avec filet vertical et points cobalt ; date en `technique`. |
 | Étapes | `Etapes.astro` | Trois colonnes, pastille numérotée cobalt, numéro annoncé aux lecteurs d'écran. |
 | Galerie | `Galerie.astro` | Grille de cadres de capture, chaque image ouvrant l'original dans un nouvel onglet. |
+| Carrousel | `Carrousel.astro` | Ajouté le 2026-09-05. Élément `bk-carrousel`, `role="region"` et `aria-roledescription="carrousel"` ; une diapositive par produit (cadre de capture lié à la fiche), piste à accrochage défilable sans script ; le script révèle précédent, suivant, points et pause, défile toutes les 6 s, s'arrête au survol, au focus, à la première interaction, hors écran et sous `prefers-reduced-motion`. Première image en priorité, les autres en différé. Sur l'accueil : première capture de chaque produit publié (`capturesVedettes`). |
 | Vidéo | `Video.astro` | Lecteur natif avec affiche, `preload="none"` ; sans source, emplacement « Vidéo à venir ». |
 | Séparateur | `Separateur.astro` | Filet `ligne`, espace petit ou grand. |
 | Table des matières | `TableMatieres.astro` | Depuis les titres Markdown de niveaux 2 et 3 ; l'article l'affiche dès trois sections de niveau 2. |

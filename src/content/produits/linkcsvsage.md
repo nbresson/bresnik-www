@@ -7,6 +7,7 @@ modulesSage:
 objetsMetiersSage: true
 plateforme: Windows (WPF)
 logo: ./logos/linkcsvsage.svg
+vedette: export-et-rattachement.png
 captures:
   - fichier: connexion-multisocietes.png
     titre: Connexion à la société

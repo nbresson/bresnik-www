@@ -1,0 +1,174 @@
+---
+/**
+ * Carrousel de captures : une diapositive par produit, défilement automatique
+ * arrêté au survol, au focus, à la première interaction et quand le visiteur
+ * réduit les animations. Sans script, la piste reste défilable (accrochage
+ * par diapositive) ; les commandes n'apparaissent qu'avec le script.
+ */
+import type { ImageMetadata } from 'astro';
+import CadreCapture from './CadreCapture.astro';
+import Icone from './Icone.astro';
+
+interface Diapositive {
+  nom: string;
+  href: string;
+  titre: string;
+  alt: string;
+  src: ImageMetadata;
+}
+
+interface Props {
+  id: string;
+  libelle: string;
+  diapositives: Diapositive[];
+  /** Délai entre deux diapositives, en millisecondes. */
+  intervalle?: number;
+  class?: string;
+}
+
+const { id, libelle, diapositives, intervalle = 6000, class: classe = '' } = Astro.props;
+const total = diapositives.length;
+const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton border-[1.5px] border-ligne bg-blanc text-encre-2 transition-colors duration-150 hover:border-encre hover:text-encre';
+---
+<bk-carrousel id={id} class={`group block ${classe}`} data-intervalle={intervalle} role="region" aria-roledescription="carrousel" aria-label={libelle}>
+  <div data-piste tabindex="0" class="relative flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-cadre group-data-actif:[scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cobalt motion-reduce:scroll-auto">
+    {diapositives.map((diapositive, index) => (
+      <div data-diapositive class="w-full shrink-0 snap-center" role="group" aria-roledescription="diapositive" aria-label={`${index + 1} sur ${total}`}>
+        <a href={diapositive.href} class="block rounded-cadre" aria-label={`${diapositive.nom} — ${diapositive.titre}, voir la fiche produit`}>
+          <CadreCapture titre={`${diapositive.nom} — ${diapositive.titre}`} image={diapositive.src} alt={diapositive.alt} prioritaire={index === 0} />
+        </a>
+      </div>
+    ))}
+  </div>
+  <div data-commandes hidden class="mt-3 flex items-center justify-between gap-3">
+    <button type="button" data-precedent class={bouton} aria-label="Diapositive précédente">
+      <Icone nom="chevron" taille={20} class="rotate-90" />
+    </button>
+    <div role="group" aria-label="Choisir une diapositive" class="flex items-center">
+      {diapositives.map((diapositive, index) => (
+        <button type="button" data-point class="group/point inline-flex size-11 items-center justify-center" aria-label={`Diapositive ${index + 1} : ${diapositive.nom}`} aria-current={index === 0 ? 'true' : undefined}>
+          <span class="block h-2.5 w-2.5 rounded-full bg-ligne transition-colors duration-150 group-hover/point:bg-encre-2 group-aria-[current=true]/point:bg-cobalt"></span>
+        </button>
+      ))}
+    </div>
+    <div class="flex items-center gap-2">
+      <button type="button" data-pause class={bouton} aria-label="Mettre en pause le défilement automatique">
+        <Icone nom="pause" taille={20} class="group-data-en-pause:hidden" />
+        <Icone nom="lecture" taille={20} class="hidden group-data-en-pause:inline" />
+      </button>
+      <button type="button" data-suivant class={bouton} aria-label="Diapositive suivante">
+        <Icone nom="chevron" taille={20} class="-rotate-90" />
+      </button>
+    </div>
+  </div>
+  <p data-etat class="sr-only" aria-live="polite"></p>
+</bk-carrousel>
+
+<script>
+  class Carrousel extends HTMLElement {
+    connectedCallback() {
+      const piste = this.querySelector<HTMLElement>('[data-piste]');
+      const commandes = this.querySelector<HTMLElement>('[data-commandes]');
+      const etat = this.querySelector<HTMLElement>('[data-etat]');
+      if (!piste || !commandes || !etat) return;
+      const diapositives = Array.from(piste.querySelectorAll<HTMLElement>('[data-diapositive]'));
+      const points = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-point]'));
+      const boutonPause = this.querySelector<HTMLButtonElement>('[data-pause]');
+      const total = diapositives.length;
+      if (total < 2) return;
+
+      const intervalle = Number(this.dataset.intervalle) || 6000;
+      const mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let index = 0;
+      let minuterie: number | undefined;
+      let enPause = false; // choix explicite du visiteur (bouton ou navigation)
+      let suspendu = false; // survol ou focus en cours
+
+      const nomDe = (i: number) => points[i]?.getAttribute('aria-label')?.replace(/^Diapositive \d+ : /, '') ?? '';
+      const majPoints = () => {
+        points.forEach((point, i) => {
+          if (i === index) point.setAttribute('aria-current', 'true');
+          else point.removeAttribute('aria-current');
+        });
+      };
+      const aller = (cible: number, annoncer: boolean) => {
+        index = (cible + total) % total;
+        piste.scrollTo({ left: diapositives[index].offsetLeft, behavior: mouvementReduit.matches ? 'auto' : 'smooth' });
+        majPoints();
+        if (annoncer) etat.textContent = `Diapositive ${index + 1} sur ${total} : ${nomDe(index)}`;
+      };
+
+      const arreter = () => {
+        if (minuterie !== undefined) window.clearInterval(minuterie);
+        minuterie = undefined;
+      };
+      const demarrer = () => {
+        arreter();
+        if (enPause || suspendu || mouvementReduit.matches || document.hidden) return;
+        minuterie = window.setInterval(() => aller(index + 1, false), intervalle);
+      };
+      const majPause = () => {
+        if (enPause) this.dataset.enPause = '';
+        else delete this.dataset.enPause;
+        boutonPause?.setAttribute('aria-label', enPause ? 'Reprendre le défilement automatique' : 'Mettre en pause le défilement automatique');
+      };
+      const interrompre = () => {
+        if (enPause) return;
+        enPause = true;
+        majPause();
+        arreter();
+      };
+
+      // Commandes visibles seulement avec le script.
+      commandes.hidden = false;
+      this.dataset.actif = '';
+      if (boutonPause && mouvementReduit.matches) boutonPause.hidden = true;
+
+      this.querySelector('[data-precedent]')?.addEventListener('click', () => { interrompre(); aller(index - 1, true); });
+      this.querySelector('[data-suivant]')?.addEventListener('click', () => { interrompre(); aller(index + 1, true); });
+      points.forEach((point, i) => point.addEventListener('click', () => { interrompre(); aller(i, true); }));
+      boutonPause?.addEventListener('click', () => {
+        enPause = !enPause;
+        majPause();
+        etat.textContent = enPause ? 'Défilement automatique en pause' : 'Défilement automatique repris';
+        demarrer();
+      });
+      piste.addEventListener('keydown', (evenement) => {
+        if (evenement.key !== 'ArrowLeft' && evenement.key !== 'ArrowRight') return;
+        evenement.preventDefault();
+        interrompre();
+        aller(evenement.key === 'ArrowRight' ? index + 1 : index - 1, true);
+      });
+
+      // Défilement au doigt ou à la molette : on suit la diapositive visible.
+      let attente: number | undefined;
+      piste.addEventListener('scroll', () => {
+        window.clearTimeout(attente);
+        attente = window.setTimeout(() => {
+          const visible = Math.round(piste.scrollLeft / piste.clientWidth);
+          if (visible !== index && visible >= 0 && visible < total) {
+            index = visible;
+            majPoints();
+          }
+        }, 100);
+      }, { passive: true });
+
+      this.addEventListener('mouseenter', () => { suspendu = true; arreter(); });
+      this.addEventListener('mouseleave', () => { suspendu = false; demarrer(); });
+      this.addEventListener('focusin', () => { suspendu = true; arreter(); });
+      this.addEventListener('focusout', (evenement) => {
+        if (this.contains(evenement.relatedTarget as Node | null)) return;
+        suspendu = false;
+        demarrer();
+      });
+      document.addEventListener('visibilitychange', demarrer);
+      mouvementReduit.addEventListener('change', () => {
+        if (boutonPause) boutonPause.hidden = mouvementReduit.matches;
+        demarrer();
+      });
+
+      demarrer();
+    }
+  }
+  if (!customElements.get('bk-carrousel')) customElements.define('bk-carrousel', Carrousel);
+</script>

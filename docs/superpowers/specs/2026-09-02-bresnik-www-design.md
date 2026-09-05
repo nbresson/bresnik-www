@@ -97,6 +97,7 @@ Les collections sont typées avec Zod. Un champ manquant ou invalide fait
 | `fonctionnalites` | string[] | oui | Puces de la fiche. |
 | `logo` | image | non | Logo du produit (`./logos/<slug>.png` ou `.svg`), ajouté le 2026-09-04. |
 | `captures` | `{ fichier: string, alt: string, titre?: string }[]` | non | Descriptions facultatives. Les fichiers eux-mêmes sont découverts dans `src/content/produits/captures/<slug>/` (convention adoptée le 2026-09-05) : toute image du dossier appartient au produit ; les captures décrites viennent en premier dans l'ordre des descriptions, les autres suivent par nom de fichier avec un titre déduit du nom et un `alt` par défaut. |
+| `vedette` | `string` | non | Ajouté le 2026-09-05. Nom du fichier de la capture affichée dans le carrousel de l'accueil ; sans ce champ, ou si le fichier n'existe pas dans le dossier du produit (avertissement au build), la première capture est retenue. |
 | `disponibilite` | `'contact'`, `'telechargement'` ou `'essai'` | oui | Pilote le bouton d'action. |
 | `ordre` | number | oui | Ordre d'affichage. |
 | `publie` | boolean | oui | `false` masque le produit partout. |

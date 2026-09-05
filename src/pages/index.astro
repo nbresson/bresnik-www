@@ -8,15 +8,24 @@ import CarteProduit from '../components/CarteProduit.astro';
 import CarteAppel from '../components/CarteAppel.astro';
 import CarteArticle from '../components/CarteArticle.astro';
 import CadreCapture from '../components/CadreCapture.astro';
+import Carrousel from '../components/Carrousel.astro';
 import ListeCoches from '../components/ListeCoches.astro';
 import BandeAppel from '../components/BandeAppel.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies, trierParDate } from '../lib/blog';
 import { capturesDuProduit } from '../lib/captures-fichiers';
+import { capturesVedettes, vedettesIntrouvables } from '../lib/vedettes';
 
 const produits = await produitsPublies();
-const produitHeros = produits.find((p) => p.id === 'bankbridge') ?? produits[0];
-const captureHeros = produitHeros ? capturesDuProduit(produitHeros.id, produitHeros.data.nom, produitHeros.data.captures)[0] : undefined;
+const produitsAvecCaptures = produits.map((p) => ({
+  id: p.id,
+  nom: p.data.nom,
+  href: `/produits/${p.id}/`,
+  captures: capturesDuProduit(p.id, p.data.nom, p.data.captures),
+  vedette: p.data.vedette,
+}));
+for (const message of vedettesIntrouvables(produitsAvecCaptures)) console.warn(`[accueil] ${message}`);
+const vedettes = capturesVedettes(produitsAvecCaptures).map((v) => ({ nom: v.nom, href: v.href, titre: v.capture.titre, alt: v.capture.alt, src: v.capture.src }));
 const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV)).slice(0, 3);
 const domaines = [
   'Paramétrage, migration et reprise de données Sage 100',
@@ -42,8 +51,8 @@ const domaines = [
       <p class="technique">Conçus par un consultant Sage 100 · Windows · SQL Server</p>
     </div>
     <div class="hidden md:block">
-      {captureHeros && produitHeros ? (
-        <CadreCapture titre={`${produitHeros.data.nom} — ${captureHeros.titre}`} image={captureHeros.src} alt={captureHeros.alt} />
+      {vedettes.length > 0 ? (
+        <Carrousel id="vedettes" libelle="Captures d'écran des produits" diapositives={vedettes} />
       ) : (
         <CadreCapture titre="BankBridge — Extraits à intégrer" />
       )}
