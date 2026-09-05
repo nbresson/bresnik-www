@@ -54,7 +54,7 @@ const evenements = [
         <SelecteurTheme slot="actions" id="theme-application" />
         <BoutonIcone slot="actions" icone="cloche" libelle="Notifications" />
         <BoutonIcone slot="actions" icone="imprimer" libelle="Imprimer" />
-        <Bouton slot="actions" href="#nouvelle-licence" taille="compact">Nouvelle licence</Bouton>
+        <Bouton slot="actions" href="#licences" taille="compact">Nouvelle licence</Bouton>
       </EnTeteApplication>
 
       <div class="flex flex-col gap-6 p-5 md:p-8">
@@ -72,7 +72,7 @@ const evenements = [
               <Recherche slot="recherche" action="/gabarits/application/" placeholder="Rechercher une licence" class="md:w-[320px]" />
               <BoutonIcone slot="filtres" icone="filtre" libelle="Filtrer" variante="secondaire" />
               <BoutonIcone slot="actions" icone="telecharger" libelle="Exporter en CSV" variante="secondaire" />
-              <Bouton slot="actions" href="#nouvelle-licence" taille="compact">Ajouter</Bouton>
+              <Bouton slot="actions" href="#licences" taille="compact">Ajouter</Bouton>
             </BarreOutils>
             <FiltresActifs filtres={[{ libelle: 'Statut', valeur: 'Active', hrefSuppression: '/gabarits/application/' }]} hrefTout="/gabarits/application/" />
             <TableauDonnees
