@@ -1,10 +1,12 @@
-// Génère favicon et images Open Graph à partir des polices de la charte,
-// sans navigateur : image par défaut, une image par produit publié et une par
-// article publié. Rejouer avec `npm run generer-images` après un changement de
-// charte, de produit ou d'article. Les fichiers produits sont commités.
+// Génère favicons et images Open Graph à partir du logo et des polices de la
+// charte, sans navigateur : favicons aux tailles utiles, image par défaut, une
+// image par produit publié et une par article publié. Rejouer avec
+// `npm run generer-images` après un changement de logo, de charte, de produit
+// ou d'article. Les fichiers produits sont commités.
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import satori from 'satori';
+import sharp from 'sharp';
 import { Resvg } from '@resvg/resvg-js';
 import { lireFrontmatter } from './blog-frontmatter.mjs';
 
@@ -37,10 +39,19 @@ const polices = [
 
 const el = (type, style, children) => ({ type, props: { style, children } });
 
+/** Logo de la marque, réduit pour les images de partage, en URI de données. */
+const LOGO = chemin('src/assets/marque/bresnik-logo.png');
+const logoReduit = await sharp(LOGO).resize(320, 320).png().toBuffer();
+const logoDonnees = `data:image/png;base64,${logoReduit.toString('base64')}`;
+const logoImg = (taille) => ({ type: 'img', props: { src: logoDonnees, width: taille, height: taille, style: { width: taille, height: taille } } });
+
 function motSymbole(taille) {
-  return el('div', { display: 'flex', fontFamily: 'Bricolage Grotesque', fontWeight: 700, fontSize: taille, letterSpacing: -taille * 0.025, color: COULEURS.encre, lineHeight: 1 }, [
-    el('span', {}, 'Bresni'),
-    el('span', { color: COULEURS.cobalt }, 'k'),
+  return el('div', { display: 'flex', alignItems: 'center', gap: taille * 0.22 }, [
+    logoImg(Math.round(taille * 0.95)),
+    el('div', { display: 'flex', fontFamily: 'Bricolage Grotesque', fontWeight: 700, fontSize: taille, letterSpacing: -taille * 0.025, color: COULEURS.encre, lineHeight: 1 }, [
+      el('span', {}, 'Bresni'),
+      el('span', { color: COULEURS.cobalt }, 'k'),
+    ]),
   ]);
 }
 
@@ -89,24 +100,6 @@ function arbrePage({ eyebrow, titre, sousTitre, logo }) {
   );
 }
 
-const arbreFavicon = el(
-  'div',
-  {
-    width: 64,
-    height: 64,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: COULEURS.cobalt,
-    borderRadius: 12,
-    fontFamily: 'Bricolage Grotesque',
-    fontWeight: 700,
-    fontSize: 44,
-    color: COULEURS.blanc,
-  },
-  'B',
-);
-
 async function svgDepuis(arbre, largeur, hauteur) {
   return satori(arbre, { width: largeur, height: hauteur, fonts: polices });
 }
@@ -139,10 +132,11 @@ await mkdir(chemin('public/og/blog'), { recursive: true });
 const svgOg = await svgDepuis(arbreOg, 1200, 630);
 await writeFile(chemin('public/og-default.png'), pngDepuis(svgOg, 1200));
 
-const svgFavicon = await svgDepuis(arbreFavicon, 64, 64);
-await writeFile(chemin('public/favicon.svg'), svgFavicon);
-await writeFile(chemin('public/favicon-32.png'), pngDepuis(svgFavicon, 32));
-await writeFile(chemin('public/apple-touch-icon.png'), pngDepuis(svgFavicon, 180));
+// Favicons : le logo réduit ; l'icône Apple est aplatie sur le fond papier (iOS n'aime pas la transparence).
+for (const taille of [32, 192, 512]) {
+  await writeFile(chemin(`public/favicon-${taille}.png`), await sharp(LOGO).resize(taille, taille).png().toBuffer());
+}
+await writeFile(chemin('public/apple-touch-icon.png'), await sharp(LOGO).resize(180, 180).flatten({ background: COULEURS.papier }).png().toBuffer());
 
 const produits = [];
 for (const nom of await readdir(chemin('src/content/produits'))) {
@@ -169,4 +163,4 @@ for (const nom of await readdir(chemin('src/content/blog'))) {
   articles.push(id);
 }
 
-console.log(`Images générées : og-default.png, favicon.svg, favicon-32.png, apple-touch-icon.png, ${produits.length} produit(s), ${articles.length} article(s).`);
+console.log(`Images générées : favicons 32/192/512, apple-touch-icon.png, og-default.png, ${produits.length} produit(s), ${articles.length} article(s).`);
