@@ -85,7 +85,7 @@ describe('traiterContact', () => {
   it('redirige un envoi de formulaire classique vers la page de contact', async () => {
     const succes = await traiterContact(requeteFormulaire(champs), env, { fetchFn: fetchSimule(true), lireProduits });
     expect(succes.status).toBe(303);
-    expect(succes.headers.get('Location')).toBe('/contact/?etat=envoye#envoye');
+    expect(succes.headers.get('Location')).toBe('/contact/merci/');
     expect(succes.headers.get('Cache-Control')).toBe('no-store');
     const echec = await traiterContact(requeteFormulaire({ ...champs, nom: 'N', consentement: '' }), env, { fetchFn: fetchSimule(true), lireProduits });
     expect(echec.status).toBe(303);

@@ -19,7 +19,7 @@ export default defineConfig({
   site: 'https://bresnik-www.nkobrs21.workers.dev',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [mdx(), sitemap({ filter: (page) => !['/charte/', '/erreur/', '/maintenance/', '/gabarits/'].some((chemin) => page.includes(chemin)) })],
+  integrations: [mdx(), sitemap({ filter: (page) => !['/charte/', '/erreur/', '/maintenance/', '/gabarits/', '/contact/merci/'].some((chemin) => page.includes(chemin)) })],
   fonts: [
     {
       provider: fontProviders.fontsource(),

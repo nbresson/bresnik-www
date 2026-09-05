@@ -113,6 +113,15 @@ vers de nouveaux noms de fichiers hachés.
 3. L'ajouter en variable de build `PUBLIC_CF_BEACON_TOKEN` dans Workers
    Builds, puis relancer un déploiement. Le layout n'insère le script que si
    cette variable existe.
+4. Vérifier sur le site en ligne que `static.cloudflareinsights.com/beacon.min.js`
+   est chargé (source de la page), puis que les visites apparaissent dans
+   Web Analytics au bout de quelques minutes.
+
+Cloudflare Web Analytics ne compte que les pages vues, sans événement
+personnalisé ni cookie. L'envoi réussi du formulaire de contact mène à la page
+`/contact/merci/` (non indexée, hors sitemap) : le nombre de vues de cette page
+est le nombre d'envois. Elle est déjà autorisée par la CSP
+(`static.cloudflareinsights.com` et `cloudflareinsights.com`).
 
 ## Quand le domaine bresnik.fr sera acheté
 

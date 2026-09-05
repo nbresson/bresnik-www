@@ -37,7 +37,7 @@ function repondre(request: Request, statut: number, erreurs: ErreurChamp[]): Res
   }
   let location: string;
   if (statut === 200) {
-    location = '/contact/?etat=envoye#envoye';
+    location = '/contact/merci/';
   } else {
     const champs = erreurs.map((e) => e.champ).filter(Boolean);
     const parametres = new URLSearchParams({ etat: 'erreur' });

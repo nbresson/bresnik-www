@@ -42,9 +42,6 @@ const libellesChamps: Record<string, string> = {
   <div class="conteneur pb-16 md:pb-20">
     <div class="flex max-w-[640px] flex-col gap-6">
       <div id="zone-etat" class="empty:hidden"></div>
-      <div id="envoye" class="hidden target:block">
-        <Alerte ton="succes" titre="Message envoyé">Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.</Alerte>
-      </div>
       <div id="erreur" class="hidden target:block">
         <Alerte ton="erreur" titre="Le message n'a pas pu être envoyé">Vérifiez les champs signalés dans l'adresse de la page et réessayez, ou écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.</Alerte>
       </div>
@@ -205,15 +202,9 @@ const libellesChamps: Record<string, string> = {
       }
     }
 
-    // Repli sans JavaScript : la page revient avec un état dans l'adresse.
-    if (parametres.get('etat')) {
-      document.getElementById('envoye')?.remove();
-      document.getElementById('erreur')?.remove();
-    }
-    if (parametres.get('etat') === 'envoye') {
-      afficherAlerte('succes', 'Message envoyé', [{ champ: '', message: 'Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.' }]);
-      formulaire.hidden = true;
-    } else if (parametres.get('etat') === 'erreur') {
+    // Repli sans JavaScript : la page revient avec un état d'erreur dans l'adresse (le succès mène à /contact/merci/).
+    if (parametres.get('etat')) document.getElementById('erreur')?.remove();
+    if (parametres.get('etat') === 'erreur') {
       const champs = (parametres.get('champs') ?? '').split(',').filter(Boolean);
       afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', champs.length > 0
         ? champs.map((champ: string) => ({ champ, message: 'à corriger' }))
@@ -239,8 +230,8 @@ const libellesChamps: Record<string, string> = {
         });
         const resultat = (await reponse.json()) as { ok: boolean; erreurs?: Ligne[] };
         if (resultat.ok) {
-          afficherAlerte('succes', 'Message envoyé', [{ champ: '', message: 'Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.' }]);
-          formulaire.hidden = true;
+          // Page de remerciement : une vue comptée par la mesure d'audience, et des liens de continuation.
+          window.location.assign('/contact/merci/');
           return;
         }
         marquerErreurs(resultat.erreurs ?? []);
