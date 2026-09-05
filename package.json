@@ -14,6 +14,7 @@
     "check:worker": "tsc -p worker --noEmit",
     "generer-images": "node scripts/generer-og.mjs",
     "verifier-liens": "node scripts/verifier-liens.mjs",
+    "verifier-csp": "node scripts/verifier-csp.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "cf:dev": "wrangler dev",

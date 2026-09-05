@@ -1,5 +1,6 @@
 import type { Env } from './env';
 import { hoteTechnique, interdireIndexation } from './indexation';
+import { securiser } from './entetes';
 
 const inconnu = () => Response.json({ ok: false, erreurs: [{ champ: '', message: 'Point de terminaison inconnu.' }] }, { status: 404 });
 
@@ -14,7 +15,7 @@ export function clesEgales(fournie: string | null, attendue: string | undefined)
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    const reponse = await router(request, env, url);
+    const reponse = securiser(await router(request, env, url));
     return hoteTechnique(url.hostname) ? interdireIndexation(reponse) : reponse;
   },
 } satisfies ExportedHandler<Env>;

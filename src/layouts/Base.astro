@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BandeauAnnonce from '../components/BandeauAnnonce.astro';
 import { annonce } from '../config/site';
+import antiFlash from '../scripts/theme-anti-flash.js?raw';
 
 interface Props {
   titre: string;
@@ -35,13 +36,7 @@ const jetonAnalytics = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>
-      // Applique le thème mémorisé avant le premier rendu pour éviter tout flash.
-      try {
-        var theme = localStorage.getItem('bresnik-theme');
-        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
-      } catch (erreur) {}
-    </script>
+    <script is:inline set:html={antiFlash}></script>
     <title>{titreComplet}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}

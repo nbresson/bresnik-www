@@ -74,28 +74,31 @@ const libellesChamps: Record<string, string> = {
 
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-  <script is:inline define:vars={{ libellesChamps }}>
-    const formulaire = document.getElementById('formulaire-contact');
+  <script is:inline type="application/json" id="libelles-champs" set:html={JSON.stringify(libellesChamps)}></script>
+  <script>
+    type Ligne = { champ: string; message: string };
+    const libellesChamps: Record<string, string> = JSON.parse(document.getElementById('libelles-champs')?.textContent ?? '{}');
+    const formulaire = document.getElementById('formulaire-contact') as HTMLFormElement;
     formulaire.noValidate = true;
-    const zoneEtat = document.getElementById('zone-etat');
-    const bouton = document.getElementById('bouton-envoyer');
-    const etat = document.getElementById('etat-formulaire');
+    const zoneEtat = document.getElementById('zone-etat') as HTMLElement;
+    const bouton = document.getElementById('bouton-envoyer') as HTMLButtonElement;
+    const etat = document.getElementById('etat-formulaire') as HTMLElement;
     const parametres = new URLSearchParams(window.location.search);
 
     const produitDemande = parametres.get('produit');
-    const selecteur = document.querySelector('select[name="produit"]');
+    const selecteur = document.querySelector<HTMLSelectElement>('select[name="produit"]');
     if (produitDemande && selecteur) {
       const existe = Array.from(selecteur.options).some((o) => o.value === produitDemande);
       if (existe) selecteur.value = produitDemande;
     }
 
-    const classesAlerte = {
+    const classesAlerte: Record<string, string> = {
       succes: 'border-succes bg-succes-teinte',
       erreur: 'border-erreur bg-erreur-teinte',
     };
-    const ancresChamps = { consentement: '#choix-consentement-oui' };
+    const ancresChamps: Record<string, string> = { consentement: '#choix-consentement-oui' };
 
-    function afficherAlerte(ton, titre, lignes) {
+    function afficherAlerte(ton: 'succes' | 'erreur', titre: string, lignes: Ligne[]) {
       zoneEtat.replaceChildren();
       const carte = document.createElement('div');
       carte.setAttribute('role', ton === 'erreur' ? 'alert' : 'status');
@@ -135,7 +138,7 @@ const libellesChamps: Record<string, string> = {
       carte.focus();
     }
 
-    function marquerErreurs(erreurs) {
+    function marquerErreurs(erreurs: Ligne[]) {
       for (const controle of formulaire.querySelectorAll('[aria-invalid]')) controle.removeAttribute('aria-invalid');
       for (const controle of formulaire.querySelectorAll('[data-describedby-initial]')) {
         const initial = controle.getAttribute('data-describedby-initial');
@@ -174,7 +177,7 @@ const libellesChamps: Record<string, string> = {
     } else if (parametres.get('etat') === 'erreur') {
       const champs = (parametres.get('champs') ?? '').split(',').filter(Boolean);
       afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', champs.length > 0
-        ? champs.map((champ) => ({ champ, message: 'à corriger' }))
+        ? champs.map((champ: string) => ({ champ, message: 'à corriger' }))
         : [{ champ: '', message: 'Réessayez dans quelques minutes.' }]);
     }
 
@@ -195,7 +198,7 @@ const libellesChamps: Record<string, string> = {
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(donnees),
         });
-        const resultat = await reponse.json();
+        const resultat = (await reponse.json()) as { ok: boolean; erreurs?: Ligne[] };
         if (resultat.ok) {
           afficherAlerte('succes', 'Message envoyé', [{ champ: '', message: 'Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.' }]);
           formulaire.hidden = true;
@@ -203,10 +206,10 @@ const libellesChamps: Record<string, string> = {
         }
         marquerErreurs(resultat.erreurs ?? []);
         afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', resultat.erreurs ?? []);
-        window.turnstile?.reset();
+        (window as { turnstile?: { reset: () => void } }).turnstile?.reset();
       } catch {
         afficherAlerte('erreur', 'Le message n\'a pas pu être envoyé', [{ champ: '', message: 'Vérifiez votre connexion et réessayez.' }]);
-        window.turnstile?.reset();
+        (window as { turnstile?: { reset: () => void } }).turnstile?.reset();
       } finally {
         bouton.disabled = false;
         bouton.removeAttribute('aria-busy');

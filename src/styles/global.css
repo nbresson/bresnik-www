@@ -138,3 +138,18 @@
   font-family: var(--police-technique);
   font-weight: 500;
 }
+/* Coloration syntaxique Prism (classes, sans attribut style) sur fond bande. */
+.prose pre .token.comment,
+.prose pre .token.punctuation,
+.prose pre .token.operator {
+  color: var(--couleur-encre-claire);
+}
+.prose pre .token.keyword,
+.prose pre .token.function,
+.prose pre .token.builtin {
+  font-weight: 600;
+}
+.prose pre .token.string,
+.prose pre .token.number {
+  font-style: italic;
+}
