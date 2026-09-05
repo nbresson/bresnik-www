@@ -5,9 +5,13 @@ description: "Politique de confidentialité du site Bresnik : données du formul
 
 ## Données collectées
 
-Ce site ne dépose aucun cookie et n'utilise aucun traceur publicitaire. La
-mesure d'audience, lorsqu'elle est activée, repose sur Cloudflare Web
-Analytics, qui n'utilise ni cookie ni identifiant individuel.
+Ce site ne dépose aucun cookie de mesure ni de publicité. Votre choix de
+thème d'affichage (clair, sombre ou système) est conservé dans le stockage
+local de votre navigateur, sans identifiant ni transmission, ce qui ne
+requiert pas de consentement. La mesure d'audience repose sur Cloudflare Web
+Analytics, qui n'utilise ni cookie ni identifiant individuel. Sur la page de
+contact, la vérification anti-robot Cloudflare Turnstile peut recourir à un
+stockage technique strictement nécessaire, limité à son propre domaine.
 
 ## Formulaire de contact
 

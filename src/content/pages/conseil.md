@@ -5,10 +5,10 @@ description: "Consultant Sage 100 indépendant : paramétrage, migration, repris
 
 ## Un consultant Sage qui développe ses propres outils
 
-Nicolas Bresson accompagne les entreprises et les cabinets sur les logiciels
-Sage français : Sage 100 Comptabilité, Gestion commerciale, Moyens de
-paiement, Immobilisations, Reporting et Batigest. Tous ces logiciels
-fonctionnent avec SQL Server.
+Je suis Nicolas Bresson, consultant Sage 100 indépendant. J'accompagne les
+entreprises et les cabinets sur les logiciels Sage français : Sage 100
+Comptabilité, Gestion commerciale, Moyens de paiement, Immobilisations,
+Reporting et Batigest. Tous ces logiciels fonctionnent avec SQL Server.
 
 ## Domaines d'intervention
 
@@ -19,8 +19,8 @@ fonctionnent avec SQL Server.
 
 ## Pourquoi Bresnik
 
-Les produits Bresnik sont nés de missions de conseil : chaque logiciel
-répond à un besoin rencontré sur le terrain que Sage ne couvre pas.
+Mes logiciels sont nés de missions de conseil : chacun répond à un besoin
+rencontré sur le terrain que Sage ne couvre pas.
 
 - [BankBridge](/produits/bankbridge/) : intégration bancaire et rapprochement
   dans Sage 100 Comptabilité.
@@ -32,4 +32,4 @@ répond à un besoin rencontré sur le terrain que Sage ne couvre pas.
   rattaché à la pièce Sage.
 - [BOCS](/produits/bocs/) : la boîte à outils du consultant Sage 100.
 
-[Nous contacter](/contact/)
+[Me contacter](/contact/)

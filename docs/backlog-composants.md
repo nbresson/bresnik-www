@@ -144,8 +144,8 @@ conception courte puis une PR, et coché ici une fois en production.
 | [ ] | Prix, licence, essai sur chaque fiche | V | 1 | Au minimum une fourchette ou un « à partir de », le mode de licence, l'existence d'un essai. |
 | [ ] | Prérequis techniques sur chaque fiche | V | 1 | Versions Sage 100 supportées, SQL Server, Windows, .NET, option Objets métiers requise ou non. |
 | [ ] | Bloc « Support et mises à jour » | V | 1 | Canal, délai de réponse, suivi des montées de version Sage. |
-| [ ] | Personne grammaticale unique | V | 2 | Le site mélange « Nicolas Bresson accompagne », « nous » et « on » ; choisir le « je ». |
-| [ ] | Remplacer « Windows (WPF) » | V | 2 | « Application de bureau Windows 10/11 » ; le détail WPF/.NET en section technique. |
+| [x] | Personne grammaticale unique | V | 2 | Le « je » du consultant indépendant partout (accueil, conseil, cartes d'appel, fiche technique, erreurs, remerciement) ; pages légales impersonnelles (2026-09-05). |
+| [x] | Remplacer « Windows (WPF) » | V | 2 | « Application de bureau Windows 10/11 » sur les cinq fiches ; le détail WPF/.NET viendra avec les prérequis (2026-09-05). |
 | [ ] | Fonctionnalités formulées en bénéfices | V | 2 | Les listes actuelles se lisent comme des notes internes. |
 
 ### Confiance et juridique
@@ -156,7 +156,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [ ] | Compléter la politique de confidentialité | V | 1 | Responsable de traitement, base légale, durée de conservation, recours CNIL, transferts hors UE, date de mise à jour. |
 | [ ] | Affirmer le traitement local des données | V | 1 | Sur chaque fiche : aucune donnée comptable ou bancaire ne quitte le poste. |
 | [ ] | Page « À propos » | V | 1 | Photo, parcours, années d'expérience, LinkedIn ; entrée de navigation. |
-| [ ] | Nuancer « aucun cookie » | V | 2 | Le thème est mémorisé dans le navigateur et Turnstile est chargé ; affirmer l'état réel de la mesure d'audience. |
+| [x] | Nuancer « aucun cookie » | V | 2 | Stockage local du thème, mesure d'audience sans cookie, stockage technique de Turnstile sur la page contact (2026-09-05). |
 | [ ] | CGV et licence logicielle | V | 2 | Page `/cgv/` et CLUF téléchargeable. |
 
 ### Conversion

@@ -7,7 +7,7 @@ cible: entreprise
 modulesSage:
   - "Sage 100 Comptabilité"
 objetsMetiersSage: true
-plateforme: Windows (WPF)
+plateforme: Application de bureau Windows 10/11
 logo: ./logos/bankbridge.png
 vedette: mouvements.png
 captures:

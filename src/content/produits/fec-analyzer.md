@@ -7,7 +7,7 @@ cible: entreprise
 modulesSage:
   - "Sage 100 Comptabilité"
 objetsMetiersSage: false
-plateforme: Windows (WPF)
+plateforme: Application de bureau Windows 10/11
 logo: ./logos/fec-analyzer.png
 vedette: synthese.png
 captures:

@@ -6,7 +6,7 @@ description: "Boîte à outils du consultant Sage 100 : audit du poste, diagnost
 cible: consultant
 modulesSage: []
 objetsMetiersSage: false
-plateforme: Windows (WPF)
+plateforme: Application de bureau Windows 10/11
 logo: ./logos/bocs.png
 vedette: demarrer.png
 captures:

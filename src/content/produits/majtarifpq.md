@@ -7,7 +7,7 @@ cible: entreprise
 modulesSage:
   - "Sage 100 Gestion commerciale"
 objetsMetiersSage: true
-plateforme: Windows (WPF)
+plateforme: Application de bureau Windows 10/11
 logo: ./logos/majtarifpq.png
 vedette: regles.png
 captures:
