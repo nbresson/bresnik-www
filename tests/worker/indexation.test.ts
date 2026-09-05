@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { hoteTechnique, interdireIndexation } from '../../worker/indexation';
-import worker from '../../worker/index';
+import worker, { clesEgales } from '../../worker/index';
 import type { Env } from '../../worker/env';
 
 describe('hoteTechnique', () => {
@@ -29,6 +29,17 @@ describe('interdireIndexation', () => {
   });
 });
 
+describe('clesEgales', () => {
+  it('compare des clés de même longueur et refuse les absentes', () => {
+    expect(clesEgales('abc', 'abc')).toBe(true);
+    expect(clesEgales('abd', 'abc')).toBe(false);
+    expect(clesEgales('ab', 'abc')).toBe(false);
+    expect(clesEgales(null, 'abc')).toBe(false);
+    expect(clesEgales('', '')).toBe(false);
+    expect(clesEgales('abc', undefined)).toBe(false);
+  });
+});
+
 describe('worker fetch', () => {
   const env = (): Env => ({
     ASSETS: { fetch: vi.fn(async () => new Response('<html>', { headers: { 'Content-Type': 'text/html' } })) } as unknown as Env['ASSETS'],
@@ -36,6 +47,7 @@ describe('worker fetch', () => {
     TURNSTILE_SECRET_KEY: '',
     CONTACT_TO_EMAIL: '',
     CONTACT_FROM_EMAIL: '',
+    DIAGNOSTIC_CLE: 'cle-de-diagnostic-longue',
   });
 
   it('interdit l\'indexation de toutes les réponses servies sur workers.dev', async () => {
@@ -46,6 +58,31 @@ describe('worker fetch', () => {
     const api = await worker.fetch(new Request('https://bresnik-www.nkobrs21.workers.dev/api/inconnu'), e);
     expect(api.status).toBe(404);
     expect(api.headers.get('X-Robots-Tag')).toBe('noindex, nofollow');
+  });
+
+  it('cache le diagnostic sans la bonne clé, comme une route inconnue', async () => {
+    const e = env();
+    const sans = await worker.fetch(new Request('https://bresnik.fr/api/diagnostic'), e);
+    const fausse = await worker.fetch(new Request('https://bresnik.fr/api/diagnostic', { headers: { 'X-Diagnostic-Cle': 'cle-de-diagnostic-fausse' } }), e);
+    const inconnue = await worker.fetch(new Request('https://bresnik.fr/api/inconnu'), e);
+    expect([sans.status, fausse.status]).toEqual([404, 404]);
+    expect(await sans.text()).toBe(await inconnue.text());
+    const desactive = await worker.fetch(new Request('https://bresnik.fr/api/diagnostic', { headers: { 'X-Diagnostic-Cle': '' } }), { ...e, DIAGNOSTIC_CLE: undefined });
+    expect(desactive.status).toBe(404);
+  });
+
+  it('répond au diagnostic avec la bonne clé, sans mise en cache', async () => {
+    const e = env();
+    vi.stubGlobal('fetch', vi.fn(async () => Response.json({ success: false, 'error-codes': ['invalid-input-secret'] }, { status: 200 })));
+    try {
+      const reponse = await worker.fetch(new Request('https://bresnik.fr/api/diagnostic', { headers: { 'X-Diagnostic-Cle': 'cle-de-diagnostic-longue' } }), e);
+      expect(reponse.status).toBe(200);
+      expect(reponse.headers.get('Cache-Control')).toBe('no-store');
+      const corps = (await reponse.json()) as { verifications: unknown[] };
+      expect(corps.verifications.length).toBeGreaterThan(0);
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it('laisse le domaine public indexable et transmet les pages aux ressources statiques', async () => {

@@ -61,6 +61,15 @@ En local : `.dev.vars` (copie de `.dev.vars.example`) pour `npm run cf:dev`,
 valident toujours le widget. Quand `bresnik.fr` sera en ligne, ajouter ce
 nom d'hôte au widget Turnstile dans le tableau de bord Cloudflare.
 
+Diagnostic de configuration : `GET /api/diagnostic` vérifie la présence, le
+format et l'acceptation des secrets par Turnstile et Brevo, sans jamais
+afficher une valeur. La route est protégée par le secret `DIAGNOSTIC_CLE`
+(même écran **Variables and Secrets**, valeur libre d'au moins 32 caractères) ;
+sans ce secret, ou sans l'en-tête correspondant, elle répond 404 comme une
+route inconnue, et chaque appel accepté interroge Brevo et Turnstile.
+
+    curl -H "X-Diagnostic-Cle: <valeur du secret>" https://bresnik-www.nkobrs21.workers.dev/api/diagnostic
+
 Limitation de débit : aucune dans le code, Turnstile suffit au lancement. Si
 nécessaire, ajouter depuis le tableau de bord une règle WAF de limitation sur
 `POST /api/contact` (par exemple 5 requêtes par minute et par adresse), sans

@@ -3,3 +3,6 @@ BREVO_API_KEY=remplacer-par-la-cle-brevo
 TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 CONTACT_TO_EMAIL=vous@exemple.fr
 CONTACT_FROM_EMAIL=vous@exemple.fr
+
+# Clé du diagnostic (GET /api/diagnostic avec l'en-tête X-Diagnostic-Cle) ; absente, la route est désactivée.
+DIAGNOSTIC_CLE=
