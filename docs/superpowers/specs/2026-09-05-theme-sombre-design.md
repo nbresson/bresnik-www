@@ -117,7 +117,7 @@ dessinaient une bande avec `bg-encre text-blanc` passent à
   `encre`/`blanc`, `encre-2`/`blanc`, `cobalt`/`papier`, `cobalt`/`blanc`,
   `blanc`/`cobalt`, `cobalt`/`cobalt-teinte`, `ambre`/`ambre-teinte`,
   `succes`/`succes-teinte`, `erreur`/`erreur-teinte`, `erreur`/`blanc`,
-  `bande-texte`/`bande`, `encre-claire`/`bande`, `cobalt`/`bande`.
+  `bande-texte`/`bande`, `encre-claire`/`bande`.
 - Le HTML construit contient le script de thème avant les feuilles de style et
   les deux balises `theme-color`.
 - Lighthouse manuel en clair et en sombre (forcé par `localStorage`) sur

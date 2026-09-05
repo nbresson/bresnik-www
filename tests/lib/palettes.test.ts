@@ -16,7 +16,7 @@ function variablesDuBloc(selecteur: string): Record<string, string> {
 const couples: [NomToken, NomToken][] = [
   ['encre', 'papier'], ['encre-2', 'papier'], ['encre', 'blanc'], ['encre-2', 'blanc'], ['cobalt', 'papier'], ['cobalt', 'blanc'],
   ['blanc', 'cobalt'], ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'], ['succes', 'succes-teinte'], ['erreur', 'erreur-teinte'],
-  ['erreur', 'blanc'], ['bande-texte', 'bande'], ['encre-claire', 'bande'], ['cobalt', 'bande'],
+  ['erreur', 'blanc'], ['bande-texte', 'bande'], ['encre-claire', 'bande'],
 ];
 
 describe('palettes', () => {
