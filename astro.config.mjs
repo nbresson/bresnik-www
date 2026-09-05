@@ -41,7 +41,8 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: 'Bricolage Grotesque',
       cssVariable: '--police-titres',
-      weights: ['500 700'],
+      // Deux graisses fixes (22 Ko chacune) plutôt que la police variable de 131 Ko : le site n'utilise que 600 et 700.
+      weights: [600, 700],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: replisSans,
