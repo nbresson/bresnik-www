@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { traiterContact } from '../../worker/contact';
+import { lireOctets, origineAcceptee, traiterContact } from '../../worker/contact';
 import type { Env } from '../../worker/env';
 
 const env = {
@@ -113,10 +113,78 @@ describe('traiterContact', () => {
     expect(reponse.status).toBe(413);
   });
 
+  it('répond 413 quand un corps sans Content-Length dépasse la taille autorisée', async () => {
+    const gros = new TextEncoder().encode(JSON.stringify({ ...champs, message: 'x'.repeat(40000) }));
+    const flux = new ReadableStream<Uint8Array>({
+      start(controleur) {
+        for (let i = 0; i < gros.length; i += 8192) controleur.enqueue(gros.slice(i, i + 8192));
+        controleur.close();
+      },
+    });
+    const requete = new Request('https://site.test/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: flux,
+      duplex: 'half',
+    } as RequestInit);
+    expect(requete.headers.get('Content-Length')).toBeNull();
+    const fetchFn = fetchSimule(true);
+    const reponse = await traiterContact(requete, env, { fetchFn, lireProduits });
+    expect(reponse.status).toBe(413);
+    expect(fetchFn).not.toHaveBeenCalled();
+  });
+
+  it('répond 403 quand l\'origine ne désigne pas le site, sans lire le corps', async () => {
+    const requete = new Request('https://site.test/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', Origin: 'https://ailleurs.example' },
+      body: JSON.stringify(champs),
+    });
+    const fetchFn = fetchSimule(true);
+    const reponse = await traiterContact(requete, env, { fetchFn, lireProduits });
+    expect(reponse.status).toBe(403);
+    expect(fetchFn).not.toHaveBeenCalled();
+    const bonne = new Request('https://site.test/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', Origin: 'https://site.test' },
+      body: JSON.stringify(champs),
+    });
+    expect((await traiterContact(bonne, env, { fetchFn: fetchSimule(true), lireProduits })).status).toBe(200);
+  });
+
+  it('transmet l\'hôte de la requête à la vérification Turnstile', async () => {
+    const fetchFn = vi.fn<typeof fetch>(async (url: Parameters<typeof fetch>[0]) => {
+      if (String(url).includes('turnstile')) return new Response(JSON.stringify({ success: true, hostname: 'autre.example' }));
+      return new Response('{}', { status: 201 });
+    });
+    const reponse = await traiterContact(requeteJson(champs), env, { fetchFn, lireProduits });
+    expect(reponse.status).toBe(403);
+    expect(fetchFn.mock.calls.some(([url]) => String(url).includes('brevo'))).toBe(false);
+  });
+
   it('lit la liste des produits depuis les assets par défaut', async () => {
     const assets = { fetch: vi.fn<(request: Request) => Promise<Response>>(async () => new Response(JSON.stringify({ produits: [{ id: 'bocs', nom: 'BOCS' }] }))) };
     const reponse = await traiterContact(requeteJson(champs), { ...env, ASSETS: assets as unknown as Env['ASSETS'] }, { fetchFn: fetchSimule(true) });
     expect(reponse.status).toBe(200);
     expect(assets.fetch.mock.calls[0]![0].url).toBe('https://site.test/api/produits.json');
+  });
+});
+
+describe('lireOctets', () => {
+  it('rassemble les morceaux et refuse au-delà du plafond', async () => {
+    const requete = new Request('https://site.test/x', { method: 'POST', body: 'abcdef' });
+    expect(new TextDecoder().decode(await lireOctets(requete, 6))).toBe('abcdef');
+    await expect(lireOctets(new Request('https://site.test/x', { method: 'POST', body: 'abcdefg' }), 6)).rejects.toThrow();
+  });
+});
+
+describe('origineAcceptee', () => {
+  const requete = (origin?: string) => new Request('https://site.test/api/contact', { method: 'POST', headers: origin === undefined ? {} : { Origin: origin } });
+  it('accepte l\'absence d\'origine et l\'origine du site, refuse le reste', () => {
+    expect(origineAcceptee(requete())).toBe(true);
+    expect(origineAcceptee(requete('https://site.test'))).toBe(true);
+    expect(origineAcceptee(requete('https://ailleurs.example'))).toBe(false);
+    expect(origineAcceptee(requete('null'))).toBe(false);
+    expect(origineAcceptee(requete('pas une url'))).toBe(false);
   });
 });

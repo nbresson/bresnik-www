@@ -219,8 +219,8 @@ conception courte puis une PR, et coché ici une fois en production.
 |---|---|---|---|---|
 | [x] | Protéger `/api/diagnostic` | V | 1 | En-tête `X-Diagnostic-Cle` comparé au secret `DIAGNOSTIC_CLE` ; 404 sinon (2026-09-05). |
 | [x] | En-têtes de sécurité | V | 1 | Worker : HSTS, nosniff, Referrer-Policy, Permissions-Policy, X-Frame-Options ; CSP `<meta>` générée par Astro avec empreintes ; Prism remplace Shiki (2026-09-05). Suite possible : couleurs de syntaxe dédiées dans la palette. |
-| [ ] | Durcir le formulaire de contact | V | 2 | Lecture du corps plafonnée, limitation de débit, contrôle d'origine et de l'hôte du jeton Turnstile. |
-| [ ] | Délais et dépendances | V | 3 | Délai maximal sur les appels sortants ; Dependabot et audit en CI. |
+| [x] | Durcir le formulaire de contact | V | 2 | Corps plafonné à la lecture, contrôle d'origine, hôte du jeton Turnstile vérifié, délais sur Turnstile et Brevo (2026-09-05). Limitation de débit : règle WAF à créer si besoin. |
+| [ ] | Délais et dépendances | V | 3 | Délais posés le 2026-09-05 ; reste Dependabot et audit en CI. |
 
 ### Accessibilité
 

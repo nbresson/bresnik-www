@@ -33,6 +33,23 @@ describe('verifierTurnstile', () => {
     expect(journal).toHaveBeenCalledWith('Turnstile refusé : codes invalid-input-secret, hôte exemple.fr.');
   });
 
+  it('refuse un jeton obtenu sur un autre hôte que celui attendu, et l\'accepte sur le bon', async () => {
+    const journal = vi.fn();
+    const autre = vi.fn<typeof fetch>(async () => reponse({ success: true, hostname: 'autre.example' }));
+    expect(await verifierTurnstile('jeton', 'secret', null, autre, journal, 'bresnik.fr')).toBe(false);
+    expect(journal).toHaveBeenCalledWith(expect.stringContaining('autre.example'));
+    const bon = vi.fn<typeof fetch>(async () => reponse({ success: true, hostname: 'bresnik.fr' }));
+    expect(await verifierTurnstile('jeton', 'secret', null, bon, silencieux, 'bresnik.fr')).toBe(true);
+    const sansHote = vi.fn<typeof fetch>(async () => reponse({ success: true }));
+    expect(await verifierTurnstile('jeton', 'secret', null, sansHote, silencieux, 'bresnik.fr')).toBe(true);
+  });
+
+  it('borne l\'attente de Cloudflare par un signal d\'abandon', async () => {
+    const fetchFn = vi.fn<typeof fetch>(async () => reponse({ success: true }));
+    await verifierTurnstile('jeton', 'secret', null, fetchFn, silencieux);
+    expect(fetchFn.mock.calls[0]![1]?.signal).toBeInstanceOf(AbortSignal);
+  });
+
   it('refuse quand Cloudflare répond success false ou en erreur', async () => {
     expect(await verifierTurnstile('jeton', 'secret', null, vi.fn<typeof fetch>(async () => reponse({ success: false })), silencieux)).toBe(false);
     expect(await verifierTurnstile('jeton', 'secret', null, vi.fn<typeof fetch>(async () => reponse({}, 500)), silencieux)).toBe(false);

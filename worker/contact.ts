@@ -17,14 +17,61 @@ export interface DependancesContact {
 const MESSAGE_TURNSTILE = 'La vérification anti-robot a échoué. Refaites-la et réessayez.';
 const MESSAGE_ENVOI = 'L\'envoi a échoué. Réessayez dans quelques minutes.';
 
+/** Taille maximale du corps d'une demande de contact. */
+export const TAILLE_MAX = 32 * 1024;
+
+class CorpsTropVolumineux extends Error {}
+
+/**
+ * Lit le corps en le plafonnant à `max` octets, quel que soit l'en-tête
+ * Content-Length (absent en transfert par morceaux). Au-delà, la lecture
+ * s'arrête et la requête est refusée.
+ */
+export async function lireOctets(request: Request, max = TAILLE_MAX): Promise<Uint8Array> {
+  const lecteur = request.body?.getReader();
+  if (!lecteur) return new Uint8Array();
+  const morceaux: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await lecteur.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > max) {
+      await lecteur.cancel();
+      throw new CorpsTropVolumineux();
+    }
+    morceaux.push(value);
+  }
+  const octets = new Uint8Array(total);
+  let position = 0;
+  for (const morceau of morceaux) {
+    octets.set(morceau, position);
+    position += morceau.byteLength;
+  }
+  return octets;
+}
+
 async function lireCorps(request: Request): Promise<Record<string, string>> {
+  const octets = await lireOctets(request);
   const type = request.headers.get('Content-Type') ?? '';
   if (type.includes('application/json')) {
-    const json = (await request.json()) as Record<string, unknown>;
+    const json = JSON.parse(new TextDecoder().decode(octets)) as Record<string, unknown>;
     return Object.fromEntries(Object.entries(json).map(([cle, valeur]) => [cle, typeof valeur === 'string' ? valeur : '']));
   }
-  const formulaire = await request.formData();
+  // Formulaire classique (urlencoded ou multipart) : on rejoue le corps plafonné dans une requête.
+  const formulaire = await new Request(request.url, { method: 'POST', headers: request.headers, body: octets }).formData();
   return Object.fromEntries([...formulaire.entries()].map(([cle, valeur]) => [cle, typeof valeur === 'string' ? valeur : '']));
+}
+
+/** L'en-tête Origin, quand un navigateur l'envoie, doit désigner ce site. */
+export function origineAcceptee(request: Request): boolean {
+  const origine = request.headers.get('Origin');
+  if (!origine || origine === 'null') return !origine;
+  try {
+    return new URL(origine).host === new URL(request.url).host;
+  } catch {
+    return false;
+  }
 }
 
 function attendJson(request: Request): boolean {
@@ -58,8 +105,9 @@ export async function traiterContact(request: Request, env: Env, deps: Dependanc
   if (request.method !== 'POST') {
     return Response.json({ ok: false, erreurs: [{ champ: '', message: 'Méthode non autorisée.' }] }, { status: 405, headers: { Allow: 'POST' } });
   }
+  if (!origineAcceptee(request)) return repondre(request, 403, [{ champ: '', message: 'Origine de la demande non autorisée.' }]);
   const taille = Number(request.headers.get('Content-Length') ?? '0');
-  if (taille > 32 * 1024) return repondre(request, 413, [{ champ: '', message: 'Requête trop volumineuse.' }]);
+  if (taille > TAILLE_MAX) return repondre(request, 413, [{ champ: '', message: 'Requête trop volumineuse.' }]);
 
   const fetchFn = deps.fetchFn ?? fetch;
   const lireProduits = deps.lireProduits ?? (() => produitsDepuisAssets(request, env));
@@ -67,7 +115,8 @@ export async function traiterContact(request: Request, env: Env, deps: Dependanc
   let brut: Record<string, string>;
   try {
     brut = await lireCorps(request);
-  } catch {
+  } catch (erreur) {
+    if (erreur instanceof CorpsTropVolumineux) return repondre(request, 413, [{ champ: '', message: 'Requête trop volumineuse.' }]);
     return repondre(request, 400, [{ champ: '', message: 'Requête illisible.' }]);
   }
 
@@ -82,7 +131,7 @@ export async function traiterContact(request: Request, env: Env, deps: Dependanc
   if (!validation.ok) return repondre(request, 400, validation.erreurs);
 
   const ip = request.headers.get('CF-Connecting-IP');
-  const humain = await verifierTurnstile(brut['cf-turnstile-response'] ?? '', env.TURNSTILE_SECRET_KEY, ip, fetchFn);
+  const humain = await verifierTurnstile(brut['cf-turnstile-response'] ?? '', env.TURNSTILE_SECRET_KEY, ip, fetchFn, undefined, new URL(request.url).hostname);
   if (!humain) return repondre(request, 403, [{ champ: 'cf-turnstile-response', message: MESSAGE_TURNSTILE }]);
 
   const email = construireEmail(validation.valeurs, produits.noms);

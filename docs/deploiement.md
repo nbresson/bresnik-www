@@ -70,6 +70,11 @@ route inconnue, et chaque appel accepté interroge Brevo et Turnstile.
 
     curl -H "X-Diagnostic-Cle: <valeur du secret>" https://bresnik-www.nkobrs21.workers.dev/api/diagnostic
 
+Protections du formulaire dans le code (`worker/contact.ts`, `turnstile.ts`,
+`brevo.ts`) : corps lu au plus jusqu'à 32 Kio quel que soit l'en-tête
+`Content-Length`, en-tête `Origin` qui doit désigner le site quand il est
+présent, jeton Turnstile refusé s'il a été obtenu sur un autre hôte que celui
+de la requête, appels à Turnstile et Brevo bornés à 8 et 10 secondes.
 Limitation de débit : aucune dans le code, Turnstile suffit au lancement. Si
 nécessaire, ajouter depuis le tableau de bord une règle WAF de limitation sur
 `POST /api/contact` (par exemple 5 requêtes par minute et par adresse), sans
