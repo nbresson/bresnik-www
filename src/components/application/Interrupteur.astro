@@ -20,9 +20,9 @@ const identifiantAide = aide ? `${identifiant}-aide` : undefined;
     aria-labelledby={`${identifiant}-libelle`}
     aria-describedby={identifiantAide}
     disabled={desactive}
-    class="group relative mt-0.5 inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-ligne transition-colors duration-150 aria-checked:bg-cobalt disabled:cursor-not-allowed disabled:opacity-60"
+    class="group relative mt-0.5 inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-encre-2 transition-colors duration-150 aria-checked:bg-cobalt disabled:cursor-not-allowed disabled:opacity-60"
   >
-    <span class="absolute left-0.5 size-5 rounded-full bg-blanc shadow-[0_1px_2px_rgb(28_35_49/0.3)] transition-transform duration-150 group-aria-checked:translate-x-5" aria-hidden="true"></span>
+    <span class="absolute left-0.5 size-5 rounded-full bg-blanc transition-transform duration-150 group-aria-checked:translate-x-5" aria-hidden="true"></span>
   </button>
   <input type="hidden" name={nom} value={actif ? 'oui' : 'non'} />
   <div class="flex flex-col gap-0.5">

@@ -94,6 +94,14 @@ changement de code.
   `npx lighthouse http://localhost:4321/ --preset=desktop` sur l'accueil, une
   fiche produit et un article de blog (ou la page conseil tant qu'aucun
   article n'est publié). Objectif : 95 ou plus dans les quatre catégories.
+- Lighthouse se joue dans les deux thèmes. Le site suit le thème du système
+  par défaut (aucun `localStorage.setItem('bresnik-theme', …)` mémorisé) :
+  c'est donc la préférence système émulée par Chrome/Edge qui détermine le
+  rendu, pas l'audit lui-même. Forcer explicitement chaque rendu avec le
+  drapeau vérifié `--chrome-flags="--blink-settings=preferredColorScheme=1"`
+  (clair) ou `=0` (sombre) — ne pas se fier au thème du système de la machine
+  qui lance l'audit, qui peut être sombre et fausser un audit « clair » sans
+  drapeau explicite.
 - Après un changement de charte (couleurs, polices), relancer
   `npm run generer-images` et commiter les fichiers de `public/`.
 - Les polices sont téléchargées depuis le CDN Fontsource au moment du build

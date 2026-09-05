@@ -18,7 +18,7 @@ const lignes = [
   ['clair', 'clair', 'teinte', 'clair'],
 ];
 const teintes: Record<string, string> = {
-  fonce: 'bg-encre opacity-60',
+  fonce: 'bg-encre-2',
   clair: 'bg-ligne',
   teinte: 'bg-cobalt-teinte',
   cobalt: 'bg-cobalt',
@@ -27,9 +27,9 @@ const teintes: Record<string, string> = {
 <figure class="flex flex-col gap-3">
   <div class="overflow-hidden rounded-cadre border border-ligne bg-blanc shadow-capture">
     <div class="flex h-10 items-center gap-2 border-b border-ligne bg-papier-2 px-3.5">
-      <span class="h-2.5 w-2.5 rounded-full bg-[#d9d2c4]"></span>
-      <span class="h-2.5 w-2.5 rounded-full bg-[#d9d2c4]"></span>
-      <span class="h-2.5 w-2.5 rounded-full bg-[#d9d2c4]"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-ligne"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-ligne"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-ligne"></span>
       <span class="ml-2 technique text-[12px]">{titre}</span>
     </div>
     {image ? (

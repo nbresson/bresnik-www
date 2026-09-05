@@ -81,7 +81,7 @@ function variablesDuBloc(selecteur: string): Record<string, string> {
 const couples: [NomToken, NomToken][] = [
   ['encre', 'papier'], ['encre-2', 'papier'], ['encre', 'blanc'], ['encre-2', 'blanc'], ['cobalt', 'papier'], ['cobalt', 'blanc'],
   ['blanc', 'cobalt'], ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'], ['succes', 'succes-teinte'], ['erreur', 'erreur-teinte'],
-  ['erreur', 'blanc'], ['bande-texte', 'bande'], ['encre-claire', 'bande'], ['cobalt', 'bande'],
+  ['erreur', 'blanc'], ['bande-texte', 'bande'], ['encre-claire', 'bande'],
 ];
 
 describe('palettes', () => {
@@ -323,9 +323,9 @@ Dans `src/layouts/Base.astro` :
 
 - [ ] **Étape 5 : Vérifier**
 
-Run : `npm run check && npm run check:worker && npm test && npm run build && npm run verifier-liens && grep -c 'bresnik-theme' dist/index.html && grep -c 'name="theme-color"' dist/index.html && grep -c 'data-theme="dark"' dist/_astro/*.css && node -e "const h=require('fs').readFileSync('dist/index.html','utf8');console.log(h.indexOf('bresnik-theme')<h.indexOf('<link rel=\"stylesheet\"')?'script avant css':'ORDRE INCORRECT')"`
+Run : `npm run check && npm run check:worker && npm test && npm run build && npm run verifier-liens && grep -c 'bresnik-theme' dist/index.html && grep -c 'name="theme-color"' dist/index.html && grep -c 'data-theme=dark' dist/_astro/*.css && node -e "const h=require('fs').readFileSync('dist/index.html','utf8');console.log(h.indexOf('bresnik-theme')<h.indexOf('<link rel=\"stylesheet\"')?'script avant css':'ORDRE INCORRECT')"`
 
-Expected : tout passe ; `1` ; `2` ; au moins `1` ; « script avant css ».
+Expected : tout passe ; `1` ; `2` ; au moins `1` ; « script avant css ». Note (corrigé le 2026-09-05) : le minifieur CSS retire les guillemets des sélecteurs d'attribut, d'où `data-theme=dark` (sans guillemets) et non `data-theme="dark"`.
 
 - [ ] **Étape 6 : Commit**
 

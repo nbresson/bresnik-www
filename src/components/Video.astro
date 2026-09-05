@@ -10,7 +10,7 @@ interface Props {
 const { titre, src, affiche, class: classe = '' } = Astro.props;
 ---
 <figure class={`flex flex-col gap-3 ${classe}`}>
-  <div class="relative overflow-hidden rounded-cadre border border-ligne bg-encre shadow-capture">
+  <div class="relative overflow-hidden rounded-cadre border border-ligne bg-bande shadow-capture">
     {src ? (
       <video controls preload="none" poster={affiche} class="block aspect-video w-full" title={titre}>
         <source src={src} />
@@ -19,7 +19,7 @@ const { titre, src, affiche, class: classe = '' } = Astro.props;
     ) : (
       <div class="relative flex aspect-video w-full items-center justify-center">
         {affiche && <img src={affiche} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-60" />}
-        <span class="relative rounded-bouton bg-encre px-4 py-2 text-[15px] font-semibold text-blanc">Vidéo à venir</span>
+        <span class="relative rounded-bouton bg-bande px-4 py-2 text-[15px] font-semibold text-bande-texte">Vidéo à venir</span>
       </div>
     )}
   </div>

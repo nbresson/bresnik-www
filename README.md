@@ -25,6 +25,9 @@ La page `/charte/` (non indexée, hors sitemap, jamais liée depuis la
 navigation) montre chaque composant avec des données d'exemple. Tout nouveau
 composant doit y être ajouté.
 
+Le thème sombre suit le système ; le sélecteur de l'en-tête force clair,
+sombre ou système.
+
 ## Déployer
 
 Voir docs/deploiement.md. Le déploiement en production est automatique à
