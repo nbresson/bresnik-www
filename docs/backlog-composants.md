@@ -229,7 +229,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [x] | Page contact sans JavaScript | V | 1 | Message corrigé, adresse de repli `emailContact` (config du site) sans JavaScript et en cas d'échec (2026-09-05). |
 | [x] | Turnstile en thème sombre | V | 1 | Rendu explicite du widget avec le thème effectif, re-rendu sur `bk-theme` et au changement système (2026-09-05). |
 | [x] | Erreurs de saisie sans script, menu mobile, champs obligatoires | V | 2 | Sans script, l'envoi est toujours refusé (Turnstile) : le message le dit et donne l'adresse de repli ; menu mobile fermé au clic extérieur, à la sortie du focus et en largeur desktop, focus déplacé à l'ouverture ; légende des champs obligatoires (2026-09-05). |
-| [ ] | Carrousel, contraste élevé, retour en haut | V | 3 | Diapositives hors écran inertes, `forced-colors`, lien vers le haut de page. |
+| [x] | Carrousel, contraste élevé, retour en haut | V | 3 | Diapositives hors écran `inert`, styles `forced-colors` (glyphes, points, piste, lien courant), retour en haut vers `#haut` (2026-09-05). |
 
 ### Qualité, tests et observabilité
 

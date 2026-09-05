@@ -86,6 +86,8 @@ const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton b
 
       const nomDe = (i: number) => points[i]?.getAttribute('aria-label')?.replace(/^Diapositive \d+ : /, '') ?? '';
       const majPoints = () => {
+        // Les diapositives hors écran deviennent inertes : plus de tabulation vers un lien invisible.
+        diapositives.forEach((diapositive, i) => diapositive.toggleAttribute('inert', i !== index));
         points.forEach((point, i) => {
           if (i === index) point.setAttribute('aria-current', 'true');
           else point.removeAttribute('aria-current');
