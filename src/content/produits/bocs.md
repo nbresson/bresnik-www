@@ -32,11 +32,11 @@ captures:
     titre: Sauvegardes planifiées
     alt: Installation d'une tâche de sauvegarde planifiée pour SQL Server Express, instance, dossier des fichiers .bak, heure, jours, rétention, bases à exclure, vérification de la sauvegarde et dernier bilan par base.
 fonctionnalites:
-  - titre: "Fonctions d'aide au diagnostic et à la maintenance des logiciels Sage"
+  - titre: "Un poste Sage audité en une minute : versions, services, prérequis"
     icone: bouclier
-  - titre: "Outils pour l'environnement Windows des postes et serveurs Sage"
+  - titre: "Le réseau, les ports et les partages diagnostiqués depuis le poste"
     icone: ecran
-  - titre: "Outils pour SQL Server : bases Sage, requêtes, maintenance"
+  - titre: "Requêtes, scripts, imports Excel et sauvegardes planifiées sur les bases Sage"
     icone: base-donnees
 disponibilite: contact
 ordre: 1
