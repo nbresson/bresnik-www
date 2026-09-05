@@ -1,10 +1,12 @@
-// Génère favicon et image Open Graph à partir des polices de la charte,
-// sans navigateur. Rejouer avec `npm run generer-images` après un changement
-// de charte. Les fichiers produits sont commités.
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+// Génère favicon et images Open Graph à partir des polices de la charte,
+// sans navigateur : image par défaut, une image par produit publié et une par
+// article publié. Rejouer avec `npm run generer-images` après un changement de
+// charte, de produit ou d'article. Les fichiers produits sont commités.
+import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
+import { lireFrontmatter } from './blog-frontmatter.mjs';
 
 const racine = new URL('../', import.meta.url);
 const chemin = (relatif) => fileURLToPath(new URL(relatif, racine));
@@ -15,6 +17,7 @@ const COULEURS = {
   encre2: '#4f5868',
   cobalt: '#1f4fc7',
   blanc: '#ffffff',
+  ligne: '#e2ddd2',
 };
 
 const polices = [
@@ -62,6 +65,30 @@ const arbreOg = el(
   ],
 );
 
+/** Image de partage d'une page : surtitre, titre (avec logo facultatif), sous-titre, marque en pied. */
+function arbrePage({ eyebrow, titre, sousTitre, logo }) {
+  const tailleTitre = titre.length > 24 ? 64 : 92;
+  const ligneTitre = el('div', { display: 'flex', alignItems: 'center', gap: 32 }, [
+    ...(logo ? [{ type: 'img', props: { src: logo, width: 120, height: 120, style: { width: 120, height: 120, borderRadius: 24 } } }] : []),
+    el('div', { display: 'flex', fontFamily: 'Bricolage Grotesque', fontWeight: 700, fontSize: tailleTitre, letterSpacing: -tailleTitre * 0.025, color: COULEURS.encre, lineHeight: 1.05 }, titre),
+  ]);
+  return el(
+    'div',
+    { width: 1200, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '72px 96px', background: COULEURS.papier, fontFamily: 'Source Sans 3' },
+    [
+      el('div', { display: 'flex', flexDirection: 'column', gap: 28 }, [
+        el('div', { display: 'flex', fontSize: 24, letterSpacing: 2, textTransform: 'uppercase', color: COULEURS.cobalt }, eyebrow),
+        ligneTitre,
+        el('div', { display: 'flex', fontSize: 38, color: COULEURS.encre2, lineHeight: 1.3 }, sousTitre),
+      ]),
+      el('div', { display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `2px solid ${COULEURS.ligne}`, paddingTop: 28 }, [
+        motSymbole(48),
+        el('div', { display: 'flex', fontSize: 24, color: COULEURS.encre2 }, 'Logiciels et conseil pour Sage 100'),
+      ]),
+    ],
+  );
+}
+
 const arbreFavicon = el(
   'div',
   {
@@ -88,7 +115,26 @@ function pngDepuis(svg, largeur) {
   return new Resvg(svg, { fitTo: { mode: 'width', value: largeur } }).render().asPng();
 }
 
-await mkdir(chemin('public'), { recursive: true });
+/** Logo d'un produit en URI de données, ou null (SVG et PNG acceptés par satori). */
+async function logoEnDonnees(relatif) {
+  if (!relatif) return null;
+  try {
+    const fichier = chemin(`src/content/produits/${relatif.replace(/^\.\//, '')}`);
+    const octets = await readFile(fichier);
+    const type = relatif.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+    return `data:${type};base64,${octets.toString('base64')}`;
+  } catch {
+    return null;
+  }
+}
+
+async function genererPage(sortie, page) {
+  const svg = await svgDepuis(arbrePage(page), 1200, 630);
+  await writeFile(chemin(sortie), pngDepuis(svg, 1200));
+}
+
+await mkdir(chemin('public/og/produits'), { recursive: true });
+await mkdir(chemin('public/og/blog'), { recursive: true });
 
 const svgOg = await svgDepuis(arbreOg, 1200, 630);
 await writeFile(chemin('public/og-default.png'), pngDepuis(svgOg, 1200));
@@ -98,4 +144,29 @@ await writeFile(chemin('public/favicon.svg'), svgFavicon);
 await writeFile(chemin('public/favicon-32.png'), pngDepuis(svgFavicon, 32));
 await writeFile(chemin('public/apple-touch-icon.png'), pngDepuis(svgFavicon, 180));
 
-console.log('Images générées : og-default.png, favicon.svg, favicon-32.png, apple-touch-icon.png');
+const produits = [];
+for (const nom of await readdir(chemin('src/content/produits'))) {
+  if (!nom.endsWith('.md')) continue;
+  const champs = lireFrontmatter(await readFile(chemin(`src/content/produits/${nom}`), 'utf8'));
+  if (champs.publie === 'false') continue;
+  const slug = nom.replace(/\.md$/, '');
+  await genererPage(`public/og/produits/${slug}.png`, {
+    eyebrow: 'Logiciel pour Sage 100',
+    titre: champs.nom ?? slug,
+    sousTitre: champs.sousTitre ?? '',
+    logo: await logoEnDonnees(champs.logo),
+  });
+  produits.push(slug);
+}
+
+const articles = [];
+for (const nom of await readdir(chemin('src/content/blog'))) {
+  if (!nom.endsWith('.mdx') && !nom.endsWith('.md')) continue;
+  const champs = lireFrontmatter(await readFile(chemin(`src/content/blog/${nom}`), 'utf8'));
+  if (champs.brouillon === 'true') continue;
+  const id = nom.replace(/\.mdx?$/, '');
+  await genererPage(`public/og/blog/${id}.png`, { eyebrow: 'Blog', titre: champs.titre ?? id, sousTitre: champs.description ?? '' });
+  articles.push(id);
+}
+
+console.log(`Images générées : og-default.png, favicon.svg, favicon-32.png, apple-touch-icon.png, ${produits.length} produit(s), ${articles.length} article(s).`);

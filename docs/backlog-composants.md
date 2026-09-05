@@ -200,7 +200,7 @@ conception courte puis une PR, et coché ici une fois en production.
 |---|---|---|---|---|
 | [x] | Données structurées | V | 1 | `src/lib/seo.ts` : Organization, Person et WebSite (accueil), SoftwareApplication et BreadcrumbList (fiches), Article (blog) ; FAQPage viendra avec la FAQ (2026-09-05). |
 | [x] | Titres et descriptions | V | 1 | Champs `sousTitre` et `description` (100 à 160 caractères) sur les fiches ; titres et descriptions des pages fixes et éditoriales allongés (2026-09-05). |
-| [ ] | Image de partage par page | V | 2 | Étendre le script de génération aux produits et aux articles ; toujours émettre dimensions et alt. |
+| [x] | Image de partage par page | V | 2 | `generer-images` produit une image par produit (avec logo) et par article ; dimensions et alt toujours émis (2026-09-05). |
 | [x] | Sitemap, pagination, robots | V | 2 | Dates des articles dans le sitemap, blog vide hors sitemap et en `noindex`, descriptions par page, tags en `noindex` sous trois articles, `Disallow: /api/` (2026-09-05). |
 
 ### Performance
@@ -209,8 +209,8 @@ conception courte puis une PR, et coché ici une fois en production.
 |---|---|---|---|---|
 | [x] | Cache long des fichiers hachés | V | 1 | Worker : `/_astro/*` en `max-age=31536000, immutable`, pages inchangées (2026-09-05). |
 | [x] | Galerie sans PNG originaux | V | 1 | « Voir en grand » ouvre une variante WebP de 1600 px générée au build ; plus aucun PNG publié (2026-09-05). |
-| [ ] | `srcset` des cadres de capture | V | 2 | Largeurs 400 / 800 / 1600 et `sizes`. |
-| [ ] | Préconnexion à Turnstile | V | 2 | Sur la page contact seulement. |
+| [x] | `srcset` des cadres de capture | V | 2 | Largeurs 480 / 800 / 1200 et `sizes` (2026-09-05). |
+| [x] | Préconnexion à Turnstile | V | 2 | `preconnect` dans l'emplacement de tête du layout, page contact seulement (2026-09-05). |
 | [ ] | Poids des polices et du CSS | V | 3 | Un seul poids variable préchargé ; feuille séparée pour charte et gabarits. |
 
 ### Sécurité

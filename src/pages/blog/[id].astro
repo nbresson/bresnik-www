@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import LienFleche from '../../components/LienFleche.astro';
@@ -15,9 +16,13 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
 const avecSommaire = headings.filter((h) => h.depth === 2).length >= 3;
+// Image de partage : celle de l'article s'il en a une, sinon celle générée par `npm run generer-images`.
+const imageArticle = article.data.image;
+const imageGeneree = existsSync(`public/og/blog/${article.id}.png`) ? `/og/blog/${article.id}.png` : undefined;
+const imagePartage = imageArticle?.src ?? imageGeneree;
 const donneesStructurees = [
   articleJsonld(
-    { titre: article.data.titre, description: article.data.description, chemin: `/blog/${article.id}/`, datePublication: article.data.date, dateModification: article.data.miseAJour, image: article.data.image?.src },
+    { titre: article.data.titre, description: article.data.description, chemin: `/blog/${article.id}/`, datePublication: article.data.date, dateModification: article.data.miseAJour, image: imagePartage },
     Astro.site!,
   ),
 ];
@@ -26,7 +31,10 @@ const donneesStructurees = [
   titre={article.data.titre}
   description={article.data.description}
   typeOg="article"
-  image={article.data.image?.src}
+  image={imagePartage}
+  imageAlt={article.data.titre}
+  imageLargeur={imageArticle?.width ?? 1200}
+  imageHauteur={imageArticle?.height ?? 630}
   datePublication={article.data.date}
   dateModification={article.data.miseAJour}
   donneesStructurees={donneesStructurees}
