@@ -431,6 +431,18 @@ variante y est ajouté dans la même modification.
 - Année du pied de page fixée à 2026 plutôt que calculée au build.
 - Mode sombre ajouté le 2026-09-05 (spécification dédiée).
 
+## 9 bis. Palette révisée d'après le logo (2026-09-05)
+
+Le logo apporte un marine (`#133868` → `#062045`) et un ruban orange-rouge
+(`#f87800` → `#f84808`). La palette s'aligne : `encre` et `bande` prennent le
+marine profond `#0f2445`, `cobalt` devient le marine d'accent `#1b4a8c`
+(nom conservé pour ne pas renommer les classes), `ambre` devient l'orange
+lisible `#b8460a` (surtitres, étiquettes consultants), et deux tokens vifs
+`flamme` `#f87800` et `braise` `#e0480a` servent au « k » de la marque et aux
+usages décoratifs, jamais au texte courant (braise tient 3:1 sur papier, pour
+les gros titres seulement). Valeurs complètes, clair et sombre, dans
+`src/lib/palettes.ts`.
+
 ## 10. Ton éditorial (ajouté le 2026-09-05)
 
 Le site parle à la première personne : Nicolas Bresson, consultant Sage 100

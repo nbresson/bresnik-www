@@ -24,6 +24,11 @@ transition entre thèmes (le basculement est instantané).
 
 ## 2. Palettes
 
+Révisées le 2026-09-05 d'après le logo (marine `#133868` → `#062045`, ruban
+`#f87800` → `#f84808`) : les valeurs ci-dessous sont remplacées par celles de
+`src/lib/palettes.ts` et `src/styles/tokens.css`, qui font foi ; deux tokens
+vifs `flamme` et `braise` (décoratifs, jamais du texte courant) s'ajoutent.
+
 Les deux palettes portent les mêmes noms de tokens ; un composant ne connaît
 que le rôle, jamais le thème. Contrastes WCAG AA (4,5 minimum en texte
 normal) vérifiés par le calcul pour chaque couple listé en §5.

@@ -15,6 +15,8 @@
   --color-cobalt-teinte: var(--couleur-cobalt-teinte);
   --color-ambre: var(--couleur-ambre);
   --color-ambre-teinte: var(--couleur-ambre-teinte);
+  --color-flamme: var(--couleur-flamme);
+  --color-braise: var(--couleur-braise);
   --color-succes: var(--couleur-succes);
   --color-succes-teinte: var(--couleur-succes-teinte);
   --color-erreur: var(--couleur-erreur);
@@ -82,7 +84,7 @@
 }
 
 @utility eyebrow {
-  @apply font-technique font-medium text-[13px] uppercase tracking-[0.08em] text-cobalt max-md:text-[12px];
+  @apply font-technique font-medium text-[13px] uppercase tracking-[0.08em] text-ambre max-md:text-[12px];
 }
 
 @utility technique {

@@ -1,4 +1,5 @@
-/* Tokens de la marque Bresnik, direction « Atelier technique ».
+/* Tokens de la marque Bresnik, direction « Atelier technique », palette révisée
+   le 2026-09-05 d'après le logo (marine #133868 → #062045, ruban #f87800 → #f84808).
    Deux palettes : claire (par défaut) et sombre (réglage du système ou
    data-theme="dark" sur <html>). Les valeurs sont dupliquées dans
    src/lib/palettes.ts et un test vérifie qu'elles restent identiques.
@@ -10,14 +11,19 @@
   --couleur-papier: #faf8f4;
   --couleur-papier-2: #f1ede4;
   --couleur-blanc: #ffffff;
-  --couleur-encre: #1c2331;
-  --couleur-encre-2: #4f5868;
+  --couleur-encre: #0f2445;
+  --couleur-encre-2: #4a566e;
   --couleur-ligne: #e2ddd2;
-  --couleur-cobalt: #1f4fc7;
-  --couleur-cobalt-fonce: #183f9f;
-  --couleur-cobalt-teinte: #e6ecfa;
-  --couleur-ambre: #8f620f;
-  --couleur-ambre-teinte: #fbf1dd;
+  --couleur-cobalt: #1b4a8c;
+  --couleur-cobalt-fonce: #133868;
+  --couleur-cobalt-teinte: #e6ecf7;
+  --couleur-ambre: #b8460a;
+  --couleur-ambre-teinte: #fdeadb;
+
+  /* Couleurs vives du logo : décoratives, jamais pour du texte courant
+     (braise tient 3:1 sur papier, réservé aux gros titres et au « k »). */
+  --couleur-flamme: #f87800;
+  --couleur-braise: #e0480a;
 
   /* Couleurs sémantiques, réservées aux alertes, statuts et erreurs. */
   --couleur-succes: #1e6b45;
@@ -26,20 +32,20 @@
   --couleur-erreur-teinte: #fbe9e7;
 
   /* Bandes sombres (appel, annonce, info-bulle) et voile des dialogues. */
-  --couleur-bande: #1c2331;
+  --couleur-bande: #0f2445;
   --couleur-bande-texte: #ffffff;
-  --couleur-encre-claire: #c9cfdb;
-  --couleur-voile: rgb(28 35 49 / 0.5);
+  --couleur-encre-claire: #c2cbdd;
+  --couleur-voile: rgb(15 36 69 / 0.5);
 
   /* Palette catégorielle des graphiques, ordre fixe, validée pour les daltonismes
      (à compléter par étiquettes ou jours entre barres). Jamais réutilisée ailleurs. */
-  --graphique-1: #1f4fc7;
-  --graphique-2: #a8650a;
+  --graphique-1: #2a5db5;
+  --graphique-2: #d45c10;
   --graphique-3: #2a8a4a;
   --graphique-4: #8a3fa8;
   --graphique-5: #c2452e;
 
-  --ombre-capture: 0 24px 48px -32px rgb(28 35 49 / 0.35);
+  --ombre-capture: 0 24px 48px -32px rgb(15 36 69 / 0.35);
 
   --rayon-bouton: 6px;
   --rayon-carte: 8px;
@@ -52,24 +58,26 @@
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --couleur-papier: #141a26;
-    --couleur-papier-2: #1b2230;
-    --couleur-blanc: #1f2735;
-    --couleur-encre: #f1efe9;
-    --couleur-encre-2: #aab3c2;
-    --couleur-ligne: #2f3a4c;
-    --couleur-cobalt: #8fb0ff;
-    --couleur-cobalt-fonce: #adc4ff;
-    --couleur-cobalt-teinte: #22304d;
-    --couleur-ambre: #e3ac48;
-    --couleur-ambre-teinte: #3a2f16;
+    --couleur-papier: #0c1830;
+    --couleur-papier-2: #122040;
+    --couleur-blanc: #17284a;
+    --couleur-encre: #eef1f7;
+    --couleur-encre-2: #aab5cc;
+    --couleur-ligne: #2a3b5c;
+    --couleur-cobalt: #8fb3ff;
+    --couleur-cobalt-fonce: #adc6ff;
+    --couleur-cobalt-teinte: #1f3358;
+    --couleur-ambre: #ffa25a;
+    --couleur-ambre-teinte: #40261a;
+    --couleur-flamme: #ff8a2a;
+    --couleur-braise: #ff5a2a;
     --couleur-succes: #6fd19a;
     --couleur-succes-teinte: #1a3326;
     --couleur-erreur: #ff9384;
     --couleur-erreur-teinte: #40201d;
-    --couleur-bande: #2a3446;
-    --couleur-bande-texte: #f1efe9;
-    --couleur-encre-claire: #b8c0cf;
+    --couleur-bande: #16305a;
+    --couleur-bande-texte: #eef1f7;
+    --couleur-encre-claire: #bcc7dd;
     --couleur-voile: rgb(0 0 0 / 0.6);
     --graphique-1: #5d88e8;
     --graphique-2: #b8852c;
@@ -85,24 +93,26 @@
 @media screen {
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --couleur-papier: #141a26;
-    --couleur-papier-2: #1b2230;
-    --couleur-blanc: #1f2735;
-    --couleur-encre: #f1efe9;
-    --couleur-encre-2: #aab3c2;
-    --couleur-ligne: #2f3a4c;
-    --couleur-cobalt: #8fb0ff;
-    --couleur-cobalt-fonce: #adc4ff;
-    --couleur-cobalt-teinte: #22304d;
-    --couleur-ambre: #e3ac48;
-    --couleur-ambre-teinte: #3a2f16;
+    --couleur-papier: #0c1830;
+    --couleur-papier-2: #122040;
+    --couleur-blanc: #17284a;
+    --couleur-encre: #eef1f7;
+    --couleur-encre-2: #aab5cc;
+    --couleur-ligne: #2a3b5c;
+    --couleur-cobalt: #8fb3ff;
+    --couleur-cobalt-fonce: #adc6ff;
+    --couleur-cobalt-teinte: #1f3358;
+    --couleur-ambre: #ffa25a;
+    --couleur-ambre-teinte: #40261a;
+    --couleur-flamme: #ff8a2a;
+    --couleur-braise: #ff5a2a;
     --couleur-succes: #6fd19a;
     --couleur-succes-teinte: #1a3326;
     --couleur-erreur: #ff9384;
     --couleur-erreur-teinte: #40201d;
-    --couleur-bande: #2a3446;
-    --couleur-bande-texte: #f1efe9;
-    --couleur-encre-claire: #b8c0cf;
+    --couleur-bande: #16305a;
+    --couleur-bande-texte: #eef1f7;
+    --couleur-encre-claire: #bcc7dd;
     --couleur-voile: rgb(0 0 0 / 0.6);
     --graphique-1: #5d88e8;
     --graphique-2: #b8852c;

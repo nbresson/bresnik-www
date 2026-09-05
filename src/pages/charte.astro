@@ -76,7 +76,7 @@ import Notifications from '../components/application/Notifications.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
 import { ratioContraste } from '../lib/contraste';
-import { PALETTES, GRAPHIQUES, USAGES, type NomToken } from '../lib/palettes';
+import { PALETTES, GRAPHIQUES, USAGES, LOGO, type NomToken } from '../lib/palettes';
 import SelecteurTheme from '../components/SelecteurTheme.astro';
 
 const produits = await produitsPublies();
@@ -95,11 +95,12 @@ const tokensCouleur = Object.keys(PALETTES.clair) as NomToken[];
 const classeFond: Record<NomToken, string> = {
   papier: 'bg-papier', 'papier-2': 'bg-papier-2', blanc: 'bg-blanc', encre: 'bg-encre', 'encre-2': 'bg-encre-2', ligne: 'bg-ligne',
   cobalt: 'bg-cobalt', 'cobalt-fonce': 'bg-cobalt-fonce', 'cobalt-teinte': 'bg-cobalt-teinte', ambre: 'bg-ambre', 'ambre-teinte': 'bg-ambre-teinte',
+  flamme: 'bg-flamme', braise: 'bg-braise',
   succes: 'bg-succes', 'succes-teinte': 'bg-succes-teinte', erreur: 'bg-erreur', 'erreur-teinte': 'bg-erreur-teinte',
   bande: 'bg-bande', 'bande-texte': 'bg-bande-texte', 'encre-claire': 'bg-encre-claire', voile: 'bg-voile',
 };
 const couples: [NomToken, NomToken][] = [
-  ['encre', 'papier'], ['encre-2', 'papier'], ['cobalt', 'papier'], ['blanc', 'cobalt'], ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'],
+  ['encre', 'papier'], ['encre-2', 'papier'], ['cobalt', 'papier'], ['blanc', 'cobalt'], ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'], ['ambre', 'papier'],
   ['encre-claire', 'bande'], ['bande-texte', 'bande'], ['succes', 'succes-teinte'], ['erreur', 'erreur-teinte'], ['erreur', 'blanc'],
 ];
 const contrastes = couples.map(([texte, fond]) => ({
@@ -267,6 +268,14 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
 
     <section aria-labelledby="charte-couleurs" class="flex flex-col gap-6">
       <h2 id="charte-couleurs" class="text-[24px] font-bold md:text-[30px]">Couleurs</h2>
+      <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
+        <p class="text-[15px] leading-[1.5]"><strong>Palette révisée le 2026-09-05 d'après le logo.</strong> Le marine du logo devient l'encre, les bandes et l'accent des liens et boutons ; le ruban orange-rouge donne deux couleurs vives décoratives (flamme, braise) et un orange lisible (ambre) pour les surtitres et les étiquettes. Le papier chaud est conservé pour le contraste avec le marine.</p>
+        <ul class="flex flex-wrap gap-4" aria-label="Couleurs du logo">
+          {([['marineHaut', 'bg-[#133868]'], ['marineBas', 'bg-[#062045]'], ['orange', 'bg-[#f87800]'], ['rouge', 'bg-[#f84808]']] as const).map(([nom, classe]) => (
+      <li class="flex items-center gap-2"><span class={`block size-8 rounded-[8px] border border-ligne ${classe}`}></span><span class="technique">{nom} {LOGO[nom]}</span></li>
+    ))}
+        </ul>
+      </div>
       <ul class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
         {tokensCouleur.map((nom) => (
           <li class="flex flex-col gap-2">

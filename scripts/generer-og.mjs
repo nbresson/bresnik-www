@@ -15,9 +15,11 @@ const chemin = (relatif) => fileURLToPath(new URL(relatif, racine));
 
 const COULEURS = {
   papier: '#faf8f4',
-  encre: '#1c2331',
-  encre2: '#4f5868',
-  cobalt: '#1f4fc7',
+  encre: '#0f2445',
+  encre2: '#4a566e',
+  cobalt: '#1b4a8c',
+  ambre: '#b8460a',
+  braise: '#e0480a',
   blanc: '#ffffff',
   ligne: '#e2ddd2',
 };
@@ -50,7 +52,7 @@ function motSymbole(taille) {
     logoImg(Math.round(taille * 0.95)),
     el('div', { display: 'flex', fontFamily: 'Bricolage Grotesque', fontWeight: 700, fontSize: taille, letterSpacing: -taille * 0.025, color: COULEURS.encre, lineHeight: 1 }, [
       el('span', {}, 'Bresni'),
-      el('span', { color: COULEURS.cobalt }, 'k'),
+      el('span', { color: COULEURS.braise }, 'k'),
     ]),
   ]);
 }
@@ -69,7 +71,7 @@ const arbreOg = el(
     fontFamily: 'Source Sans 3',
   },
   [
-    el('div', { display: 'flex', fontSize: 24, letterSpacing: 2, textTransform: 'uppercase', color: COULEURS.cobalt }, 'Logiciels pour l’écosystème Sage 100'),
+    el('div', { display: 'flex', fontSize: 24, letterSpacing: 2, textTransform: 'uppercase', color: COULEURS.ambre }, 'Logiciels pour l’écosystème Sage 100'),
     motSymbole(148),
     el('div', { display: 'flex', fontSize: 40, color: COULEURS.encre2, lineHeight: 1.3 }, 'Des logiciels qui complètent Sage 100, conçus par un consultant Sage.'),
     el('div', { display: 'flex', width: 120, height: 8, background: COULEURS.cobalt, borderRadius: 4, marginTop: 12 }, ''),
@@ -88,7 +90,7 @@ function arbrePage({ eyebrow, titre, sousTitre, logo }) {
     { width: 1200, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '72px 96px', background: COULEURS.papier, fontFamily: 'Source Sans 3' },
     [
       el('div', { display: 'flex', flexDirection: 'column', gap: 28 }, [
-        el('div', { display: 'flex', fontSize: 24, letterSpacing: 2, textTransform: 'uppercase', color: COULEURS.cobalt }, eyebrow),
+        el('div', { display: 'flex', fontSize: 24, letterSpacing: 2, textTransform: 'uppercase', color: COULEURS.ambre }, eyebrow),
         ligneTitre,
         el('div', { display: 'flex', fontSize: 38, color: COULEURS.encre2, lineHeight: 1.3 }, sousTitre),
       ]),
