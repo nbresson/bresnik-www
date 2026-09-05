@@ -220,7 +220,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [x] | Protéger `/api/diagnostic` | V | 1 | En-tête `X-Diagnostic-Cle` comparé au secret `DIAGNOSTIC_CLE` ; 404 sinon (2026-09-05). |
 | [x] | En-têtes de sécurité | V | 1 | Worker : HSTS, nosniff, Referrer-Policy, Permissions-Policy, X-Frame-Options ; CSP `<meta>` générée par Astro avec empreintes ; Prism remplace Shiki (2026-09-05). Suite possible : couleurs de syntaxe dédiées dans la palette. |
 | [x] | Durcir le formulaire de contact | V | 2 | Corps plafonné à la lecture, contrôle d'origine, hôte du jeton Turnstile vérifié, délais sur Turnstile et Brevo (2026-09-05). Limitation de débit : règle WAF à créer si besoin. |
-| [ ] | Délais et dépendances | V | 3 | Délais posés le 2026-09-05 ; reste Dependabot et audit en CI. |
+| [x] | Délais et dépendances | V | 3 | Délais sur Turnstile et Brevo, Dependabot hebdomadaire groupé (npm, actions) et `npm audit --audit-level=high` en CI (2026-09-05). |
 
 ### Accessibilité
 
