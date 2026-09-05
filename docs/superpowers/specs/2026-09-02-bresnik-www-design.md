@@ -139,7 +139,7 @@ pour pouvoir l'éditer sans toucher au code.
 | Styles | Tailwind CSS, tokens de marque en variables CSS dans `src/styles/tokens.css` | Rapidité de mise en page ; les tokens seront réutilisables dans les applications futures. |
 | Contenu | Content Collections + MDX | Typage, validation au build. |
 | Intégrations | `@astrojs/sitemap`, `@astrojs/rss`, `@astrojs/mdx` | Sitemap, RSS, articles riches. |
-| Formulaire | Script Worker `worker/index.ts`, routé sur `/api/*` via `assets.run_worker_first` | Voir §7. |
+| Formulaire | Script Worker `worker/index.ts`, qui reçoit toutes les requêtes (`assets.run_worker_first: true` depuis le 2026-09-05) : il traite `/api/*`, pose `X-Robots-Tag: noindex, nofollow` sur les hôtes `*.workers.dev` et délègue le reste aux ressources statiques | Voir §7. |
 | Anti-spam | Cloudflare Turnstile | Gratuit, sans cookie, invisible. |
 | Envoi d'email | Brevo (API transactionnelle) | Service français, gratuit jusqu'à 300/jour, expéditeur Gmail vérifié possible avant l'achat du domaine. |
 | Analytics | Cloudflare Web Analytics | Sans cookie, aucun bandeau de consentement. |

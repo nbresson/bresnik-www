@@ -38,8 +38,10 @@ n'est pas le cas, ajouter une variable de build `NODE_VERSION=24` dans
 - Les logs de build sont dans **Settings → Builds** et **Deployments**.
 - Aucun hôte `*.workers.dev` n'est indexable : le Worker ajoute
   `X-Robots-Tag: noindex, nofollow` à toutes ses réponses sur ces hôtes
-  (`worker/indexation.ts`). Le robots.txt reste ouvert, sinon les moteurs ne
-  pourraient pas lire la directive. Le domaine public sera indexable sans
+  (`worker/indexation.ts`) ; pour cela, `run_worker_first` vaut `true` dans
+  `wrangler.jsonc`, sinon les pages statiques seraient servies sans passer par
+  le Worker. Le robots.txt reste ouvert, sinon les moteurs ne pourraient pas
+  lire la directive. Le domaine public sera indexable sans
   rien changer.
 
 ### Variables et secrets d'exécution
