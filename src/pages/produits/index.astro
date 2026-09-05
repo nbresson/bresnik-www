@@ -4,13 +4,15 @@ import EnTetePage from '../../components/EnTetePage.astro';
 import CarteProduit from '../../components/CarteProduit.astro';
 import BandeAppel from '../../components/BandeAppel.astro';
 import { produitsPublies } from '../../lib/catalogue';
+import { filAriane } from '../../lib/seo';
 
 const produits = await produitsPublies();
 const pourEntreprises = produits.filter((p) => p.data.cible === 'entreprise');
 const pourConsultants = produits.filter((p) => p.data.cible === 'consultant');
+const fil = [{ libelle: 'Accueil', href: '/' }, { libelle: 'Produits' }];
 ---
-<Base titre="Produits pour Sage 100" description="Cinq logiciels Windows complémentaires à Sage 100 : intégration bancaire, analyse de FEC, politique tarifaire, export CSV et outils du consultant Sage.">
-  <EnTetePage
+<Base donneesStructurees={[filAriane(fil, Astro.site!, '/produits/')]} titre="Produits pour Sage 100" description="Cinq logiciels Windows complémentaires à Sage 100 : intégration bancaire, analyse de FEC, politique tarifaire, export CSV et outils du consultant Sage.">
+  <EnTetePage filAriane={fil}
     eyebrow="Produits"
     titre="Cinq outils, cinq besoins rencontrés sur le terrain."
     sousTitre="Des logiciels Windows qui complètent Sage 100, conçus par un consultant Sage."

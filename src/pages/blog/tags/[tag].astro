@@ -5,6 +5,7 @@ import EnTetePage from '../../../components/EnTetePage.astro';
 import LienFleche from '../../../components/LienFleche.astro';
 import CarteArticle from '../../../components/CarteArticle.astro';
 import { filtrerPublies, listerTags, trierParDate } from '../../../lib/blog';
+import { filAriane } from '../../../lib/seo';
 
 export async function getStaticPaths() {
   const articles = trierParDate(filtrerPublies(await getCollection('blog'), import.meta.env.DEV));
@@ -15,13 +16,15 @@ export async function getStaticPaths() {
 }
 
 const { tag, articles } = Astro.props;
+const fil = [{ libelle: 'Accueil', href: '/' }, { libelle: 'Blog', href: '/blog/' }, { libelle: `Tag : ${tag}` }];
 ---
 <Base
   titre={`Articles « ${tag} »`}
   description={`Articles du blog Bresnik sur « ${tag} » : retours d'expérience Sage 100, SQL Server et Objets métiers Sage, par un consultant Sage 100 avec plus de 12 ans d'expérience.`}
   noindex={articles.length < 3}
+  donneesStructurees={[filAriane(fil, Astro.site!, `/blog/tags/${tag}/`)]}
 >
-  <EnTetePage eyebrow="Blog" titre={`Tag : ${tag}`} />
+  <EnTetePage filAriane={fil} eyebrow="Blog" titre={`Tag : ${tag}`} />
   <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
     <div class="flex max-w-[760px] flex-col">
       {articles.map((article) => <CarteArticle article={article} niveauTitre="h2" />)}
