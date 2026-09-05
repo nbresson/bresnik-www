@@ -75,6 +75,28 @@ nécessaire, ajouter depuis le tableau de bord une règle WAF de limitation sur
 `POST /api/contact` (par exemple 5 requêtes par minute et par adresse), sans
 changement de code.
 
+## Sécurité
+
+- En-têtes posés par le Worker sur toutes les réponses (`worker/entetes.ts`) :
+  HSTS un an, `X-Content-Type-Options: nosniff`, `Referrer-Policy:
+  strict-origin-when-cross-origin`, `Permissions-Policy` fermée,
+  `X-Frame-Options: DENY`.
+- Politique de sécurité du contenu (CSP) générée par Astro (`security.csp`
+  dans `astro.config.mjs`) dans une balise `<meta>` de chaque page, avec les
+  empreintes des scripts et styles en ligne qu'il traite. Le script anti-flash
+  du thème (`src/scripts/theme-anti-flash.js`) est inséré tel quel : son
+  empreinte est calculée au build à partir du fichier, le modifier suffit.
+  Sources externes autorisées : Turnstile (`challenges.cloudflare.com`, script
+  et cadre) et la mesure d'audience (`static.cloudflareinsights.com`,
+  `cloudflareinsights.com`). Tout nouveau service tiers doit y être ajouté.
+- Contraintes qui en découlent : pas d'attribut `style` ni de script `is:inline`
+  non déclaré ; la coloration syntaxique Markdown utilise Prism (classes) et non
+  Shiki (attributs `style`) ; les données passées à un script le sont par un
+  bloc `<script type="application/json">`, comme sur la page de contact.
+- Vérification : après un build, `npm run verifier-csp` contrôle que chaque
+  script et style en ligne de `dist/` a son empreinte dans la CSP et qu'aucun
+  attribut `style` ne subsiste.
+
 ## Mesure d'audience
 
 1. **Web Analytics** → **Add a site** → saisir le nom d'hôte du site.
