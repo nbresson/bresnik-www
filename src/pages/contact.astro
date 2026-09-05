@@ -7,6 +7,7 @@ import GroupeChoix from '../components/GroupeChoix.astro';
 import Bouton from '../components/Bouton.astro';
 import Alerte from '../components/Alerte.astro';
 import { produitsPublies } from '../lib/catalogue';
+import { emailContact } from '../config/site';
 
 const produits = await produitsPublies();
 const optionsProduits = [
@@ -45,10 +46,10 @@ const libellesChamps: Record<string, string> = {
         <Alerte ton="succes" titre="Message envoyé">Merci, votre demande est bien reçue. Réponse sous deux jours ouvrés.</Alerte>
       </div>
       <div id="erreur" class="hidden target:block">
-        <Alerte ton="erreur" titre="Le message n'a pas pu être envoyé">Vérifiez les champs signalés dans l'adresse de la page et réessayez, ou écrivez-nous directement.</Alerte>
+        <Alerte ton="erreur" titre="Le message n'a pas pu être envoyé">Vérifiez les champs signalés dans l'adresse de la page et réessayez, ou écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.</Alerte>
       </div>
       <noscript>
-        <Alerte ton="information">Sans JavaScript, le formulaire fonctionne aussi : la page se recharge après l'envoi.</Alerte>
+        <Alerte ton="information">Le formulaire a besoin de JavaScript pour la vérification anti-robot. Sans JavaScript, écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.</Alerte>
       </noscript>
       <form id="formulaire-contact" method="post" action="/api/contact" class="flex flex-col gap-5">
         <Champ nom="nom" libelle="Nom" requis minlength="2" maxlength="100" autocomplete="name" />
@@ -63,7 +64,7 @@ const libellesChamps: Record<string, string> = {
         <div class="hidden" aria-hidden="true">
           <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
-        <div class="cf-turnstile" data-sitekey={cleTurnstile} data-language="fr" data-theme="light"></div>
+        <div id="turnstile" data-sitekey={cleTurnstile}></div>
         <div class="flex flex-col gap-3">
           <Bouton type="submit" id="bouton-envoyer" class="self-start max-md:w-full" fleche>Envoyer</Bouton>
           <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status"></p>
@@ -72,7 +73,43 @@ const libellesChamps: Record<string, string> = {
     </div>
   </div>
 
-  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+
+  <script>
+    // Rendu explicite du widget Turnstile pour qu'il suive le thème du site (clair, sombre, système)
+    // et bascule avec le sélecteur de thème, ce que le rendu implicite ne permet pas.
+    type Turnstile = {
+      render: (conteneur: HTMLElement, options: Record<string, unknown>) => string;
+      remove: (id: string) => void;
+    };
+    const conteneurTurnstile = document.getElementById('turnstile');
+    const themeEffectif = (): 'light' | 'dark' => {
+      const force = document.documentElement.dataset.theme;
+      if (force === 'light' || force === 'dark') return force;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    let widget: string | undefined;
+    const rendreTurnstile = (theme: 'light' | 'dark') => {
+      const turnstile = (window as { turnstile?: Turnstile }).turnstile;
+      if (!conteneurTurnstile || !turnstile) return false;
+      if (widget) turnstile.remove(widget);
+      conteneurTurnstile.replaceChildren();
+      widget = turnstile.render(conteneurTurnstile, { sitekey: conteneurTurnstile.dataset.sitekey, language: 'fr', theme });
+      return true;
+    };
+    let essais = 0;
+    const attendreTurnstile = () => {
+      if (rendreTurnstile(themeEffectif()) || essais++ > 200) return;
+      window.setTimeout(attendreTurnstile, 50);
+    };
+    attendreTurnstile();
+    document.addEventListener('bk-theme', (evenement) => {
+      rendreTurnstile((evenement as CustomEvent<{ effectif: 'light' | 'dark' }>).detail.effectif);
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (!document.documentElement.dataset.theme) rendreTurnstile(themeEffectif());
+    });
+  </script>
 
   <script is:inline type="application/json" id="libelles-champs" set:html={JSON.stringify(libellesChamps)}></script>
   <script>

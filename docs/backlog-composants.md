@@ -226,8 +226,8 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Page contact sans JavaScript | V | 1 | Le message promet un fonctionnement sans script, faux avec Turnstile ; donner une adresse de repli. |
-| [ ] | Turnstile en thème sombre | V | 1 | Widget figé en clair ; suivre `data-theme`. |
+| [x] | Page contact sans JavaScript | V | 1 | Message corrigé, adresse de repli `emailContact` (config du site) sans JavaScript et en cas d'échec (2026-09-05). |
+| [x] | Turnstile en thème sombre | V | 1 | Rendu explicite du widget avec le thème effectif, re-rendu sur `bk-theme` et au changement système (2026-09-05). |
 | [ ] | Erreurs de saisie sans script, menu mobile, champs obligatoires | V | 2 | Erreurs lisibles, fermeture au clic extérieur et focus, légende « * obligatoire ». |
 | [ ] | Carrousel, contraste élevé, retour en haut | V | 3 | Diapositives hors écran inertes, `forced-colors`, lien vers le haut de page. |
 
