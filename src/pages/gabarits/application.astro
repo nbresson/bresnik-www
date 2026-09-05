@@ -21,11 +21,11 @@ const groupes = [
   { elements: [
     { href: '/gabarits/application/', libelle: 'Tableau de bord', icone: 'tableau-de-bord' as const, actif: true },
     { href: '#licences', libelle: 'Licences', icone: 'document' as const, badge: 3 },
-    { href: '#telechargements', libelle: 'Téléchargements', icone: 'telecharger' as const },
+    { href: '?vue=telechargements', libelle: 'Téléchargements', icone: 'telecharger' as const },
   ] },
   { titre: 'Compte', elements: [
-    { href: '#utilisateurs', libelle: 'Utilisateurs', icone: 'utilisateur' as const },
-    { href: '#parametres', libelle: 'Paramètres', icone: 'parametres' as const },
+    { href: '?vue=utilisateurs', libelle: 'Utilisateurs', icone: 'utilisateur' as const },
+    { href: '?vue=parametres', libelle: 'Paramètres', icone: 'parametres' as const },
   ] },
 ];
 const licences = [
