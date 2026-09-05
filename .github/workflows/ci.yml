@@ -27,6 +27,8 @@ jobs:
           restore-keys: |
             astro-${{ hashFiles('astro.config.mjs', 'package-lock.json') }}-
       - run: npm ci
+      # Échoue sur les vulnérabilités hautes et critiques ; les modérées sont suivies par Dependabot.
+      - run: npm audit --audit-level=high
       - run: npm run check
       - run: npm run check:worker
       - run: npm test

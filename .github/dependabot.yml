@@ -1,0 +1,29 @@
+# Mises à jour de dépendances : une PR groupée par semaine pour npm (correctifs
+# et mineures ensemble, majeures à part) et une pour les actions GitHub.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Paris
+    open-pull-requests-limit: 3
+    groups:
+      mineures-et-correctifs:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: "deps"
+    labels: [dépendances]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Paris
+    commit-message:
+      prefix: "ci"
+    labels: [dépendances]

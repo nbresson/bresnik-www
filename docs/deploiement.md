@@ -163,6 +163,15 @@ est le nombre d'envois. Elle est déjà autorisée par la CSP
     npx wrangler login
     npm run deploy
 
+## Dépendances
+
+- Dependabot (`.github/dependabot.yml`) ouvre chaque lundi une PR groupée pour
+  les correctifs et mineures npm, une PR par majeure, et une PR pour les
+  actions GitHub. La CI les vérifie comme toute PR ; fusionner après lecture
+  des notes de version quand une majeure touche Astro, Tailwind ou wrangler.
+- La CI exécute `npm audit --audit-level=high` : une vulnérabilité haute ou
+  critique bloque la fusion, une modérée est laissée à Dependabot.
+
 ## Qualité avant fusion
 
 - `npm run check`, `npm test`, `npm run build` puis `npm run verifier-liens`
