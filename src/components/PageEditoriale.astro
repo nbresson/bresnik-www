@@ -3,6 +3,7 @@ import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import EnTetePage from './EnTetePage.astro';
 import BandeAppel from './BandeAppel.astro';
+import { filAriane } from '../lib/seo';
 
 interface Props {
   id: string;
@@ -16,9 +17,10 @@ if (!page) {
   throw new Error(`Page éditoriale introuvable : ${id}`);
 }
 const { Content } = await render(page);
+const fil = [{ libelle: 'Accueil', href: '/' }, { libelle: page.data.titre }];
 ---
-<Base titre={page.data.titre} description={page.data.description}>
-  <EnTetePage eyebrow={eyebrow} titre={page.data.titre} sousTitre={page.data.description} />
+<Base titre={page.data.titre} description={page.data.description} donneesStructurees={[filAriane(fil, Astro.site!, Astro.url.pathname)]}>
+  <EnTetePage filAriane={fil} eyebrow={eyebrow} titre={page.data.titre} sousTitre={page.data.description} />
   <div class="conteneur pb-16 md:pb-20">
     <div class="prose prose-lg max-w-[720px]">
       <Content />
