@@ -75,6 +75,15 @@ nécessaire, ajouter depuis le tableau de bord une règle WAF de limitation sur
 `POST /api/contact` (par exemple 5 requêtes par minute et par adresse), sans
 changement de code.
 
+## Cache
+
+Le Worker sert `/_astro/*` (CSS, scripts, images optimisées, polices, tous
+nommés avec une empreinte) avec `Cache-Control: public, max-age=31536000,
+immutable` (`worker/cache.ts`). Les pages HTML et les fichiers de `public/`
+gardent la politique courte des ressources statiques (`max-age=0,
+must-revalidate`) : un déploiement est visible immédiatement, et il renvoie
+vers de nouveaux noms de fichiers hachés.
+
 ## Sécurité
 
 - En-têtes posés par le Worker sur toutes les réponses (`worker/entetes.ts`) :

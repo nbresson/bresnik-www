@@ -207,7 +207,7 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Cache long des fichiers hachés | V | 1 | Fichier d'en-têtes : `/_astro/*` immuable un an, HTML court avec revalidation. |
+| [x] | Cache long des fichiers hachés | V | 1 | Worker : `/_astro/*` en `max-age=31536000, immutable`, pages inchangées (2026-09-05). |
 | [ ] | Galerie sans PNG originaux | V | 1 | « Voir en grand » pointe sur la source ; générer une variante WebP large. |
 | [ ] | `srcset` des cadres de capture | V | 2 | Largeurs 400 / 800 / 1600 et `sizes`. |
 | [ ] | Préconnexion à Turnstile | V | 2 | Sur la page contact seulement. |
