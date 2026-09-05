@@ -22,7 +22,7 @@ export function organisation(site: URL): Jsonld {
     url: site.href,
     logo: absolue('/favicon-512.png', site),
     founder: personne(site),
-    description: "Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par un consultant indépendant.",
+    description: "Logiciels complémentaires pour l'écosystème Sage 100 et conseil Sage, par un consultant Sage 100 avec plus de 12 ans d'expérience.",
   };
 }
 

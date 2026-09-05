@@ -36,11 +36,16 @@ captures:
     titre: Recherche dans les écritures
     alt: Recherche dans les écritures par libellé ou pièce, journal, compte, période et montant, résultats en tableau et export CSV.
 fonctionnalites:
-  - "Synthèse comptable du fichier"
-  - "Détection des anomalies"
-  - "Reconstitution de la Balance, du Grand-livre et du comparatif N/N-1"
-  - "Recherche dans les écritures"
-  - "Export selon plusieurs formats"
+  - titre: "Synthèse comptable du fichier"
+    icone: rapport
+  - titre: "Détection des anomalies"
+    icone: bouclier
+  - titre: "Reconstitution de la Balance, du Grand-livre et du comparatif N/N-1"
+    icone: livre-comptes
+  - titre: "Recherche dans les écritures"
+    icone: recherche
+  - titre: "Export selon plusieurs formats"
+    icone: export-fichier
 disponibilite: contact
 ordre: 3
 publie: true

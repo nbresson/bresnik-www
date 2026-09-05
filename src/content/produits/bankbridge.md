@@ -30,9 +30,12 @@ captures:
     titre: Diagnostic du poste
     alt: Diagnostic du poste, vérification des Objets métiers Sage, de la base de travail et des serveurs SQL, sans rien modifier.
 fonctionnalites:
-  - "Intégration semi-automatique des extraits bancaires"
-  - "Amélioration de la gestion budgétaire"
-  - "Prévisions de trésorerie"
+  - titre: "Intégration semi-automatique des extraits bancaires"
+    icone: banque
+  - titre: "Amélioration de la gestion budgétaire"
+    icone: rapport
+  - titre: "Prévisions de trésorerie"
+    icone: tendance-haut
 disponibilite: contact
 ordre: 2
 publie: true

@@ -350,6 +350,8 @@ Mouvement : `prefers-reduced-motion: reduce` neutralise toutes les transitions e
 | Chronologie | `Chronologie.astro` | Liste ordonnée avec filet vertical et points cobalt ; date en `technique`. |
 | Étapes | `Etapes.astro` | Trois colonnes, pastille numérotée cobalt, numéro annoncé aux lecteurs d'écran. |
 | Galerie | `Galerie.astro` | Grille de cadres de capture, chaque image ouvrant l'original dans un nouvel onglet. |
+| Glyphe | `Glyphe.astro` | Ajouté le 2026-09-05. Pictogramme métier (seize tracés dans `Icone.astro`, liste dans `src/lib/glyphes.ts`) dans une tuile `cobalt-teinte` ; tailles petit 36, normal 48, grand 64 ; tons `teinte`, `bande`, `nu`. Décoratif par défaut (`aria-hidden`), `libelle` le rend lisible. |
+| Tuile de domaine | `TuileDomaine.astro` | Ajouté le 2026-09-05. Glyphe, titre, phrase facultative ; une, deux ou trois colonnes. Domaines d'intervention (accueil, conseil) et fonctionnalités des fiches, où elle remplace la liste à coches. |
 | Carrousel | `Carrousel.astro` | Ajouté le 2026-09-05. Élément `bk-carrousel`, `role="region"` et `aria-roledescription="carrousel"` ; une diapositive par produit (cadre de capture lié à la fiche), piste à accrochage défilable sans script ; le script révèle précédent, suivant, points et pause, défile toutes les 6 s, s'arrête au survol, au focus, à la première interaction, hors écran et sous `prefers-reduced-motion`. Première image en priorité, les autres en différé. Sur l'accueil : première capture de chaque produit publié (`capturesVedettes`). |
 | Vidéo | `Video.astro` | Lecteur natif avec affiche, `preload="none"` ; sans source, emplacement « Vidéo à venir ». |
 | Séparateur | `Separateur.astro` | Filet `ligne`, espace petit ou grand. |
@@ -432,6 +434,6 @@ variante y est ajouté dans la même modification.
 ## 10. Ton éditorial (ajouté le 2026-09-05)
 
 Le site parle à la première personne : Nicolas Bresson, consultant Sage 100
-indépendant, s'adresse au visiteur en « je » (« J'accompagne », « Écrivez-moi »,
+avec plus de 12 ans d'expérience, s'adresse au visiteur en « je » (« J'accompagne », « Écrivez-moi »,
 « je regarde avec vous »). Le « nous » et le « on » sont proscrits dans les
 pages et composants ; les pages légales restent impersonnelles.

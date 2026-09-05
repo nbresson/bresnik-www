@@ -1,33 +1,38 @@
 ---
 import Marque from './Marque.astro';
+import Icone from './Icone.astro';
+import type { NomIcone } from './Icone.astro';
 import { produitsPublies } from '../lib/catalogue';
+import LogoProduit from './LogoProduit.astro';
+import type { CollectionEntry } from 'astro:content';
 
 const produits = await produitsPublies();
 const classeLien = 'inline-block py-1.5 text-[14px] text-encre-2 hover:text-cobalt';
-const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] = [
-  { titre: 'Produits', liens: produits.map((p) => ({ href: `/produits/${p.id}/`, libelle: p.data.nom })) },
+type Lien = { href: string; libelle: string; icone?: NomIcone; produit?: CollectionEntry<'produits'> };
+const colonnes: { titre: string; liens: Lien[] }[] = [
+  { titre: 'Produits', liens: produits.map((p) => ({ href: `/produits/${p.id}/`, libelle: p.data.nom, produit: p })) },
   {
     titre: 'Bresnik',
     liens: [
-      { href: '/', libelle: 'Accueil' },
-      { href: '/produits/', libelle: 'Tous les produits' },
-      { href: '/conseil/', libelle: 'Conseil Sage 100' },
-      { href: '/blog/', libelle: 'Blog' },
+      { href: '/', libelle: 'Accueil', icone: 'maison' },
+      { href: '/produits/', libelle: 'Tous les produits', icone: 'tableau-de-bord' },
+      { href: '/conseil/', libelle: 'Conseil Sage 100', icone: 'consultant' },
+      { href: '/blog/', libelle: 'Blog', icone: 'document' },
     ],
   },
   {
     titre: 'Contact',
     liens: [
-      { href: '/contact/', libelle: 'Demander une démo' },
-      { href: '/contact/', libelle: 'Poser une question' },
+      { href: '/contact/', libelle: 'Demander une démo', icone: 'calendrier' },
+      { href: '/contact/', libelle: 'Poser une question', icone: 'courrier' },
     ],
   },
   {
     titre: 'Informations',
     liens: [
-      { href: '/mentions-legales/', libelle: 'Mentions légales' },
-      { href: '/confidentialite/', libelle: 'Confidentialité' },
-      { href: '/rss.xml', libelle: 'Flux RSS' },
+      { href: '/mentions-legales/', libelle: 'Mentions légales', icone: 'balance' },
+      { href: '/confidentialite/', libelle: 'Confidentialité', icone: 'bouclier' },
+      { href: '/rss.xml', libelle: 'Flux RSS', icone: 'rss' },
     ],
   },
 ];
@@ -40,7 +45,16 @@ const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] 
           <p class="eyebrow">{colonne.titre}</p>
           <ul class="flex flex-col">
             {colonne.liens.map((lien) => (
-              <li><a href={lien.href} class={classeLien}>{lien.libelle}</a></li>
+              <li>
+                <a href={lien.href} class={`${classeLien} inline-flex items-center gap-2`}>
+                  {lien.produit ? (
+                    <LogoProduit nom={lien.produit.data.nom} logo={lien.produit.data.logo} taille="mini" />
+                  ) : (
+                    lien.icone && <Icone nom={lien.icone} taille={16} class="shrink-0" />
+                  )}
+                  {lien.libelle}
+                </a>
+              </li>
             ))}
           </ul>
         </div>

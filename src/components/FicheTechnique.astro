@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import Bouton from './Bouton.astro';
 import ListeDefinitions from './ListeDefinitions.astro';
 import { actionProduit, libelleAcces } from '../lib/produits';
+import { glypheAcces, glypheModules } from '../lib/glyphes';
 
 interface Props {
   produit: CollectionEntry<'produits'>;
@@ -12,10 +13,10 @@ const { produit } = Astro.props;
 const action = actionProduit(produit.data.disponibilite, produit.id);
 const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.join(', ') : 'Indépendant des modules';
 const lignes = [
-  { libelle: 'Plateforme', valeur: produit.data.plateforme },
-  { libelle: 'Modules Sage', valeur: modules },
-  { libelle: 'Objets métiers', valeur: produit.data.objetsMetiersSage ? 'Oui' : 'Non' },
-  { libelle: 'Accès', valeur: libelleAcces(produit.data.disponibilite) },
+  { libelle: 'Plateforme', valeur: produit.data.plateforme, icone: 'ecran' as const },
+  { libelle: 'Modules Sage', valeur: modules, icone: glypheModules(produit.data.modulesSage) },
+  { libelle: 'Objets métiers', valeur: produit.data.objetsMetiersSage ? 'Oui' : 'Non', icone: 'prise' as const },
+  { libelle: 'Accès', valeur: libelleAcces(produit.data.disponibilite), icone: glypheAcces(produit.data.disponibilite) },
 ];
 ---
 <aside aria-labelledby="fiche-technique" class="flex flex-col gap-5 rounded-cadre border border-ligne bg-blanc p-6 md:p-7 lg:sticky lg:top-6 lg:self-start">

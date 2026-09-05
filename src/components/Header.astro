@@ -2,13 +2,14 @@
 import Marque from './Marque.astro';
 import Bouton from './Bouton.astro';
 import Icone from './Icone.astro';
+import type { NomIcone } from './Icone.astro';
 import SelecteurTheme from './SelecteurTheme.astro';
 
-const liens = [
-  { href: '/produits/', libelle: 'Produits' },
-  { href: '/conseil/', libelle: 'Conseil' },
-  { href: '/blog/', libelle: 'Blog' },
-  { href: '/contact/', libelle: 'Contact' },
+const liens: { href: string; libelle: string; icone: NomIcone }[] = [
+  { href: '/produits/', libelle: 'Produits', icone: 'tableau-de-bord' },
+  { href: '/conseil/', libelle: 'Conseil', icone: 'consultant' },
+  { href: '/blog/', libelle: 'Blog', icone: 'document' },
+  { href: '/contact/', libelle: 'Contact', icone: 'courrier' },
 ];
 const cheminCourant = Astro.url.pathname;
 const estActif = (href: string) => cheminCourant.startsWith(href);
@@ -23,7 +24,8 @@ const classeLien = (href: string) =>
     <div class="hidden items-center gap-8 lg:flex">
       <nav aria-label="Navigation principale" class="flex items-center gap-8">
         {liens.map((lien) => (
-          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`text-[16px] py-2.5 ${classeLien(lien.href)}`}>
+          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`inline-flex items-center gap-1.5 text-[16px] py-2.5 ${classeLien(lien.href)}`}>
+            <Icone nom={lien.icone} taille={16} class="shrink-0" />
             {lien.libelle}
           </a>
         ))}
@@ -49,7 +51,8 @@ const classeLien = (href: string) =>
     <ul class="conteneur flex flex-col gap-1 py-3">
       {liens.map((lien) => (
         <li>
-          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`block py-3 text-[17px] ${classeLien(lien.href)}`}>
+          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`flex items-center gap-2 py-3 text-[17px] ${classeLien(lien.href)}`}>
+            <Icone nom={lien.icone} taille={18} class="shrink-0" />
             {lien.libelle}
           </a>
         </li>

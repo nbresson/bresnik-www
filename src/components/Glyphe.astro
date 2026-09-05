@@ -1,0 +1,31 @@
+---
+/**
+ * Glyphe : une icône métier dans une tuile teintée, pour illustrer un domaine,
+ * une fonctionnalité ou une ligne technique. Décoratif par défaut (le texte
+ * voisin porte le sens) ; `libelle` le rend lisible aux lecteurs d'écran.
+ */
+import Icone from './Icone.astro';
+import type { NomIcone } from './Icone.astro';
+
+interface Props {
+  nom: NomIcone;
+  taille?: 'petit' | 'normal' | 'grand';
+  /** `teinte` : cobalt sur teinte cobalt ; `bande` : sur une bande sombre ; `nu` : sans tuile. */
+  ton?: 'teinte' | 'bande' | 'nu';
+  libelle?: string;
+  class?: string;
+}
+
+const { nom, taille = 'normal', ton = 'teinte', libelle, class: classe = '' } = Astro.props;
+const tailles = { petit: { tuile: 'size-9 rounded-[8px]', icone: 18 }, normal: { tuile: 'size-12 rounded-[10px]', icone: 24 }, grand: { tuile: 'size-16 rounded-carte', icone: 32 } };
+const tons = { teinte: 'bg-cobalt-teinte text-cobalt', bande: 'bg-bande-texte/10 text-bande-texte', nu: 'text-cobalt' };
+const { tuile, icone } = tailles[taille];
+---
+<span
+  class={`inline-flex shrink-0 items-center justify-center ${ton === 'nu' ? '' : tuile} ${tons[ton]} ${classe}`}
+  role={libelle ? 'img' : undefined}
+  aria-label={libelle}
+  aria-hidden={libelle ? undefined : 'true'}
+>
+  <Icone nom={nom} taille={icone} />
+</span>

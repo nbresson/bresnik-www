@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { ICONES_FONCTIONNALITE } from './lib/glyphes';
 
 const produits = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/produits' }),
@@ -16,7 +17,8 @@ const produits = defineCollection({
       modulesSage: z.array(z.string()),
       objetsMetiersSage: z.boolean(),
       plateforme: z.string().min(1),
-      fonctionnalites: z.array(z.string()).min(1),
+      /** Chaîne simple (coche) ou objet `{ titre, icone }` avec un glyphe de `src/lib/glyphes.ts`. */
+      fonctionnalites: z.array(z.union([z.string().min(1), z.object({ titre: z.string().min(1), icone: z.enum(ICONES_FONCTIONNALITE).optional() })])).min(1),
       logo: image().optional(),
       captures: z.array(z.object({ fichier: z.string().min(1), alt: z.string().min(1), titre: z.string().optional() })).default([]),
       vedette: z.string().min(1).optional(),
