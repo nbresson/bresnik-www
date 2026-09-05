@@ -16,7 +16,11 @@ export async function getStaticPaths() {
 
 const { tag, articles } = Astro.props;
 ---
-<Base titre={`Articles « ${tag} »`} description={`Articles du blog Bresnik portant le tag ${tag}.`}>
+<Base
+  titre={`Articles « ${tag} »`}
+  description={`Articles du blog Bresnik sur « ${tag} » : retours d'expérience Sage 100, SQL Server et Objets métiers Sage, par un consultant indépendant.`}
+  noindex={articles.length < 3}
+>
   <EnTetePage eyebrow="Blog" titre={`Tag : ${tag}`} />
   <div class="conteneur flex flex-col gap-8 pb-16 md:pb-20">
     <div class="flex max-w-[760px] flex-col">

@@ -111,6 +111,20 @@ vers de nouveaux noms de fichiers hachés.
   script et style en ligne de `dist/` a son empreinte dans la CSP et qu'aucun
   attribut `style` ne subsiste.
 
+## Référencement
+
+- `npm run verifier-seo` (après un build, exécuté par la CI) liste titres,
+  descriptions et blocs JSON-LD de chaque page et échoue si une page indexable
+  a un titre de plus de 60 caractères, une description hors 100 à 160, un
+  canonical inattendu, ou si `noindex` manque sur une page technique (charte,
+  gabarits, erreurs, remerciement) ou apparaît ailleurs. Les pages de tags du
+  blog sont en `noindex` sous trois articles, le blog entier tant qu'aucun
+  article n'est publié (et hors sitemap).
+- Le sitemap porte une date de modification sur les articles, seules pages
+  datées ; `robots.txt` exclut `/api/` de l'exploration.
+- `npm run verifier-liens` contrôle aussi les ancres : un lien `#identifiant`
+  doit trouver son élément dans la page cible.
+
 ## Mesure d'audience
 
 1. **Web Analytics** → **Add a site** → saisir le nom d'hôte du site.

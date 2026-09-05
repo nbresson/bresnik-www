@@ -2,7 +2,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
-import { cheminsCandidats, estInterne, extraireLiens, verifierDist } from '../../scripts/liens.mjs';
+import { ancreDe, cheminsCandidats, estInterne, extraireLiens, possedeAncre, verifierDist } from '../../scripts/liens.mjs';
 
 describe('extraireLiens', () => {
   it('extrait les href et src, sans doublon', () => {
@@ -67,5 +67,29 @@ describe('verifierDist', () => {
       { fichier: 'index.html', lien: '/casse/' },
       { fichier: 'index.html', lien: '/dossier-vide' },
     ]);
+  });
+});
+
+describe('ancres', () => {
+  it('extrait l\'ancre d\'un lien et la cherche comme identifiant', () => {
+    expect(ancreDe('/contact/#formulaire')).toBe('formulaire');
+    expect(ancreDe('#contenu')).toBe('contenu');
+    expect(ancreDe('/produits/')).toBeNull();
+    expect(ancreDe('/x/#')).toBeNull();
+    expect(possedeAncre('<main id="contenu">', 'contenu')).toBe(true);
+    expect(possedeAncre('<main data-id="contenu">', 'contenu')).toBe(false);
+  });
+
+  it('signale une ancre absente dans la page ou dans la page cible', async () => {
+    const dossier = await mkdtemp(join(tmpdir(), 'ancres-'));
+    try {
+      await mkdir(join(dossier, 'contact'));
+      await writeFile(join(dossier, 'index.html'), '<a href="#haut">x</a><a href="#absente">y</a><a href="/contact/#formulaire">z</a><a href="/contact/#nulle-part">w</a><div id="haut"></div>');
+      await writeFile(join(dossier, 'contact', 'index.html'), '<form id="formulaire"></form>');
+      const casses = await verifierDist(dossier);
+      expect(casses.map((c) => c.lien).sort()).toEqual(['#absente', '/contact/#nulle-part']);
+    } finally {
+      await rm(dossier, { recursive: true, force: true });
+    }
   });
 });

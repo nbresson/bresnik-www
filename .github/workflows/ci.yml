@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
 
+# Une PR depuis une branche du dépôt déclenche push et pull_request : on ne garde que la dernière exécution par référence.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verifier:
     name: Vérifier, tester, construire
@@ -16,8 +21,11 @@ jobs:
           cache: npm
       - uses: actions/cache@v4
         with:
-          path: node_modules/.astro/fonts
-          key: polices-${{ hashFiles('astro.config.mjs') }}
+          # Polices téléchargées et images optimisées par Astro.
+          path: node_modules/.astro
+          key: astro-${{ hashFiles('astro.config.mjs', 'package-lock.json') }}-${{ hashFiles('src/content/**', 'src/assets/**') }}
+          restore-keys: |
+            astro-${{ hashFiles('astro.config.mjs', 'package-lock.json') }}-
       - run: npm ci
       - run: npm run check
       - run: npm run check:worker
@@ -27,3 +35,4 @@ jobs:
           PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
       - run: npm run verifier-liens
       - run: npm run verifier-csp
+      - run: npm run verifier-seo
