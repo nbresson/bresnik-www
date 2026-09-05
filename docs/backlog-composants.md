@@ -211,7 +211,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [x] | Galerie sans PNG originaux | V | 1 | « Voir en grand » ouvre une variante WebP de 1600 px générée au build ; plus aucun PNG publié (2026-09-05). |
 | [x] | `srcset` des cadres de capture | V | 2 | Largeurs 480 / 800 / 1200 et `sizes` (2026-09-05). |
 | [x] | Préconnexion à Turnstile | V | 2 | `preconnect` dans l'emplacement de tête du layout, page contact seulement (2026-09-05). |
-| [ ] | Poids des polices et du CSS | V | 3 | Un seul poids variable préchargé ; feuille séparée pour charte et gabarits. |
+| [x] | Poids des polices et du CSS | V | 3 | Bricolage Grotesque en deux graisses fixes (2 × 22 Ko) au lieu de la variable de 131 Ko ; Source Sans 3 variable conservée (29 Ko, pas de gain) ; CSS unique de 12 Ko compressé, séparation charte/gabarits jugée non rentable (2026-09-05). |
 
 ### Sécurité
 
