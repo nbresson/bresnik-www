@@ -26,3 +26,4 @@ jobs:
         env:
           PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
       - run: npm run verifier-liens
+      - run: npm run verifier-csp
