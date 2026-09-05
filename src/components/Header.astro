@@ -64,17 +64,32 @@ const classeLien = (href: string) =>
 <script>
   const bouton = document.getElementById('bouton-menu');
   const menu = document.getElementById('menu-mobile');
-  if (bouton && menu) {
-    const basculer = (ouvert: boolean) => {
+  const entete = bouton?.closest('header');
+  if (bouton && menu && entete) {
+    const estOuvert = () => bouton.getAttribute('aria-expanded') === 'true';
+    const basculer = (ouvert: boolean, focaliser = false) => {
       bouton.setAttribute('aria-expanded', String(ouvert));
       menu.hidden = !ouvert;
+      if (ouvert) menu.querySelector<HTMLElement>('a, button')?.focus();
+      else if (focaliser) bouton.focus();
     };
-    bouton.addEventListener('click', () => basculer(bouton.getAttribute('aria-expanded') !== 'true'));
+    bouton.addEventListener('click', () => basculer(!estOuvert()));
+    // Échap referme et rend le focus au bouton.
     document.addEventListener('keydown', (evenement) => {
-      if (evenement.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') {
-        basculer(false);
-        bouton.focus();
-      }
+      if (evenement.key === 'Escape' && estOuvert()) basculer(false, true);
+    });
+    // Un clic hors de l'en-tête referme le menu.
+    document.addEventListener('click', (evenement) => {
+      if (estOuvert() && !entete.contains(evenement.target as Node)) basculer(false);
+    });
+    // Le focus qui sort de l'en-tête (tabulation) referme aussi le menu.
+    document.addEventListener('focusin', (evenement) => {
+      if (estOuvert() && !entete.contains(evenement.target as Node)) basculer(false);
+    });
+    // Passage à la largeur desktop : le menu mobile n'a plus lieu d'être.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    desktop.addEventListener('change', () => {
+      if (desktop.matches && estOuvert()) basculer(false);
     });
   }
 </script>

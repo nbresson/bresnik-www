@@ -17,6 +17,7 @@ import Alerte from '../../components/Alerte.astro';
       <form method="post" action="#" class="flex flex-col gap-5 rounded-cadre border border-ligne bg-blanc p-6 md:p-8" onsubmit="return false">
         <h1 class="text-[24px] font-bold">Connexion</h1>
         <Alerte ton="information">Gabarit sans traitement : les identifiants ne sont pas vérifiés.</Alerte>
+        <p class="text-[14px] text-encre-2">Les champs marqués d'un astérisque (*) sont obligatoires.</p>
         <Champ nom="connexion-email" libelle="Email" type="email" requis autocomplete="username" />
         <Champ nom="connexion-motdepasse" libelle="Mot de passe" type="motdepasse" requis autocomplete="current-password" aide="Huit caractères au moins." />
         <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

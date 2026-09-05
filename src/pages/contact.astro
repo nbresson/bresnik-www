@@ -44,12 +44,13 @@ const libellesChamps: Record<string, string> = {
     <div class="flex max-w-[640px] flex-col gap-6">
       <div id="zone-etat" class="empty:hidden"></div>
       <div id="erreur" class="hidden target:block">
-        <Alerte ton="erreur" titre="Le message n'a pas pu être envoyé">Vérifiez les champs signalés dans l'adresse de la page et réessayez, ou écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.</Alerte>
+        <Alerte ton="erreur" titre="Le message n'a pas pu être envoyé">Sans JavaScript, la vérification anti-robot ne peut pas aboutir et le formulaire est refusé. Écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.</Alerte>
       </div>
       <noscript>
         <Alerte ton="information">Le formulaire a besoin de JavaScript pour la vérification anti-robot. Sans JavaScript, écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.</Alerte>
       </noscript>
       <form id="formulaire-contact" method="post" action="/api/contact" class="flex flex-col gap-5">
+        <p class="text-[14px] text-encre-2">Les champs marqués d'un astérisque (*) sont obligatoires.</p>
         <Champ nom="nom" libelle="Nom" requis minlength="2" maxlength="100" autocomplete="name" />
         <Champ nom="email" libelle="Email" type="email" requis autocomplete="email" />
         <Champ nom="societe" libelle="Société" maxlength="100" autocomplete="organization" />
