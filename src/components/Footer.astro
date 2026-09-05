@@ -1,7 +1,6 @@
 ---
 import Marque from './Marque.astro';
 import { produitsPublies } from '../lib/catalogue';
-import { emailContact } from '../config/site';
 
 const produits = await produitsPublies();
 const classeLien = 'inline-block py-1.5 text-[14px] text-encre-2 hover:text-cobalt';
@@ -20,7 +19,7 @@ const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] 
     titre: 'Contact',
     liens: [
       { href: '/contact/', libelle: 'Demander une démo' },
-      { href: `mailto:${emailContact}`, libelle: emailContact },
+      { href: '/contact/', libelle: 'Poser une question' },
     ],
   },
   {
