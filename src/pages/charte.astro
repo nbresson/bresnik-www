@@ -223,7 +223,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <a href="#charte-applications" class="underline underline-offset-[3px]">Applications</a>
       <a href="#charte-texte" class="underline underline-offset-[3px]">Texte enrichi</a>
     </nav>
-    <div class="flex items-center gap-2 text-[15px] text-encre-2">Thème : <SelecteurTheme id="theme-charte" alignement="gauche" /></div>
+    <SelecteurTheme id="theme-charte" alignement="gauche" />
   </header>
 
   <div class="conteneur flex flex-col gap-16 pb-16 md:gap-20 md:pb-20">
@@ -773,7 +773,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
 
       <div class="flex flex-col gap-4">
         <h3 class="text-[20px] font-semibold">Graphiques</h3>
-        <p class="max-w-[760px] text-[15px] text-encre-2">Palette catégorielle à ordre fixe, validée pour les daltonismes en mode clair : cinq séries au plus, un axe unique, barres fines, légende dès deux séries, valeur maximale étiquetée, tableau des données toujours disponible. Les couleurs de statut restent réservées aux statuts.</p>
+        <p class="max-w-[760px] text-[15px] text-encre-2">Palette catégorielle à ordre fixe, validée pour les daltonismes sur la surface de chaque thème : cinq séries au plus, un axe unique, barres fines, légende dès deux séries, valeur maximale étiquetée, tableau des données toujours disponible. Les couleurs de statut restent réservées aux statuts.</p>
         <LegendeGraphique series={[{ nom: 'graphique-1', couleur: 1 }, { nom: 'graphique-2', couleur: 2 }, { nom: 'graphique-3', couleur: 3 }, { nom: 'graphique-4', couleur: 4 }, { nom: 'graphique-5', couleur: 5 }]} />
         <div class="overflow-x-auto">
           <table class="w-full max-w-[420px] border-collapse text-[15px]">

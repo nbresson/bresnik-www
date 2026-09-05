@@ -47,8 +47,9 @@
   --rayon-bande: 12px;
 }
 
-/* Thème sombre suivant le système, sauf si le visiteur a forcé le clair. */
-@media (prefers-color-scheme: dark) {
+/* Thème sombre suivant le système, sauf si le visiteur a forcé le clair.
+   Limité à l'écran : l'impression reste toujours en clair. */
+@media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
     --couleur-papier: #141a26;
@@ -79,32 +80,35 @@
   }
 }
 
-/* Thème sombre forcé par le visiteur. Bloc identique au précédent. */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --couleur-papier: #141a26;
-  --couleur-papier-2: #1b2230;
-  --couleur-blanc: #1f2735;
-  --couleur-encre: #f1efe9;
-  --couleur-encre-2: #aab3c2;
-  --couleur-ligne: #2f3a4c;
-  --couleur-cobalt: #8fb0ff;
-  --couleur-cobalt-fonce: #adc4ff;
-  --couleur-cobalt-teinte: #22304d;
-  --couleur-ambre: #e3ac48;
-  --couleur-ambre-teinte: #3a2f16;
-  --couleur-succes: #6fd19a;
-  --couleur-succes-teinte: #1a3326;
-  --couleur-erreur: #ff9384;
-  --couleur-erreur-teinte: #40201d;
-  --couleur-bande: #2a3446;
-  --couleur-bande-texte: #f1efe9;
-  --couleur-encre-claire: #b8c0cf;
-  --couleur-voile: rgb(0 0 0 / 0.6);
-  --graphique-1: #5d88e8;
-  --graphique-2: #b8852c;
-  --graphique-3: #3fa46c;
-  --graphique-4: #a46ee6;
-  --graphique-5: #d9655a;
-  --ombre-capture: 0 24px 48px -32px rgb(0 0 0 / 0.6);
+/* Thème sombre forcé par le visiteur. Bloc identique au précédent.
+   Limité à l'écran : l'impression reste toujours en clair. */
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --couleur-papier: #141a26;
+    --couleur-papier-2: #1b2230;
+    --couleur-blanc: #1f2735;
+    --couleur-encre: #f1efe9;
+    --couleur-encre-2: #aab3c2;
+    --couleur-ligne: #2f3a4c;
+    --couleur-cobalt: #8fb0ff;
+    --couleur-cobalt-fonce: #adc4ff;
+    --couleur-cobalt-teinte: #22304d;
+    --couleur-ambre: #e3ac48;
+    --couleur-ambre-teinte: #3a2f16;
+    --couleur-succes: #6fd19a;
+    --couleur-succes-teinte: #1a3326;
+    --couleur-erreur: #ff9384;
+    --couleur-erreur-teinte: #40201d;
+    --couleur-bande: #2a3446;
+    --couleur-bande-texte: #f1efe9;
+    --couleur-encre-claire: #b8c0cf;
+    --couleur-voile: rgb(0 0 0 / 0.6);
+    --graphique-1: #5d88e8;
+    --graphique-2: #b8852c;
+    --graphique-3: #3fa46c;
+    --graphique-4: #a46ee6;
+    --graphique-5: #d9655a;
+    --ombre-capture: 0 24px 48px -32px rgb(0 0 0 / 0.6);
+  }
 }

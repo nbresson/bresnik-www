@@ -125,8 +125,8 @@
   --tw-prose-quote-borders: var(--couleur-cobalt);
   --tw-prose-captions: var(--couleur-encre-2);
   --tw-prose-code: var(--couleur-encre);
-  --tw-prose-pre-code: var(--couleur-papier);
-  --tw-prose-pre-bg: var(--couleur-encre);
+  --tw-prose-pre-code: var(--couleur-bande-texte);
+  --tw-prose-pre-bg: var(--couleur-bande);
   --tw-prose-th-borders: var(--couleur-ligne);
   --tw-prose-td-borders: var(--couleur-ligne);
 }

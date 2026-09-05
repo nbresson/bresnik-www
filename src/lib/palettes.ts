@@ -25,6 +25,12 @@ export const GRAPHIQUES = {
   sombre: ['#5d88e8', '#b8852c', '#3fa46c', '#a46ee6', '#d9655a'],
 };
 
+/** Ombre des cadres de capture (spec thème sombre §2), vérifiée par le même test anti-dérive. Non affichée sur la charte. */
+export const OMBRES = {
+  clair: '0 24px 48px -32px rgb(28 35 49 / 0.35)',
+  sombre: '0 24px 48px -32px rgb(0 0 0 / 0.6)',
+};
+
 export const USAGES: Record<NomToken, string> = {
   papier: 'Fond de page', 'papier-2': 'Bandes de rythme', blanc: 'Surface des cartes', encre: 'Texte principal', 'encre-2': 'Texte secondaire',
   ligne: 'Bordures', cobalt: 'Accent, liens, boutons', 'cobalt-fonce': 'Survol', 'cobalt-teinte': 'Fond teinté cobalt', ambre: 'Consultants, avertissement',

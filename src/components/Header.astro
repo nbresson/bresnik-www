@@ -20,15 +20,17 @@ const classeLien = (href: string) =>
 <header class="border-b border-ligne bg-papier">
   <div class="conteneur flex h-16 items-center justify-between lg:h-20">
     <Marque />
-    <nav aria-label="Navigation principale" class="hidden items-center gap-8 lg:flex">
-      {liens.map((lien) => (
-        <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`text-[16px] py-2.5 ${classeLien(lien.href)}`}>
-          {lien.libelle}
-        </a>
-      ))}
+    <div class="hidden items-center gap-8 lg:flex">
+      <nav aria-label="Navigation principale" class="flex items-center gap-8">
+        {liens.map((lien) => (
+          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`text-[16px] py-2.5 ${classeLien(lien.href)}`}>
+            {lien.libelle}
+          </a>
+        ))}
+      </nav>
       <SelecteurTheme id="theme-desktop" />
       <Bouton href="/contact/" taille="compact">Demander une démo</Bouton>
-    </nav>
+    </div>
     <div class="flex items-center gap-1 lg:hidden">
       <SelecteurTheme id="theme-mobile" />
       <button
