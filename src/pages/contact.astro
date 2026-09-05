@@ -64,7 +64,7 @@ const libellesChamps: Record<string, string> = {
         <div class="hidden" aria-hidden="true">
           <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
-        <div id="turnstile" data-sitekey={cleTurnstile}></div>
+        <div id="zone-turnstile" data-sitekey={cleTurnstile}></div>
         <div class="flex flex-col gap-3">
           <Bouton type="submit" id="bouton-envoyer" class="self-start max-md:w-full" fleche>Envoyer</Bouton>
           <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status"></p>
@@ -82,7 +82,8 @@ const libellesChamps: Record<string, string> = {
       render: (conteneur: HTMLElement, options: Record<string, unknown>) => string;
       remove: (id: string) => void;
     };
-    const conteneurTurnstile = document.getElementById('turnstile');
+    // L'id ne doit pas valoir « turnstile » : un id devient une propriété de window et masquerait l'objet de Cloudflare.
+    const conteneurTurnstile = document.getElementById('zone-turnstile');
     const themeEffectif = (): 'light' | 'dark' => {
       const force = document.documentElement.dataset.theme;
       if (force === 'light' || force === 'dark') return force;
