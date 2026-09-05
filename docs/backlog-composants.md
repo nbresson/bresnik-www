@@ -168,7 +168,7 @@ conception courte puis une PR, et coché ici une fois en production.
 | [ ] | Accusé de réception au visiteur | V | 1 | Second envoi Brevo avec récapitulatif, délai de réponse et lien vers la fiche concernée. |
 | [ ] | Qualifier la demande | V | 2 | Choix démo / devis / question technique, téléphone facultatif. |
 | [ ] | Case de consentement | V | 2 | Discutable pour une demande entrante ; à remplacer par une mention sous le bouton après validation juridique. |
-| [ ] | Réassurance près du bouton et écran de succès | V | 2 | « Réponse par le consultant lui-même » ; liens de continuation après envoi. |
+| [ ] | Réassurance près du bouton et écran de succès | V | 2 | « Réponse par le consultant lui-même » près du bouton ; la page de remerciement avec liens de continuation existe depuis le 2026-09-05. |
 | [ ] | Activer un essai ou un téléchargement | V | 2 | Les états existent dans le code ; FEC Analyzer est le candidat naturel. |
 
 ### Structure et pages produits
@@ -235,7 +235,7 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Activer la mesure d'audience | V | 1 | Variable de build absente ; tracer l'envoi du formulaire par produit. |
+| [x] | Activer la mesure d'audience | V | 1 | Succès du formulaire → page `/contact/merci/` comptée comme une vue ; jeton `PUBLIC_CF_BEACON_TOKEN` à créer dans Workers Builds (guide de déploiement). Par produit impossible sans événement personnalisé (2026-09-05). |
 | [ ] | Tests du HTML produit | V | 2 | Titres, descriptions, canonical, `noindex` ; ancres dans le vérificateur de liens. |
 | [ ] | CI | V | 2 | Bloc `concurrency`, cache des images. |
 | [ ] | Supervision | V | 2 | Contrôle externe de disponibilité, webhooks Brevo, alerte sur le taux d'erreur du Worker. |
