@@ -1,5 +1,6 @@
 ---
 import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 import CadreCapture from './CadreCapture.astro';
 
 interface Props {
@@ -8,11 +9,14 @@ interface Props {
 }
 
 const { captures, class: classe = '' } = Astro.props;
+
+// « Voir en grand » ouvre une variante WebP large générée au build, jamais le fichier source.
+const grandes = await Promise.all(captures.map((capture) => getImage({ src: capture.src, format: 'webp', width: 1600 })));
 ---
 <ul class={`grid gap-4 md:grid-cols-2 ${classe}`}>
-  {captures.map((capture) => (
+  {captures.map((capture, index) => (
     <li>
-      <a href={capture.src.src} target="_blank" rel="noopener" class="block rounded-cadre" aria-label={`${capture.titre}, ouvrir l'image en grand dans un nouvel onglet`}>
+      <a href={grandes[index].src} target="_blank" rel="noopener" class="block rounded-cadre" aria-label={`${capture.titre}, ouvrir l'image en grand dans un nouvel onglet`}>
         <CadreCapture titre={capture.titre} image={capture.src} alt={capture.alt} />
       </a>
     </li>
