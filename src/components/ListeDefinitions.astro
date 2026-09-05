@@ -1,21 +1,25 @@
 ---
 import Icone from './Icone.astro';
 import type { NomIcone } from './Icone.astro';
+import InfoBulle from './InfoBulle.astro';
 
 interface Props {
-  elements: { libelle: string; valeur: string; icone?: NomIcone }[];
+  elements: { libelle: string; valeur: string; icone?: NomIcone; aide?: string }[];
+  /** Préfixe des identifiants des info-bulles, unique par page. */
+  id?: string;
   class?: string;
 }
 
-const { elements, class: classe = '' } = Astro.props;
+const { elements, id = 'definitions', class: classe = '' } = Astro.props;
 ---
 <dl class={`grid grid-cols-[max-content_minmax(0,1fr)] gap-x-[18px] gap-y-3 text-[15px] ${classe}`}>
-  {elements.map((element) => (
+  {elements.map((element, index) => (
     <>
       <dt class="pt-[3px] font-technique text-[12px] uppercase tracking-[0.04em] text-encre-2">{element.libelle}</dt>
       <dd class="flex items-start gap-2 font-semibold">
         {element.icone && <Icone nom={element.icone} taille={18} class="mt-px shrink-0 text-cobalt" />}
         <span>{element.valeur}</span>
+        {element.aide && <InfoBulle id={`${id}-aide-${index}`} texte={element.aide} libelle={`À propos de ${element.libelle}`} />}
       </dd>
     </>
   ))}

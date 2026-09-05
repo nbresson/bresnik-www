@@ -32,7 +32,7 @@ const articles = trierParDate(filtrerPublies(await getCollection('blog'), import
 const domaines = [
   { icone: 'migration', titre: 'Paramétrage, migration et reprise de données Sage 100' },
   { icone: 'base-donnees', titre: 'Administration et optimisation des bases SQL Server des logiciels Sage' },
-  { icone: 'prise', titre: 'Automatisation et interfaces autour des Objets métiers Sage' },
+  { icone: 'prise', titre: 'Automatisation et interfaces autour des Objets métiers Sage', texte: 'La couche officielle qui écrit dans Sage 100 comme une saisie, avec ses contrôles.' },
   { icone: 'rapport', titre: 'Reporting et analyse comptable' },
 ] as const;
 ---
@@ -46,10 +46,10 @@ const domaines = [
     <div class="flex flex-col gap-5 lg:gap-6">
       <p class="eyebrow">Logiciels pour l'écosystème Sage 100</p>
       <h1 id="promesse" class="text-[38px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]">
-        Des logiciels qui complètent Sage 100.
+        Faites faire à Sage 100 ce qu'il ne fait pas.
       </h1>
       <p class="max-w-[560px] text-[18px] leading-[1.5] text-encre-2 md:text-[21px]">
-        Intégration bancaire, analyse de FEC, politique tarifaire, exports automatisés : des applications Windows nées de missions de conseil, construites sur SQL Server et les Objets métiers Sage.
+        Relevés bancaires intégrés, FEC contrôlé, tarifs mis à jour en masse, documents exportés en CSV, poste diagnostiqué : cinq applications Windows nées de missions chez des utilisateurs de Sage 100, qui écrivent dans Sage comme une saisie et gardent vos données sur votre poste.
       </p>
       <div class="mt-1.5 flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3">
         <Bouton href="/produits/" fleche class="max-md:w-full">Voir les produits</Bouton>

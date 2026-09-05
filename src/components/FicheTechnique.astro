@@ -15,13 +15,21 @@ const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.j
 const lignes = [
   { libelle: 'Plateforme', valeur: produit.data.plateforme, icone: 'ecran' as const },
   { libelle: 'Modules Sage', valeur: modules, icone: glypheModules(produit.data.modulesSage) },
-  { libelle: 'Objets métiers', valeur: produit.data.objetsMetiersSage ? 'Oui' : 'Non', icone: 'prise' as const },
+  {
+    libelle: 'Objets métiers Sage',
+    valeur: produit.data.objetsMetiersSage ? 'requis' : 'non requis',
+    icone: 'prise' as const,
+    aide: produit.data.objetsMetiersSage
+      ? 'Couche officielle d\'écriture dans Sage 100 : le logiciel crée et modifie les données comme une saisie dans Sage, avec ses contrôles. Option payante chez Sage, à activer sur le poste.'
+      : 'Lit les données sans passer par Sage : rien à activer.',
+  },
+  { libelle: 'Données', valeur: 'Traitées sur votre poste, rien n\'est envoyé à Bresnik ni à un tiers.', icone: 'bouclier' as const },
   { libelle: 'Accès', valeur: libelleAcces(produit.data.disponibilite), icone: glypheAcces(produit.data.disponibilite) },
 ];
 ---
 <aside aria-labelledby="fiche-technique" class="flex flex-col gap-5 rounded-cadre border border-ligne bg-blanc p-6 md:p-7 lg:sticky lg:top-6 lg:self-start">
   <h2 id="fiche-technique" class="text-[20px] font-bold">Fiche technique</h2>
-  <ListeDefinitions elements={lignes} />
+  <ListeDefinitions elements={lignes} id="fiche-technique" />
   <div class="h-px bg-ligne"></div>
   {action.actif && action.href ? (
     <Bouton href={action.href} taille="compact" plein>{action.libelle}</Bouton>

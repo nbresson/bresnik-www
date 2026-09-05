@@ -30,12 +30,12 @@ captures:
     titre: Diagnostic du poste
     alt: Diagnostic du poste, vérification des Objets métiers Sage, de la base de travail et des serveurs SQL, sans rien modifier.
 fonctionnalites:
-  - titre: "Intégration semi-automatique des extraits bancaires"
+  - titre: "Vos relevés CFONB, CAMT.053, MT940 ou CSV intégrés dans Sage en quelques clics"
     icone: banque
-  - titre: "Amélioration de la gestion budgétaire"
+  - titre: "Chaque mouvement affecté au bon compte par vos règles, sans ressaisie"
     icone: rapport
-  - titre: "Prévisions de trésorerie"
-    icone: tendance-haut
+  - titre: "Un rapprochement bancaire préparé par compte et par période"
+    icone: rapprochement
 disponibilite: contact
 ordre: 2
 publie: true
@@ -43,4 +43,5 @@ publie: true
 
 BankBridge facilite l'intégration semi-automatique des extraits bancaires
 dans Sage 100 Comptabilité. Il améliore la gestion budgétaire et les
-prévisions de trésorerie. Il s'appuie sur les Objets métiers Sage.
+prévisions de trésorerie. Il écrit dans Sage par les Objets métiers, la couche
+officielle de Sage 100 : chaque écriture passe les mêmes contrôles qu'une saisie.
