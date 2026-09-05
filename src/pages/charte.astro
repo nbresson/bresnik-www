@@ -5,6 +5,8 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icone from '../components/Icone.astro';
+import Glyphe from '../components/Glyphe.astro';
+import TuileDomaine from '../components/TuileDomaine.astro';
 import Marque from '../components/Marque.astro';
 import Bouton from '../components/Bouton.astro';
 import Etiquette from '../components/Etiquette.astro';
@@ -189,6 +191,35 @@ const definitionsExemple = [
   { libelle: 'Plateforme', valeur: 'Windows (WPF)' },
   { libelle: 'Base de données', valeur: 'SQL Server' },
 ];
+const glyphes = [
+  { nom: 'banque', usage: 'Relevés, banques' },
+  { nom: 'rapprochement', usage: 'Rapprochement' },
+  { nom: 'fichier-controle', usage: 'Fichier FEC, contrôle' },
+  { nom: 'bouclier', usage: 'Conformité' },
+  { nom: 'etiquette-prix', usage: 'Tarifs, remises' },
+  { nom: 'export-fichier', usage: 'Export CSV' },
+  { nom: 'boite-outils', usage: 'Outils du consultant' },
+  { nom: 'base-donnees', usage: 'SQL Server' },
+  { nom: 'prise', usage: 'Objets métiers' },
+  { nom: 'migration', usage: 'Migration, reprise' },
+  { nom: 'rapport', usage: 'Reporting' },
+  { nom: 'livre-comptes', usage: 'Comptabilité' },
+  { nom: 'colis', usage: 'Gestion commerciale' },
+  { nom: 'courrier', usage: 'Email' },
+  { nom: 'rss', usage: 'Flux RSS' },
+  { nom: 'consultant', usage: 'Consultant' },
+] as const;
+const domainesExemple = [
+  { icone: 'migration', titre: 'Paramétrage, migration et reprise de données Sage 100', texte: 'Du plan de comptes à la reprise des historiques.' },
+  { icone: 'base-donnees', titre: 'Administration et optimisation des bases SQL Server', texte: 'Sauvegardes, index, performances des bases Sage.' },
+  { icone: 'prise', titre: 'Automatisation autour des Objets métiers Sage', texte: 'Interfaces et traitements qui écrivent dans Sage proprement.' },
+  { icone: 'rapport', titre: 'Reporting et analyse comptable', texte: 'États, contrôles et tableaux de bord.' },
+] as const;
+const fonctionnalitesExemple = [
+  { icone: 'banque', titre: 'Intégration semi-automatique des extraits bancaires' },
+  { icone: 'rapprochement', titre: 'Rapprochement bancaire préparé par compte et par période' },
+  { icone: 'rapport', titre: 'Prévisions de trésorerie' },
+] as const;
 const iconesApplication = ['utilisateur', 'recherche', 'filtre', 'tri', 'tri-croissant', 'tri-decroissant', 'plus', 'corbeille', 'crayon', 'oeil', 'oeil-barre', 'telecharger', 'televerser', 'calendrier', 'horloge', 'fermer', 'parametres', 'deconnexion', 'tableau-de-bord', 'document', 'imprimer', 'dossier', 'cloche', 'tendance-haut', 'tendance-bas', 'points'] as const;
 const lignesTableau = [
   { id: 'L-1001', produit: 'BankBridge', societe: '[Client A]', postes: 3, statut: 'Active' },
@@ -357,6 +388,36 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
 
     <section aria-labelledby="charte-composants" class="flex flex-col gap-10">
       <h2 id="charte-composants" class="text-[24px] font-bold md:text-[30px]">Composants</h2>
+
+      <div class="flex flex-col gap-4">
+        <h3 id="charte-glyphes" class="text-[20px] font-semibold">Glyphes métier</h3>
+        <p class="text-[15px] text-encre-2">Seize pictogrammes en trait sur la grille de 24 px, dans le style du jeu d'icônes ; en tuile cobalt sur teinte (48 px), en petit (36 px), sur bande, ou nus. Décoratifs par défaut, le texte voisin porte le sens.</p>
+        <div class="grid grid-cols-2 gap-4 rounded-carte border border-ligne bg-blanc p-6 sm:grid-cols-4 lg:grid-cols-8">
+          {glyphes.map((g) => (
+            <span class="flex flex-col items-center gap-2 text-center"><Glyphe nom={g.nom} /><span class="technique">{g.nom}</span><span class="text-[13px] text-encre-2">{g.usage}</span></span>
+          ))}
+        </div>
+        <div class="flex flex-wrap items-center gap-6 rounded-carte border border-ligne bg-blanc p-6">
+          <span class="flex items-center gap-3"><Glyphe nom="banque" taille="petit" /><span class="technique">petit</span></span>
+          <span class="flex items-center gap-3"><Glyphe nom="banque" /><span class="technique">normal</span></span>
+          <span class="flex items-center gap-3"><Glyphe nom="banque" taille="grand" /><span class="technique">grand</span></span>
+          <span class="flex items-center gap-3"><Glyphe nom="banque" ton="nu" /><span class="technique">nu</span></span>
+          <span class="flex items-center gap-3 rounded-carte bg-bande p-3 text-bande-texte"><Glyphe nom="banque" ton="bande" /><span class="technique text-encre-claire">sur bande</span></span>
+        </div>
+        <p class="text-[15px] text-encre-2">Tuiles de domaine (accueil, conseil) : glyphe, titre, phrase.</p>
+        <TuileDomaine elements={[...domainesExemple]} />
+        <p class="text-[15px] text-encre-2">Fonctionnalités d'une fiche produit : le glyphe remplace la coche.</p>
+        <TuileDomaine elements={[...fonctionnalitesExemple]} colonnes={3} />
+        <p class="text-[15px] text-encre-2">Lignes de fiche technique et ligne de confiance : glyphes nus de 18 px avant le texte.</p>
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-3 rounded-carte border border-ligne bg-blanc p-6">
+          <span class="flex items-center gap-2 text-[15px]"><Icone nom="ecran" taille={18} class="text-cobalt" />Application de bureau Windows 10/11</span>
+          <span class="flex items-center gap-2 text-[15px]"><Icone nom="livre-comptes" taille={18} class="text-cobalt" />Sage 100 Comptabilité</span>
+          <span class="flex items-center gap-2 text-[15px]"><Icone nom="colis" taille={18} class="text-cobalt" />Sage 100 Gestion commerciale</span>
+          <span class="flex items-center gap-2 text-[15px]"><Icone nom="prise" taille={18} class="text-cobalt" />Objets métiers : oui</span>
+          <span class="flex items-center gap-2 text-[15px]"><Icone nom="base-donnees" taille={18} class="text-cobalt" />SQL Server</span>
+          <span class="flex items-center gap-2 text-[15px]"><Icone nom="consultant" taille={18} class="text-cobalt" />Conçus par un consultant Sage 100</span>
+        </div>
+      </div>
 
       <div class="flex flex-col gap-4">
         <h3 class="text-[20px] font-semibold">Icônes et marque</h3>

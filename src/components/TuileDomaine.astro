@@ -1,0 +1,31 @@
+---
+/**
+ * Tuile de domaine : glyphe, titre et phrase, pour les listes de domaines
+ * d'intervention ou de fonctionnalités. Remplace la liste à coches quand
+ * chaque élément a une métaphore.
+ */
+import Glyphe from './Glyphe.astro';
+import type { NomIcone } from './Icone.astro';
+
+interface Props {
+  elements: { icone: NomIcone; titre: string; texte?: string }[];
+  colonnes?: 1 | 2 | 3;
+  niveauTitre?: 'h3' | 'h4' | 'p';
+  class?: string;
+}
+
+const { elements, colonnes = 2, niveauTitre = 'p', class: classe = '' } = Astro.props;
+const dispositions = { 1: 'flex flex-col gap-3.5', 2: 'grid gap-3.5 md:grid-cols-2', 3: 'grid gap-3.5 md:grid-cols-3' };
+const Titre = niveauTitre;
+---
+<ul class={`${dispositions[colonnes]} ${classe}`}>
+  {elements.map((element) => (
+    <li class="flex items-start gap-4 rounded-carte border border-ligne bg-blanc p-5">
+      <Glyphe nom={element.icone} />
+      <span class="flex flex-col gap-1">
+        <Titre class="text-[17px] font-semibold leading-[1.35]">{element.titre}</Titre>
+        {element.texte && <span class="text-[15px] leading-[1.5] text-encre-2">{element.texte}</span>}
+      </span>
+    </li>
+  ))}
+</ul>
