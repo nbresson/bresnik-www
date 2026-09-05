@@ -19,6 +19,9 @@
   --color-succes-teinte: var(--couleur-succes-teinte);
   --color-erreur: var(--couleur-erreur);
   --color-erreur-teinte: var(--couleur-erreur-teinte);
+  --color-bande: var(--couleur-bande);
+  --color-bande-texte: var(--couleur-bande-texte);
+  --color-voile: var(--couleur-voile);
   --color-graphique-1: var(--graphique-1);
   --color-graphique-2: var(--graphique-2);
   --color-graphique-3: var(--graphique-3);

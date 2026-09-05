@@ -1,25 +1,35 @@
 /* Tokens de la marque Bresnik, direction « Atelier technique ».
+   Deux palettes : claire (par défaut) et sombre (réglage du système ou
+   data-theme="dark" sur <html>). Les valeurs sont dupliquées dans
+   src/lib/palettes.ts et un test vérifie qu'elles restent identiques.
    Réutilisables par les applications : ne rien ajouter ici sans l'inscrire
    dans la spécification design. */
 :root {
+  color-scheme: light;
+
   --couleur-papier: #faf8f4;
   --couleur-papier-2: #f1ede4;
+  --couleur-blanc: #ffffff;
   --couleur-encre: #1c2331;
   --couleur-encre-2: #4f5868;
-  --couleur-encre-claire: #c9cfdb;
   --couleur-ligne: #e2ddd2;
-  --couleur-blanc: #ffffff;
   --couleur-cobalt: #1f4fc7;
   --couleur-cobalt-fonce: #183f9f;
   --couleur-cobalt-teinte: #e6ecfa;
   --couleur-ambre: #8f620f;
   --couleur-ambre-teinte: #fbf1dd;
 
-  /* Couleurs sémantiques, réservées aux alertes et aux erreurs de formulaire. */
+  /* Couleurs sémantiques, réservées aux alertes, statuts et erreurs. */
   --couleur-succes: #1e6b45;
   --couleur-succes-teinte: #e4f3ea;
   --couleur-erreur: #b42318;
   --couleur-erreur-teinte: #fbe9e7;
+
+  /* Bandes sombres (appel, annonce, info-bulle) et voile des dialogues. */
+  --couleur-bande: #1c2331;
+  --couleur-bande-texte: #ffffff;
+  --couleur-encre-claire: #c9cfdb;
+  --couleur-voile: rgb(28 35 49 / 0.5);
 
   /* Palette catégorielle des graphiques, ordre fixe, validée pour les daltonismes
      (à compléter par étiquettes ou jours entre barres). Jamais réutilisée ailleurs. */
@@ -35,4 +45,66 @@
   --rayon-carte: 8px;
   --rayon-cadre: 10px;
   --rayon-bande: 12px;
+}
+
+/* Thème sombre suivant le système, sauf si le visiteur a forcé le clair. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --couleur-papier: #141a26;
+    --couleur-papier-2: #1b2230;
+    --couleur-blanc: #1f2735;
+    --couleur-encre: #f1efe9;
+    --couleur-encre-2: #aab3c2;
+    --couleur-ligne: #2f3a4c;
+    --couleur-cobalt: #8fb0ff;
+    --couleur-cobalt-fonce: #adc4ff;
+    --couleur-cobalt-teinte: #22304d;
+    --couleur-ambre: #e3ac48;
+    --couleur-ambre-teinte: #3a2f16;
+    --couleur-succes: #6fd19a;
+    --couleur-succes-teinte: #1a3326;
+    --couleur-erreur: #ff9384;
+    --couleur-erreur-teinte: #40201d;
+    --couleur-bande: #2a3446;
+    --couleur-bande-texte: #f1efe9;
+    --couleur-encre-claire: #b8c0cf;
+    --couleur-voile: rgb(0 0 0 / 0.6);
+    --graphique-1: #5d88e8;
+    --graphique-2: #b8852c;
+    --graphique-3: #3fa46c;
+    --graphique-4: #a46ee6;
+    --graphique-5: #d9655a;
+    --ombre-capture: 0 24px 48px -32px rgb(0 0 0 / 0.6);
+  }
+}
+
+/* Thème sombre forcé par le visiteur. Bloc identique au précédent. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --couleur-papier: #141a26;
+  --couleur-papier-2: #1b2230;
+  --couleur-blanc: #1f2735;
+  --couleur-encre: #f1efe9;
+  --couleur-encre-2: #aab3c2;
+  --couleur-ligne: #2f3a4c;
+  --couleur-cobalt: #8fb0ff;
+  --couleur-cobalt-fonce: #adc4ff;
+  --couleur-cobalt-teinte: #22304d;
+  --couleur-ambre: #e3ac48;
+  --couleur-ambre-teinte: #3a2f16;
+  --couleur-succes: #6fd19a;
+  --couleur-succes-teinte: #1a3326;
+  --couleur-erreur: #ff9384;
+  --couleur-erreur-teinte: #40201d;
+  --couleur-bande: #2a3446;
+  --couleur-bande-texte: #f1efe9;
+  --couleur-encre-claire: #b8c0cf;
+  --couleur-voile: rgb(0 0 0 / 0.6);
+  --graphique-1: #5d88e8;
+  --graphique-2: #b8852c;
+  --graphique-3: #3fa46c;
+  --graphique-4: #a46ee6;
+  --graphique-5: #d9655a;
+  --ombre-capture: 0 24px 48px -32px rgb(0 0 0 / 0.6);
 }
