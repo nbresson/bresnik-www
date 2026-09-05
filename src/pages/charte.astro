@@ -73,6 +73,8 @@ import Notifications from '../components/application/Notifications.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
 import { ratioContraste } from '../lib/contraste';
+import { PALETTES, GRAPHIQUES, USAGES, type NomToken } from '../lib/palettes';
+import SelecteurTheme from '../components/SelecteurTheme.astro';
 
 const produits = await produitsPublies();
 const produitEntreprise = produits.find((p) => p.data.cible === 'entreprise') ?? produits[0];
@@ -86,32 +88,22 @@ if (!exempleTexte) {
 }
 const { Content: TexteEnrichi } = await render(exempleTexte);
 
-const couleurs = [
-  { nom: 'papier', classe: 'bg-papier', valeur: '#faf8f4', usage: 'Fond de page' },
-  { nom: 'papier-2', classe: 'bg-papier-2', valeur: '#f1ede4', usage: 'Bandes de section' },
-  { nom: 'encre', classe: 'bg-encre', valeur: '#1c2331', usage: 'Texte principal' },
-  { nom: 'encre-2', classe: 'bg-encre-2', valeur: '#4f5868', usage: 'Texte secondaire' },
-  { nom: 'encre-claire', classe: 'bg-encre-claire', valeur: '#c9cfdb', usage: 'Texte sur fond encre' },
-  { nom: 'ligne', classe: 'bg-ligne', valeur: '#e2ddd2', usage: 'Bordures' },
-  { nom: 'blanc', classe: 'bg-blanc', valeur: '#ffffff', usage: 'Fond des cartes' },
-  { nom: 'cobalt', classe: 'bg-cobalt', valeur: '#1f4fc7', usage: 'Accent, liens, boutons' },
-  { nom: 'cobalt-fonce', classe: 'bg-cobalt-fonce', valeur: '#183f9f', usage: 'Survol' },
-  { nom: 'cobalt-teinte', classe: 'bg-cobalt-teinte', valeur: '#e6ecfa', usage: 'Fond étiquette entreprises' },
-  { nom: 'ambre', classe: 'bg-ambre', valeur: '#8f620f', usage: 'Texte étiquette consultants' },
-  { nom: 'ambre-teinte', classe: 'bg-ambre-teinte', valeur: '#fbf1dd', usage: 'Fond étiquette consultants' },
-  { nom: 'succes', classe: 'bg-succes', valeur: '#1e6b45', usage: 'Alertes de succès' },
-  { nom: 'succes-teinte', classe: 'bg-succes-teinte', valeur: '#e4f3ea', usage: 'Fond des alertes de succès' },
-  { nom: 'erreur', classe: 'bg-erreur', valeur: '#b42318', usage: 'Erreurs de formulaire, alertes' },
-  { nom: 'erreur-teinte', classe: 'bg-erreur-teinte', valeur: '#fbe9e7', usage: 'Fond des alertes d\'erreur' },
-  { nom: 'bande', classe: 'bg-bande', valeur: '#1c2331', usage: 'Fond des bandes' },
-  { nom: 'bande-texte', classe: 'bg-bande-texte', valeur: '#ffffff', usage: 'Texte sur bande' },
+const tokensCouleur = Object.keys(PALETTES.clair) as NomToken[];
+const classeFond: Record<NomToken, string> = {
+  papier: 'bg-papier', 'papier-2': 'bg-papier-2', blanc: 'bg-blanc', encre: 'bg-encre', 'encre-2': 'bg-encre-2', ligne: 'bg-ligne',
+  cobalt: 'bg-cobalt', 'cobalt-fonce': 'bg-cobalt-fonce', 'cobalt-teinte': 'bg-cobalt-teinte', ambre: 'bg-ambre', 'ambre-teinte': 'bg-ambre-teinte',
+  succes: 'bg-succes', 'succes-teinte': 'bg-succes-teinte', erreur: 'bg-erreur', 'erreur-teinte': 'bg-erreur-teinte',
+  bande: 'bg-bande', 'bande-texte': 'bg-bande-texte', 'encre-claire': 'bg-encre-claire', voile: 'bg-voile',
+};
+const couples: [NomToken, NomToken][] = [
+  ['encre', 'papier'], ['encre-2', 'papier'], ['cobalt', 'papier'], ['blanc', 'cobalt'], ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'],
+  ['encre-claire', 'bande'], ['bande-texte', 'bande'], ['succes', 'succes-teinte'], ['erreur', 'erreur-teinte'], ['erreur', 'blanc'],
 ];
-const valeurCouleur = (nom: string) => couleurs.find((c) => c.nom === nom)?.valeur ?? '#000000';
-const couplesContraste = [
-  ['encre', 'papier'], ['encre-2', 'papier'], ['cobalt', 'papier'], ['blanc', 'cobalt'],
-  ['cobalt', 'cobalt-teinte'], ['ambre', 'ambre-teinte'], ['encre-claire', 'encre'],
-  ['succes', 'succes-teinte'], ['erreur', 'erreur-teinte'], ['erreur', 'blanc'],
-].map(([texte, fond]) => ({ texte, fond, ratio: ratioContraste(valeurCouleur(texte), valeurCouleur(fond)) }));
+const contrastes = couples.map(([texte, fond]) => ({
+  texte, fond,
+  clair: ratioContraste(PALETTES.clair[texte], PALETTES.clair[fond]),
+  sombre: ratioContraste(PALETTES.sombre[texte], PALETTES.sombre[fond]),
+}));
 
 const typographie = [
   { nom: 'titre-1', classe: 'font-titres text-[38px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]', exemple: 'Des logiciels qui complètent Sage 100.' },
@@ -231,6 +223,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <a href="#charte-applications" class="underline underline-offset-[3px]">Applications</a>
       <a href="#charte-texte" class="underline underline-offset-[3px]">Texte enrichi</a>
     </nav>
+    <div class="flex items-center gap-2 text-[15px] text-encre-2">Thème : <SelecteurTheme id="theme-charte" alignement="gauche" /></div>
   </header>
 
   <div class="conteneur flex flex-col gap-16 pb-16 md:gap-20 md:pb-20">
@@ -238,12 +231,13 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
     <section aria-labelledby="charte-couleurs" class="flex flex-col gap-6">
       <h2 id="charte-couleurs" class="text-[24px] font-bold md:text-[30px]">Couleurs</h2>
       <ul class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
-        {couleurs.map((c) => (
+        {tokensCouleur.map((nom) => (
           <li class="flex flex-col gap-2">
-            <span class={`block h-16 rounded-carte border border-ligne ${c.classe}`}></span>
-            <span class="text-[14px] font-semibold">{c.nom}</span>
-            <span class="technique">{c.valeur}</span>
-            <span class="text-[13px] text-encre-2">{c.usage}</span>
+            <span class={`block h-16 rounded-carte border border-ligne ${classeFond[nom]}`}></span>
+            <span class="text-[14px] font-semibold">{nom}</span>
+            <span class="text-[13px] text-encre-2">{USAGES[nom]}</span>
+            <span class="technique">clair {PALETTES.clair[nom]}</span>
+            <span class="technique">sombre {PALETTES.sombre[nom]}</span>
           </li>
         ))}
       </ul>
@@ -254,23 +248,23 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
             <tr class="border-b-2 border-encre text-left">
               <th scope="col" class="py-2 pr-4 font-semibold">Texte</th>
               <th scope="col" class="py-2 pr-4 font-semibold">Fond</th>
-              <th scope="col" class="py-2 pr-4 font-semibold">Ratio</th>
-              <th scope="col" class="py-2 font-semibold">AA texte normal</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Clair</th>
+              <th scope="col" class="py-2 font-semibold">Sombre</th>
             </tr>
           </thead>
           <tbody>
-            {couplesContraste.map((couple) => (
+            {contrastes.map((couple) => (
               <tr class="border-b border-ligne">
                 <td class="py-2 pr-4 technique">{couple.texte}</td>
                 <td class="py-2 pr-4 technique">{couple.fond}</td>
-                <td class="py-2 pr-4 font-semibold">{couple.ratio.toFixed(1).replace('.', ',')}</td>
-                <td class="py-2">{couple.ratio >= 4.5 ? 'Conforme' : 'Non conforme'}</td>
+                <td class="py-2 pr-4">{couple.clair.toFixed(1).replace('.', ',')} · {couple.clair >= 4.5 ? 'Conforme' : 'Non conforme'}</td>
+                <td class="py-2">{couple.sombre.toFixed(1).replace('.', ',')} · {couple.sombre >= 4.5 ? 'Conforme' : 'Non conforme'}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p class="text-[15px] text-encre-2">Le site a un seul rendu, clair : aucun mode sombre n'est prévu, les composants ne le gèrent pas.</p>
+      <p class="text-[15px] text-encre-2">Deux rendus, clair et sombre, sur les mêmes tokens : un composant ne connaît que le rôle d'une couleur.</p>
     </section>
 
     <section aria-labelledby="charte-typo" class="flex flex-col gap-6">
@@ -781,6 +775,24 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         <h3 class="text-[20px] font-semibold">Graphiques</h3>
         <p class="max-w-[760px] text-[15px] text-encre-2">Palette catégorielle à ordre fixe, validée pour les daltonismes en mode clair : cinq séries au plus, un axe unique, barres fines, légende dès deux séries, valeur maximale étiquetée, tableau des données toujours disponible. Les couleurs de statut restent réservées aux statuts.</p>
         <LegendeGraphique series={[{ nom: 'graphique-1', couleur: 1 }, { nom: 'graphique-2', couleur: 2 }, { nom: 'graphique-3', couleur: 3 }, { nom: 'graphique-4', couleur: 4 }, { nom: 'graphique-5', couleur: 5 }]} />
+        <div class="overflow-x-auto">
+          <table class="w-full max-w-[420px] border-collapse text-[15px]">
+            <thead>
+              <tr class="border-b-2 border-encre text-left">
+                <th scope="col" class="py-2 pr-4 font-semibold">Clair</th>
+                <th scope="col" class="py-2 font-semibold">Sombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              {GRAPHIQUES.clair.map((valeur, index) => (
+                <tr class="border-b border-ligne">
+                  <td class="py-2 pr-4 technique">{valeur}</td>
+                  <td class="py-2 technique">{GRAPHIQUES.sombre[index]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <GraphiqueBarres titre="[Exemple] Encaissements et décaissements, en k€" unite=" k€" categories={graphiqueExemple.categories} series={graphiqueExemple.series} class="max-w-[760px]" />
       </div>
 

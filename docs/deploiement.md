@@ -94,6 +94,10 @@ changement de code.
   `npx lighthouse http://localhost:4321/ --preset=desktop` sur l'accueil, une
   fiche produit et un article de blog (ou la page conseil tant qu'aucun
   article n'est publié). Objectif : 95 ou plus dans les quatre catégories.
+- Lighthouse se joue dans les deux thèmes : forcer le sombre en posant
+  `localStorage.setItem('bresnik-theme','dark')` dans la console avant
+  l'audit, ou utiliser l'émulation `prefers-color-scheme` des outils de
+  développement.
 - Après un changement de charte (couleurs, polices), relancer
   `npm run generer-images` et commiter les fichiers de `public/`.
 - Les polices sont téléchargées depuis le CDN Fontsource au moment du build

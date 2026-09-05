@@ -67,6 +67,9 @@ Tailwind 4 par `@theme` dans `src/styles/global.css`, afin d'écrire
 | `erreur` | `#b42318` | Erreurs de formulaire et alertes d'erreur (ajouté le 2026-09-04). |
 | `erreur-teinte` | `#fbe9e7` | Fond des alertes d'erreur. |
 
+Amendé le 2026-09-05 : palette sombre et tokens `bande`, `bande-texte`,
+`voile`, voir `2026-09-05-theme-sombre-design.md`.
+
 Contrastes vérifiés (WCAG AA texte normal, ratio minimal 4,5) : `encre` sur
 `papier` 14,8 ; `encre-2` sur `papier` 6,8 ; `cobalt` sur `papier` 6,6 ;
 `blanc` sur `cobalt` 7,0 ; `ambre` sur `ambre-teinte` 4,8 ; `encre-claire`
@@ -332,6 +335,7 @@ désactivé et message d'état, inchangés dans leur comportement.
 | État vide | `EtatVide.astro` | Bordure pointillée, titre, texte, bouton secondaire compact facultatif. Utilisé par le blog vide. |
 | Pagination | `Pagination.astro` | Props `courante`, `total`, `lienPage(n)`. Première, dernière, courante et voisines, ellipses ; précédent et suivant ; cases 44 px ; masquée quand une seule page. Le blog pagine par 10 (`/blog/`, `/blog/2/`…). |
 | Icônes | `Icone.astro` | Ajout de `information`, `avertissement`, `erreur`, `chevron`, `chargement`. |
+| Sélecteur de thème | SelecteurTheme.astro | Bouton d'icône et menu à trois choix (Clair, Sombre, Système), mémorisation locale, dans l'en-tête et le gabarit d'application. |
 
 Mouvement : `prefers-reduced-motion: reduce` neutralise toutes les transitions et animations (feuille globale).
 
@@ -422,4 +426,4 @@ variante y est ajouté dans la même modification.
 - Menu mobile en script inline plutôt qu'en `<details>` : un vrai bouton
   avec `aria-expanded` est plus robuste pour les lecteurs d'écran.
 - Année du pied de page fixée à 2026 plutôt que calculée au build.
-- Pas de mode sombre.
+- Mode sombre ajouté le 2026-09-05 (spécification dédiée).

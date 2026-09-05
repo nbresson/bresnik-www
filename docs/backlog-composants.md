@@ -119,5 +119,5 @@ même modification et coché ici.
 | [x] | Rayons et ombre en pastilles | V/A | 1 | |
 | [x] | Grille de contrastes avec ratios | V/A | 1 | |
 | [x] | Mouvement : durée, courbe, `prefers-reduced-motion` | V/A | 1 | |
-| [x] | Mention explicite de l'absence de mode sombre | V/A | 1 | |
+| [x] | Mention explicite de l'absence de mode sombre | V/A | 1 | Remplacée par le thème sombre (2026-09-05). |
 | [x] | Bibliothèque d'icônes cohérente | A | 3 | Trois icônes aujourd'hui. |
