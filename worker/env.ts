@@ -5,4 +5,6 @@ export interface Env {
   TURNSTILE_SECRET_KEY: string;
   CONTACT_TO_EMAIL: string;
   CONTACT_FROM_EMAIL: string;
+  /** Clé attendue dans l'en-tête X-Diagnostic-Cle de GET /api/diagnostic ; absente, la route est désactivée. */
+  DIAGNOSTIC_CLE?: string;
 }

@@ -217,7 +217,7 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Protéger `/api/diagnostic` | V | 1 | Public aujourd'hui, appelle Brevo et Turnstile à chaque requête anonyme ; en-tête secret ou retrait en production. |
+| [x] | Protéger `/api/diagnostic` | V | 1 | En-tête `X-Diagnostic-Cle` comparé au secret `DIAGNOSTIC_CLE` ; 404 sinon (2026-09-05). |
 | [ ] | En-têtes de sécurité | V | 1 | HSTS, nosniff, Referrer-Policy, Permissions-Policy, CSP générée par Astro. |
 | [ ] | Durcir le formulaire de contact | V | 2 | Lecture du corps plafonnée, limitation de débit, contrôle d'origine et de l'hôte du jeton Turnstile. |
 | [ ] | Délais et dépendances | V | 3 | Délai maximal sur les appels sortants ; Dependabot et audit en CI. |
