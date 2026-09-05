@@ -138,15 +138,15 @@ conception courte puis une PR, et coché ici une fois en production.
 
 | Fait | Sujet | Cible | Priorité | Note |
 |---|---|---|---|---|
-| [ ] | Titre et sous-titre de l'accueil orientés bénéfice | V | 1 | « Des logiciels qui complètent Sage 100 » décrit une catégorie ; le sous-titre oublie BOCS et parle de fabrication. |
-| [ ] | Expliquer « Objets métiers Sage » | V | 1 | Une ligne ou une info-bulle partout où l'expression apparaît, dont la fiche technique ; préciser que l'option est payante chez Sage. |
+| [x] | Titre et sous-titre de l'accueil orientés bénéfice | V | 1 | « Faites faire à Sage 100 ce qu'il ne fait pas. » ; sous-titre sur les cinq usages, écriture par Objets métiers et données locales (2026-09-05). |
+| [x] | Expliquer « Objets métiers Sage » | V | 1 | Fiche technique « requis / non requis » avec info-bulle (option payante chez Sage), phrase sur les tuiles accueil et conseil, description BankBridge (2026-09-05). |
 | [ ] | Étoffer les cinq fiches produits | V | 1 | Récit problème → conséquence → solution → preuve, 400 à 600 mots ; accroches réécrites côté déclencheur. |
 | [ ] | Prix, licence, essai sur chaque fiche | V | 1 | Au minimum une fourchette ou un « à partir de », le mode de licence, l'existence d'un essai. |
 | [ ] | Prérequis techniques sur chaque fiche | V | 1 | Versions Sage 100 supportées, SQL Server, Windows, .NET, option Objets métiers requise ou non. |
 | [ ] | Bloc « Support et mises à jour » | V | 1 | Canal, délai de réponse, suivi des montées de version Sage. |
 | [x] | Personne grammaticale unique | V | 2 | Le « je » du consultant indépendant partout (accueil, conseil, cartes d'appel, fiche technique, erreurs, remerciement) ; pages légales impersonnelles (2026-09-05). |
 | [x] | Remplacer « Windows (WPF) » | V | 2 | « Application de bureau Windows 10/11 » sur les cinq fiches ; le détail WPF/.NET viendra avec les prérequis (2026-09-05). |
-| [ ] | Fonctionnalités formulées en bénéfices | V | 2 | Les listes actuelles se lisent comme des notes internes. |
+| [x] | Fonctionnalités formulées en bénéfices | V | 2 | Dix-sept fonctionnalités réécrites côté résultat (2026-09-05). |
 
 ### Confiance et juridique
 
@@ -154,7 +154,7 @@ conception courte puis une PR, et coché ici une fois en production.
 |---|---|---|---|---|
 | [ ] | Compléter les mentions légales | V | 1 | Placeholder « À compléter » visible en production ; manquent directeur de publication, RCS, TVA, contact direct. |
 | [ ] | Compléter la politique de confidentialité | V | 1 | Responsable de traitement, base légale, durée de conservation, recours CNIL, transferts hors UE, date de mise à jour. |
-| [ ] | Affirmer le traitement local des données | V | 1 | Sur chaque fiche : aucune donnée comptable ou bancaire ne quitte le poste. |
+| [x] | Affirmer le traitement local des données | V | 1 | Ligne « Données » de la fiche technique et phrase sur la page produits, confirmé par Nicolas Bresson le 2026-09-05. |
 | [ ] | Page « À propos » | V | 1 | Photo, parcours, années d'expérience, LinkedIn ; entrée de navigation. |
 | [x] | Nuancer « aucun cookie » | V | 2 | Stockage local du thème, mesure d'audience sans cookie, stockage technique de Turnstile sur la page contact (2026-09-05). |
 | [ ] | CGV et licence logicielle | V | 2 | Page `/cgv/` et CLUF téléchargeable. |

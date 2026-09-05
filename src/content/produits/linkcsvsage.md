@@ -24,11 +24,11 @@ captures:
     titre: Rapport d'export
     alt: Rapport d'export enregistré au format CSV et ouvert dans Excel, une ligne par pièce exportée avec son type, le résultat, le nom du fichier CSV produit et la durée.
 fonctionnalites:
-  - titre: "Export CSV automatisé des documents de Gestion commerciale"
+  - titre: "Un fichier CSV par document de vente, généré en un clic"
     icone: export-fichier
-  - titre: "Rattachement du fichier CSV au document Sage"
+  - titre: "Le fichier rattaché à la pièce dans Sage, retrouvable par tous"
     icone: document
-  - titre: "Envoi facilité des documents au format CSV"
+  - titre: "Les documents envoyés par e-mail dans le format attendu par vos clients"
     icone: courrier
 disponibilite: contact
 ordre: 5

@@ -36,15 +36,15 @@ captures:
     titre: Recherche dans les écritures
     alt: Recherche dans les écritures par libellé ou pièce, journal, compte, période et montant, résultats en tableau et export CSV.
 fonctionnalites:
-  - titre: "Synthèse comptable du fichier"
+  - titre: "La synthèse du FEC en une lecture : lignes, journaux, totaux, résultat"
     icone: rapport
-  - titre: "Détection des anomalies"
+  - titre: "Les anomalies repérées avant le contrôle fiscal ou le commissaire aux comptes"
     icone: bouclier
-  - titre: "Reconstitution de la Balance, du Grand-livre et du comparatif N/N-1"
+  - titre: "Balance, grand-livre et comparatif N/N-1 reconstitués sans Sage"
     icone: livre-comptes
-  - titre: "Recherche dans les écritures"
+  - titre: "Une écriture retrouvée par libellé, pièce, compte, période ou montant"
     icone: recherche
-  - titre: "Export selon plusieurs formats"
+  - titre: "Vos résultats exportés en Excel, PDF ou CSV"
     icone: export-fichier
 disponibilite: contact
 ordre: 3
