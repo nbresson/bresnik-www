@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { actionProduit, libelleAcces, libelleCible, produitsMemeFamille, tonCible } from '../../src/lib/produits';
+import { actionProduit, libelleAcces, libelleCible, produitsMemeFamille, produitsSuggeres, tonCible } from '../../src/lib/produits';
 
 describe('actionProduit', () => {
   it('propose une demande de démo pré-remplie pour la disponibilité contact', () => {
@@ -61,5 +61,18 @@ describe('produitsMemeFamille', () => {
 
   it('renvoie une liste vide quand le produit est seul de sa cible', () => {
     expect(produitsMemeFamille(tous, tous[1])).toEqual([]);
+  });
+});
+
+describe('produitsSuggeres', () => {
+  const p = (id: string, cible: string, ordre: number) => ({ id, data: { cible, ordre } });
+  const tous = [p('a', 'entreprise', 3), p('b', 'consultant', 1), p('c', 'entreprise', 1), p('d', 'entreprise', 2), p('e', 'entreprise', 4)];
+
+  it('préfère la même famille', () => {
+    expect(produitsSuggeres(tous, tous[0])).toEqual({ produits: [tous[2], tous[3], tous[4]], memeFamille: true });
+  });
+
+  it('se rabat sur les autres produits quand le produit est seul de sa cible', () => {
+    expect(produitsSuggeres(tous, tous[1])).toEqual({ produits: [tous[2], tous[3], tous[0]], memeFamille: false });
   });
 });

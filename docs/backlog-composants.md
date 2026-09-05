@@ -180,8 +180,8 @@ conception courte puis une PR, et coché ici une fois en production.
 | [ ] | Références et témoignages | V | 1 | Trois témoignages nommés ou cas anonymisés chiffrés ; composants Témoignage et Logos déjà prêts. |
 | [ ] | Comparatif « quel outil pour quel besoin » | V | 2 | Sur `/produits/`, via Tableau comparatif. |
 | [ ] | Documentation et changelog | V | 2 | Pages `/documentation/` et `/changelog/` (Chronologie). |
-| [ ] | Pied de page en colonnes | V | 2 | Produits nommés, société, contact direct, légal. |
-| [ ] | Maillage interne | V | 2 | Fiches ↔ conseil ↔ blog ; repli « Tous les produits » quand la famille est vide (BOCS). |
+| [x] | Pied de page en colonnes | V | 2 | Quatre colonnes : produits nommés, Bresnik, contact (démo, email), informations ; retour en haut vers le haut de page (2026-09-05). |
+| [x] | Maillage interne | V | 2 | Encart conseil sur chaque fiche, liste des produits sur la page conseil, repli « Les autres logiciels Bresnik » quand la famille est vide (2026-09-05). Fiches ↔ blog viendra avec les premiers articles. |
 | [ ] | Captures dans le récit | V | 2 | Remonter deux ou trois captures clés avec légende bénéfice ; chiffres clés par produit. |
 | [ ] | Visionneuse pour la galerie | V | 3 | Boîte de dialogue avec précédent / suivant au lieu du PNG brut. |
 | [ ] | Fil d'Ariane partout | V | 3 | Blog et pages légales ; l'entrée « Accueil » est en tête sur les fiches depuis le 2026-09-05. |

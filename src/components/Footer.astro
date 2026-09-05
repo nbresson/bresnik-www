@@ -1,29 +1,60 @@
 ---
 import Marque from './Marque.astro';
+import { produitsPublies } from '../lib/catalogue';
+import { emailContact } from '../config/site';
+
+const produits = await produitsPublies();
+const classeLien = 'inline-block py-1.5 text-[14px] text-encre-2 hover:text-cobalt';
+const colonnes: { titre: string; liens: { href: string; libelle: string }[] }[] = [
+  { titre: 'Produits', liens: produits.map((p) => ({ href: `/produits/${p.id}/`, libelle: p.data.nom })) },
+  {
+    titre: 'Bresnik',
+    liens: [
+      { href: '/', libelle: 'Accueil' },
+      { href: '/produits/', libelle: 'Tous les produits' },
+      { href: '/conseil/', libelle: 'Conseil Sage 100' },
+      { href: '/blog/', libelle: 'Blog' },
+    ],
+  },
+  {
+    titre: 'Contact',
+    liens: [
+      { href: '/contact/', libelle: 'Demander une démo' },
+      { href: `mailto:${emailContact}`, libelle: emailContact },
+    ],
+  },
+  {
+    titre: 'Informations',
+    liens: [
+      { href: '/mentions-legales/', libelle: 'Mentions légales' },
+      { href: '/confidentialite/', libelle: 'Confidentialité' },
+      { href: '/rss.xml', libelle: 'Flux RSS' },
+    ],
+  },
+];
 ---
 <footer class="mt-16 border-t border-ligne md:mt-24">
-  <div class="conteneur flex flex-col gap-4 py-7 md:flex-row md:items-center md:justify-between md:gap-6 md:py-8">
-    <div class="flex flex-col gap-1.5">
-      <Marque taille="pied" />
-      <p class="text-[13px] leading-[1.5] text-encre-2 md:text-[14px]">
-        © 2026 Bresnik. Logiciels complémentaires pour l'écosystème Sage 100. Éditeur indépendant, sans lien avec Sage Group plc.
-      </p>
-    </div>
-    <nav aria-label="Plan du site">
-      <div class="flex flex-col gap-2 md:items-end">
-        <ul class="flex flex-wrap gap-4 md:gap-6">
-          <li><a href="/produits/" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Produits</a></li>
-          <li><a href="/conseil/" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Conseil</a></li>
-          <li><a href="/blog/" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Blog</a></li>
-          <li><a href="/contact/" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Contact</a></li>
-        </ul>
-        <ul class="flex flex-wrap gap-4 md:gap-6">
-          <li><a href="/mentions-legales/" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Mentions légales</a></li>
-          <li><a href="/confidentialite/" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Confidentialité</a></li>
-          <li><a href="/rss.xml" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Flux RSS</a></li>
-          <li><a href="#contenu" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Retour en haut</a></li>
-        </ul>
-      </div>
+  <div class="conteneur flex flex-col gap-10 py-10 md:py-12">
+    <nav aria-label="Plan du site" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {colonnes.map((colonne) => (
+        <div class="flex flex-col gap-2">
+          <p class="eyebrow">{colonne.titre}</p>
+          <ul class="flex flex-col">
+            {colonne.liens.map((lien) => (
+              <li><a href={lien.href} class={classeLien}>{lien.libelle}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </nav>
+    <div class="flex flex-col gap-4 border-t border-ligne pt-6 md:flex-row md:items-center md:justify-between md:gap-6">
+      <div class="flex flex-col gap-1.5">
+        <Marque taille="pied" />
+        <p class="text-[13px] leading-[1.5] text-encre-2 md:text-[14px]">
+          © 2026 Bresnik. Logiciels complémentaires pour l'écosystème Sage 100. Éditeur indépendant, sans lien avec Sage Group plc.
+        </p>
+      </div>
+      <a href="#haut" class="inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt">Retour en haut</a>
+    </div>
   </div>
 </footer>
