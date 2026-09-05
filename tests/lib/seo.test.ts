@@ -8,7 +8,7 @@ describe('organisation et site', () => {
     const o = organisation(site);
     expect(o['@type']).toBe('Organization');
     expect(o.url).toBe('https://bresnik.fr/');
-    expect(o.logo).toBe('https://bresnik.fr/apple-touch-icon.png');
+    expect(o.logo).toBe('https://bresnik.fr/favicon-512.png');
     expect((o.founder as { name: string; worksFor: { '@id': string } }).name).toBe('Nicolas Bresson');
     expect((o.founder as { worksFor: { '@id': string } }).worksFor['@id']).toBe('https://bresnik.fr/#organisation');
     expect(siteWeb(site)).toMatchObject({ '@type': 'WebSite', name: 'Bresnik', inLanguage: 'fr' });
