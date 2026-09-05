@@ -434,6 +434,6 @@ variante y est ajouté dans la même modification.
 ## 10. Ton éditorial (ajouté le 2026-09-05)
 
 Le site parle à la première personne : Nicolas Bresson, consultant Sage 100
-indépendant, s'adresse au visiteur en « je » (« J'accompagne », « Écrivez-moi »,
+avec plus de 12 ans d'expérience, s'adresse au visiteur en « je » (« J'accompagne », « Écrivez-moi »,
 « je regarde avec vous »). Le « nous » et le « on » sont proscrits dans les
 pages et composants ; les pages légales restent impersonnelles.
