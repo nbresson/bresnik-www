@@ -1,24 +1,121 @@
 ---
+/**
+ * Galerie de captures. Chaque vignette ouvre une visionneuse (boîte de dialogue
+ * native, image en grand, précédent / suivant, Échap) ; sans script, le lien
+ * ouvre la variante WebP large dans un nouvel onglet.
+ */
 import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
 import CadreCapture from './CadreCapture.astro';
+import Icone from './Icone.astro';
 
 interface Props {
   captures: { src: ImageMetadata; alt: string; titre: string }[];
+  id?: string;
   class?: string;
 }
 
-const { captures, class: classe = '' } = Astro.props;
+const { captures, id = 'galerie', class: classe = '' } = Astro.props;
 
-// « Voir en grand » ouvre une variante WebP large générée au build, jamais le fichier source.
+// « Voir en grand » sert une variante WebP large générée au build, jamais le fichier source.
 const grandes = await Promise.all(captures.map((capture) => getImage({ src: capture.src, format: 'webp', width: 1600 })));
+const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton border-[1.5px] border-ligne bg-blanc text-encre-2 transition-colors duration-150 hover:border-encre hover:text-encre disabled:cursor-not-allowed disabled:opacity-60';
 ---
-<ul class={`grid gap-4 md:grid-cols-2 ${classe}`}>
-  {captures.map((capture, index) => (
-    <li>
-      <a href={grandes[index].src} target="_blank" rel="noopener" class="block rounded-cadre" aria-label={`${capture.titre}, ouvrir l'image en grand dans un nouvel onglet`}>
-        <CadreCapture titre={capture.titre} image={capture.src} alt={capture.alt} />
-      </a>
-    </li>
-  ))}
-</ul>
+<bk-galerie class={`block ${classe}`}>
+  <ul class="grid gap-4 md:grid-cols-2">
+    {captures.map((capture, index) => (
+      <li>
+        <a
+          href={grandes[index].src}
+          target="_blank"
+          rel="noopener"
+          data-vignette
+          data-index={index}
+          data-titre={capture.titre}
+          data-alt={capture.alt}
+          class="block rounded-cadre"
+          aria-label={`${capture.titre}, voir en grand`}
+        >
+          <CadreCapture titre={capture.titre} image={capture.src} alt={capture.alt} />
+        </a>
+      </li>
+    ))}
+  </ul>
+  <dialog
+    id={`${id}-visionneuse`}
+    data-visionneuse
+    data-ferme-arriere-plan
+    aria-labelledby={`${id}-visionneuse-titre`}
+    class="m-auto w-[min(1600px,calc(100vw-2rem))] rounded-cadre border border-ligne bg-blanc p-0 text-encre shadow-capture backdrop:bg-voile"
+  >
+    <div class="flex items-center justify-between gap-4 border-b border-ligne px-4 py-3">
+      <p id={`${id}-visionneuse-titre`} data-titre class="technique truncate"></p>
+      <div class="flex items-center gap-2">
+        <span data-position class="technique hidden sm:inline"></span>
+        <button type="button" data-precedent class={bouton} aria-label="Capture précédente"><Icone nom="chevron" taille={20} class="rotate-90" /></button>
+        <button type="button" data-suivant class={bouton} aria-label="Capture suivante"><Icone nom="chevron" taille={20} class="-rotate-90" /></button>
+        <button type="button" data-ferme-dialogue class={bouton} aria-label="Fermer"><Icone nom="fermer" taille={20} /></button>
+      </div>
+    </div>
+    <div class="flex items-center justify-center bg-papier-2 p-2">
+      <img data-image alt="" class="block max-h-[calc(100vh-9rem)] w-auto max-w-full rounded-[6px] object-contain" />
+    </div>
+  </dialog>
+</bk-galerie>
+
+<script>
+  import '../scripts/dialogues';
+
+  class Galerie extends HTMLElement {
+    connectedCallback() {
+      const vignettes = Array.from(this.querySelectorAll<HTMLAnchorElement>('[data-vignette]'));
+      const dialogue = this.querySelector<HTMLDialogElement>('[data-visionneuse]');
+      const image = this.querySelector<HTMLImageElement>('[data-image]');
+      const titre = this.querySelector<HTMLElement>('[data-titre]');
+      const position = this.querySelector<HTMLElement>('[data-position]');
+      const precedent = this.querySelector<HTMLButtonElement>('[data-precedent]');
+      const suivant = this.querySelector<HTMLButtonElement>('[data-suivant]');
+      if (!dialogue || !image || !titre || !position || !precedent || !suivant || vignettes.length === 0) return;
+
+      let courante = 0;
+      let origine: HTMLElement | null = null;
+      const total = vignettes.length;
+
+      const montrer = (index: number) => {
+        courante = (index + total) % total;
+        const vignette = vignettes[courante];
+        image.src = vignette.href;
+        image.alt = vignette.dataset.alt ?? '';
+        titre.textContent = vignette.dataset.titre ?? '';
+        position.textContent = `${courante + 1} / ${total}`;
+        precedent.disabled = total < 2;
+        suivant.disabled = total < 2;
+      };
+
+      vignettes.forEach((vignette, index) => {
+        vignette.addEventListener('click', (evenement) => {
+          // Sans modificateur : la visionneuse ; avec Ctrl, Maj ou bouton du milieu, le navigateur garde son comportement.
+          if (evenement.ctrlKey || evenement.metaKey || evenement.shiftKey) return;
+          evenement.preventDefault();
+          origine = vignette;
+          montrer(index);
+          dialogue.showModal();
+        });
+      });
+      precedent.addEventListener('click', () => montrer(courante - 1));
+      suivant.addEventListener('click', () => montrer(courante + 1));
+      dialogue.addEventListener('keydown', (evenement) => {
+        if (evenement.key === 'ArrowLeft') montrer(courante - 1);
+        else if (evenement.key === 'ArrowRight') montrer(courante + 1);
+        else return;
+        evenement.preventDefault();
+      });
+      // À la fermeture (Échap, bouton, arrière-plan), le focus revient sur la vignette d'origine.
+      dialogue.addEventListener('close', () => {
+        image.removeAttribute('src');
+        origine?.focus();
+      });
+    }
+  }
+  if (!customElements.get('bk-galerie')) customElements.define('bk-galerie', Galerie);
+</script>
