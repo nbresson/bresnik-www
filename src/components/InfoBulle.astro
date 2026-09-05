@@ -6,13 +6,16 @@ interface Props {
   texte: string;
   /** Libellé du déclencheur pour les lecteurs d'écran quand seul l'icône est affichée. */
   libelle?: string;
+  /** `compacte` : bouton de 28 px pour une liste dense (cible tactile minimale respectée). */
+  taille?: 'normale' | 'compacte';
 }
 
-const { id, texte, libelle = 'Plus d\'informations' } = Astro.props;
+const { id, texte, libelle = 'Plus d\'informations', taille = 'normale' } = Astro.props;
+const classeBouton = taille === 'compacte' ? 'size-7 align-middle' : 'size-11';
 ---
 <span class="group relative inline-flex">
-  <button type="button" aria-describedby={id} aria-label={libelle} class="inline-flex size-11 items-center justify-center rounded-full text-encre-2 hover:text-cobalt">
-    <slot><Icone nom="information" taille={20} /></slot>
+  <button type="button" aria-describedby={id} aria-label={libelle} class={`inline-flex items-center justify-center rounded-full text-encre-2 hover:text-cobalt ${classeBouton}`}>
+    <slot><Icone nom="information" taille={taille === 'compacte' ? 16 : 20} /></slot>
   </button>
   <span
     role="tooltip"
