@@ -91,7 +91,8 @@ const libellesChamps: Record<string, string> = {
     let widget: string | undefined;
     const rendreTurnstile = (theme: 'light' | 'dark') => {
       const turnstile = (window as { turnstile?: Turnstile }).turnstile;
-      if (!conteneurTurnstile || !turnstile) return false;
+      // api.js expose d'abord un objet partiel (ready seul) : attendre la fonction de rendu.
+      if (!conteneurTurnstile || typeof turnstile?.render !== 'function') return false;
       if (widget) turnstile.remove(widget);
       conteneurTurnstile.replaceChildren();
       widget = turnstile.render(conteneurTurnstile, { sitekey: conteneurTurnstile.dataset.sitekey, language: 'fr', theme });
