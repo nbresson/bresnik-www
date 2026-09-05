@@ -11,7 +11,8 @@ import CadreCapture from '../../components/CadreCapture.astro';
 import Galerie from '../../components/Galerie.astro';
 import { capturesDuProduit } from '../../lib/captures-fichiers';
 import FicheTechnique from '../../components/FicheTechnique.astro';
-import { actionProduit, libelleCible, produitsMemeFamille, tonCible } from '../../lib/produits';
+import LienFleche from '../../components/LienFleche.astro';
+import { actionProduit, libelleCible, produitsSuggeres, tonCible } from '../../lib/produits';
 import { produitsPublies } from '../../lib/catalogue';
 import { filAriane, logicielApplication } from '../../lib/seo';
 
@@ -19,11 +20,12 @@ export async function getStaticPaths() {
   const produits = await produitsPublies();
   return produits.map((produit) => ({
     params: { id: produit.id },
-    props: { produit, famille: produitsMemeFamille(produits, produit) },
+    props: { produit, suggestions: produitsSuggeres(produits, produit) },
   }));
 }
 
-const { produit, famille } = Astro.props;
+const { produit, suggestions } = Astro.props;
+const famille = suggestions.produits;
 const { Content } = await render(produit);
 const action = actionProduit(produit.data.disponibilite, produit.id);
 const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
@@ -95,9 +97,19 @@ const donneesStructurees = [
     <FicheTechnique produit={produit} />
   </div>
 
+  <section aria-labelledby="accompagnement" class="conteneur pb-12 lg:pb-16">
+    <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-papier-2 p-6 md:flex-row md:items-center md:justify-between md:gap-8 md:p-8">
+      <div class="flex flex-col gap-1.5">
+        <h2 id="accompagnement" class="font-titres text-[22px] font-semibold leading-[1.25]">Besoin d'accompagnement sur ce sujet ?</h2>
+        <p class="max-w-[640px] text-[16px] leading-[1.5] text-encre-2">J'interviens aussi en conseil Sage 100 : paramétrage, migration, SQL Server, Objets métiers. Un logiciel et une mission se complètent souvent.</p>
+      </div>
+      <LienFleche href="/conseil/" class="shrink-0">Le conseil Sage 100</LienFleche>
+    </div>
+  </section>
+
   {famille.length > 0 && (
     <section aria-labelledby="famille" class="conteneur flex flex-col gap-5 pb-16 lg:pb-20">
-      <h2 id="famille" class="text-[24px] font-bold">Dans la même famille</h2>
+      <h2 id="famille" class="text-[24px] font-bold">{suggestions.memeFamille ? 'Dans la même famille' : 'Les autres logiciels Bresnik'}</h2>
       <div class="grid gap-4 md:grid-cols-3">
         {famille.map((autre) => (
           <a href={`/produits/${autre.id}/`} class="flex items-start gap-4 rounded-carte border border-ligne bg-blanc px-5 py-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">

@@ -46,6 +46,21 @@ export function libelleAcces(disponibilite: Disponibilite): string {
   }
 }
 
+/**
+ * Produits à suggérer en bas d'une fiche : ceux de la même famille (cible),
+ * sinon les autres produits du catalogue. `memeFamille` dit lequel des deux.
+ */
+export function produitsSuggeres<T extends { id: string; data: { cible: string; ordre: number } }>(
+  produits: T[],
+  courant: T,
+  max = 3,
+): { produits: T[]; memeFamille: boolean } {
+  const famille = produitsMemeFamille(produits, courant, max);
+  if (famille.length > 0) return { produits: famille, memeFamille: true };
+  const autres = produits.filter((p) => p.id !== courant.id).sort((a, b) => a.data.ordre - b.data.ordre).slice(0, max);
+  return { produits: autres, memeFamille: false };
+}
+
 export function produitsMemeFamille<T extends { id: string; data: { cible: string; ordre: number } }>(
   produits: T[],
   courant: T,

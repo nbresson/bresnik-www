@@ -22,4 +22,14 @@ fonctionnent avec SQL Server.
 Les produits Bresnik sont nés de missions de conseil : chaque logiciel
 répond à un besoin rencontré sur le terrain que Sage ne couvre pas.
 
+- [BankBridge](/produits/bankbridge/) : intégration bancaire et rapprochement
+  dans Sage 100 Comptabilité.
+- [FEC Analyzer](/produits/fec-analyzer/) : contrôle et analyse du Fichier des
+  Écritures Comptables.
+- [MajTarifPQ](/produits/majtarifpq/) : politique tarifaire fournisseurs et
+  catégories dans Sage 100 Gestion commerciale.
+- [LinkCsvSage](/produits/linkcsvsage/) : export CSV des documents de vente,
+  rattaché à la pièce Sage.
+- [BOCS](/produits/bocs/) : la boîte à outils du consultant Sage 100.
+
 [Nous contacter](/contact/)
