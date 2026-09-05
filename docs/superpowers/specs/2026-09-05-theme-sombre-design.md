@@ -69,6 +69,11 @@ la règle « aucune couleur hors tableau » s'applique aux deux colonnes. Les
 tokens `bande`, `bande-texte` et `voile` sont nouveaux : les composants qui
 dessinaient une bande avec `bg-encre text-blanc` passent à
 `bg-bande text-bande-texte`, et les arrière-plans de dialogue à `bg-voile`.
+Le bouton `inverse` (posé sur une bande) passe de `bg-blanc text-encre` à
+`bg-bande-texte text-bande` ; les blocs de code de la prose (`--tw-prose-pre-*`)
+passent des tokens `papier`/`encre` aux tokens `bande`/`bande-texte` ; les
+points décoratifs du cadre de capture, jusque-là en couleur brute (`#d9d2c4`),
+passent au token `ligne`.
 
 ## 3. Mécanisme
 
@@ -76,7 +81,9 @@ dessinaient une bande avec `bg-encre text-blanc` passent à
   le visiteur a forcé un thème ; sans attribut, le CSS suit
   `prefers-color-scheme`. Les variables sombres sont définies deux fois dans
   `tokens.css` : sous `@media (prefers-color-scheme: dark)` pour
-  `:root:not([data-theme="light"])`, et sous `:root[data-theme="dark"]`. Un
+  `:root:not([data-theme="light"])`, et sous `:root[data-theme="dark"]`. Les
+  deux blocs sont en plus limités à `@media screen`, pour que l'impression
+  reste toujours en clair, y compris quand un thème sombre a été forcé. Un
   test compare les deux blocs et la table de `src/lib/palettes.ts` pour
   empêcher toute dérive.
 - `color-scheme: light` sur `:root`, `dark` quand le thème sombre s'applique,

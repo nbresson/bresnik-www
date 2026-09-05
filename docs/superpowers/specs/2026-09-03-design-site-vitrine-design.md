@@ -54,7 +54,7 @@ Tailwind 4 par `@theme` dans `src/styles/global.css`, afin d'écrire
 | `papier-2` | `#f1ede4` | Bandes de section, barre de fenêtre. |
 | `encre` | `#1c2331` | Texte principal, bandes sombres, bordure de bouton secondaire. |
 | `encre-2` | `#4f5868` | Texte secondaire, fils d'Ariane, légendes. |
-| `encre-claire` | `#c9cfdb` | Texte secondaire sur fond `encre`. |
+| `encre-claire` | `#c9cfdb` | Texte secondaire sur fond `bande`. |
 | `ligne` | `#e2ddd2` | Bordures, séparateurs. |
 | `blanc` | `#ffffff` | Fond des cartes. |
 | `cobalt` | `#1f4fc7` | Accent : liens, bouton primaire, étiquette entreprises, eyebrows. |
@@ -73,7 +73,7 @@ Amendé le 2026-09-05 : palette sombre et tokens `bande`, `bande-texte`,
 Contrastes vérifiés (WCAG AA texte normal, ratio minimal 4,5) : `encre` sur
 `papier` 14,8 ; `encre-2` sur `papier` 6,8 ; `cobalt` sur `papier` 6,6 ;
 `blanc` sur `cobalt` 7,0 ; `ambre` sur `ambre-teinte` 4,8 ; `encre-claire`
-sur `encre` 10,1. Aucune couleur n'est utilisée hors de ce tableau.
+sur `bande` 10,1. Aucune couleur n'est utilisée hors de ce tableau.
 
 ### 2.2 Typographie
 
@@ -156,10 +156,10 @@ stylé avec les classes Tailwind issues des tokens. Aucun style en ligne.
 | Bouton | `Bouton.astro` | Props `variante` (`primaire`, `secondaire`, `inverse`), `href` ou `type`, `taille` (`normal` 52 px, `compact` 44 à 48 px), `fleche` (icône flèche 18 px à droite), `desactive`. Rendu `<a>` si `href`, sinon `<button>`. Pleine largeur en mobile quand `plein`. |
 | Étiquette cible | `EtiquetteCible.astro` | Prop `cible`. `entreprise` : « Entreprises », `cobalt` sur `cobalt-teinte` ; `consultant` : « Consultants Sage », `ambre` sur `ambre-teinte`. Hauteur 26 px, style `etiquette`. |
 | Carte produit | `CarteProduit.astro` | Fond `blanc`, bordure `ligne`, rayon 8, padding 28. Étiquette, nom en `titre-3` (lien), accroche en `texte`, modules en `technique` (ou « Sage · Windows · SQL Server » quand la liste est vide). Toute la carte est cliquable (lien sur le nom, zone étendue via pseudo-élément). |
-| Carte d'appel | `CarteAppel.astro` | Sixième case de la grille produits : fond `encre`, texte blanc, titre `titre-3`, texte `encre-claire`, lien inverse avec flèche vers `/contact/`. |
+| Carte d'appel | `CarteAppel.astro` | Sixième case de la grille produits : fond `bande`, texte `bande-texte`, titre `titre-3`, texte `encre-claire`, lien inverse avec flèche vers `/contact/`. |
 | En-tête de section | `EnTeteSection.astro` | Eyebrow, `titre-2`, et à droite un lien avec flèche facultatif (`lienHref`, `lienLibelle`). En mobile le lien passe sous le titre. |
 | Liste à coches | `ListeCoches.astro` | Prop `elements: string[]`. Chaque ligne : icône coche 22 px `cobalt`, texte 17 px, fond `blanc`, bordure `ligne`, rayon 8, padding 18 × 20. Grille 2 colonnes quand `colonnes = 2` (fiche produit), sinon empilée. |
-| Bande d'appel | `BandeAppel.astro` | Fond `encre`, rayon 12, padding 56 × 64 (28 × 24 mobile). Titre 34 px blanc, texte `encre-claire`, bouton inverse « Demander une démo » à droite (empilé en mobile). Texte par défaut : « Voyons ce que vos données Sage peuvent faire de plus. » et « Une démonstration de 30 minutes sur votre cas, sans engagement. » |
+| Bande d'appel | `BandeAppel.astro` | Fond `bande`, rayon 12, padding 56 × 64 (28 × 24 mobile). Titre 34 px `bande-texte`, texte `encre-claire`, bouton inverse « Demander une démo » à droite (empilé en mobile). Texte par défaut : « Voyons ce que vos données Sage peuvent faire de plus. » et « Une démonstration de 30 minutes sur votre cas, sans engagement. » |
 | Cadre de capture | `CadreCapture.astro` | Fenêtre : bordure `ligne`, rayon 10, ombre, barre haute 40 px `papier-2` avec trois pastilles et un libellé `technique`. Contenu : l'image (`astro:assets`, largeur 800) si fournie, sinon la trame de lignes de la maquette et une légende « [Capture d'écran à insérer] ». Props `titre`, `image?`, `alt?`. |
 | Fiche technique | `FicheTechnique.astro` | Carte `blanc`, rayon 10, padding 28. `<dl>` à deux colonnes : libellés en `etiquette` `encre-2`, valeurs en 600. Lignes : Plateforme, Modules Sage, Objets métiers, Accès (« Sur démonstration », « Téléchargement », « Essai gratuit » selon `disponibilite`). Séparateur, bouton primaire pleine largeur, phrase « Une question technique avant ? Écrivez-nous, le formulaire arrive pré-rempli. » |
 | Carte article | `CarteArticle.astro` | Filet haut 2 px `encre`, padding vertical 24. Ligne `technique` date et premier tag, titre `titre-3` 22 px (lien), description `texte-petit` `encre-2`. Prop `niveauTitre` (`h2` ou `h3`) pour respecter la hiérarchie de la page. Liste de tags avec `aria-label="Tags"`. |
@@ -330,7 +330,7 @@ désactivé et message d'état, inchangés dans leur comportement.
 | Groupe de choix | `GroupeChoix.astro` | `fieldset` et `legend`, props `id`, `legende`, `aide?`, `erreur?`, `requis?`. |
 | Bouton en chargement | `Bouton.astro` | Prop `chargement` : désactivé, `aria-busy`, icône `chargement` en rotation, flèche masquée. |
 | Fil d'Ariane | `FilAriane.astro` | Prop `elements: { libelle, href? }[]` ; `nav` « Fil d'Ariane », dernier élément `aria-current="page"`, liens soulignés. |
-| Lien avec flèche | `LienFleche.astro` | Props `href`, `sens` (`aller`, `retour`), `ton` (`cobalt`, `blanc`). Remplace toutes les répétitions. |
+| Lien avec flèche | `LienFleche.astro` | Props `href`, `sens` (`aller`, `retour`), `ton` (`cobalt`, `bande`). Remplace toutes les répétitions. |
 | Accordéon | `Accordeon.astro` | `details`/`summary` natifs, sans script ; props `elements: { titre, contenu }[]`, `nom?` (un seul volet ouvert). Chevron cobalt tourné à l'ouverture. |
 | État vide | `EtatVide.astro` | Bordure pointillée, titre, texte, bouton secondaire compact facultatif. Utilisé par le blog vide. |
 | Pagination | `Pagination.astro` | Props `courante`, `total`, `lienPage(n)`. Première, dernière, courante et voisines, ellipses ; précédent et suivant ; cases 44 px ; masquée quand une seule page. Le blog pagine par 10 (`/blog/`, `/blog/2/`…). |
@@ -382,7 +382,7 @@ Elles seront transposées dans la pile des applications le moment venu.
 | Tableau de données | `TableauDonnees.astro` | Légende, en-têtes de ligne, `aria-sort`, nombres alignés à droite en monospace tabulaire, zébrage, sélection, actions en icônes. Tri côté client au lot interactif. |
 | Boutons | `BoutonIcone.astro`, `GroupeBoutons.astro` | Icône seule 44 px avec `aria-label`, trois variantes ; groupe segmenté `role="group"`. |
 | Champs | `Champ.astro` | Types `nombre`, `date`, `heure`, `motdepasse` ; props `prefixe` et `suffixe`. |
-| Graphiques | `GraphiqueBarres.astro`, `LegendeGraphique.astro` | Palette `--graphique-1..5` (#1f4fc7, #a8650a, #2a8a4a, #8a3fa8, #c2452e), validée pour les daltonismes sur fond papier ; un axe, barres fines à coins de 4 px, jour de 2 px, légende dès deux séries, maximum étiqueté, tableau des données. |
+| Graphiques | `GraphiqueBarres.astro`, `LegendeGraphique.astro` | Palette `--graphique-1..5`, validée pour les daltonismes sur la surface de chaque thème (valeurs clair et sombre : voir les deux colonnes de `2026-09-05-theme-sombre-design.md` §2) ; un axe, barres fines à coins de 4 px, jour de 2 px, légende dès deux séries, maximum étiqueté, tableau des données. |
 | Menu latéral | `MenuLateral.astro` | Groupes titrés, élément actif en `cobalt-teinte`, badges, emplacement de pied. |
 | En-tête d'application | `EnTeteApplication.astro` | Fil d'Ariane, titre, sous-titre, emplacement d'actions. |
 | Gabarits | `gabarits/application.astro`, `gabarits/connexion.astro` | Pages `noindex` hors sitemap, habillage `application` de `Base` (sans en-tête ni pied du site). |

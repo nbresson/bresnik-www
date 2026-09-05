@@ -121,3 +121,4 @@ même modification et coché ici.
 | [x] | Mouvement : durée, courbe, `prefers-reduced-motion` | V/A | 1 | |
 | [x] | Mention explicite de l'absence de mode sombre | V/A | 1 | Remplacée par le thème sombre (2026-09-05). |
 | [x] | Bibliothèque d'icônes cohérente | A | 3 | Trois icônes aujourd'hui. |
+| [ ] | Variantes sombres des logos | V | 2 | Un logo transparent à encre sombre disparaît sur la tuile `blanc` en mode sombre (`Logos`, `LogoProduit`). |
