@@ -17,7 +17,7 @@ Site vitrine de la marque Bresnik (Astro, statique, Cloudflare Workers).
     npm test           # tests unitaires
     npm run build      # génère dist/
     npm run verifier-liens   # liens internes de dist/ (après build)
-    npm run generer-images   # favicons et images de partage depuis le logo (src/assets/marque) : défaut, une par produit, une par article (après un changement de logo, de charte, de produit ou d'article)
+    npm run generer-images   # favicons, images de partage et vignettes réseaux sociaux depuis le logo (src/assets/marque) ; à rejouer après un changement de logo, de charte, de produit ou d'article
 
 ## Charte vivante
 

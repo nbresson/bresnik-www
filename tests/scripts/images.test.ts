@@ -27,4 +27,13 @@ describe('images générées dans public/', () => {
     }
   });
 
+
+  it('chaque vignette réseaux du manifeste existe aux dimensions annoncées', () => {
+    const manifeste = JSON.parse(readFileSync('src/data/reseaux.json', 'utf8')) as { fichier: string; largeur: number; hauteur: number }[];
+    expect(manifeste.length).toBeGreaterThan(20);
+    for (const v of manifeste) {
+      expect(existsSync(`public${v.fichier}`), v.fichier).toBe(true);
+      expect(dimensionsPng(`public${v.fichier}`)).toEqual({ largeur: v.largeur, hauteur: v.hauteur });
+    }
+  });
 });
