@@ -77,6 +77,7 @@ import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies } from '../lib/blog';
 import { ratioContraste } from '../lib/contraste';
 import { PALETTES, GRAPHIQUES, USAGES, LOGO, type NomToken } from '../lib/palettes';
+import vignettesReseaux from '../data/reseaux.json';
 import SelecteurTheme from '../components/SelecteurTheme.astro';
 
 const produits = await produitsPublies();
@@ -192,6 +193,11 @@ const definitionsExemple = [
   { libelle: 'Plateforme', valeur: 'Windows (WPF)' },
   { libelle: 'Base de données', valeur: 'SQL Server' },
 ];
+const formatsReseaux = [...new Set(vignettesReseaux.map((v) => v.format))].map((format) => ({
+  format,
+  libelle: vignettesReseaux.find((v) => v.format === format)!.libelle,
+  vignettes: vignettesReseaux.filter((v) => v.format === format),
+}));
 const glyphes = [
   { nom: 'banque', usage: 'Relevés, banques' },
   { nom: 'rapprochement', usage: 'Rapprochement' },
@@ -397,6 +403,26 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
 
     <section aria-labelledby="charte-composants" class="flex flex-col gap-10">
       <h2 id="charte-composants" class="text-[24px] font-bold md:text-[30px]">Composants</h2>
+
+      <div class="flex flex-col gap-4">
+        <h3 id="charte-reseaux" class="text-[20px] font-semibold">Vignettes pour les réseaux sociaux</h3>
+        <p class="text-[15px] text-encre-2">Générées par <code>npm run generer-images</code> dans <code>public/reseaux/</code>, avec la palette, le logo et la promesse du site ; chaque format existe en plusieurs fonds. Cliquer une vignette l'ouvre en taille réelle pour l'enregistrer.</p>
+        {formatsReseaux.map((groupe) => (
+          <div class="flex flex-col gap-3">
+            <p class="technique">{groupe.libelle} · {groupe.vignettes[0].largeur} × {groupe.vignettes[0].hauteur}</p>
+            <ul class={`grid gap-4 ${groupe.format === 'avatar' ? 'grid-cols-3 sm:grid-cols-5' : groupe.format === 'publication' ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2'}`}>
+              {groupe.vignettes.map((v) => (
+                <li class="flex flex-col gap-1.5">
+                  <a href={v.fichier} target="_blank" rel="noopener" class="block overflow-hidden rounded-carte border border-ligne bg-blanc" aria-label={`${v.libelle}, fond ${v.fondLibelle}, ouvrir en taille réelle`}>
+                    <img src={v.fichier} alt="" width={v.largeur} height={v.hauteur} loading="lazy" class="block h-auto w-full" />
+                  </a>
+                  <span class="technique">{v.fondLibelle}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
       <div class="flex flex-col gap-4">
         <h3 id="charte-glyphes" class="text-[20px] font-semibold">Glyphes métier</h3>

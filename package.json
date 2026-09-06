@@ -12,7 +12,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:worker": "tsc -p worker --noEmit",
-    "generer-images": "node scripts/generer-og.mjs",
+    "generer-images": "node scripts/generer-og.mjs && node scripts/generer-reseaux.mjs",
     "verifier-liens": "node scripts/verifier-liens.mjs",
     "verifier-csp": "node scripts/verifier-csp.mjs",
     "verifier-seo": "node scripts/verifier-seo.mjs",

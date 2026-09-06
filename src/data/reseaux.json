@@ -1,0 +1,290 @@
+[
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "papier",
+    "fondLibelle": "Papier",
+    "fichier": "/reseaux/linkedin-couverture-papier.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "marine",
+    "fondLibelle": "Marine",
+    "fichier": "/reseaux/linkedin-couverture-marine.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "ruban",
+    "fondLibelle": "Ruban",
+    "fichier": "/reseaux/linkedin-couverture-ruban.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "grille",
+    "fondLibelle": "Grille technique",
+    "fichier": "/reseaux/linkedin-couverture-grille.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "capture",
+    "fondLibelle": "Capture BankBridge",
+    "fichier": "/reseaux/linkedin-couverture-capture.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "capture-bocs",
+    "fondLibelle": "Capture BOCS",
+    "fichier": "/reseaux/linkedin-couverture-capture-bocs.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "filigrane",
+    "fondLibelle": "Logo en filigrane",
+    "fichier": "/reseaux/linkedin-couverture-filigrane.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "duo",
+    "fondLibelle": "Papier et marine",
+    "fichier": "/reseaux/linkedin-couverture-duo.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "linkedin-couverture",
+    "libelle": "Couverture LinkedIn (profil)",
+    "fond": "flamme",
+    "fondLibelle": "Flamme",
+    "fichier": "/reseaux/linkedin-couverture-flamme.png",
+    "largeur": 1584,
+    "hauteur": 396
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "papier",
+    "fondLibelle": "Papier",
+    "fichier": "/reseaux/facebook-couverture-papier.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "marine",
+    "fondLibelle": "Marine",
+    "fichier": "/reseaux/facebook-couverture-marine.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "ruban",
+    "fondLibelle": "Ruban",
+    "fichier": "/reseaux/facebook-couverture-ruban.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "grille",
+    "fondLibelle": "Grille technique",
+    "fichier": "/reseaux/facebook-couverture-grille.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "capture",
+    "fondLibelle": "Capture BankBridge",
+    "fichier": "/reseaux/facebook-couverture-capture.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "capture-bocs",
+    "fondLibelle": "Capture BOCS",
+    "fichier": "/reseaux/facebook-couverture-capture-bocs.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "filigrane",
+    "fondLibelle": "Logo en filigrane",
+    "fichier": "/reseaux/facebook-couverture-filigrane.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "duo",
+    "fondLibelle": "Papier et marine",
+    "fichier": "/reseaux/facebook-couverture-duo.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "facebook-couverture",
+    "libelle": "Couverture Facebook (page)",
+    "fond": "flamme",
+    "fondLibelle": "Flamme",
+    "fichier": "/reseaux/facebook-couverture-flamme.png",
+    "largeur": 820,
+    "hauteur": 312
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "papier",
+    "fondLibelle": "Papier",
+    "fichier": "/reseaux/publication-papier.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "marine",
+    "fondLibelle": "Marine",
+    "fichier": "/reseaux/publication-marine.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "ruban",
+    "fondLibelle": "Ruban",
+    "fichier": "/reseaux/publication-ruban.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "grille",
+    "fondLibelle": "Grille technique",
+    "fichier": "/reseaux/publication-grille.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "capture",
+    "fondLibelle": "Capture BankBridge",
+    "fichier": "/reseaux/publication-capture.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "capture-bocs",
+    "fondLibelle": "Capture BOCS",
+    "fichier": "/reseaux/publication-capture-bocs.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "filigrane",
+    "fondLibelle": "Logo en filigrane",
+    "fichier": "/reseaux/publication-filigrane.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "duo",
+    "fondLibelle": "Papier et marine",
+    "fichier": "/reseaux/publication-duo.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "publication",
+    "libelle": "Visuel de publication",
+    "fond": "flamme",
+    "fondLibelle": "Flamme",
+    "fichier": "/reseaux/publication-flamme.png",
+    "largeur": 1200,
+    "hauteur": 630
+  },
+  {
+    "format": "avatar",
+    "libelle": "Avatar (profil et page)",
+    "fond": "papier",
+    "fondLibelle": "Papier",
+    "fichier": "/reseaux/avatar-papier.png",
+    "largeur": 400,
+    "hauteur": 400
+  },
+  {
+    "format": "avatar",
+    "libelle": "Avatar (profil et page)",
+    "fond": "marine",
+    "fondLibelle": "Marine",
+    "fichier": "/reseaux/avatar-marine.png",
+    "largeur": 400,
+    "hauteur": 400
+  },
+  {
+    "format": "avatar",
+    "libelle": "Avatar (profil et page)",
+    "fond": "ruban",
+    "fondLibelle": "Ruban",
+    "fichier": "/reseaux/avatar-ruban.png",
+    "largeur": 400,
+    "hauteur": 400
+  },
+  {
+    "format": "avatar",
+    "libelle": "Avatar (profil et page)",
+    "fond": "grille",
+    "fondLibelle": "Grille technique",
+    "fichier": "/reseaux/avatar-grille.png",
+    "largeur": 400,
+    "hauteur": 400
+  },
+  {
+    "format": "avatar",
+    "libelle": "Avatar (profil et page)",
+    "fond": "flamme",
+    "fondLibelle": "Flamme",
+    "fichier": "/reseaux/avatar-flamme.png",
+    "largeur": 400,
+    "hauteur": 400
+  }
+]

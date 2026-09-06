@@ -37,6 +37,7 @@ et techniques issues d'une revue complète, hors composants.
 | [x] | Chiffres clés | V | 2 | |
 | [x] | Tableau comparatif | V | 2 | |
 | [ ] | Grille tarifaire | V | 2 | Quand les prix seront publics. |
+| [x] | Vignettes pour les réseaux sociaux | V | 2 | Avatars, couvertures LinkedIn et Facebook, visuels de publication, en neuf fonds, générés par `generer-images` et montrés sur la charte (2026-09-06). |
 | [x] | Chronologie (versions, feuille de route) | V | 2 | |
 | [x] | Étapes numérotées « comment ça marche » | V | 2 | |
 | [x] | Bloc de code, raccourci clavier `kbd` | V/A | 2 | Blog technique, aide. |
