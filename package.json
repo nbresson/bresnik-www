@@ -23,17 +23,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/markdown-satteri": "^0.4.0",
-    "@astrojs/mdx": "^8.0.0",
+    "@astrojs/markdown-satteri": "^0.4.1",
+    "@astrojs/mdx": "^8.0.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.10",
+    "astro": "^7.3.2",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@cloudflare/workers-types": "^5.20260904.1",
+    "@cloudflare/workers-types": "^5.20260911.1",
     "@fontsource/bricolage-grotesque": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
@@ -41,6 +41,6 @@
     "satori": "^0.33.4",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11",
-    "wrangler": "^4.128.0"
+    "wrangler": "^4.131.0"
   }
 }
