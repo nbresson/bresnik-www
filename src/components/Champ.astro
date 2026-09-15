@@ -25,7 +25,7 @@ const invalide = erreur ? 'true' : undefined;
 const bordure = erreur ? 'border-erreur' : 'border-ligne';
 const typesHtml: Record<string, 'text' | 'email' | 'number' | 'date' | 'time' | 'password'> = { text: 'text', email: 'email', nombre: 'number', date: 'date', heure: 'time', motdepasse: 'password' };
 const modeSaisie = type === 'nombre' ? 'decimal' : undefined;
-const classeControle = `w-full rounded-bouton border-[1.5px] ${bordure} bg-blanc px-3.5 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt`;
+const classeControle = `w-full rounded-bouton border-[1.5px] ${bordure} bg-blanc px-3.5 text-[17px] text-encre transition-colors duration-150 focus:border-cobalt`;
 const classeAffixe = `inline-flex items-center border-[1.5px] ${bordure} bg-papier-2 px-3 text-[15px] text-encre-2`;
 const avecAffixe = Boolean(prefixe || suffixe);
 const classeEntree = avecAffixe
@@ -33,7 +33,7 @@ const classeEntree = avecAffixe
   : `${classeControle} h-12`;
 ---
 <div class="flex flex-col gap-1.5">
-  <label for={identifiant} class="text-[14px] font-semibold">
+  <label for={identifiant} class="text-[15px] font-semibold">
     {libelle}{facultatif && <span class="font-normal text-encre-2"> (facultatif)</span>}
   </label>
   {type === 'zone' ? (
@@ -51,6 +51,6 @@ const classeEntree = avecAffixe
   ) : (
     <input id={identifiant} name={nom} type={typesHtml[type]} inputmode={modeSaisie} required={requis} aria-describedby={decritPar} aria-invalid={invalide} class={classeEntree} {...attributs} />
   )}
-  {erreur && <p id={identifiantErreur} class="text-[14px] font-semibold text-erreur">{erreur}</p>}
-  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+  {erreur && <p id={identifiantErreur} class="text-[15px] font-semibold text-erreur">{erreur}</p>}
+  {aide && <p id={identifiantAide} class="text-[15px] text-encre-2">{aide}</p>}
 </div>

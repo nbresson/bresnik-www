@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { taille = 'en-tete' } = Astro.props;
-const classeTaille = taille === 'en-tete' ? 'text-[24px] lg:text-[26px]' : 'text-[22px]';
+const classeTaille = taille === 'en-tete' ? 'text-[24px]' : 'text-[24px]';
 // En en-tête, le logo a la hauteur du bouton compact (44 px) ; les proportions du fichier sont conservées.
 const hauteurLogo = taille === 'en-tete' ? 44 : 30;
 const largeurLogo = Math.round((hauteurLogo * logo.width) / logo.height);

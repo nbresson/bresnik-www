@@ -26,8 +26,8 @@ const identifiantAide = aide ? `${identifiant}-aide` : undefined;
   </button>
   <input type="hidden" name={nom} value={actif ? 'oui' : 'non'} />
   <div class="flex flex-col gap-0.5">
-    <span id={`${identifiant}-libelle`} class="text-[16px] leading-[1.45]">{libelle}</span>
-    {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+    <span id={`${identifiant}-libelle`} class="text-[17px] leading-[1.45]">{libelle}</span>
+    {aide && <p id={identifiantAide} class="text-[15px] text-encre-2">{aide}</p>}
   </div>
 </bk-interrupteur>
 

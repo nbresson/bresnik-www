@@ -30,7 +30,7 @@ const classeLien = (href: string) =>
     <div class="hidden items-center gap-8 lg:flex">
       <nav aria-label="Navigation principale" class="flex items-center gap-8">
         {liens.map((lien) => (
-          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`inline-flex items-center gap-1.5 text-[16px] py-2.5 ${classeLien(lien.href)}`}>
+          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`inline-flex items-center gap-1.5 text-[17px] py-2.5 ${classeLien(lien.href)}`}>
             <Icone nom={lien.icone} taille={16} class="shrink-0" />
             {lien.libelle}
           </a>

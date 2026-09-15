@@ -84,11 +84,11 @@
 }
 
 @utility eyebrow {
-  @apply font-technique font-medium text-[13px] uppercase tracking-[0.08em] text-ambre max-md:text-[12px];
+  @apply font-technique font-medium text-[13px] uppercase tracking-[0.08em] text-ambre max-md:text-[13px];
 }
 
 @utility technique {
-  @apply font-technique font-medium text-[13px] text-encre-2 max-md:text-[12px];
+  @apply font-technique font-medium text-[13px] text-encre-2 max-md:text-[13px];
 }
 
 /* Impression : sans habillage, texte noir, liens externes explicités. */

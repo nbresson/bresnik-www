@@ -17,7 +17,7 @@ const identifiantRobustesse = avecRobustesse ? `${identifiant}-robustesse` : und
 const decritPar = [identifiantRobustesse, identifiantAide].filter(Boolean).join(' ') || undefined;
 ---
 <bk-mot-de-passe class="flex flex-col gap-1.5">
-  <label for={identifiant} class="text-[14px] font-semibold">{libelle}{requis && <span aria-hidden="true"> *</span>}</label>
+  <label for={identifiant} class="text-[15px] font-semibold">{libelle}{requis && <span aria-hidden="true"> *</span>}</label>
   <div class="relative">
     <input
       id={identifiant}
@@ -26,7 +26,7 @@ const decritPar = [identifiantRobustesse, identifiantAide].filter(Boolean).join(
       required={requis}
       autocomplete={autocomplete}
       aria-describedby={decritPar}
-      class="h-12 w-full rounded-bouton border-[1.5px] border-ligne bg-blanc pl-3.5 pr-12 text-[16px] text-encre transition-colors duration-150 focus:border-cobalt"
+      class="h-12 w-full rounded-bouton border-[1.5px] border-ligne bg-blanc pl-3.5 pr-12 text-[17px] text-encre transition-colors duration-150 focus:border-cobalt"
     />
     <button type="button" aria-pressed="false" aria-label="Afficher le mot de passe" class="absolute right-1 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-bouton text-encre-2 hover:bg-papier-2 hover:text-cobalt">
       <Icone nom="oeil" taille={20} class="icone-afficher" />
@@ -41,10 +41,10 @@ const decritPar = [identifiantRobustesse, identifiantAide].filter(Boolean).join(
         <span data-segment class="h-1.5 rounded-full bg-ligne"></span>
         <span data-segment class="h-1.5 rounded-full bg-ligne"></span>
       </div>
-      <p class="text-[14px] text-encre-2">Robustesse : <span data-libelle>Vide</span>. Huit caractères, une majuscule, un chiffre, un symbole.</p>
+      <p class="text-[15px] text-encre-2">Robustesse : <span data-libelle>Vide</span>. Huit caractères, une majuscule, un chiffre, un symbole.</p>
     </div>
   )}
-  {aide && <p id={identifiantAide} class="text-[14px] text-encre-2">{aide}</p>}
+  {aide && <p id={identifiantAide} class="text-[15px] text-encre-2">{aide}</p>}
 </bk-mot-de-passe>
 
 <script>
