@@ -75,6 +75,11 @@ const libellesChamps: Record<string, string> = {
           <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
         <div id="zone-turnstile" data-sitekey={cleTurnstile} class="min-h-[65px]"></div>
+        <div id="turnstile-indisponible" hidden>
+          <Alerte ton="avertissement" titre="La vérification anti-robot ne se charge pas">
+            Un bloqueur de contenu ou le réseau l'empêche peut-être. Rechargez la page, ou écrivez directement à <a href={`mailto:${emailContact}`} class="underline underline-offset-[3px]">{emailContact}</a>.
+          </Alerte>
+        </div>
         <div class="flex flex-col gap-3">
           <Bouton type="submit" id="bouton-envoyer" class="self-start max-md:w-full" fleche>Envoyer ma demande</Bouton>
           <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status"></p>
@@ -128,12 +133,27 @@ const libellesChamps: Record<string, string> = {
       if (!conteneurTurnstile || typeof turnstile?.render !== 'function') return false;
       if (widget) turnstile.remove(widget);
       conteneurTurnstile.replaceChildren();
-      widget = turnstile.render(conteneurTurnstile, { sitekey: conteneurTurnstile.dataset.sitekey, language: 'fr', theme });
+      widget = turnstile.render(conteneurTurnstile, {
+        sitekey: conteneurTurnstile.dataset.sitekey,
+        language: 'fr',
+        theme,
+        'error-callback': () => montrerIndisponible(),
+      });
       return true;
+    };
+    // Widget absent après huit secondes (script bloqué, réseau) ou en erreur : le visiteur reçoit l'adresse de repli
+    // avant de remplir le formulaire, plutôt qu'au clic sur « Envoyer ».
+    const indisponible = document.getElementById('turnstile-indisponible');
+    const montrerIndisponible = () => {
+      if (indisponible) indisponible.hidden = false;
     };
     let essais = 0;
     const attendreTurnstile = () => {
-      if (rendreTurnstile(themeEffectif()) || essais++ > 200) return;
+      if (rendreTurnstile(themeEffectif())) return;
+      if (essais++ >= 160) {
+        montrerIndisponible();
+        return;
+      }
       window.setTimeout(attendreTurnstile, 50);
     };
     attendreTurnstile();
