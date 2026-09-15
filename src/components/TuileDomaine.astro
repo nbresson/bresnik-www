@@ -11,16 +11,20 @@ interface Props {
   elements: { icone: NomIcone; titre: string; texte?: string }[];
   colonnes?: 1 | 2 | 3;
   niveauTitre?: 'h3' | 'h4' | 'p';
+  /** Fond de la section qui accueille les tuiles : les tuiles prennent l'autre ton de papier. */
+  sur?: 'papier' | 'papier-2';
   class?: string;
 }
 
-const { elements, colonnes = 2, niveauTitre = 'p', class: classe = '' } = Astro.props;
+const { elements, colonnes = 2, niveauTitre = 'p', sur = 'papier', class: classe = '' } = Astro.props;
+// Aplat sans bordure ni survol : ces tuiles informent, elles ne mènent nulle part (bordure réservée aux cartes cliquables).
+const fond = sur === 'papier-2' ? 'bg-papier' : 'bg-papier-2';
 const dispositions = { 1: 'flex flex-col gap-3.5', 2: 'grid gap-3.5 md:grid-cols-2', 3: 'grid gap-3.5 md:grid-cols-3' };
 const Titre = niveauTitre;
 ---
 <ul class={`${dispositions[colonnes]} ${classe}`}>
   {elements.map((element) => (
-    <li class="flex items-start gap-4 rounded-carte border border-ligne bg-blanc p-5">
+    <li class={`flex items-start gap-4 rounded-carte p-5 ${fond}`}>
       <Glyphe nom={element.icone} />
       <span class="flex flex-col gap-1">
         <Titre class="text-[17px] font-semibold leading-[1.35]">{element.titre}</Titre>
