@@ -7,9 +7,6 @@ description: "Mentions légales du site Bresnik : éditeur, hébergement chez Cl
 
 Bresnik, marque de Nicolas Bresson.
 
-Forme juridique, SIRET et adresse : **À compléter avant la mise en ligne sur
-bresnik.fr.**
-
 Contact : voir la [page de contact](/contact/).
 
 ## Hébergement

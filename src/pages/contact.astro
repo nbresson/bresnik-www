@@ -40,7 +40,7 @@ const libellesChamps: Record<string, string> = {
 <Base titre="Contact et démonstration" description="Demandez une démonstration d'un logiciel Bresnik ou un échange sur votre projet Sage 100 : réponse du consultant sous deux jours ouvrés.">
   <link slot="tete" rel="preconnect" href="https://challenges.cloudflare.com" />
   <EnTetePage eyebrow="Contact" titre="Parlons de votre projet Sage 100." sousTitre="Demandez une démonstration ou décrivez votre besoin. Réponse sous deux jours ouvrés." />
-  <div class="conteneur pb-16 md:pb-20">
+  <div class="conteneur grid gap-10 pb-16 md:pb-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)] lg:gap-16">
     <div class="flex max-w-[640px] flex-col gap-6">
       <div id="zone-etat" class="empty:hidden"></div>
       <div id="erreur" class="hidden target:block">
@@ -70,6 +70,28 @@ const libellesChamps: Record<string, string> = {
         </div>
       </form>
     </div>
+
+    <aside aria-labelledby="apres-message" class="flex flex-col gap-6 self-start rounded-cadre border border-ligne bg-blanc p-6 md:p-7 lg:sticky lg:top-6">
+      <h2 id="apres-message" class="text-[20px] font-bold">Après votre message</h2>
+      <ol class="flex flex-col gap-5">
+        {[
+          { titre: 'Je lis votre demande', texte: 'Moi-même, sous deux jours ouvrés, sans passer par un commercial.' },
+          { titre: 'On échange trente minutes', texte: 'Sur votre contexte Sage 100, vos volumes et vos contraintes.' },
+          { titre: 'Démonstration ou proposition', texte: 'Sur vos cas réels, sans engagement.' },
+        ].map((etape, index) => (
+          <li class="flex gap-4">
+            <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-cobalt-teinte font-titres text-[15px] font-bold text-cobalt" aria-hidden="true">{index + 1}</span>
+            <span class="flex flex-col gap-1">
+              <span class="font-semibold"><span class="sr-only">Étape {index + 1} : </span>{etape.titre}</span>
+              <span class="text-[15px] leading-[1.5] text-encre-2">{etape.texte}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <p class="border-t border-ligne pt-5 text-[15px] leading-[1.5] text-encre-2">
+        Vous préférez l'email ? <a href={`mailto:${emailContact}`} class="font-semibold text-cobalt underline underline-offset-[3px]">{emailContact}</a>
+      </p>
+    </aside>
   </div>
 
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>

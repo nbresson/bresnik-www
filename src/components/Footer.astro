@@ -5,6 +5,11 @@ import type { NomIcone } from './Icone.astro';
 import { produitsPublies } from '../lib/catalogue';
 import LogoProduit from './LogoProduit.astro';
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { filtrerPublies } from '../lib/blog';
+
+// Le lien Blog n'apparaît qu'à partir du premier article publié.
+const blogPublie = filtrerPublies(await getCollection('blog'), import.meta.env.DEV).length > 0;
 
 const produits = await produitsPublies();
 const classeLien = 'inline-block py-1.5 text-[14px] text-encre-2 hover:text-cobalt';
@@ -13,12 +18,12 @@ const colonnes: { titre: string; liens: Lien[] }[] = [
   { titre: 'Produits', liens: produits.map((p) => ({ href: `/produits/${p.id}/`, libelle: p.data.nom, produit: p })) },
   {
     titre: 'Bresnik',
-    liens: [
+    liens: ([
       { href: '/', libelle: 'Accueil', icone: 'maison' },
       { href: '/produits/', libelle: 'Tous les produits', icone: 'tableau-de-bord' },
       { href: '/conseil/', libelle: 'Conseil Sage 100', icone: 'consultant' },
       { href: '/blog/', libelle: 'Blog', icone: 'document' },
-    ],
+    ] as Lien[]).filter((lien) => lien.href !== '/blog/' || blogPublie),
   },
   {
     titre: 'Contact',

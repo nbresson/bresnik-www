@@ -17,7 +17,7 @@ const lignes = [
   { libelle: 'Modules Sage', valeur: modules, icone: glypheModules(produit.data.modulesSage) },
   {
     libelle: 'Objets métiers',
-    valeur: produit.data.objetsMetiersSage ? 'requis' : 'non requis',
+    valeur: produit.data.objetsMetiersSage ? 'requis, option payante chez Sage' : 'non requis',
     icone: 'prise' as const,
     aide: produit.data.objetsMetiersSage
       ? 'Couche officielle d\'écriture dans Sage 100 : le logiciel crée et modifie les données comme une saisie dans Sage, avec ses contrôles. Option payante chez Sage, à activer sur le poste.'

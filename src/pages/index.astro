@@ -52,8 +52,8 @@ const domaines = [
         Relevés bancaires intégrés, FEC contrôlé, tarifs mis à jour en masse, documents exportés en CSV, poste diagnostiqué : cinq applications Windows nées de missions chez des utilisateurs de Sage 100, qui écrivent dans Sage comme une saisie et gardent vos données sur votre poste.
       </p>
       <div class="mt-1.5 flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3">
-        <Bouton href="/produits/" fleche class="max-md:w-full">Voir les produits</Bouton>
-        <Bouton href="/contact/" variante="secondaire" class="max-md:w-full">Demander une démo</Bouton>
+        <Bouton href="/contact/" fleche class="max-md:w-full">Demander une démo</Bouton>
+        <Bouton href="/produits/" variante="secondaire" class="max-md:w-full">Voir les produits</Bouton>
       </div>
       <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Repères">
         <li class="flex items-center gap-1.5 technique"><Icone nom="consultant" taille={16} class="text-cobalt" />Conçus par un consultant Sage 100</li>
@@ -88,7 +88,7 @@ const domaines = [
         </p>
         <LienFleche href="/conseil/">L'activité de conseil</LienFleche>
       </div>
-      <TuileDomaine elements={[...domaines]} colonnes={1} class="self-center" />
+      <TuileDomaine elements={[...domaines]} colonnes={1} sur="papier-2" class="self-center" />
     </div>
   </section>
 

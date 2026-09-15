@@ -22,7 +22,7 @@ const grandes = await Promise.all(captures.map((capture) => getImage({ src: capt
 const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton border-[1.5px] border-ligne bg-blanc text-encre-2 transition-colors duration-150 hover:border-encre hover:text-encre disabled:cursor-not-allowed disabled:opacity-60';
 ---
 <bk-galerie class={`block ${classe}`}>
-  <ul class="grid gap-4 md:grid-cols-2">
+  <ul class="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3">
     {captures.map((capture, index) => (
       <li>
         <a
