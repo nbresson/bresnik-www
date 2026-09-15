@@ -40,7 +40,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "satori": "^0.33.4",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.0",
     "wrangler": "^4.131.0"
   }
 }
