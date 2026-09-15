@@ -248,3 +248,14 @@ conception courte puis une PR, et coché ici une fois en production.
 | [ ] | URL du site depuis une variable de build | V | 1 | Figée sur workers.dev aujourd'hui ; redirection 301 du domaine technique et arrêt de sa publication. Depuis le 2026-09-05, les hôtes workers.dev portent déjà `X-Robots-Tag: noindex, nofollow`. |
 | [ ] | Authentifier le domaine d'envoi Brevo | V | 1 | SPF, DKIM, DMARC ; expéditeur sur le domaine. |
 | [ ] | Liste de bascule complète | V | 2 | Hôtes Turnstile en étape bloquante, mentions légales et confidentialité au même moment. |
+
+## Audit UI/UX du 2026-09-15
+
+Audit mené avec le plugin ux-engine (huit compétences). P1 corrigés dans la PR « UX : corrections P1 », P2 et P3 dans « UX : corrections P2 et P3 ». Restent ouverts :
+
+| Fait | Sujet | Cible | Priorité | Note |
+|---|---|---|---|---|
+| [ ] | Accroches des cartes produits réécrites | V | 2 | Textes à fournir ; casse de phrase, bénéfice d'abord. |
+| [ ] | Variante sombre du logo FEC Analyzer | V | 3 | Tuile blanche éblouissante en thème sombre ; fichier à fournir. |
+| [ ] | Échelle typographique ramenée à huit tailles | V | 3 | Échelle cible dans `DESIGN.md` ; composants hérités à migrer au fil des modifications. |
+| [ ] | Widget anti-robot indisponible | V | 3 | Message avec l'adresse de repli si le widget ne se charge pas en cinq secondes. |

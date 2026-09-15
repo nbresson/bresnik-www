@@ -11,13 +11,15 @@ import Alerte from '../../components/Alerte.astro';
 ---
 <Base titre="Message envoyé" description="Votre demande est bien reçue : réponse du consultant sous deux jours ouvrés. En attendant, découvrez les logiciels Bresnik pour Sage 100." noindex>
   <EnTetePage eyebrow="Contact" titre="Message envoyé" sousTitre="Merci, votre demande est bien reçue." />
-  <div class="conteneur flex max-w-[760px] flex-col gap-8 pb-16 md:pb-20">
+  <div class="conteneur pb-16 md:pb-20">
+  <div class="flex max-w-[760px] flex-col gap-8">
     <Alerte ton="succes" titre="Réponse sous deux jours ouvrés">
       Je vous réponds moi-même, Nicolas Bresson, à l'adresse que vous avez indiquée. Aucune inscription à une lettre d'information, aucun démarchage.
     </Alerte>
     <div class="flex flex-col gap-3 md:flex-row">
-      <Bouton href="/produits/" variante="secondaire" class="max-md:w-full">Voir les produits</Bouton>
+      <Bouton href="/produits/" fleche class="max-md:w-full">Voir les produits</Bouton>
       <Bouton href="/" variante="secondaire" class="max-md:w-full">Retour à l'accueil</Bouton>
     </div>
+  </div>
   </div>
 </Base>

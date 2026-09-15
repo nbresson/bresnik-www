@@ -5,13 +5,13 @@ interface Props {
 
 const { elements } = Astro.props;
 ---
-<nav aria-label="Fil d'Ariane" class="technique">
+<nav aria-label="Fil d'Ariane" class="text-[14px] text-encre-2">
   <ol class="flex flex-wrap items-center gap-2">
     {elements.map((element, index) => (
       <li class="flex items-center gap-2">
         {index > 0 && <span aria-hidden="true">/</span>}
         {element.href && index < elements.length - 1 ? (
-          <a href={element.href} class="text-encre-2 underline underline-offset-[3px] hover:text-cobalt">{element.libelle}</a>
+          <a href={element.href} class="inline-block py-2 text-encre-2 underline underline-offset-[3px] hover:text-cobalt">{element.libelle}</a>
         ) : (
           <span aria-current={index === elements.length - 1 ? 'page' : undefined}>{element.libelle}</span>
         )}

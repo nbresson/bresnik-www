@@ -18,6 +18,6 @@ const hauteurLogo = taille === 'en-tete' ? 44 : 30;
 const largeurLogo = Math.round((hauteurLogo * logo.width) / logo.height);
 ---
 <a href="/" class={`inline-flex items-center gap-2.5 font-titres font-bold tracking-[-0.02em] text-encre hover:text-encre ${classeTaille}`} aria-label="Bresnik, accueil">
-  <Image src={logo} alt="" width={largeurLogo} height={hauteurLogo} densities={[1, 2, 3]} loading="eager" class="block shrink-0 rounded-[8px]" />
+  <Image src={logo} alt="" width={largeurLogo} height={hauteurLogo} densities={[1, 2, 3]} loading="eager" class="block shrink-0 rounded-carte" />
   <span>Bresni<span class="text-braise">k</span></span>
 </a>
