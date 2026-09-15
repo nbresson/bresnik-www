@@ -17,7 +17,7 @@ interface Props {
 }
 
 const { nom, taille = 'normal', ton = 'teinte', libelle, class: classe = '' } = Astro.props;
-const tailles = { petit: { tuile: 'size-9 rounded-[8px]', icone: 18 }, normal: { tuile: 'size-12 rounded-[10px]', icone: 24 }, grand: { tuile: 'size-16 rounded-carte', icone: 32 } };
+const tailles = { petit: { tuile: 'size-9 rounded-carte', icone: 18 }, normal: { tuile: 'size-12 rounded-cadre', icone: 24 }, grand: { tuile: 'size-16 rounded-carte', icone: 32 } };
 const tons = { teinte: 'bg-cobalt-teinte text-cobalt', bande: 'bg-bande-texte/10 text-bande-texte', nu: 'text-cobalt' };
 const { tuile, icone } = tailles[taille];
 ---

@@ -2,11 +2,30 @@
 import Base from '../layouts/Base.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import Bouton from '../components/Bouton.astro';
+import LogoProduit from '../components/LogoProduit.astro';
+import { produitsPublies } from '../lib/catalogue';
+
+const produits = await produitsPublies();
 ---
 <Base titre="Page introuvable" description="La page demandée n'existe pas ou a été déplacée. Retrouvez les logiciels Bresnik pour Sage 100 depuis l'accueil ou la liste des produits." noindex>
   <EnTetePage eyebrow="Erreur 404" titre="Page introuvable" sousTitre="La page demandée n'existe pas ou a été déplacée." />
-  <div class="conteneur flex flex-col gap-3 pb-16 md:flex-row md:pb-20">
-    <Bouton href="/" variante="secondaire" class="max-md:w-full">Retour à l'accueil</Bouton>
-    <Bouton href="/produits/" variante="secondaire" class="max-md:w-full">Voir les produits</Bouton>
+  <div class="conteneur flex flex-col gap-10 pb-16 md:pb-20">
+    <div class="flex flex-col gap-3 md:flex-row">
+      <Bouton href="/produits/" fleche class="max-md:w-full">Voir les produits</Bouton>
+      <Bouton href="/" variante="secondaire" class="max-md:w-full">Retour à l'accueil</Bouton>
+    </div>
+    <section aria-labelledby="introuvable-produits" class="flex flex-col gap-4">
+      <h2 id="introuvable-produits" class="text-[20px] font-bold">Vous cherchiez peut-être</h2>
+      <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        {produits.map((produit) => (
+          <li>
+            <a href={`/produits/${produit.id}/`} class="flex h-full items-center gap-3 rounded-carte border border-ligne bg-blanc p-4 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre active:bg-papier-2">
+              <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="petit" />
+              <span class="font-titres text-[17px] font-semibold">{produit.data.nom}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   </div>
 </Base>

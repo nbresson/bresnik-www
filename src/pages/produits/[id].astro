@@ -68,7 +68,7 @@ const donneesStructurees = [
             <p id="mention-action" class="technique">{action.mention}</p>
           </>
         )}
-        {action.actif && <p class="technique">Réponse sous deux jours ouvrés</p>}
+        {action.actif && <p class="text-[15px] text-encre-2">Réponse sous deux jours ouvrés</p>}
       </div>
     </div>
   </header>
@@ -115,7 +115,7 @@ const donneesStructurees = [
       <h2 id="famille" class="text-[24px] font-bold">{suggestions.memeFamille ? 'Dans la même famille' : 'Les autres logiciels Bresnik'}</h2>
       <div class="grid gap-4 md:grid-cols-3">
         {famille.map((autre) => (
-          <a href={`/produits/${autre.id}/`} class="flex items-start gap-4 rounded-carte border border-ligne bg-blanc px-5 py-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre">
+          <a href={`/produits/${autre.id}/`} class="flex items-start gap-4 rounded-carte border border-ligne bg-blanc px-5 py-5 text-encre transition-colors duration-150 hover:border-cobalt hover:text-encre active:bg-papier-2">
             <LogoProduit nom={autre.data.nom} logo={autre.data.logo} taille="petit" />
             <span class="flex flex-col gap-1.5">
               <span class="font-titres text-[20px] font-semibold">{autre.data.nom}</span>

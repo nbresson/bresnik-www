@@ -12,7 +12,7 @@ import { filtrerPublies } from '../lib/blog';
 const blogPublie = filtrerPublies(await getCollection('blog'), import.meta.env.DEV).length > 0;
 
 const produits = await produitsPublies();
-const classeLien = 'inline-block py-1.5 text-[14px] text-encre-2 hover:text-cobalt';
+const classeLien = 'inline-block py-3 text-[14px] text-encre-2 hover:text-cobalt active:text-cobalt-fonce md:py-1.5';
 type Lien = { href: string; libelle: string; icone?: NomIcone; produit?: CollectionEntry<'produits'> };
 const colonnes: { titre: string; liens: Lien[] }[] = [
   { titre: 'Produits', liens: produits.map((p) => ({ href: `/produits/${p.id}/`, libelle: p.data.nom, produit: p })) },

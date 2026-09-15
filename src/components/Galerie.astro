@@ -57,8 +57,11 @@ const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton b
         <button type="button" data-ferme-dialogue class={bouton} aria-label="Fermer"><Icone nom="fermer" taille={20} /></button>
       </div>
     </div>
-    <div class="flex items-center justify-center bg-papier-2 p-2">
-      <img data-image alt="" class="block max-h-[calc(100vh-9rem)] w-auto max-w-full rounded-[6px] object-contain" />
+    <div class="relative flex items-center justify-center bg-papier-2 p-2">
+      <img data-image alt="" class="block max-h-[calc(100vh-9rem)] w-auto max-w-full rounded-bouton object-contain transition-opacity duration-150" />
+      <span data-chargement hidden class="absolute inset-0 flex items-center justify-center" role="status" aria-label="Chargement de l'image">
+        <span class="inline-flex size-12 items-center justify-center rounded-full bg-blanc text-cobalt shadow-capture"><Icone nom="chargement" taille={24} class="animate-spin" /></span>
+      </span>
     </div>
   </dialog>
 </bk-galerie>
@@ -75,7 +78,8 @@ const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton b
       const position = this.querySelector<HTMLElement>('[data-position]');
       const precedent = this.querySelector<HTMLButtonElement>('[data-precedent]');
       const suivant = this.querySelector<HTMLButtonElement>('[data-suivant]');
-      if (!dialogue || !image || !titre || !position || !precedent || !suivant || vignettes.length === 0) return;
+      const chargement = this.querySelector<HTMLElement>('[data-chargement]');
+      if (!dialogue || !image || !titre || !position || !precedent || !suivant || !chargement || vignettes.length === 0) return;
 
       let courante = 0;
       let origine: HTMLElement | null = null;
@@ -84,7 +88,22 @@ const bouton = 'inline-flex size-11 items-center justify-center rounded-bouton b
       const montrer = (index: number) => {
         courante = (index + total) % total;
         const vignette = vignettes[courante];
-        image.src = vignette.href;
+        // Aperçu immédiat avec la vignette déjà chargée, puis la version large dès qu'elle est décodée.
+        const apercu = vignette.querySelector('img');
+        if (apercu?.currentSrc) image.src = apercu.currentSrc;
+        image.classList.add('opacity-60');
+        const cible = vignette.href;
+        const indice = courante;
+        const attente = window.setTimeout(() => { chargement.hidden = false; }, 300);
+        const large = new Image();
+        large.src = cible;
+        large.decode().catch(() => undefined).finally(() => {
+          window.clearTimeout(attente);
+          if (indice !== courante) return;
+          if (large.complete && large.naturalWidth > 0) image.src = cible;
+          image.classList.remove('opacity-60');
+          chargement.hidden = true;
+        });
         image.alt = vignette.dataset.alt ?? '';
         titre.textContent = vignette.dataset.titre ?? '';
         position.textContent = `${courante + 1} / ${total}`;

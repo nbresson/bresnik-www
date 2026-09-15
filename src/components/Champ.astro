@@ -6,6 +6,8 @@ interface Props extends Omit<HTMLAttributes<'input'>, 'type'> {
   nom: string;
   libelle: string;
   requis?: boolean;
+  /** Affiche « (facultatif) » après le libellé. Les champs obligatoires ne portent pas de marque. */
+  facultatif?: boolean;
   aide?: string;
   erreur?: string;
   prefixe?: string;
@@ -14,7 +16,7 @@ interface Props extends Omit<HTMLAttributes<'input'>, 'type'> {
   lignes?: number;
 }
 
-const { type = 'text', nom, libelle, requis = false, aide, erreur, prefixe, suffixe, options = [], lignes = 6, ...attributs } = Astro.props;
+const { type = 'text', nom, libelle, requis = false, facultatif = false, aide, erreur, prefixe, suffixe, options = [], lignes = 6, ...attributs } = Astro.props;
 const identifiant = `champ-${nom}`;
 const identifiantAide = aide ? `${identifiant}-aide` : undefined;
 const identifiantErreur = erreur ? `${identifiant}-erreur` : undefined;
@@ -32,7 +34,7 @@ const classeEntree = avecAffixe
 ---
 <div class="flex flex-col gap-1.5">
   <label for={identifiant} class="text-[14px] font-semibold">
-    {libelle}{requis && <span aria-hidden="true"> *</span>}
+    {libelle}{facultatif && <span class="font-normal text-encre-2"> (facultatif)</span>}
   </label>
   {type === 'zone' ? (
     <textarea id={identifiant} name={nom} required={requis} rows={lignes} aria-describedby={decritPar} aria-invalid={invalide} class={`${classeControle} py-3`} {...attributs}></textarea>
