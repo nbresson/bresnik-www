@@ -28,7 +28,7 @@ Valeurs claires et sombres dans `src/lib/palettes.ts`, vérifiées par test (dé
 - Texte : Source Sans 3, variable 400 à 600 ; lecture longue confortable.
 - Technique : JetBrains Mono 500, **réservé aux surtitres (`eyebrow`) et aux données techniques** (versions, formats, libellés de fiche technique). Pas pour le fil d'Ariane, les délais ou les phrases.
 - Contraste : titre 1 à 64 px contre 19 px de texte (rapport 3,4) ; la voix est dans les titres.
-- Échelle cible : **13 · 15 · 17 · 20 · 24 · 30 · 40 · 64**. Les tailles 14, 16, 18, 22 et 48 existent encore dans des composants hérités ; toute nouvelle page utilise l'échelle cible, et un composant touché y est ramené.
+- Échelle : **13 · 15 · 17 · 20 · 24 · 30 · 40 · 48 · 64**, appliquée à tous les composants et pages depuis le 2026-09-15 ; 11 px toléré pour les pastilles de compteur. Une taille hors échelle est une extension à justifier ici.
 
 ## Spacing
 

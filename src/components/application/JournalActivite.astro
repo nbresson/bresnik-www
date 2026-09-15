@@ -14,7 +14,7 @@ const { evenements, class: classe = '' } = Astro.props;
       <Avatar nom={evenement.auteur} taille="petit" />
       <div class="flex min-w-0 flex-col gap-0.5">
         <p class="text-[15px]"><span class="font-semibold">{evenement.auteur}</span> {evenement.action}</p>
-        {evenement.detail && <p class="text-[14px] text-encre-2">{evenement.detail}</p>}
+        {evenement.detail && <p class="text-[15px] text-encre-2">{evenement.detail}</p>}
         <p class="technique">{evenement.date}</p>
       </div>
     </li>

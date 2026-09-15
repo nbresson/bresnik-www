@@ -17,6 +17,6 @@ const reste = personnes.length - visibles.length;
     <li class="rounded-full ring-2 ring-blanc"><Avatar nom={personne.nom} image={personne.image} taille="petit" /></li>
   ))}
   {reste > 0 && (
-    <li class="inline-flex size-8 items-center justify-center rounded-full bg-papier-2 font-technique text-[12px] font-medium text-encre-2 ring-2 ring-blanc">+{reste}<span class="sr-only"> autres personnes</span></li>
+    <li class="inline-flex size-8 items-center justify-center rounded-full bg-papier-2 font-technique text-[13px] font-medium text-encre-2 ring-2 ring-blanc">+{reste}<span class="sr-only"> autres personnes</span></li>
   )}
 </ul>

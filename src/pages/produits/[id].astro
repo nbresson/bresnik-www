@@ -55,10 +55,10 @@ const donneesStructurees = [
         <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="grand" />
         <div class="flex flex-col gap-2">
           <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
-          <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[60px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
+          <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
         </div>
       </div>
-      <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.4]">{produit.data.accroche}</p>
+      <p class="max-w-[760px] text-[17px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.4]">{produit.data.accroche}</p>
       <div class="mt-2 flex flex-col gap-3 md:flex-row md:items-center">
         {action.actif && action.href ? (
           <Bouton href={action.href} fleche class="max-md:w-full">{action.libelle}</Bouton>
@@ -103,8 +103,8 @@ const donneesStructurees = [
   <section aria-labelledby="accompagnement" class="conteneur pb-12 lg:pb-16">
     <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-papier-2 p-6 md:flex-row md:items-center md:justify-between md:gap-8 md:p-8">
       <div class="flex flex-col gap-1.5">
-        <h2 id="accompagnement" class="font-titres text-[22px] font-semibold leading-[1.25]">Besoin d'accompagnement sur ce sujet ?</h2>
-        <p class="max-w-[640px] text-[16px] leading-[1.5] text-encre-2">J'interviens aussi en conseil Sage 100 : paramétrage, migration, SQL Server, Objets métiers. Un logiciel et une mission se complètent souvent.</p>
+        <h2 id="accompagnement" class="font-titres text-[24px] font-semibold leading-[1.25]">Besoin d'accompagnement sur ce sujet ?</h2>
+        <p class="max-w-[640px] text-[17px] leading-[1.5] text-encre-2">J'interviens aussi en conseil Sage 100 : paramétrage, migration, SQL Server, Objets métiers. Un logiciel et une mission se complètent souvent.</p>
       </div>
       <LienFleche href="/conseil/" class="shrink-0">Le conseil Sage 100</LienFleche>
     </div>

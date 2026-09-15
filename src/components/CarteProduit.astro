@@ -21,9 +21,9 @@ const glyphe = produit.data.modulesSage.length > 0 ? glypheModules(produit.data.
     <LogoProduit nom={produit.data.nom} logo={produit.data.logo} />
     <Etiquette ton={tonCible(produit.data.cible)}>{libelleCible(produit.data.cible)}</Etiquette>
   </div>
-  <Titre class="mt-1.5 text-[22px] font-semibold leading-[1.25] md:text-[24px]">
+  <Titre class="mt-1.5 text-[24px] font-semibold leading-[1.25] md:text-[24px]">
     <a href={`/produits/${produit.id}/`} class="text-encre after:absolute after:inset-0 after:content-[''] hover:text-encre">{produit.data.nom}</a>
   </Titre>
-  <p class="text-[16px] leading-[1.45] md:text-[17px] md:leading-[1.5]">{produit.data.accroche}</p>
+  <p class="text-[17px] leading-[1.45] md:text-[17px] md:leading-[1.5]">{produit.data.accroche}</p>
   <p class="flex items-center gap-1.5 technique"><Icone nom={glyphe} taille={16} class="shrink-0 text-cobalt" />{modules}</p>
 </article>

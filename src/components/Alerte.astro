@@ -25,7 +25,7 @@ const config = tons[ton];
 ---
 <div role={config.role} id={id} class={`flex gap-3 rounded-carte border-l-4 border border-ligne bg-blanc px-4 py-3.5 text-encre ${config.classes} ${classe}`}>
   <Icone nom={config.icone} taille={22} class={`mt-0.5 shrink-0 ${couleursIcone[ton]}`} />
-  <div class="flex flex-col gap-1 text-[16px] leading-[1.5]">
+  <div class="flex flex-col gap-1 text-[17px] leading-[1.5]">
     {titre && <p class="font-semibold">{titre}</p>}
     <div><slot /></div>
   </div>

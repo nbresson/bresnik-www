@@ -17,9 +17,9 @@ const { nom, fonction, email, image, statut, class: classe = '' } = Astro.props;
 <div class={`flex items-center gap-4 rounded-carte border border-ligne bg-blanc p-4 ${classe}`}>
   <Avatar nom={nom} image={image} taille="grand" />
   <div class="flex min-w-0 flex-col gap-0.5">
-    <p class="truncate font-titres text-[18px] font-semibold">{nom}</p>
-    {fonction && <p class="truncate text-[14px] text-encre-2">{fonction}</p>}
-    {email && <a href={`mailto:${email}`} class="truncate text-[14px] underline underline-offset-[3px]">{email}</a>}
+    <p class="truncate font-titres text-[17px] font-semibold">{nom}</p>
+    {fonction && <p class="truncate text-[15px] text-encre-2">{fonction}</p>}
+    {email && <a href={`mailto:${email}`} class="truncate text-[15px] underline underline-offset-[3px]">{email}</a>}
     {statut && <Statut ton={statut.ton} libelle={statut.libelle} class="mt-1" />}
   </div>
 </div>

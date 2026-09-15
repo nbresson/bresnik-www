@@ -257,5 +257,5 @@ Audit mené avec le plugin ux-engine (huit compétences). P1 corrigés dans la P
 |---|---|---|---|---|
 | [ ] | Accroches des cartes produits réécrites | V | 2 | Textes à fournir ; casse de phrase, bénéfice d'abord. |
 | [ ] | Variante sombre du logo FEC Analyzer | V | 3 | Tuile blanche éblouissante en thème sombre ; fichier à fournir. |
-| [ ] | Échelle typographique ramenée à huit tailles | V | 3 | Échelle cible dans `DESIGN.md` ; composants hérités à migrer au fil des modifications. |
+| [x] | Échelle typographique ramenée à neuf tailles | V | 3 | 13 · 15 · 17 · 20 · 24 · 30 · 40 · 48 · 64 appliquée partout (2026-09-15). |
 | [ ] | Widget anti-robot indisponible | V | 3 | Message avec l'adresse de repli si le widget ne se charge pas en cinq secondes. |

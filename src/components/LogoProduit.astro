@@ -17,9 +17,9 @@ interface Props {
 const { nom, logo, taille = 'normal', class: classe = '' } = Astro.props;
 const tailles = {
   mini: { classe: 'size-5 rounded-[5px]', px: 20, texte: 'text-[11px]' },
-  petit: { classe: 'size-10 rounded-[9px]', px: 40, texte: 'text-[16px]' },
-  normal: { classe: 'size-14 rounded-bande', px: 56, texte: 'text-[22px]' },
-  grand: { classe: 'size-20 rounded-[18px] md:size-24 md:rounded-[22px]', px: 96, texte: 'text-[32px]' },
+  petit: { classe: 'size-10 rounded-[9px]', px: 40, texte: 'text-[17px]' },
+  normal: { classe: 'size-14 rounded-bande', px: 56, texte: 'text-[24px]' },
+  grand: { classe: 'size-20 rounded-[18px] md:size-24 md:rounded-[22px]', px: 96, texte: 'text-[30px]' },
 };
 const config = tailles[taille];
 ---

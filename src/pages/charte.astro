@@ -111,13 +111,13 @@ const contrastes = couples.map(([texte, fond]) => ({
 }));
 
 const typographie = [
-  { nom: 'titre-1', classe: 'font-titres text-[38px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]', exemple: 'Des logiciels qui complètent Sage 100.' },
-  { nom: 'titre-2', classe: 'font-titres text-[28px] font-bold leading-[1.12] md:text-[40px] md:leading-[1.1]', exemple: 'Titre de section' },
+  { nom: 'titre-1', classe: 'font-titres text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]', exemple: 'Des logiciels qui complètent Sage 100.' },
+  { nom: 'titre-2', classe: 'font-titres text-[30px] font-bold leading-[1.12] md:text-[40px] md:leading-[1.1]', exemple: 'Titre de section' },
   { nom: 'titre-2-petit', classe: 'font-titres text-[24px] font-bold leading-[1.15] md:text-[30px]', exemple: 'Titre de sous-section' },
-  { nom: 'titre-3', classe: 'font-titres text-[22px] font-semibold leading-[1.25] md:text-[24px]', exemple: 'Titre de carte' },
-  { nom: 'sous-titre', classe: 'text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]', exemple: 'Sous-titre de page, en couleur secondaire.' },
-  { nom: 'texte', classe: 'text-[17px] leading-[1.5] md:text-[19px] md:leading-[1.6]', exemple: 'Corps de texte, Source Sans 3, confortable sur 65 caractères environ.' },
-  { nom: 'texte-petit', classe: 'text-[14px] leading-[1.5] text-encre-2', exemple: 'Texte petit, légendes et mentions.' },
+  { nom: 'titre-3', classe: 'font-titres text-[24px] font-semibold leading-[1.25] md:text-[24px]', exemple: 'Titre de carte' },
+  { nom: 'sous-titre', classe: 'text-[17px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.45]', exemple: 'Sous-titre de page, en couleur secondaire.' },
+  { nom: 'texte', classe: 'text-[17px] leading-[1.5] md:text-[20px] md:leading-[1.6]', exemple: 'Corps de texte, Source Sans 3, confortable sur 65 caractères environ.' },
+  { nom: 'texte-petit', classe: 'text-[15px] leading-[1.5] text-encre-2', exemple: 'Texte petit, légendes et mentions.' },
   { nom: 'eyebrow', classe: 'eyebrow', exemple: 'Eyebrow en monospace' },
   { nom: 'technique', classe: 'technique', exemple: 'Sage 100 Comptabilité · Windows (WPF)' },
 ];
@@ -250,8 +250,8 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
 <Base titre="Charte" description="Catalogue des composants et des fondations visuelles du site Bresnik." noindex>
   <header class="conteneur flex flex-col gap-4 pb-10 pt-10 md:pb-14 md:pt-14">
     <p class="eyebrow">Charte vivante</p>
-    <h1 class="text-[34px] font-bold leading-[1.08] tracking-[-0.02em] md:text-[48px] md:leading-[1.06]">Composants et fondations</h1>
-    <p class="max-w-[760px] text-[18px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.45]">
+    <h1 class="text-[30px] font-bold leading-[1.08] tracking-[-0.02em] md:text-[48px] md:leading-[1.06]">Composants et fondations</h1>
+    <p class="max-w-[760px] text-[17px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.45]">
       Chaque exemple est le composant réel du site avec des données d'exemple. Page non indexée. Testez les états de focus au clavier avec la touche Tab.
     </p>
     <nav aria-label="Sommaire" class="flex flex-wrap gap-x-4 gap-y-2 text-[15px]">
@@ -286,7 +286,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         {tokensCouleur.map((nom) => (
           <li class="flex flex-col gap-2">
             <span class={`block h-16 rounded-carte border border-ligne ${classeFond[nom]}`}></span>
-            <span class="text-[14px] font-semibold">{nom}</span>
+            <span class="text-[15px] font-semibold">{nom}</span>
             <span class="text-[13px] text-encre-2">{USAGES[nom]}</span>
             <span class="technique">clair {PALETTES.clair[nom]}</span>
             <span class="technique">sombre {PALETTES.sombre[nom]}</span>
@@ -335,7 +335,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <h2 id="charte-fondations" class="text-[24px] font-bold md:text-[30px]">Espacements, rayons, ombre, mouvement</h2>
       <div class="grid gap-6 lg:grid-cols-3">
         <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
-          <h3 class="text-[18px] font-semibold">Espacements</h3>
+          <h3 class="text-[17px] font-semibold">Espacements</h3>
           <ul class="flex flex-col gap-2">
             {espacements.map((e) => (
               <li class="flex items-center gap-3">
@@ -344,10 +344,10 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
               </li>
             ))}
           </ul>
-          <p class="text-[14px] text-encre-2">Sections : 88 à 96 px en desktop, 40 px en mobile. Cartes : 28 px, 20 px en mobile.</p>
+          <p class="text-[15px] text-encre-2">Sections : 88 à 96 px en desktop, 40 px en mobile. Cartes : 28 px, 20 px en mobile.</p>
         </div>
         <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
-          <h3 class="text-[18px] font-semibold">Rayons et ombre</h3>
+          <h3 class="text-[17px] font-semibold">Rayons et ombre</h3>
           <ul class="flex flex-wrap gap-4">
             {rayons.map((r) => (
               <li class="flex flex-col items-center gap-1.5">
@@ -358,11 +358,11 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
           </ul>
           <div class="mt-2 flex items-center gap-4">
             <span class="block h-14 w-24 rounded-cadre border border-ligne bg-blanc shadow-capture"></span>
-            <span class="text-[14px] text-encre-2">Ombre unique, réservée aux cadres de capture.</span>
+            <span class="text-[15px] text-encre-2">Ombre unique, réservée aux cadres de capture.</span>
           </div>
         </div>
         <div class="flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-6">
-          <h3 class="text-[18px] font-semibold">Mouvement</h3>
+          <h3 class="text-[17px] font-semibold">Mouvement</h3>
           <p class="text-[15px] leading-[1.5]">Transitions de couleur et de rotation en 150 ms, courbe par défaut. Aucune animation d'entrée. Quand le système demande moins de mouvement (<span class="technique">prefers-reduced-motion</span>), toutes les transitions sont neutralisées par la feuille globale.</p>
           <a href="#charte-fondations" class="self-start rounded-bouton bg-papier-2 px-3 py-2 text-[15px] font-semibold text-encre transition-colors duration-150 hover:bg-ligne">Survolez pour voir la transition</a>
         </div>
@@ -374,7 +374,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
       <p class="text-[15px] text-encre-2">Reproduction statique des états, pour comparer sans manipuler. Les vrais états s'observent sur les composants plus bas.</p>
       <div class="flex flex-col gap-6 rounded-carte border border-ligne bg-blanc p-6">
         <div class="flex flex-col gap-3">
-          <h3 class="text-[18px] font-semibold">Bouton primaire</h3>
+          <h3 class="text-[17px] font-semibold">Bouton primaire</h3>
           <div class="flex flex-wrap items-end gap-6">
             <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} bg-cobalt text-blanc`}>Normal</span><span class="technique">normal</span></div>
             <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} bg-cobalt-fonce text-blanc`}>Survol</span><span class="technique">survol</span></div>
@@ -383,7 +383,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
           </div>
         </div>
         <div class="flex flex-col gap-3">
-          <h3 class="text-[18px] font-semibold">Bouton secondaire</h3>
+          <h3 class="text-[17px] font-semibold">Bouton secondaire</h3>
           <div class="flex flex-wrap items-end gap-6">
             <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} border-[1.5px] border-encre text-encre`}>Normal</span><span class="technique">normal</span></div>
             <div class="flex flex-col items-center gap-2"><span class={`${classeBoutonBase} border-[1.5px] border-encre bg-papier-2 text-encre`}>Survol</span><span class="technique">survol</span></div>
@@ -391,7 +391,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
           </div>
         </div>
         <div class="flex flex-col gap-3">
-          <h3 class="text-[18px] font-semibold">Lien dans un texte</h3>
+          <h3 class="text-[17px] font-semibold">Lien dans un texte</h3>
           <div class="flex flex-wrap items-end gap-6 text-[17px]">
             <div class="flex flex-col items-center gap-2"><span class="text-cobalt underline underline-offset-[3px]">Normal</span><span class="technique">normal</span></div>
             <div class="flex flex-col items-center gap-2"><span class="text-cobalt-fonce underline underline-offset-[3px]">Survol</span><span class="technique">survol</span></div>
@@ -648,7 +648,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         </div>
         <div class="flex flex-col gap-4">
           <h3 class="text-[20px] font-semibold">Info-bulle</h3>
-          <p class="flex items-center gap-1 text-[16px]">
+          <p class="flex items-center gap-1 text-[17px]">
             Objets métiers Sage
             <InfoBulle id="charte-infobulle" texte="Bibliothèque fournie par Sage pour lire et écrire les données de Sage 100 en respectant ses règles de gestion." />
           </p>
@@ -696,7 +696,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
             <div class="h-40 rounded-carte border border-dashed border-ligne bg-blanc"></div>
           </div>
           <aside class="rounded-cadre border border-ligne bg-blanc p-6 lg:sticky lg:top-6 lg:self-start">
-            <p class="font-titres text-[18px] font-semibold">Colonne collante</p>
+            <p class="font-titres text-[17px] font-semibold">Colonne collante</p>
             <p class="mt-2 text-[15px] text-encre-2">Elle suit le défilement à partir de 1024 px, comme la fiche technique.</p>
           </aside>
         </div>
@@ -907,28 +907,28 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
 
 
       <div class="flex flex-col gap-10" id="charte-interactions">
-        <h3 class="text-[22px] font-bold">Interactions</h3>
+        <h3 class="text-[24px] font-bold">Interactions</h3>
         <p class="max-w-[760px] text-[15px] text-encre-2">Composants avec un script natif minimal, définis comme éléments personnalisés (<span class="technique">bk-*</span>). Tout est utilisable au clavier : Tab, flèches, Entrée, Échap.</p>
 
         <div class="flex flex-col gap-4">
-          <h4 class="text-[18px] font-semibold">Onglets</h4>
+          <h4 class="text-[17px] font-semibold">Onglets</h4>
           <Onglets id="charte-onglets" libelle="Exemple d'onglets" onglets={[{ id: 'general', libelle: 'Général' }, { id: 'licence', libelle: 'Licence' }, { id: 'historique', libelle: 'Historique' }]} class="rounded-carte border border-ligne bg-blanc px-5">
-            <p slot="general" class="text-[16px]">Contenu de l'onglet Général. Flèches gauche et droite pour changer d'onglet.</p>
-            <p slot="licence" class="text-[16px]">Contenu de l'onglet Licence.</p>
-            <p slot="historique" class="text-[16px]">Contenu de l'onglet Historique.</p>
+            <p slot="general" class="text-[17px]">Contenu de l'onglet Général. Flèches gauche et droite pour changer d'onglet.</p>
+            <p slot="licence" class="text-[17px]">Contenu de l'onglet Licence.</p>
+            <p slot="historique" class="text-[17px]">Contenu de l'onglet Historique.</p>
           </Onglets>
         </div>
 
         <div class="grid gap-8 lg:grid-cols-2">
           <div class="flex flex-col gap-4">
-            <h4 class="text-[18px] font-semibold">Menu déroulant et menu contextuel</h4>
+            <h4 class="text-[17px] font-semibold">Menu déroulant et menu contextuel</h4>
             <div class="flex flex-wrap items-center gap-4 rounded-carte border border-ligne bg-blanc p-6">
               <MenuDeroulant id="charte-menu" libelle="Actions" elements={[{ libelle: 'Modifier', icone: 'crayon', href: '#charte-interactions' }, { libelle: 'Dupliquer', icone: 'document' }, { libelle: 'Exporter', icone: 'telecharger' }, { libelle: 'Supprimer', icone: 'corbeille', danger: true }]} />
               <MenuDeroulant id="charte-menu-contextuel" libelle="Plus d'actions" iconeSeule="points" alignement="droite" elements={[{ libelle: 'Renommer', icone: 'crayon' }, { libelle: 'Archiver', icone: 'dossier' }]} />
             </div>
           </div>
           <div class="flex flex-col gap-4">
-            <h4 class="text-[18px] font-semibold">Indicateur d'étapes</h4>
+            <h4 class="text-[17px] font-semibold">Indicateur d'étapes</h4>
             <div class="rounded-carte border border-ligne bg-blanc p-6">
               <IndicateurEtapes etapes={['Coordonnées', 'Produit', 'Paiement', 'Confirmation']} courante={2} />
             </div>
@@ -936,7 +936,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         </div>
 
         <div class="flex flex-col gap-4">
-          <h4 class="text-[18px] font-semibold">Interrupteur, mot de passe, téléversement, sélecteur</h4>
+          <h4 class="text-[17px] font-semibold">Interrupteur, mot de passe, téléversement, sélecteur</h4>
           <form class="grid max-w-[900px] gap-6 rounded-carte border border-ligne bg-blanc p-6 md:grid-cols-2" onsubmit="return false">
             <div class="flex flex-col gap-4">
               <Interrupteur nom="charte-notifications" libelle="Recevoir les notifications par email" actif aide="Résumé quotidien à 8 h." />
@@ -953,7 +953,7 @@ const classeBoutonBase = 'inline-flex h-[52px] items-center justify-center gap-2
         </div>
 
         <div class="flex flex-col gap-4">
-          <h4 class="text-[18px] font-semibold">Modale, panneau latéral, confirmation, notifications</h4>
+          <h4 class="text-[17px] font-semibold">Modale, panneau latéral, confirmation, notifications</h4>
           <div class="flex flex-wrap items-center gap-3 rounded-carte border border-ligne bg-blanc p-6">
             <Modale id="charte-modale" titre="Détail de la licence" libelleOuverture="Ouvrir une modale">
               <p>Boîte de dialogue native : focus piégé, Échap et clic sur l'arrière-plan ferment.</p>

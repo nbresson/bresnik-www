@@ -17,12 +17,12 @@ const premierTag = article.data.tags[0];
     {premierTag && <span> · #{premierTag}</span>}
     {article.data.brouillon && <span class="ml-2 rounded-full border border-ligne px-2 text-[11px] uppercase">Brouillon</span>}
   </p>
-  <Titre class="text-[22px] font-semibold leading-[1.25]">
+  <Titre class="text-[24px] font-semibold leading-[1.25]">
     <a href={`/blog/${article.id}/`} class="text-encre hover:text-cobalt">{article.data.titre}</a>
   </Titre>
-  <p class="text-[16px] leading-[1.5] text-encre-2">{article.data.description}</p>
+  <p class="text-[17px] leading-[1.5] text-encre-2">{article.data.description}</p>
   {article.data.tags.length > 0 && (
-    <ul class="flex flex-wrap gap-2 text-[14px]" aria-label="Tags">
+    <ul class="flex flex-wrap gap-2 text-[15px]" aria-label="Tags">
       {article.data.tags.map((tag) => (
         <li><a href={`/blog/tags/${tag}/`} class="inline-block py-1 underline underline-offset-[3px]">#{tag}</a></li>
       ))}

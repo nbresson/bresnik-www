@@ -29,7 +29,7 @@ const format = (v: number) => `${new Intl.NumberFormat('fr-FR').format(v)}${unit
 const identifiant = `graphique-${titre.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 ---
 <figure class={`flex flex-col gap-3 rounded-carte border border-ligne bg-blanc p-5 ${classe}`} aria-labelledby={`${identifiant}-titre`}>
-  <figcaption id={`${identifiant}-titre`} class="text-[16px] font-semibold">{titre}</figcaption>
+  <figcaption id={`${identifiant}-titre`} class="text-[17px] font-semibold">{titre}</figcaption>
   {series.length > 1 && <LegendeGraphique series={series} />}
   <svg viewBox={`0 0 ${largeur} ${hauteur}`} class="h-auto w-full font-texte" role="img" aria-describedby={`${identifiant}-table`}>
     {graduations.map((g) => (
@@ -59,12 +59,12 @@ const identifiant = `graphique-${titre.toLowerCase().replace(/[^a-z0-9]+/g, '-')
               </g>
             );
           })}
-          <text x={marge.gauche + i * largeurGroupe + largeurGroupe / 2} y={hauteur - 12} text-anchor="middle" class="fill-encre-2 text-[12px]">{categorie}</text>
+          <text x={marge.gauche + i * largeurGroupe + largeurGroupe / 2} y={hauteur - 12} text-anchor="middle" class="fill-encre-2 text-[13px]">{categorie}</text>
         </g>
       );
     })}
   </svg>
-  <details class="text-[14px]">
+  <details class="text-[15px]">
     <summary class="cursor-pointer text-encre-2 hover:text-cobalt">Voir les données en tableau</summary>
     <table id={`${identifiant}-table`} class="mt-2 w-full border-collapse">
       <thead>

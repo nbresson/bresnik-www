@@ -55,7 +55,7 @@ const libellesChamps: Record<string, string> = {
         <Champ nom="email" libelle="Email" type="email" requis autocomplete="email" />
         <Champ nom="societe" libelle="Société" facultatif maxlength="100" autocomplete="organization" />
         <fieldset class="flex flex-col gap-2 border-0 p-0">
-          <legend class="mb-1 text-[14px] font-semibold">Produit concerné <span class="font-normal text-encre-2">(facultatif)</span></legend>
+          <legend class="mb-1 text-[15px] font-semibold">Produit concerné <span class="font-normal text-encre-2">(facultatif)</span></legend>
           <div class="grid gap-2 sm:grid-cols-2">
             {optionsProduits.map((option, index) => (
               <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-bouton border-[1.5px] border-ligne bg-blanc px-3.5 py-2 transition-colors duration-150 hover:border-encre-2 has-[:checked]:border-cobalt has-[:checked]:bg-cobalt-teinte">
@@ -70,14 +70,14 @@ const libellesChamps: Record<string, string> = {
         <GroupeChoix id="groupe-consentement" legende="Consentement" requis>
           <Choix nom="consentement" valeur="oui" libelle="J'accepte que ces informations servent à répondre à ma demande. Elles ne sont ni stockées sur le site ni transmises à des tiers à d'autres fins." requis />
         </GroupeChoix>
-        <p class="text-[14px] text-encre-2">Détails dans la <a href="/confidentialite/" class="underline underline-offset-[3px]">politique de confidentialité</a>.</p>
+        <p class="text-[15px] text-encre-2">Détails dans la <a href="/confidentialite/" class="underline underline-offset-[3px]">politique de confidentialité</a>.</p>
         <div class="hidden" aria-hidden="true">
           <label>Ne pas remplir <input name="site_web" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
         <div id="zone-turnstile" data-sitekey={cleTurnstile} class="min-h-[65px]"></div>
         <div class="flex flex-col gap-3">
           <Bouton type="submit" id="bouton-envoyer" class="self-start max-md:w-full" fleche>Envoyer ma demande</Bouton>
-          <p id="etat-formulaire" class="text-[14px] text-encre-2" role="status"></p>
+          <p id="etat-formulaire" class="text-[15px] text-encre-2" role="status"></p>
         </div>
       </form>
     </div>
@@ -173,7 +173,7 @@ const libellesChamps: Record<string, string> = {
       const carte = document.createElement('div');
       carte.setAttribute('role', ton === 'erreur' ? 'alert' : 'status');
       carte.tabIndex = -1;
-      carte.className = `flex flex-col gap-1 rounded-carte border border-ligne border-l-4 bg-blanc px-4 py-3.5 text-[16px] leading-[1.5] text-encre ${classesAlerte[ton]}`;
+      carte.className = `flex flex-col gap-1 rounded-carte border border-ligne border-l-4 bg-blanc px-4 py-3.5 text-[17px] leading-[1.5] text-encre ${classesAlerte[ton]}`;
       const entete = document.createElement('p');
       entete.className = 'font-semibold';
       entete.textContent = titre;
@@ -226,7 +226,7 @@ const libellesChamps: Record<string, string> = {
         const texte = document.createElement('p');
         texte.id = idErreur;
         texte.setAttribute('data-erreur-champ', '');
-        texte.className = 'text-[14px] font-semibold text-erreur';
+        texte.className = 'text-[15px] font-semibold text-erreur';
         texte.textContent = message;
         (controle.closest('fieldset') ?? controle.closest('div'))?.append(texte);
         controle.setAttribute('data-describedby-initial', controle.getAttribute('aria-describedby') ?? '');
