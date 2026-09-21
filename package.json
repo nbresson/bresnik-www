@@ -28,19 +28,19 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.2",
+    "astro": "^7.3.3",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@cloudflare/workers-types": "^5.20260911.1",
+    "@cloudflare/workers-types": "^5.20260918.1",
     "@fontsource/bricolage-grotesque": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.20",
     "satori": "^0.33.4",
     "typescript": "^5.9.3",
-    "vitest": "^5.0.0",
-    "wrangler": "^4.131.0"
+    "vitest": "^5.0.1",
+    "wrangler": "^4.134.0"
   }
 }
