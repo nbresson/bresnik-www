@@ -91,6 +91,25 @@
   @apply font-technique font-medium text-[13px] text-encre-2 max-md:text-[13px];
 }
 
+@utility glass-card {
+  background-color: var(--couleur-blanc);
+  border: 1px solid var(--couleur-ligne);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@utility glow-saas {
+  box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.25), var(--ombre-capture);
+}
+
+@utility glow-subtle {
+  box-shadow: 0 0 30px -10px rgba(59, 130, 246, 0.15);
+}
+
+@utility badge-mono {
+  @apply inline-flex items-center gap-1.5 font-technique text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full;
+}
+
 /* Impression : sans habillage, texte noir, liens externes explicités. */
 /* Contraste élevé (Windows) : les fonds disparaissent, une bordure système prend le relais
    pour ce qui n'est dessiné que par une couleur de fond. */

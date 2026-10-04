@@ -6,11 +6,11 @@ interface Props {
 
 const { chiffres, class: classe = '' } = Astro.props;
 ---
-<dl class={`grid grid-cols-2 gap-4 md:grid-cols-4 ${classe}`}>
+<dl class={`grid grid-cols-2 gap-3.5 md:grid-cols-4 md:gap-5 ${classe}`}>
   {chiffres.map((chiffre) => (
-    <div class="flex flex-col gap-1 rounded-carte border border-ligne bg-blanc p-5">
-      <dd class="order-1 font-titres text-[40px] font-bold leading-none text-cobalt md:text-[40px]">{chiffre.valeur}</dd>
-      <dt class="order-2 text-[15px] text-encre-2">{chiffre.libelle}</dt>
+    <div class="flex flex-col gap-1.5 rounded-carte border border-ligne bg-blanc/80 p-5 backdrop-blur-sm transition-all duration-200 hover:border-cobalt/40 hover:-translate-y-0.5">
+      <dd class="order-1 font-titres text-[36px] font-bold leading-none tracking-tight text-cobalt md:text-[42px]">{chiffre.valeur}</dd>
+      <dt class="order-2 text-[14px] leading-snug text-encre-2">{chiffre.libelle}</dt>
     </div>
   ))}
 </dl>

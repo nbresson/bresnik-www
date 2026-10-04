@@ -30,9 +30,17 @@ if (!window.bkDialoguesInitialises) {
       if (parent instanceof HTMLDialogElement) parent.close(fermeur.getAttribute('data-ferme-dialogue') || '');
       return;
     }
-    // Clic sur l'arrière-plan : la cible est le dialogue lui-même, pas son contenu.
+    // Clic sur l'arrière-plan : la cible est le dialogue lui-même, et le clic est en dehors de sa boîte.
     if (cible instanceof HTMLDialogElement && cible.hasAttribute('data-ferme-arriere-plan')) {
-      cible.close('');
+      const rect = cible.getBoundingClientRect();
+      const estDehors =
+        evenement.clientX < rect.left ||
+        evenement.clientX > rect.right ||
+        evenement.clientY < rect.top ||
+        evenement.clientY > rect.bottom;
+      if (estDehors) {
+        cible.close('');
+      }
     }
   });
 

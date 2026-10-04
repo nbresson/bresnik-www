@@ -12,6 +12,8 @@ import Carrousel from '../components/Carrousel.astro';
 import TuileDomaine from '../components/TuileDomaine.astro';
 import Icone from '../components/Icone.astro';
 import BandeAppel from '../components/BandeAppel.astro';
+import Accordeon from '../components/Accordeon.astro';
+import ChiffresCles from '../components/ChiffresCles.astro';
 import { produitsPublies } from '../lib/catalogue';
 import { filtrerPublies, trierParDate } from '../lib/blog';
 import { capturesDuProduit } from '../lib/captures-fichiers';
@@ -35,6 +37,32 @@ const domaines = [
   { icone: 'prise', titre: 'Automatisation et interfaces autour des Objets métiers Sage', texte: 'La couche officielle qui écrit dans Sage 100 comme une saisie, avec ses contrôles.' },
   { icone: 'rapport', titre: 'Reporting et analyse comptable' },
 ] as const;
+
+const chiffres = [
+  { valeur: '+12 ans', libelle: 'd\'expérience terrain Sage 100 & SQL Server' },
+  { valeur: '5', libelle: 'logiciels Windows nés de besoins concrets' },
+  { valeur: '100%', libelle: 'sur votre poste, sans transit Cloud' },
+  { valeur: '30 min', libelle: 'de démo ciblée sur vos cas réels' },
+];
+
+const faq = [
+  {
+    titre: 'Faut-il une licence Sage 100 particulière pour utiliser ces logiciels ?',
+    contenu: 'Non. Les logiciels fonctionnent sur votre installation existante de Sage 100 et exploitent, pour les modules qui écrivent dans Sage, les Objets métiers déjà présents dans votre environnement.',
+  },
+  {
+    titre: 'Les logiciels fonctionnent-ils sur un serveur distant (TSE, RDS, Bureau à distance) ?',
+    contenu: 'Oui, parfaitement. Ce sont des applications Windows natives (légères, sans dépendances lourdes), conçues pour tourner aussi bien sur un poste individuel que sur un serveur distant ou un environnement virtualisé.',
+  },
+  {
+    titre: 'Mes données comptables ou bancaires quittent-elles mon entreprise ?',
+    contenu: 'Non, jamais. Vos données restent à 100 % sur votre poste et votre serveur SQL Server. Aucune donnée comptable ou bancaire n\'est transmise à Bresnik ni à un service Cloud tiers.',
+  },
+  {
+    titre: 'Comment se passe une démonstration ?',
+    contenu: 'Trente minutes en visioconférence directement avec Nicolas Bresson sur vos cas d\'usage réels. Sans discours commercial générique et sans engagement.',
+  },
+];
 ---
 <Base
   titre="Bresnik — Logiciels complémentaires de Sage 100"
@@ -42,35 +70,98 @@ const domaines = [
   sansSuffixe
   donneesStructurees={[organisation(Astro.site!), siteWeb(Astro.site!)]}
 >
-  <section aria-labelledby="promesse" class="conteneur grid items-center gap-10 pb-8 pt-10 lg:grid-cols-2 lg:gap-16 lg:pb-22 lg:pt-24">
-    <div class="flex flex-col gap-5 lg:gap-6">
-      <p class="eyebrow">Logiciels pour l'écosystème Sage 100</p>
-      <h1 id="promesse" class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.04] md:tracking-[-0.025em]">
-        Faites faire à Sage 100 ce qu'il ne fait pas.
-      </h1>
-      <p class="max-w-[560px] text-[17px] leading-[1.5] text-encre-2 md:text-[20px]">
-        Relevés bancaires, contrôle du FEC, tarifs en masse, exports CSV, diagnostic de poste : cinq applications Windows nées de missions chez des utilisateurs de Sage 100.
-      </p>
-      <div class="mt-1.5 flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3">
-        <Bouton href="/contact/" fleche class="max-md:w-full">Demander une démo</Bouton>
-        <Bouton href="/produits/" variante="secondaire" class="max-md:w-full">Voir les produits</Bouton>
+  <section aria-labelledby="promesse" class="relative overflow-hidden pt-8 pb-10 md:pt-14 md:pb-16">
+    <!-- Halos de lumière ambiante (Concept A Linear/Stripe) -->
+    <div class="pointer-events-none absolute -top-40 -left-40 size-96 rounded-full bg-cobalt/10 blur-3xl -z-10" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute top-1/2 -right-40 size-96 rounded-full bg-flamme/10 blur-3xl -z-10" aria-hidden="true"></div>
+
+    <div class="conteneur grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+      <div class="flex flex-col gap-5 lg:col-span-6 lg:gap-6">
+        <!-- Status pill opérationnel avec balise pulsante -->
+        <div class="inline-flex items-center gap-2 rounded-full border border-ligne bg-blanc/80 px-3.5 py-1 text-xs text-encre backdrop-blur-sm shadow-xs w-fit">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-succes opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-succes"></span>
+          </span>
+          <span class="font-medium text-encre">Suite 2026 opérationnelle</span>
+          <span class="text-encre-2/50">·</span>
+          <span class="font-technique text-[11px] text-encre-2">Sage 100 v8 → v11</span>
+        </div>
+
+        <h1 id="promesse" class="text-[38px] font-bold leading-[1.08] tracking-[-0.025em] md:text-[58px] md:leading-[1.04]">
+          Faites faire à Sage 100 ce qu'il ne fait pas.
+        </h1>
+
+        <p class="max-w-[560px] text-[16px] leading-[1.6] text-encre-2 md:text-[19px]">
+          Automatisation bancaire, audit de conformité FEC, tarification en masse et passerelles CSV. 
+          Cinq logiciels Windows natifs qui écrivent dans Sage 100 comme une saisie humaine certifiée.
+        </p>
+
+        <div class="mt-1 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
+          <Bouton href="#produits" fleche class="max-md:w-full">Explorer les 5 logiciels</Bouton>
+          <Bouton href="/contact/" variante="secondaire" class="max-md:w-full">Demander une démo (30 min)</Bouton>
+        </div>
+
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 pt-2 text-[13px] text-encre-2 font-technique" aria-label="Garanties et repères">
+          <li class="flex items-center gap-2">
+            <Icone nom="bouclier" taille={16} class="text-cobalt shrink-0" />
+            <span>100% sur votre poste (Zéro fuite Cloud)</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icone nom="prise" taille={16} class="text-cobalt shrink-0" />
+            <span>Objets Métiers Officiels Sage</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icone nom="consultant" taille={16} class="text-cobalt shrink-0" />
+            <span>Support direct par le concepteur</span>
+          </li>
+        </ul>
       </div>
-      <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Repères">
-        <li class="flex items-center gap-1.5 text-[15px] text-encre-2"><Icone nom="consultant" taille={16} class="text-cobalt" />Conçus par un consultant Sage 100</li>
-        <li class="flex items-center gap-1.5 text-[15px] text-encre-2"><Icone nom="prise" taille={16} class="text-cobalt" />Écrivent dans Sage comme une saisie</li>
-        <li class="flex items-center gap-1.5 text-[15px] text-encre-2"><Icone nom="bouclier" taille={16} class="text-cobalt" />Vos données restent sur votre poste</li>
-      </ul>
-    </div>
-    <div class="hidden md:block">
-      {vedettes.length > 0 ? (
-        <Carrousel id="vedettes" libelle="Captures d'écran des produits" diapositives={vedettes} />
-      ) : (
-        <CadreCapture titre="BankBridge — Extraits à intégrer" />
-      )}
+
+      <div class="w-full min-w-0 lg:col-span-6">
+        <!-- Vitrine logicielle style Linear avec en-tête studio et télémétrie -->
+        <div class="relative overflow-hidden rounded-cadre border border-ligne bg-blanc/85 backdrop-blur-md shadow-capture glow-saas">
+          <!-- Barre d'état de l'application -->
+          <div class="flex items-center justify-between border-b border-ligne/80 px-4 py-2.5 bg-papier-2/50">
+            <div class="flex items-center gap-2">
+              <span class="size-2.5 rounded-full bg-ligne"></span>
+              <span class="size-2.5 rounded-full bg-ligne"></span>
+              <span class="size-2.5 rounded-full bg-ligne"></span>
+              <span class="ml-2 font-technique text-[11px] font-medium text-encre-2">BankBridge · Live Flow</span>
+            </div>
+            <span class="inline-flex items-center gap-1 rounded-full bg-succes-teinte border border-succes/25 px-2 py-0.5 font-technique text-[10px] font-semibold text-succes">
+              <span class="size-1.5 rounded-full bg-succes"></span>
+              SQL_SYNC_OK
+            </span>
+          </div>
+
+          <div class="p-2 sm:p-3">
+            {vedettes.length > 0 ? (
+              <Carrousel id="vedettes" libelle="Captures d'écran des produits" diapositives={vedettes} />
+            ) : (
+              <CadreCapture titre="BankBridge — Extraits à intégrer" />
+            )}
+          </div>
+
+          <!-- Télémétrie en direct sous l'écran -->
+          <div class="border-t border-ligne/70 bg-papier/70 px-4 py-2.5 text-[12px] flex items-center justify-between font-technique text-encre-2">
+            <div class="flex items-center gap-2 truncate">
+              <span class="size-2 rounded-full bg-cobalt animate-pulse"></span>
+              <span class="truncate">Rapprochement auto CAMT.053 & CFONB</span>
+            </div>
+            <span class="shrink-0 font-semibold text-cobalt">96.4% qualifié</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section aria-labelledby="produits" class="conteneur flex flex-col gap-6 pb-16 pt-6 md:gap-8 md:pb-24 md:pt-8">
+  <section aria-labelledby="chiffres-cles" class="conteneur pb-8 pt-2 md:pb-14">
+    <h2 id="chiffres-cles" class="sr-only">Repères clés</h2>
+    <ChiffresCles chiffres={chiffres} />
+  </section>
+
+  <section aria-labelledby="produits" id="produits" class="conteneur flex flex-col gap-6 pb-16 pt-6 md:gap-8 md:pb-24 md:pt-8">
     <EnTeteSection id="produits" eyebrow="Produits" titre="Cinq outils, cinq besoins rencontrés sur le terrain." lienHref="/produits/" lienLibelle="Tous les produits" />
     <div class="grid gap-3 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
       {produits.map((produit) => <CarteProduit produit={produit} />)}
@@ -101,7 +192,18 @@ const domaines = [
     </section>
   )}
 
-  <div class="pt-10 md:pt-22">
+  <section aria-labelledby="faq-accueil" class="conteneur flex flex-col gap-6 py-10 md:gap-8 md:py-20">
+    <EnTeteSection
+      id="faq-accueil"
+      eyebrow="Questions fréquentes"
+      titre="Ce qu'il faut savoir avant d'adopter un logiciel Bresnik."
+      lienHref="/contact/"
+      lienLibelle="Poser une question"
+    />
+    <Accordeon elements={faq} nom="faq-accueil" class="max-w-[840px]" />
+  </section>
+
+  <div class="pt-6 md:pt-16">
     <BandeAppel />
   </div>
 </Base>

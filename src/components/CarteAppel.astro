@@ -1,10 +1,18 @@
 ---
 import LienFleche from './LienFleche.astro';
+import Icone from './Icone.astro';
 ---
-<div class="flex flex-col justify-between gap-4 rounded-carte bg-bande p-5 text-bande-texte md:p-7">
-  <p class="font-titres text-[24px] font-semibold leading-[1.25] md:text-[24px]">Un besoin qui n'est pas dans la liste ?</p>
-  <p class="text-[17px] leading-[1.5] text-encre-claire md:text-[17px]">
-    Chaque outil est né d'une mission. Décrivez le vôtre, je regarde avec vous si un logiciel peut y répondre.
-  </p>
-  <LienFleche href="/contact/" ton="bande">M'écrire</LienFleche>
+<div class="flex flex-col justify-between gap-6 rounded-carte bg-bande p-6 text-bande-texte md:p-7 shadow-capture border border-white/10">
+  <div class="flex flex-col gap-4">
+    <div class="flex size-11 items-center justify-center rounded-carte bg-white/10 text-encre-claire">
+      <Icone nom="courrier" taille={22} />
+    </div>
+    <p class="font-titres text-[22px] font-semibold leading-[1.25]">Un besoin spécifique non couvert ?</p>
+    <p class="text-[15px] leading-[1.5] text-encre-claire">
+      Chaque outil est né d'une mission de terrain. Décrivez vos contraintes Sage 100, j'évalue avec vous si une solution ou une extension dédiée est envisageable.
+    </p>
+  </div>
+  <div class="border-t border-white/10 pt-4">
+    <LienFleche href="/contact/" ton="bande">Échanger sur votre besoin</LienFleche>
+  </div>
 </div>

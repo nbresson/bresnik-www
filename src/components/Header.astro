@@ -18,28 +18,40 @@ const tousLesLiens: { href: string; libelle: string; icone: NomIcone }[] = [
 ];
 const liens = tousLesLiens.filter((lien) => lien.href !== '/blog/' || blogPublie);
 const cheminCourant = Astro.url.pathname;
-const estActif = (href: string) => cheminCourant.startsWith(href);
+const estActif = (href: string) => (href === '/' ? cheminCourant === '/' : cheminCourant.startsWith(href));
 const classeLien = (href: string) =>
   estActif(href)
-    ? 'border-b-2 border-cobalt font-semibold text-cobalt'
-    : 'font-semibold text-encre hover:text-cobalt';
+    ? 'bg-cobalt-teinte/80 text-cobalt font-semibold'
+    : 'font-medium text-encre hover:text-cobalt hover:bg-papier-2';
 ---
-<header class="border-b border-ligne bg-papier">
+<header class="sticky top-0 z-40 border-b border-ligne/80 bg-papier/90 backdrop-blur-md transition-colors">
   <div class="conteneur flex h-16 items-center justify-between lg:h-20">
     <Marque />
-    <div class="hidden items-center gap-8 lg:flex">
-      <nav aria-label="Navigation principale" class="flex items-center gap-8">
+    <div class="hidden items-center gap-6 lg:flex">
+      <nav aria-label="Navigation principale" class="flex items-center gap-1.5 p-1 rounded-xl bg-papier-2/50 border border-ligne/50">
         {liens.map((lien) => (
-          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`inline-flex items-center gap-1.5 text-[17px] py-2.5 ${classeLien(lien.href)}`}>
+          <a
+            href={lien.href}
+            aria-current={estActif(lien.href) ? 'page' : undefined}
+            class={`inline-flex items-center gap-2 text-[15px] px-3.5 py-1.5 rounded-lg transition-all ${classeLien(lien.href)}`}
+          >
             <Icone nom={lien.icone} taille={16} class="shrink-0" />
             {lien.libelle}
+            {lien.href === '/produits/' && (
+              <span class="inline-flex items-center justify-center rounded-full bg-cobalt/15 px-1.5 py-0.5 text-[11px] font-semibold font-technique text-cobalt border border-cobalt/25">
+                5
+              </span>
+            )}
           </a>
         ))}
       </nav>
-      <SelecteurTheme id="theme-desktop" />
-      <Bouton href="/contact/" taille="compact">Demander une démo</Bouton>
+      <div class="h-6 w-px bg-ligne"></div>
+      <div class="flex items-center gap-3">
+        <SelecteurTheme id="theme-desktop" />
+        <Bouton href="/contact/" taille="compact">Demander une démo</Bouton>
+      </div>
     </div>
-    <div class="flex items-center gap-1 lg:hidden">
+    <div class="flex items-center gap-2 lg:hidden">
       <SelecteurTheme id="theme-mobile" />
       <button
         id="bouton-menu"
@@ -53,17 +65,28 @@ const classeLien = (href: string) =>
       </button>
     </div>
   </div>
-  <nav id="menu-mobile" aria-label="Navigation mobile" hidden class="border-t border-ligne lg:hidden">
-    <ul class="conteneur flex flex-col gap-1 py-3">
+  <nav id="menu-mobile" aria-label="Navigation mobile" hidden class="border-t border-ligne bg-papier/95 backdrop-blur-md lg:hidden">
+    <ul class="conteneur flex flex-col gap-1.5 py-4">
       {liens.map((lien) => (
         <li>
-          <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined} class={`flex items-center gap-2 py-3 text-[17px] ${classeLien(lien.href)}`}>
-            <Icone nom={lien.icone} taille={18} class="shrink-0" />
-            {lien.libelle}
+          <a
+            href={lien.href}
+            aria-current={estActif(lien.href) ? 'page' : undefined}
+            class={`flex items-center justify-between rounded-lg px-3 py-2.5 text-[16px] ${classeLien(lien.href)}`}
+          >
+            <span class="flex items-center gap-2.5">
+              <Icone nom={lien.icone} taille={18} class="shrink-0" />
+              {lien.libelle}
+            </span>
+            {lien.href === '/produits/' && (
+              <span class="inline-flex items-center justify-center rounded-full bg-cobalt/15 px-2 py-0.5 text-[11px] font-semibold font-technique text-cobalt border border-cobalt/25">
+                5 logiciels
+              </span>
+            )}
           </a>
         </li>
       ))}
-      <li class="pt-2">
+      <li class="pt-3 border-t border-ligne/60 mt-1">
         <Bouton href="/contact/" plein>Demander une démo</Bouton>
       </li>
     </ul>

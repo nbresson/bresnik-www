@@ -1,29 +1,60 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import Etiquette from './Etiquette.astro';
 import LogoProduit from './LogoProduit.astro';
 import Icone from './Icone.astro';
 import { libelleCible, tonCible } from '../lib/produits';
 import { glypheModules } from '../lib/glyphes';
+import { capturesDuProduit } from '../lib/captures-fichiers';
 
 interface Props {
   produit: CollectionEntry<'produits'>;
   niveauTitre?: 'h2' | 'h3';
+  avecApercu?: boolean;
 }
 
-const { produit, niveauTitre = 'h3' } = Astro.props;
+const { produit, niveauTitre = 'h3', avecApercu = true } = Astro.props;
 const Titre = niveauTitre;
 const modules = produit.data.modulesSage.length > 0 ? produit.data.modulesSage.join(', ') : 'Sage · Windows · SQL Server';
 const glyphe = produit.data.modulesSage.length > 0 ? glypheModules(produit.data.modulesSage) : 'boite-outils';
+const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
+const captureVedette = captures.find((c) => c.fichier === produit.data.vedette) ?? captures[0];
 ---
-<article class="relative flex flex-col gap-2.5 rounded-carte border border-ligne bg-blanc p-5 transition-colors duration-150 hover:border-cobalt active:border-cobalt-fonce active:bg-papier-2 md:p-7">
-  <div class="flex items-start justify-between gap-3">
-    <LogoProduit nom={produit.data.nom} logo={produit.data.logo} />
-    <Etiquette ton={tonCible(produit.data.cible)}>{libelleCible(produit.data.cible)}</Etiquette>
+<article class="group relative flex flex-col justify-between overflow-hidden rounded-carte border border-ligne bg-blanc/90 backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-cobalt/60 hover:shadow-capture">
+  {avecApercu && captureVedette && (
+    <div class="relative aspect-[16/10] w-full overflow-hidden border-b border-ligne bg-papier-2/80">
+      <Image
+        src={captureVedette.src}
+        alt={captureVedette.alt}
+        width={600}
+        widths={[360, 600]}
+        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+        loading="lazy"
+        class="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+      />
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-papier-2/40 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100"></div>
+    </div>
+  )}
+  <div class="flex flex-1 flex-col gap-3.5 p-5 md:p-6">
+    <div class="flex items-start justify-between gap-3">
+      <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="petit" />
+      <Etiquette ton={tonCible(produit.data.cible)}>{libelleCible(produit.data.cible)}</Etiquette>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <Titre class="text-[21px] font-bold leading-[1.25] tracking-tight">
+        <a href={`/produits/${produit.id}/`} class="text-encre transition-colors group-hover:text-cobalt after:absolute after:inset-0 after:content-['']">{produit.data.nom}</a>
+      </Titre>
+      <p class="text-[14px] leading-relaxed text-encre-2">{produit.data.accroche}</p>
+    </div>
+    <div class="mt-auto flex items-center justify-between border-t border-ligne/70 pt-3.5 text-[13px]">
+      <p class="flex items-center gap-1.5 technique truncate">
+        <Icone nom={glyphe} taille={16} class="shrink-0 text-cobalt" />
+        <span class="truncate">{modules}</span>
+      </p>
+      <span class="inline-flex shrink-0 items-center font-semibold text-cobalt transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true">
+        Découvrir →
+      </span>
+    </div>
   </div>
-  <Titre class="mt-1.5 text-[24px] font-semibold leading-[1.25] md:text-[24px]">
-    <a href={`/produits/${produit.id}/`} class="text-encre after:absolute after:inset-0 after:content-[''] hover:text-encre">{produit.data.nom}</a>
-  </Titre>
-  <p class="text-[17px] leading-[1.45] md:text-[17px] md:leading-[1.5]">{produit.data.accroche}</p>
-  <p class="flex items-center gap-1.5 technique"><Icone nom={glyphe} taille={16} class="shrink-0 text-cobalt" />{modules}</p>
 </article>

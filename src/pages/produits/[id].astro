@@ -13,6 +13,8 @@ import Galerie from '../../components/Galerie.astro';
 import { capturesDuProduit } from '../../lib/captures-fichiers';
 import FicheTechnique from '../../components/FicheTechnique.astro';
 import LienFleche from '../../components/LienFleche.astro';
+import Etapes from '../../components/Etapes.astro';
+import Icone from '../../components/Icone.astro';
 import { actionProduit, libelleCible, produitsSuggeres, tonCible } from '../../lib/produits';
 import { produitsPublies } from '../../lib/catalogue';
 import { filAriane, logicielApplication } from '../../lib/seo';
@@ -30,6 +32,7 @@ const famille = suggestions.produits;
 const { Content } = await render(produit);
 const action = actionProduit(produit.data.disponibilite, produit.id);
 const captures = capturesDuProduit(produit.id, produit.data.nom, produit.data.captures);
+const capturePrincipale = captures.find((c) => c.fichier === produit.data.vedette) ?? captures[0];
 const fonctionnalites = normaliserFonctionnalites(produit.data.fonctionnalites);
 const chemin = `/produits/${produit.id}/`;
 // Image de partage générée par `npm run generer-images` ; à défaut, l'image par défaut du site.
@@ -38,6 +41,12 @@ const elementsFilAriane = [{ libelle: 'Accueil', href: '/' }, { libelle: 'Produi
 const donneesStructurees = [
   logicielApplication({ nom: produit.data.nom, description: produit.data.description, chemin, image: produit.data.logo?.src }, Astro.site!),
   filAriane(elementsFilAriane, Astro.site!, chemin),
+];
+
+const etapes = [
+  { titre: 'Installation locale', texte: 'Application Windows légère à installer sur votre poste ou serveur TSE / RDS, sans dépendance lourde.' },
+  { titre: 'Connexion à Sage 100', texte: 'Connexion directe à votre base SQL Server avec vos comptes et droits existants.' },
+  { titre: 'Automatisation immédiate', texte: 'Vos flux et gains de temps sont opérationnels dès le premier jour, sans déstabiliser votre Sage.' },
 ];
 ---
 <Base
@@ -48,27 +57,45 @@ const donneesStructurees = [
   image={imagePartage}
   imageAlt={`${produit.data.nom} — ${produit.data.sousTitre}, par Bresnik`}
 >
-  <header class="border-b border-ligne">
-    <div class="conteneur flex flex-col gap-4 pb-10 pt-10 md:gap-5 md:pb-12 md:pt-14">
-      <FilAriane elements={elementsFilAriane} />
-      <div class="flex items-center gap-4 md:gap-5">
-        <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="grand" />
-        <div class="flex flex-col gap-2">
-          <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
-          <h1 class="text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
-        </div>
+  <header class="relative overflow-hidden border-b border-ligne">
+    <div class="pointer-events-none absolute -top-40 -left-40 size-96 rounded-full bg-cobalt/10 blur-3xl -z-10" aria-hidden="true"></div>
+    <div class="conteneur pb-10 pt-10 md:pb-14 md:pt-14">
+      <div class="mb-6">
+        <FilAriane elements={elementsFilAriane} />
       </div>
-      <p class="max-w-[760px] text-[17px] leading-[1.5] text-encre-2 md:text-[24px] md:leading-[1.4]">{produit.data.accroche}</p>
-      <div class="mt-2 flex flex-col gap-3 md:flex-row md:items-center">
-        {action.actif && action.href ? (
-          <Bouton href={action.href} fleche class="max-md:w-full">{action.libelle}</Bouton>
-        ) : (
-          <>
-            <Bouton desactive aria-describedby="mention-action" class="max-md:w-full">{action.libelle}</Bouton>
-            <p id="mention-action" class="technique">{action.mention}</p>
-          </>
-        )}
-        {action.actif && <p class="text-[15px] text-encre-2">Réponse sous deux jours ouvrés</p>}
+      <div class="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+        <div class="flex flex-col gap-4 lg:col-span-7">
+          <div class="flex items-center gap-4 md:gap-5">
+            <LogoProduit nom={produit.data.nom} logo={produit.data.logo} taille="grand" />
+            <div class="flex flex-col gap-2">
+              <Etiquette ton={tonCible(produit.data.cible)} class="self-start">{libelleCible(produit.data.cible)}</Etiquette>
+              <h1 class="text-[36px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[56px] md:leading-[1.05] md:tracking-[-0.025em]">{produit.data.nom}</h1>
+            </div>
+          </div>
+          <p class="text-[17px] leading-[1.5] text-encre-2 md:text-[22px] md:leading-[1.4]">{produit.data.accroche}</p>
+          <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+            {action.actif && action.href ? (
+              <Bouton href={action.href} fleche class="max-md:w-full">{action.libelle}</Bouton>
+            ) : (
+              <>
+                <Bouton desactive aria-describedby="mention-action" class="max-md:w-full">{action.libelle}</Bouton>
+                <p id="mention-action" class="technique">{action.mention}</p>
+              </>
+            )}
+            {action.actif && <p class="text-[14px] text-encre-2">Démo de 30 min sur vos cas · Réponse sous 48h</p>}
+          </div>
+          <ul class="flex flex-wrap gap-x-5 gap-y-2 pt-2 text-[14px] text-encre-2" aria-label="Points de repère">
+            <li class="flex items-center gap-1.5"><Icone nom="bouclier" taille={16} class="text-cobalt" />Données 100% sur votre poste</li>
+            <li class="flex items-center gap-1.5"><Icone nom="prise" taille={16} class="text-cobalt" />Écrit avec contrôles officiels Sage 100</li>
+          </ul>
+        </div>
+        <div class="w-full min-w-0 lg:col-span-5 rounded-cadre glow-saas">
+          {capturePrincipale ? (
+            <CadreCapture titre={`${produit.data.nom} — ${capturePrincipale.titre}`} image={capturePrincipale.src} alt={capturePrincipale.alt} prioritaire />
+          ) : (
+            <CadreCapture titre={produit.data.nom} />
+          )}
+        </div>
       </div>
     </div>
   </header>
@@ -79,8 +106,13 @@ const donneesStructurees = [
         <Content />
       </section>
 
+      <section aria-labelledby="etapes" class="flex flex-col gap-4">
+        <h2 id="etapes" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Mise en œuvre rapide</h2>
+        <Etapes etapes={etapes} />
+      </section>
+
       <section aria-labelledby="fonctionnalites" class="flex flex-col gap-4">
-        <h2 id="fonctionnalites" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Fonctionnalités</h2>
+        <h2 id="fonctionnalites" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Fonctionnalités détaillées</h2>
         <TuileDomaine elements={fonctionnalites} colonnes={2} />
       </section>
     </div>
@@ -88,9 +120,9 @@ const donneesStructurees = [
     <FicheTechnique produit={produit} />
   </div>
 
-  {/* Captures en pleine largeur après la fiche technique : en mobile, prérequis et bouton de démo ne sont plus repoussés sous la galerie. */}
+  {/* Galerie des autres captures d'écran */}
   <section aria-labelledby="captures" class="conteneur flex flex-col gap-4 pb-12 lg:pb-16">
-    <h2 id="captures" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Captures d'écran</h2>
+    <h2 id="captures" class="text-[24px] font-bold leading-[1.15] md:text-[30px]">Toutes les captures d'écran</h2>
     {captures.length > 0 ? (
       <Galerie captures={captures} />
     ) : (

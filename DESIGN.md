@@ -1,65 +1,57 @@
 # Design System: Bresnik
 
-Character: un atelier technique sobre et chaleureux ; on sent le consultant qui connaît Sage 100 de l'intérieur, pas l'agence.
+Character: **SaaS Moderne & Précision B2B (Concept A — Style Linear / Stripe)**.
+Élégance technique, clarté absolue, surfaces en verre dépoli (`glass-card`), micro-bordures chirurgicales et halos de lumière ambiante (`glow-saas`). Conçu pour valoriser des outils Windows natifs de haute précision pour Sage 100.
 
-Extrait de l'existant le 2026-09-15 (`src/styles/tokens.css`, `src/lib/palettes.ts`,
-`docs/superpowers/specs/2026-09-03-design-site-vitrine-design.md`, page `/charte/`).
-Les tokens font foi : ce fichier donne la raison de chaque valeur et les règles
-d'usage. Toute valeur hors système est une extension à inscrire ici dans la même
-modification, jamais une invention silencieuse.
+Mise à jour d'après la refonte Concept A (`src/styles/tokens.css`, `src/lib/palettes.ts`, page `/charte/`).
+Les tokens font foi : ce fichier donne la raison de chaque valeur et les règles d'usage.
 
 ## Color
 
-Palette alignée sur le logo (marine `#133868` → `#062045`, ruban `#f87800` → `#f84808`).
-Valeurs claires et sombres dans `src/lib/palettes.ts`, vérifiées par test (dérive et contrastes AA).
+Palette alliant rigueur technique, haute lisibilité et accents électriques :
+- Mode sombre : fond spatial ardoise `#090d16`, bandes `#0f172a`, surfaces de cartes `#131d33`, micro-bordures `#1e293b`.
+- Mode clair : canevas précis `#f8fafc`, bandes `#f1f5f9`, cartes blanches pures `#ffffff`, micro-bordures `#e2e8f0`.
+- Contrastes certifiés WCAG 2 AA ($\ge 4.5:1$ sur tous les couples de l'interface), vérifiés par test automatisé unitaire.
 
-- `papier` / `papier-2` : fonds chauds, papier technique ; le blanc clinique écraserait le marine.
-- `blanc` : surface des cartes et champs, la seule qui porte une bordure.
-- `encre` / `encre-2` : marine profond du logo pour le texte, secondaire à 7:1.
-- `cobalt` : signature. Réservé au bouton primaire, aux liens, à l'état actif de la navigation et aux icônes de repère. Nom conservé, teinte marine d'accent.
-- `ambre` : orange lisible, surtitres et étiquette Consultants uniquement.
-- `flamme` / `braise` : couleurs vives du ruban, décoratives ; `braise` est le « k » de la marque. Jamais du texte courant.
-- `succes` / `erreur` : sémantiques, alertes et statuts seulement.
-- `bande` / `bande-texte` / `encre-claire` : bandes d'appel marine.
+### Tokens
+- `papier` / `papier-2` : fonds de page et bandes de rythme (ardoise spatiale en sombre, canevas technique en clair).
+- `blanc` : surface des cartes et champs, portant la micro-bordure et le verre dépoli (`glass-card`).
+- `encre` / `encre-2` : texte principal à fort contraste et texte secondaire précis.
+- `cobalt` / `cobalt-fonce` / `cobalt-teinte` : accent signature bleu électrique, boutons primaires, liens, états actifs et halos ambiants.
+- `ambre` / `ambre-teinte` : orange lisible pour les surtitres techniques et étiquettes cibles.
+- `flamme` / `braise` : couleurs d'énergie du logo, décoratives ; `braise` est le « k » de la marque.
+- `succes` / `succes-teinte` : sémantique des validations et balises de statut temps réel (`SQL_SYNC_OK`).
+- `erreur` / `erreur-teinte` : alertes et erreurs de validation.
+- `bande` / `bande-texte` / `encre-claire` : cartes d'appel et d'action.
 
 ## Typography
 
-- Titres : Bricolage Grotesque 600 et 700 (deux graisses fixes) ; caractère technique et chaleureux.
-- Texte : Source Sans 3, variable 400 à 600 ; lecture longue confortable.
-- Technique : JetBrains Mono 500, **réservé aux surtitres (`eyebrow`) et aux données techniques** (versions, formats, libellés de fiche technique). Pas pour le fil d'Ariane, les délais ou les phrases.
-- Contraste : titre 1 à 64 px contre 19 px de texte (rapport 3,4) ; la voix est dans les titres.
-- Échelle : **13 · 15 · 17 · 20 · 24 · 30 · 40 · 48 · 64**, appliquée à tous les composants et pages depuis le 2026-09-15 ; 11 px toléré pour les pastilles de compteur. Une taille hors échelle est une extension à justifier ici.
+- Titres : Bricolage Grotesque 600 et 700 ; caractère moderne, lisible, à tracking resserré (`tracking-[-0.025em]`).
+- Texte : Source Sans 3, variable 400 à 600 ; confort de lecture technique.
+- Technique : JetBrains Mono 500, réservé aux surtitres (`eyebrow`), métriques de télémétrie, pastilles de versions et statuts (`SQL_SYNC_OK`).
+- Échelle : **13 · 15 · 17 · 20 · 24 · 30 · 40 · 48 · 64**, plus 10 et 11 px pour les micro-badges et pastilles de compteur.
 
-## Spacing
+## Spacing & Elevation
 
 - Base 4 px. Conteneur : 1 440 px maximum, marges 20 px en mobile et 80 px en large.
-- Rythme aéré : 88 px entre sections en large, 40 px en mobile ; 20 à 28 px de padding de carte.
-- Dans un groupe, 8 à 14 px ; entre groupes, 24 à 40 px. Plus d'espace au-dessus d'un titre qu'en dessous.
-
-## Shape & elevation
-
-- Rayons : `bouton` 6 · `carte` 8 · `cadre` 10 · `bande` 12, plus `full` pour les pastilles. Exceptions tolérées : logos miniatures (5 et 9 px) et tuiles de logo en grand (18 et 22 px).
-- Séparation : **bordures 1 px `ligne`** pour les surfaces cliquables et les panneaux ; **aplats `papier-2`** pour les bandes de rythme et les tuiles d'information non cliquables ; **une seule ombre**, réservée aux cadres de capture et aux menus.
-- Une tuile qui ne mène nulle part n'a ni bordure ni survol.
-
-## Motion
-
-- 150 ms, couleur et transformation ; aucune animation d'entrée. `prefers-reduced-motion` neutralise tout.
-- Carrousel : 6 s entre diapositives, arrêt au survol, au focus et à la première interaction.
+- Rayons modernes : `bouton` 8px · `carte` 12px · `cadre` 14px · `bande` 16px, et `full` (9999px) pour les pilules de statut.
+- Surfaces :
+  - **Verre dépoli (`glass-card`)** : `backdrop-filter: blur(12px)` avec fond semi-transparent et micro-bordure 1 px.
+  - **Halos ambiants (`glow-saas`, `glow-subtle`)** : diffusion lumineuse subtile bleu électrique sous les cadres logiciels clés.
+  - **Bordures** : 1 px `ligne` haute précision.
 
 ## Components
 
-- Bouton : `primaire` (plein cobalt, une seule action principale par écran), `secondaire` (bordé encre), `inverse` (sur bande). États : survol plus foncé, pressé `scale 0.98`, focus anneau cobalt 2 px décalé de 2 px, chargement avec roue et libellé au présent (« Envoi en cours… »), désactivé à 60 % avec une raison visible.
-- Lien fléché : action tertiaire, pressé à 70 % d'opacité.
-- Carte cliquable : `blanc`, bordure `ligne`, survol bordure `cobalt`, pressé fond `papier-2`, toute la carte cliquable.
-- Tuile d'information (`TuileDomaine`) : aplat, glyphe en tuile `cobalt-teinte`, jamais cliquable.
-- Champ : libellé au-dessus, obligatoires sans marque, facultatifs suivis de « (facultatif) », hauteur 48 px.
-- Choix exclusif de 2 à 7 options : boutons radio visibles en tuiles, pas de liste déroulante.
-- Info-bulle : explique, ne porte jamais une information nécessaire à la décision ; cible de 44 px.
-- Cibles tactiles : 44 px minimum, y compris liens du pied de page et du fil d'Ariane en mobile.
+- En-tête : navigation flottante sticky avec verre dépoli (`backdrop-blur-md`), pastilles de liens interactifs, badge de comptage produits `5` et accès rapide démo.
+- Bouton :
+  - `primaire` : plein cobalt avec ombre portée lumineuse (`shadow-md shadow-cobalt/25 hover:shadow-lg hover:-translate-y-0.5`), une seule action dominante par vue.
+  - `secondaire` : carte claire bordée avec survol feutré.
+  - `inverse` : sur bande sombre.
+- Vitrine logicielle (Hero) : cadre de prévisualisation studio avec barre d'état fenêtre, badge live (`SQL_SYNC_OK`), carrousel d'écrans réels et télémétrie en direct.
+- Carte Produit : carte en verre avec micro-bordure, aperçu 16:10, monogramme/logo, tags modules Sage et translation d'accentuation au survol.
+- Tableau comparatif : table technique moderne avec entête ardoise douce et coches cobalts.
 
 ## Voice
 
-- Première personne : Nicolas Bresson, consultant Sage 100 avec plus de 12 ans d'expérience, dit « je ». Pas de « nous » ni de « on ». Pages légales impersonnelles.
-- Casse de phrase partout ; verbes d'action sur les boutons (« Envoyer ma demande », « Demander une démo »).
-- Bénéfice avant la fonction : ce que l'utilisateur obtient, puis comment.
+- Première personne : Nicolas Bresson, consultant Sage 100 avec plus de 12 ans d'expérience, dit « je ».
+- Clarté factuelle, souveraineté des données (« 100% sur votre poste ») et respect de l'architecture Sage (« Objets métiers officiels »).

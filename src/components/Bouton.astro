@@ -30,11 +30,11 @@ const {
 } = Astro.props;
 
 const inactif = desactive || chargement;
-const base = 'inline-flex items-center justify-center gap-2 rounded-bouton font-semibold transition duration-150 active:scale-[0.98] motion-reduce:active:scale-100';
+const base = 'inline-flex items-center justify-center gap-2 rounded-bouton font-semibold transition-all duration-150 active:scale-[0.98] motion-reduce:active:scale-100';
 const variantes = {
-  primaire: 'bg-cobalt text-blanc hover:bg-cobalt-fonce hover:text-blanc active:bg-cobalt-fonce',
-  secondaire: 'border-[1.5px] border-encre text-encre hover:bg-papier-2 hover:text-encre active:bg-ligne',
-  inverse: 'bg-bande-texte text-bande hover:bg-encre-claire hover:text-bande',
+  primaire: 'bg-cobalt text-blanc hover:bg-cobalt-fonce hover:text-blanc active:bg-cobalt-fonce shadow-md shadow-cobalt/25 hover:shadow-lg hover:shadow-cobalt/35 hover:-translate-y-0.5 active:translate-y-0',
+  secondaire: 'border border-ligne bg-blanc text-encre hover:bg-papier-2 hover:border-encre-2/50 hover:text-encre active:bg-ligne',
+  inverse: 'bg-bande-texte text-bande hover:bg-encre-claire hover:text-bande shadow-md',
 };
 const tailles = {
   normal: 'h-[52px] px-6 text-[17px]',

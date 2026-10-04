@@ -6,14 +6,15 @@ interface Props {
   libelle?: string;
   placeholder?: string;
   class?: string;
+  id?: string;
 }
 
-const { action, libelle = 'Rechercher', placeholder = 'Rechercher un article', class: classe = '' } = Astro.props;
+const { action, libelle = 'Rechercher', placeholder = 'Rechercher un article', class: classe = '', id = 'champ-recherche' } = Astro.props;
 ---
 <form role="search" action={action} method="get" class={`flex items-stretch gap-2 ${classe}`}>
-  <label for="champ-recherche" class="sr-only">{libelle}</label>
+  <label for={id} class="sr-only">{libelle}</label>
   <input
-    id="champ-recherche"
+    id={id}
     type="search"
     name="q"
     placeholder={placeholder}
